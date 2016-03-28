@@ -1,5 +1,5 @@
 var server = require("./server");
-//包括一个start函数，开启工作线程
+//包括一个start函数，开启工作线程 http://192.168.1.155:8000/upload
 var router = require("./router");
 //包含一个路由处理函数route
 var requestHandlers = require("./requestHandlers");
