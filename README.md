@@ -11,3 +11,4 @@
 	JSON.stringify(a) 
 ### 4、JSON字符串转换为JSON对象：
 	JSON.parse(str); 
+HTTP调用接口为http://192.168.1.155:8000

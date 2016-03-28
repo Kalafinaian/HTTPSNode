@@ -8,8 +8,8 @@ var requestHandlers = require("./requestHandlers");
 //通过require可以将文件中定义的对象封装到一个新的对象中
 var handle = {};
 
-handle["/"] = requestHandlers.start;
-handle["/start"] = requestHandlers.start;
-handle["/upload"] = requestHandlers.upload;
+handle["/v0/"] = requestHandlers.start;
+handle["/v0/start"] = requestHandlers.start;
+handle["/v0/upload"] = requestHandlers.upload;
 //这里的route是一个函数
 server.start(router.route,handle);
