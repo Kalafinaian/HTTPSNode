@@ -1,0 +1,102 @@
+//用户管理JSON字段设计--该信息将使用于用户管理、权限管理功能--对应于数据库用户信息表单
+{
+	"UserInfo" : //用户信息
+	{
+
+		//基本信息
+		"username" : "14780413613",
+		"password" : "123456",
+		"realname" : "陈刚",
+		"status" : "active",
+		"userType" : "基站管理员",
+		"company": "中国移动成都分公司高新西区分公司"
+
+
+
+
+		//管理范围--限制只能操作成都市地区基站、员工、作业数据
+		"ManagementArea":"成都市"
+
+
+
+		//基站管理--基站录入时的增删查改操作
+		"addStationAction" : "true",
+		"deleteStationAction" : "true",
+		"consultStationAction" : "true",
+		"updateStationAction" : "true",
+		
+
+
+		//员工管理--员工录入时的增删查改操作
+		"addStaffAction" : "true",
+		"deleteStaffAction" : "true",
+		"consultStaffAction" : "true",
+		"updateStaffAction" : "true",
+
+
+
+		//作业管理--是否具有开门授权的权限
+		"doorAuthorization" : "true", //开门授权
+	
+
+
+		"accessToken" : "faueswyghfils",  //API动态令牌
+		"tokenStartTime " : 1459173098, //动态令牌起始时间
+		"tokenEndTime" : 1458568298 //动态令牌终止时间
+
+	}
+}
+
+
+//基站管理JSON字段设计--该信息将使用于基站管理、作业管理功能
+{
+	"StationInfo" : //基站信息
+	{
+		//基本信息-ID、地址、状态
+		"stationID" : "4634968874",  //基站ID
+		"address" : "四川省成都市建设北路二段四号", 
+		"status" : "closed", 
+
+
+
+
+		//负责人、所属公司
+		"chargePersonList":["樊建峰","陆金波"]，   //基站负责人列表--具有审批权的人列表
+		"chargeCompany":"中国移动成都分公司高新西区分公司"，  //基站所属公司
+
+
+
+		//所属管辖区域
+		"ManagementArea":"四川省成都市"
+
+
+
+
+
+		//基站任务申请状态
+		"workApplication" : "true",  //是否有作业申请
+		"applicationPerson":"陈刚"， //作业申请人
+		"applicationCompany":"中国移动成都分公司高新西区分公司"， //申请人公司
+		"applicationPhone":"14780413613", //申请人电话
+
+		"approvalPerson"："樊建峰",  //作业审批人
+		"approvalPhone"："15464674156",  //作业审批人
+		"applicationStatus":"已申请，等待处理"  //处理状态
+
+
+
+
+
+		//开门信息
+		"approveCode":"fgauihffgda"  //开门码
+		"approveStartTime " : 1459173098, //允许使用该开门码开门的起始时间
+		"approveEndTime" : 1458568298, //允许使用该开门码开门的终止时间
+		"approveTimes":"5", //允许开门的次数
+
+	}
+}
+
+
+
+
+
