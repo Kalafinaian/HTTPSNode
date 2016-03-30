@@ -1,10 +1,13 @@
-function route(handle,pathname,response,postData){
-	console.log("About to route a request for " + pathname);
+function route(handle,pathname,response,postData)
+{
+	console.log("Route a request to " + pathname);
 	if( typeof(handle[pathname])  == "function" )
 	{
 		handle[pathname](response, postData);
-	}else{
+	}else
+	{
 		console.log("No request handler for " + pathname);
 	}
 }
+
 exports.route = route;
