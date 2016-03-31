@@ -11,11 +11,15 @@ var insertData = function(db, collectionName, data , callback) {
   });
 }
 
-function insertFunc( MongoClient, DB_CONN_STR, collectionName, data, callback)
+function insertFunc( mongoClient, DB_CONN_STR, collectionName, data, callback)
 {
-	MongoClient.connect(DB_CONN_STR, function(err, db) {
-	  console.log("连接成功！");
-	  insertData(db, collectionName, data , callback);
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
+		console.log("连接成功！");
+		insertData(db, collectionName, data , function(result){
+			 callback(result);
+			 db.close();
+		})
+	});
 }
 //---------------------结束--数据插入函数--结束--------------------//
 
@@ -30,20 +34,23 @@ var selectData = function(db, collectionName, whereStr , callback) {
   //连接到表  
   var collection = db.collection(collectionName);
   collection.find(whereStr).toArray(function(err, result) {
-    if(err)
-    {
-      console.log('Error:'+ err);
-      return;
-    }     
-    callback(result);
+	    if(err)
+	    {
+	      console.log('Error:'+ err);
+	      return;
+	    }     
+	    callback(result);
   });
 }
 
-function selectFunc( MongoClient,  DB_CONN_STR, collectionName,  whereStr,  callback)
+function selectFunc( mongoClient,  DB_CONN_STR, collectionName,  whereStr,  callback)
 {
-	MongoClient.connect(DB_CONN_STR, function(err, db) {
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
 		  console.log("连接成功！");
-		  selectData(db, collectionName,  whereStr , callback); 
+		  selectData(db, collectionName,  whereStr , function(result){
+		  	 callback(result);
+		  	 db.close();
+		  });
 	});
 }
 //---------------------结束--数据查询函数--结束--------------------//
@@ -66,11 +73,15 @@ var updateData = function(db, collectionName, whereStr ,updateStr, callback){
   });
 }
 
-function updateFunc( MongoClient,DB_CONN_STR,collectionName, whereStr ,updateStr , callback)
+function updateFunc( mongoClient,DB_CONN_STR,collectionName, whereStr ,updateStr , callback)
 {
-	MongoClient.connect(DB_CONN_STR, function(err, db) {
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
 	  console.log("连接成功！");
-	  updateData(db, collectionName, whereStr ,updateStr, callback);
+	  updateData(db, collectionName, whereStr ,updateStr, function(result){
+		  	 callback(result);
+		  	 db.close();
+	  });
+	});
 }
 //---------------------结束--数据修改函数--结束--------------------//
 
@@ -91,11 +102,15 @@ var delData = function(db, collectionName, whereStr , callback) {
   });
 }
 
-function deleteFunc( MongoClient,DB_CONN_STR,collectionName, whereStr, callback )
+function deleteFunc( mongoClient,DB_CONN_STR,collectionName, whereStr, callback )
 {
-	MongoClient.connect(DB_CONN_STR, function(err, db) {
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
 	  console.log("连接成功！");
-	  delData(db, collectionName, whereStr , callback);
+	  delData(db, collectionName, whereStr , function(result){
+		  	 callback(result);
+		  	 db.close();
+	  });
+	});
 }
 //---------------------结束--数据删除函数--结束--------------------//
 
@@ -117,11 +132,16 @@ var invokeProcData = function(db, callback) {
 }
 
 
-function invokeProcFunc(MongoClient,DB_CONN_STR,callback)
+function invokeProcFunc(mongoClient,DB_CONN_STR,callback)
 {
-	MongoClient.connect(DB_CONN_STR, function(err, db) {
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
 	  console.log("连接成功！");
-	  invokeProcData(db, callback);
+	  invokeProcData(db, function(result){
+		  	 callback(result);
+		  	 db.close();
+	  });
+	});
+
 }
 //---------------------结束--调用存储过程--结束--------------------//
 

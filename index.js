@@ -8,7 +8,7 @@ var requestHandlers = require("./requestHandlers");
 var handle = {};
 handle["/v0/"] = requestHandlers.login;
 handle["/v0/login"] = requestHandlers.login;
-handle["/v0/upload"] = requestHandlers.upload;
+handle["/v0/addUser"] = requestHandlers.addUser;
 
 
 server.start(router.route,handle);
