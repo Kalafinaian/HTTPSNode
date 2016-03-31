@@ -18,7 +18,18 @@ function start(route,handle){
 		});
 
 		request.addListener("end", function() {
-			route(handle, pathname, response, postData);
+			if(postData.length<4)
+			{
+				var info = 	{ "error":  
+				{  
+					"msg": "#err:参数错误",  
+					"code":"01000"  
+				}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+			}else{
+				route(handle, pathname, response, postData);
+			}	
 		});
 		
 	}

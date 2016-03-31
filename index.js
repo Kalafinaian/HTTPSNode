@@ -6,8 +6,8 @@ var requestHandlers = require("./requestHandlers");
 
 
 var handle = {};
-handle["/v0/"] = requestHandlers.start;
-handle["/v0/start"] = requestHandlers.start;
+handle["/v0/"] = requestHandlers.login;
+handle["/v0/login"] = requestHandlers.login;
 handle["/v0/upload"] = requestHandlers.upload;
 
 
