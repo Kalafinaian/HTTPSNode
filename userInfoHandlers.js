@@ -31,7 +31,17 @@ function login(response, postData)
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "userInfo";
 	console.log(postJSON);
-
+	if( !postJSON.hasOwnProperty('username') || !postJSON.hasOwnProperty('password') )
+	{
+			var info = 	{ "error":  
+				{  
+					"msg": "请输入用户名和密码",  
+					"code":"01001"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return false;
+	}
 	//查询用户名和密码
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 			if( result.length<=0 || result.hasOwnProperty("errmsg") )
@@ -39,7 +49,7 @@ function login(response, postData)
 				var info = 	{ "error":  
 					{  
 						"msg": "#err:用户名或密码错误!",  
-						"code":"01001"  
+						"code":"01002"  
 					}  };
 				response.write( JSON.stringify(info) );
 				response.end();
