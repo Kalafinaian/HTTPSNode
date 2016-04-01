@@ -12,7 +12,17 @@ function login(response, postData)
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "userInfo";
 	console.log(postJSON);
-	
+	if( !postJSON.hasOwnProperty('username') || !postJSON.hasOwnProperty('password') )
+	{
+			var info = 	{ "error":  
+				{  
+					"msg": "#err:用户名或密码错误!",  
+					"code":"01001"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+	}
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 			if( result.length<=0 || result.hasOwnProperty("errmsg") )
 			{
@@ -84,7 +94,7 @@ function addUser(response, postData)
 //---------------------开始--用户删除函数--开始--------------------//
 function deleteUser(response, postData)
 {
-	console.log( "Request handler 'addUser' was called." );
+	console.log( "Request handler 'deleteUser' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -120,7 +130,7 @@ function deleteUser(response, postData)
 //---------------------开始--用户更新函数--开始--------------------//
 function updateUser(response, postData)
 {
-	console.log( "Request handler 'addUser' was called." );
+	console.log( "Request handler 'updateUser' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
