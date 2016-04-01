@@ -10,6 +10,7 @@ var handle = {};
 handle["/v0/"] = requestHandlers.login;
 handle["/v0/login"] = requestHandlers.login;
 handle["/v0/addUser"] = requestHandlers.addUser;
+handle["/v0/selectUser"] = requestHandlers.selectUser;
 //---------------------结束--对象handle：存储处理函数--结束--------------------//
 
 

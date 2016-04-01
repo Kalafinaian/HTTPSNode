@@ -154,9 +154,34 @@ function updateUser(response, postData)
 
 
 
-//---------------------开始--函数--开始--------------------//
+//---------------------开始--用户查询函数--开始--------------------//
+function selectUser(response, postData)
+{
+	console.log( "Request handler 'selectUser' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "userInfo";
 
-//---------------------结束--函数--结束--------------------//
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+		if( result.length>0 )
+		{
+			response.write( JSON.stringify(result) );
+			response.end();
+		}else{
+			var info = 	{ "userInfo":  
+			{  
+				"msg": "没有查询记录!",  
+				"code":"05000"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+		}
+	
+	});	
+}
+//---------------------结束--用户查询函数--结束--------------------//
 
 
 
@@ -176,4 +201,5 @@ exports.login = login;
 exports.addUser = addUser;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
+exports.selectUser = selectUser;
 //---------------------结束--模块导出接口声明--结束--------------------//
