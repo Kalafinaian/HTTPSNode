@@ -173,23 +173,57 @@ function selectUser(response, postData)
 	var mongoClient = require('mongodb').MongoClient;
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "userInfo";
-
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-		if( result.length>0 )
-		{
-			response.write( JSON.stringify(result) );
-			response.end();
-		}else{
-			var info = 	{ "userInfo":  
-			{  
-				"msg": "没有查询记录!",  
-				"code":"05000"  
-			}  };
+	if( !postJSON.hasOwnProperty('operatorName') || !postJSON.hasOwnProperty('accessToken') )
+	{
+			var info = 	{ "error":  
+				{  
+					"msg": "请输入用户名和动态令牌",  
+					"code":"05001"  
+				}  };
 			response.write( JSON.stringify(info) );
 			response.end();
-		}
-	
-	});	
+			return;
+	}else{
+		console.log(postJSON);
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
+			{
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+					function(result){
+					if( result.length>0 )
+					{
+						response.write( JSON.stringify(result) );
+						response.end();
+					}else{
+						var info = 	{ "userInfo":  
+						{  
+							"msg": "没有查询记录!",  
+							"code":"05000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}
+				
+				});	
+
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}
+
 }
 //---------------------结束--用户查询函数--结束--------------------//
 
