@@ -11,6 +11,8 @@ handle["/v0/"] = requestHandlers.login;
 handle["/v0/login"] = requestHandlers.login;
 handle["/v0/addUser"] = requestHandlers.addUser;
 handle["/v0/selectUser"] = requestHandlers.selectUser;
+handle["/v0/deleteUser"] = requestHandlers.deleteUser;
+handle["/v0/updateUser"] = requestHandlers.updateUser;
 //---------------------结束--对象handle：存储处理函数--结束--------------------//
 
 
