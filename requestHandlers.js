@@ -174,4 +174,6 @@ function updateUser(response, postData)
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.login = login;
 exports.addUser = addUser;
+exports.updateUser = updateUser;
+exports.deleteUser = deleteUser;
 //---------------------结束--模块导出接口声明--结束--------------------//
