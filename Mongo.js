@@ -4,7 +4,8 @@ var insertData = function(db, collectionName, data , callback) {
   collection.insert(data, function(err, result) {    //插入数据
 	    if(err)
 	    {
-	      console.log('Error:'+ err);
+	      callback(err);
+	      db.close();
 	      return;
 	    }	 
 	    callback(result);
@@ -36,7 +37,8 @@ var selectData = function(db, collectionName, whereStr , callback) {
   collection.find(whereStr).toArray(function(err, result) {
 	    if(err)
 	    {
-	      console.log('Error:'+ err);
+	      callback(err);
+	      db.close();
 	      return;
 	    }     
 	    callback(result);
@@ -66,7 +68,8 @@ var updateData = function(db, collectionName, whereStr ,updateStr, callback){
   collection.update( whereStr, updateStr, function(err, result) {    //更新数据
     if(err)
     {
-	      console.log('Error:'+ err);
+	      callback(err);
+	      db.close();
 	      return;
     }	 
     callback(result);
@@ -95,7 +98,8 @@ var delData = function(db, collectionName, whereStr , callback) {
   collection.remove(whereStr, function(err, result) {
     if(err)
     {
-		console.log('Error:'+ err);
+		callback(err);
+		db.close();
 		return;
     }     
     callback(result);
@@ -124,7 +128,8 @@ var invokeProcData = function(db, callback) {
   db.eval(proc, function(err, result) {   //存储过程调用
     if(err)
     {
-      console.log('Error:'+ err);
+      callback(err);
+      db.close();
       return;
     }			 
     callback(result);
