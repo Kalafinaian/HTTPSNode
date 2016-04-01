@@ -95,6 +95,8 @@ function addUser(response, postData)
 			if(result.length>0)
 			{
 				//插入请求数据
+				postJSON.username = postJSON.newUsername;
+				delete postJSON.newUsername;
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						if( result.hasOwnProperty("errmsg") )
 						{
