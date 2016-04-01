@@ -2,6 +2,7 @@ var httpsModule = require("https");
 var fs = require('fs');
 var url = require("url");
 
+//---------------------开始--https启动监听，路由分配函数--开始--------------------//
 function start(route,handle){
 	//https响应回调函数
 	function onRequest(request,response)
@@ -47,6 +48,10 @@ function start(route,handle){
     console.log("server has started");
 
 }
+//---------------------结束--https启动监听，路由分配函数--结束--------------------//
 
 
+
+//---------------------开始--模块导出接口声明--开始--------------------//
 exports.start = start;
+//---------------------结束--模块导出接口声明--结束--------------------//

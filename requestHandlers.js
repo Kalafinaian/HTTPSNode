@@ -1,6 +1,8 @@
-var querystring = require("querystring");
-var dbClient = require("./Mongo")
+var querystring = require("querystring"); //post原始数据转JSON对象处理模块
+var dbClient = require("./Mongo");  //数据库模块
 
+
+//---------------------开始--登陆处理函数--开始--------------------//
 function login(response, postData)
 {
 	console.log( "Request handler 'login' was called." );
@@ -38,7 +40,10 @@ function login(response, postData)
 			}	
 	});		
 }
+//---------------------结束--登陆处理函数--结束--------------------//
 
+
+//---------------------开始--用户添加函数--开始--------------------//
 function addUser(response, postData)
 {
 	console.log( "Request handler 'addUser' was called." );
@@ -51,7 +56,15 @@ function addUser(response, postData)
 	response.write( JSON.stringify(postJSON) );
 	response.end();
 }
+//---------------------结束--用户添加函数--结束--------------------//
 
 
+//---------------------开始--函数--开始--------------------//
+//---------------------结束--函数--结束--------------------//
+
+
+
+//---------------------开始--模块导出接口声明--开始--------------------//
 exports.login = login;
 exports.addUser = addUser;
+//---------------------结束--模块导出接口声明--结束--------------------//

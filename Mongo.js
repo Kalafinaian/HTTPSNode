@@ -147,8 +147,10 @@ function invokeProcFunc(mongoClient,DB_CONN_STR,callback)
 
 
 
+//---------------------开始--模块导出接口声明--开始--------------------//
 exports.insertFunc = insertFunc;
 exports.selectFunc = selectFunc;
 exports.updateFunc = updateFunc;
 exports.deleteFunc = deleteFunc;
 exports.invokeProcFunc = invokeProcFunc;
+//---------------------结束--模块导出接口声明--结束--------------------//
