@@ -63,28 +63,57 @@ function addUser(response, postData)
 	var mongoClient = require('mongodb').MongoClient;
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "userInfo";
-
-	dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-		if( result.hasOwnProperty("errmsg") )
-		{
+	if( !postJSON.hasOwnProperty('operatorName') || !postJSON.hasOwnProperty('accessToken') )
+	{
 			var info = 	{ "error":  
 				{  
-					"msg": "#err:用户或手机号已经存在!",  
-					"code":"02001"  
+					"msg": "请输入用户名和动态令牌",  
+					"code":"05001"  
 				}  };
 			response.write( JSON.stringify(info) );
 			response.end();
-		}else{
-			var info = 	{ "success":  
-			{  
-				"msg": "用户添加成功!",  
-				"code":"02000"  
-			}  };
-			response.write( JSON.stringify(info) );
-			response.end();
-		}
-	
-	});	
+			return;
+	}else{
+		console.log(postJSON);
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+				console.log(result);
+				if(result.length>0)
+				{
+					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+							if( result.hasOwnProperty("errmsg") )
+							{
+								var info = 	{ "error":  
+									{  
+										"msg": "#err:用户或手机号已经存在!",  
+										"code":"02001"  
+									}  };
+								response.write( JSON.stringify(info) );
+								response.end();
+							}else{
+								var info = 	{ "success":  
+								{  
+									"msg": "用户添加成功!",  
+									"code":"02000"  
+								}  };
+								response.write( JSON.stringify(info) );
+								response.end();
+							}
+					
+					});	
+				}else{
+					var info = 	{ "error":  
+						{  
+							"msg": "用户名不存在或动态令牌已过期",  
+							"code":"00000"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}	
+		});
+	}
 }
 //---------------------结束--用户添加函数--结束--------------------//
 
