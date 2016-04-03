@@ -163,7 +163,7 @@ function updateStation(response, postData)
 		if(result.length>0)
 		{
 			//originalName
-			var whereStr = {username:postJSON.originalStationID};
+			var whereStr = {stationID:postJSON.originalStationID};
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 				if( result.hasOwnProperty("errmsg") )
