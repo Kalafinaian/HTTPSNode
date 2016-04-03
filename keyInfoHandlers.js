@@ -233,7 +233,7 @@ function selectKey(response, postData)
 					response.write( JSON.stringify(result) );
 					response.end();
 				}else{
-					var info = 	{ "keyInfo":  
+					var info = 	{ "error":  
 					{  
 						"msg": "没有查询记录!",  
 						"code":"15001"  
