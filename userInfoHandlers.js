@@ -95,14 +95,12 @@ function addUser(response, postData)
 			if(result.length>0)
 			{
 				//插入请求数据
-				postJSON.username = postJSON.newUsername;
-				delete postJSON.newUsername;
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						if( result.hasOwnProperty("errmsg") )
 						{
 							var info = 	{ "error":  
 								{  
-									"msg": "#err:用户或手机号已经存在!",  
+									"msg": "用户或手机号已经存在!",  
 									"code":"02001"  
 								}  };
 							response.write( JSON.stringify(info) );
@@ -154,7 +152,7 @@ function deleteUser(response, postData)
 		console.log(result);
 		if(result.length>0)
 		{
-			var whereStr = {username:postJSON.delUsername};
+			var whereStr = {username:postJSON.username};
 			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 				console.log("删除信息"+result);
 				var info = 	{ "success":  
@@ -205,21 +203,21 @@ function updateUser(response, postData)
 			var whereStr = {username:postJSON.originalName};
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-				if( result.hasOwnProperty("errmsg") )
+				if(result.hasOwnProperty("errmsg") )
 				{
 					var info = 	{ "error":  
-						{  
-							"msg": "#err:用户或手机号已经存在!",  
-							"code":"04001"  
-						}  };
+					{  
+						"msg": "用户名或手机号重复!",  
+						"code":"040001"  
+					}  };
 					response.write( JSON.stringify(info) );
 					response.end();
 				}else{
 					var info = 	{ "success":  
-					{  
-						"msg": "用户信息编辑成功!",  
-						"code":"04000"  
-					}  };
+						{  
+							"msg": "用户信息编辑成功!",  
+							"code":"04000"  
+						}  };
 					response.write( JSON.stringify(info) );
 					response.end();
 				}
@@ -273,7 +271,7 @@ function selectUser(response, postData)
 					var info = 	{ "userInfo":  
 					{  
 						"msg": "没有查询记录!",  
-						"code":"05000"  
+						"code":"05001"  
 					}  };
 					response.write( JSON.stringify(info) );
 					response.end();
@@ -294,18 +292,10 @@ function selectUser(response, postData)
 }
 //---------------------结束--用户查询函数--结束--------------------//
 
-
-
 //---------------------开始--函数--开始--------------------//
-
 //---------------------结束--函数--结束--------------------//
-
-
 //---------------------开始--函数--开始--------------------//
-
 //---------------------结束--函数--结束--------------------//
-
-
 
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.login = login;
