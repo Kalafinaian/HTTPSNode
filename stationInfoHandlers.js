@@ -1,6 +1,22 @@
 var querystring = require("querystring"); //post原始数据转JSON对象处理模块
 var dbClient = require("./Mongo");  //数据库模块
 
+//封装JSON字段不确定参数判断函数---待完成
+function judgeStationID(postJSON,response)
+{
+	if( !postJSON.hasOwnProperty("stationID") )
+	{
+		var info = 	{ "success":  
+		{  
+			"msg": "请输入基站ID!",  
+			"code":"00002"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return false;
+	}
+	return true;
+}
 
 //---------------------开始--验证动态令牌--开始--------------------//
 function judgeUserToken(postJSON,response)
@@ -32,7 +48,7 @@ function addStation(response, postData)
 	var collectionName = "stationInfo";
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-
+    if( judgeStationID(postJSON,response)==false ){  return;  };
 	console.log(postJSON);
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	console.log(whereStr);
@@ -83,7 +99,7 @@ function addStation(response, postData)
 //---------------------开始--基站删除函数--开始--------------------//
 function deleteStation(response, postData)
 {
-	console.log( "Request handler 'deleteUser' was called." );
+	console.log( "Request handler 'deleteStation' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -92,7 +108,7 @@ function deleteStation(response, postData)
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-
+    if( judgeStationID(postJSON,response)==false ){  return;  };
 	//验证基站名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
@@ -129,7 +145,7 @@ function deleteStation(response, postData)
 //---------------------开始--基站更新函数--开始--------------------//
 function updateStation(response, postData)
 {
-	console.log( "Request handler 'updateUser' was called." );
+	console.log( "Request handler 'updateStation' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -138,7 +154,7 @@ function updateStation(response, postData)
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-
+    if( judgeStationID(postJSON,response)==false ){  return;  };
 	//验证基站名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
@@ -189,7 +205,7 @@ function updateStation(response, postData)
 //---------------------开始--基站查询函数--开始--------------------//
 function selectStation(response, postData)
 {
-	console.log( "Request handler 'selectUser' was called." );
+	console.log( "Request handler 'selectStation' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -197,7 +213,7 @@ function selectStation(response, postData)
 	var collectionName = "stationInfo";
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-
+	
 	console.log(postJSON);
 	//验证基站名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
