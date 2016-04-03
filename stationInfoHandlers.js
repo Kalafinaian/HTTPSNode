@@ -231,7 +231,7 @@ function selectStation(response, postData)
 					response.write( JSON.stringify(result) );
 					response.end();
 				}else{
-					var info = 	{ "stationInfo":  
+					var info = 	{ "error":  
 					{  
 						"msg": "没有查询记录!",  
 						"code":"10001"  
