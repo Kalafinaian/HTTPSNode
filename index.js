@@ -4,6 +4,7 @@ var router = require("./router"); //路由配置模块
 
 var userInfoHandlers = require("./userInfoHandlers");  //用户信息请求处理模块
 var stationInfoHandlers = require("./stationInfoHandlers");  //用户信息请求处理模块
+var keyInfoHandlers = require("./keyInfoHandlers");  //用户信息请求处理模块
 
 
 //---------------------开始--对象handle：存储处理函数--开始--------------------//
@@ -20,6 +21,11 @@ handle["/v0/addStation"] = stationInfoHandlers.addStation;
 handle["/v0/selectStation"] = stationInfoHandlers.selectStation;
 handle["/v0/deleteStation"] = stationInfoHandlers.deleteStation;
 handle["/v0/updateStation"] = stationInfoHandlers.updateStation;
+
+handle["/v0/addKey"] = keyInfoHandlers.addKey;
+handle["/v0/selectKey"] = keyInfoHandlers.selectKey;
+handle["/v0/deleteKey"] = keyInfoHandlers.deleteKey;
+handle["/v0/updateKey"] = keyInfoHandlers.updateKey;
 //---------------------结束--对象handle：存储处理函数--结束--------------------//
 
 
