@@ -39,6 +39,7 @@ function judgeUserToken(postJSON,response)
 
 
 //---------------------开始--任务申请和任务修改函数--开始--------------------//
+//任务申请和任务修改函数--需要通过触发器自动绑定审批人//
 function taskRequest(response, postData)
 {
 	console.log( "Request handler 'taskRequest' was called." );
@@ -73,8 +74,12 @@ function taskRequest(response, postData)
 							var info = 	{ "success":  
 							{  
 								"msg": "任务申请工单添加成功!",  
-								"code":"12000"  
+								"code":"17000"  
 							}  };
+							if(postJSON.hasOwnProperty('taskID'))
+							{
+								info.msg = "任务工单修改成功";
+							}
 							response.write( JSON.stringify(info) );
 							response.end();
 						}
@@ -131,7 +136,7 @@ function taskFetch(response, postData)
 					var info = 	{ "taskInfo":  
 					{  
 						"msg": "没有查询记录!",  
-						"code":"15001"  
+						"code":"18001"  
 					}  };
 					response.write( JSON.stringify(info) );
 					response.end();
@@ -155,6 +160,7 @@ function taskFetch(response, postData)
 
 
 //---------------------开始--任务工单审批函数--开始--------------------//
+//---------------------需要通过触发器生成校验码和参数--------------------//
 function taskAuthenticate(response, postData)
 {
 	console.log( "Request handler 'taskAuthenticate' was called." );
@@ -175,7 +181,7 @@ function taskAuthenticate(response, postData)
 		if(result.length>0)
 		{
 			//originalName
-			var whereStr = {TaskID:postJSON.originalTaskID};
+			var whereStr = {taskID:postJSON.originalTaskID};
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 				if( result.hasOwnProperty("errmsg") )
@@ -183,7 +189,7 @@ function taskAuthenticate(response, postData)
 					var info = 	{ "error":  
 						{  
 							"msg": "任务申请工单ID已存在!",  
-							"code":"14001"  
+							"code":"19001"  
 						}  };
 					response.write( JSON.stringify(info) );
 					response.end();
@@ -191,7 +197,7 @@ function taskAuthenticate(response, postData)
 					var info = 	{ "success":  
 					{  
 						"msg": "任务申请工单信息编辑成功!",  
-						"code":"14000"  
+						"code":"19000"  
 					}  };
 					response.write( JSON.stringify(info) );
 					response.end();
@@ -241,7 +247,7 @@ function taskAuthFetch(response, postData)
 					var info = 	{ "error":  
 						{  
 							"msg": "任务申请工单ID已存在!",  
-							"code":"14001"  
+							"code":"20001"  
 						}  };
 					response.write( JSON.stringify(info) );
 					response.end();
@@ -249,7 +255,7 @@ function taskAuthFetch(response, postData)
 					var info = 	{ "success":  
 					{  
 						"msg": "任务申请工单信息编辑成功!",  
-						"code":"14000"  
+						"code":"20000"  
 					}  };
 					response.write( JSON.stringify(info) );
 					response.end();
@@ -302,7 +308,7 @@ function taskCommit(response, postData)
 					var info = 	{ "error":  
 						{  
 							"msg": "任务申请工单ID已存在!",  
-							"code":"14001"  
+							"code":"21001"  
 						}  };
 					response.write( JSON.stringify(info) );
 					response.end();
@@ -310,7 +316,7 @@ function taskCommit(response, postData)
 					var info = 	{ "success":  
 					{  
 						"msg": "任务申请工单信息编辑成功!",  
-						"code":"14000"  
+						"code":"21000"  
 					}  };
 					response.write( JSON.stringify(info) );
 					response.end();
