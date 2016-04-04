@@ -9,7 +9,7 @@ function judgeTaskID(postJSON,response)
 		var info = 	{ "success":  
 		{  
 			"msg": "请输入任务申请工单ID!",  
-			"code":"00002"  
+			"code":"00004"  
 		}  };
 		response.write( JSON.stringify(info) );
 		response.end();
@@ -37,10 +37,11 @@ function judgeUserToken(postJSON,response)
 //---------------------开始--验证动态令牌--开始--------------------//
 
 
-//---------------------开始--任务申请工单添加函数--开始--------------------//
-function addTask(response, postData)
+
+//---------------------开始--任务申请和任务修改函数--开始--------------------//
+function taskRequest(response, postData)
 {
-	console.log( "Request handler 'addTask' was called." );
+	console.log( "Request handler 'taskRequest' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -64,7 +65,7 @@ function addTask(response, postData)
 							var info = 	{ "error":  
 								{  
 									"msg": "任务申请工单ID已存在!",  
-									"code":"12001"  
+									"code":"17001"  
 								}  };
 							response.write( JSON.stringify(info) );
 							response.end();
@@ -91,61 +92,72 @@ function addTask(response, postData)
 			}	
 	});
 }
-//---------------------结束--任务申请工单添加函数--结束--------------------//
+//---------------------结束--任务申请和任务修改函数--结束--------------------//
 
 
 
 
-//---------------------开始--任务申请工单删除函数--开始--------------------//
-function deleteTask(response, postData)
+//---------------------开始--管理员抓取工单--开始--------------------//
+function taskFetch(response, postData)
 {
-	console.log( "Request handler 'deleteTask' was called." );
+	console.log( "Request handler 'taskFetch' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "taskInfo";
-
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeTaskID(postJSON,response)==false ){  return;  };
+	
+	console.log(postJSON);
 	//验证任务申请工单名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 		console.log(result);
 		if(result.length>0)
 		{
-			var whereStr = {username:postJSON.TaskID};
-			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-				console.log("删除信息"+result);
-				var info = 	{ "success":  
-				{  
-					"msg": "任务申请工单删除成功!",  
-					"code":"13000"  
-				}  };
-				response.write( JSON.stringify(info) );
-				response.end();
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+			console.log(postJSON);
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+				function(result){
+				if( result.length>0 )
+				{
+					response.write( JSON.stringify(result) );
+					response.end();
+				}else{
+					var info = 	{ "taskInfo":  
+					{  
+						"msg": "没有查询记录!",  
+						"code":"15001"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				}
+			
 			});	
 		}else{
-				var info = 	{ "error":  
+			var info = 	{ "error":  
 				{  
-					"msg": "用户名不存在或动态令牌已过期!",  
+					"msg": "用户名不存在或动态令牌已过期",  
 					"code":"00000"  
 				}  };
-				response.write( JSON.stringify(info) );
-				response.end();	
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
 		}
 	});
-
 }
-//---------------------结束--任务申请工单删除函数--结束--------------------//
+//---------------------结束--管理员抓取工单--结束--------------------//
 
 
 
-//---------------------开始--任务申请工单更新函数--开始--------------------//
-function updateTask(response, postData)
+//---------------------开始--任务工单审批函数--开始--------------------//
+function taskAuthenticate(response, postData)
 {
-	console.log( "Request handler 'updateTask' was called." );
+	console.log( "Request handler 'taskAuthenticate' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -197,66 +209,126 @@ function updateTask(response, postData)
 	});
 
 }
-//---------------------结束--任务申请工单更新函数--结束--------------------//
+//---------------------结束--任务工单审批函数--结束--------------------//
 
 
-
-
-//---------------------开始--任务申请工单查询函数--开始--------------------//
-function selectTask(response, postData)
+//---------------------开始--任务申请工单授权状态抓取函数--开始--------------------//
+function taskAuthFetch(response, postData)
 {
-	console.log( "Request handler 'selectTask' was called." );
+	console.log( "Request handler 'taskAuthFetch' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "taskInfo";
+
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-	
-	console.log(postJSON);
+    if( judgeTaskID(postJSON,response)==false ){  return;  };
 	//验证任务申请工单名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	console.log(whereStr);
-
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 		console.log(result);
+
 		if(result.length>0)
 		{
-			delete postJSON.operatorName; 
-			delete postJSON.accessToken; 
-			console.log(postJSON);
-			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
-				function(result){
-				if( result.length>0 )
+			//originalName
+			var whereStr = {TaskID:postJSON.originalTaskID};
+			var updateStr = {$set: postJSON };
+			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+				if( result.hasOwnProperty("errmsg") )
 				{
-					response.write( JSON.stringify(result) );
+					var info = 	{ "error":  
+						{  
+							"msg": "任务申请工单ID已存在!",  
+							"code":"14001"  
+						}  };
+					response.write( JSON.stringify(info) );
 					response.end();
 				}else{
-					var info = 	{ "taskInfo":  
+					var info = 	{ "success":  
 					{  
-						"msg": "没有查询记录!",  
-						"code":"15001"  
+						"msg": "任务申请工单信息编辑成功!",  
+						"code":"14000"  
 					}  };
 					response.write( JSON.stringify(info) );
 					response.end();
 				}
-			
 			});	
 		}else{
-			var info = 	{ "error":  
+				var info = 	{ "error":  
 				{  
-					"msg": "用户名不存在或动态令牌已过期",  
+					"msg": "用户名不存在或动态令牌已过期!",  
 					"code":"00000"  
 				}  };
-			response.write( JSON.stringify(info) );
-			response.end();
-			return;
+				response.write( JSON.stringify(info) );
+				response.end();	
 		}
 	});
-}
-//---------------------结束--任务申请工单查询函数--结束--------------------//
 
+}
+//---------------------结束--任务申请工单授权状态抓取函数--结束--------------------//
+
+
+
+
+
+//---------------------开始--任务申请工单完成后，提交工说明单信息函数--开始--------------------//
+function taskCommit(response, postData)
+{
+	console.log( "Request handler 'taskCommit' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "taskInfo";
+
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+    if( judgeTaskID(postJSON,response)==false ){  return;  };
+	//验证任务申请工单名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+		console.log(result);
+
+		if(result.length>0)
+		{
+			//originalName
+			var whereStr = {TaskID:postJSON.originalTaskID};
+			var updateStr = {$set: postJSON };
+			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+				if( result.hasOwnProperty("errmsg") )
+				{
+					var info = 	{ "error":  
+						{  
+							"msg": "任务申请工单ID已存在!",  
+							"code":"14001"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				}else{
+					var info = 	{ "success":  
+					{  
+						"msg": "任务申请工单信息编辑成功!",  
+						"code":"14000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				}
+			});	
+		}else{
+				var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期!",  
+					"code":"00000"  
+				}  };
+				response.write( JSON.stringify(info) );
+				response.end();	
+		}
+	});
+
+}
+//---------------------结束--任务申请工单完成后，提交工说明单信息函数--结束--------------------//
 
 
 //---------------------开始--函数--开始--------------------//
@@ -267,8 +339,9 @@ function selectTask(response, postData)
 
 
 //---------------------开始--模块导出接口声明--开始--------------------//
-exports.addTask = addTask;
-exports.updateTask = updateTask;
-exports.deleteTask = deleteTask;
-exports.selectTask = selectTask;
+exports.taskRequest = taskRequest; //任务申请和任务修改
+exports.taskFetch = taskFetch;
+exports.taskAuthenticate = taskAuthenticate;
+exports.taskAuthFetch = taskAuthFetch;
+exports.taskCommit = taskCommit;
 //---------------------结束--模块导出接口声明--结束--------------------//

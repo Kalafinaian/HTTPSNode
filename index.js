@@ -27,6 +27,13 @@ handle["/v0/addKey"] = keyInfoHandlers.addKey;
 handle["/v0/selectKey"] = keyInfoHandlers.selectKey;
 handle["/v0/deleteKey"] = keyInfoHandlers.deleteKey;
 handle["/v0/updateKey"] = keyInfoHandlers.updateKey;
+
+
+handle["/v0/taskRequest"] = taskInfoHandlers.taskRequest;
+handle["/v0/taskFetch"] = taskInfoHandlers.taskFetch;
+handle["/v0/taskAuthenticate"] = taskInfoHandlers.taskAuthenticate;
+handle["/v0/taskAuthFetch"] = taskInfoHandlers.taskAuthFetch;
+handle["/v0/taskCommit"] = taskInfoHandlers.taskCommit;
 //---------------------结束--对象handle：存储处理函数--结束--------------------//
 
 
