@@ -196,7 +196,7 @@ function taskAuthenticate(response, postData)
 				}else{
 					var info = 	{ "success":  
 					{  
-						"msg": "任务申请工单信息编辑成功!",  
+						"msg": "任务工单信息授权成功!",  
 						"code":"19000"  
 					}  };
 					response.write( JSON.stringify(info) );
@@ -239,9 +239,8 @@ function taskAuthFetch(response, postData)
 		if(result.length>0)
 		{
 			//originalName
-			var whereStr = {TaskID:postJSON.originalTaskID};
-			var updateStr = {$set: postJSON };
-			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+			var whereStr = {applicantName:postJSON.applicantName};
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName, whereStr,function(result){
 				if( result.hasOwnProperty("errmsg") )
 				{
 					var info = 	{ "error":  
