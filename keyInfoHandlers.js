@@ -9,7 +9,7 @@ function judgeKeyID(postJSON,response)
 		var info = 	{ "success":  
 		{  
 			"msg": "请输入电子钥匙ID!",  
-			"code":"00002"  
+			"code":"00003"  
 		}  };
 		response.write( JSON.stringify(info) );
 		response.end();
