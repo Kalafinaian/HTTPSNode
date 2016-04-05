@@ -40,6 +40,7 @@ function judgeUserToken(postJSON,response)
 
 //---------------------开始--任务申请和任务修改函数--开始--------------------//
 //任务申请和任务修改函数--需要通过触发器自动绑定审批人//
+//任务申请和任务修改函数--需要已经验证没有触发器，直接通过代码绑定到肖良平//
 function taskRequest(response, postData)
 {
 	console.log( "Request handler 'taskRequest' was called." );
@@ -59,6 +60,9 @@ function taskRequest(response, postData)
 			console.log(result);
 			if(result.length>0)
 			{
+				//这里需要根据基站查询审批人
+				postJSON.approvalPerson = "肖良平";
+				postJSON.approvalPhone = "15520443869";
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						if( result.hasOwnProperty("errmsg") )
@@ -113,6 +117,16 @@ function taskFetch(response, postData)
 	var collectionName = "taskInfo";
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
+	if( !postJSON.hasOwnProperty('approvalPerson') ){ 
+		var info = 	{ "error":  
+		{  
+			"msg": "请输入审批人名字!",  
+			"code":"18002"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return;
+	}
 	
 	console.log(postJSON);
 	//验证任务申请工单名和动态令牌
@@ -133,9 +147,9 @@ function taskFetch(response, postData)
 					response.write( JSON.stringify(result) );
 					response.end();
 				}else{
-					var info = 	{ "taskInfo":  
+					var info = 	{ "error":  
 					{  
-						"msg": "没有查询记录!",  
+						"msg": "暂时没有需要处理的工单!",  
 						"code":"18001"  
 					}  };
 					response.write( JSON.stringify(info) );
@@ -180,28 +194,29 @@ function taskAuthenticate(response, postData)
 
 		if(result.length>0)
 		{
+			//这里需要根据基站和电子钥匙信息生成授权码，授权时间
+			
+			if(postJSON.applicationStatus == "approve")
+			{
+				postJSON.approveCode = "132464688";
+				var newStartTime = parseInt(Date.now()/1000);
+				var newEndTime = newStartTime + 24*3600;
+				postJSON.approveStartTime = newStartTime;
+				postJSON.approveEndTime = newEndTime;
+				postJSON.approveTimes = 5;
+			}
+
 			//originalName
 			var whereStr = {taskID:postJSON.originalTaskID};
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-				if( result.hasOwnProperty("errmsg") )
-				{
-					var info = 	{ "error":  
-						{  
-							"msg": "任务申请工单ID已存在!",  
-							"code":"19001"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}else{
-					var info = 	{ "success":  
-					{  
-						"msg": "任务工单信息授权成功!",  
-						"code":"19000"  
-					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}
+				var info = 	{ "success":  
+				{  
+					"msg": "任务工单信息授权成功!",  
+					"code":"19000"  
+				}  };
+				response.write( JSON.stringify(info) );
+				response.end();
 			});	
 		}else{
 				var info = 	{ "error":  
@@ -230,7 +245,16 @@ function taskAuthFetch(response, postData)
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeTaskID(postJSON,response)==false ){  return;  };
+   	if( !postJSON.hasOwnProperty('applicantName') ){ 
+		var info = 	{ "error":  
+		{  
+			"msg": "请输入申请人的名字!",  
+			"code":"20002"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return;
+	}
 	//验证任务申请工单名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
@@ -241,22 +265,17 @@ function taskAuthFetch(response, postData)
 			//originalName
 			var whereStr = {applicantName:postJSON.applicantName};
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName, whereStr,function(result){
-				if( result.hasOwnProperty("errmsg") )
+				if( result.length > 0 )
 				{
-					var info = 	{ "error":  
-						{  
-							"msg": "任务申请工单ID已存在!",  
-							"code":"20001"  
-						}  };
-					response.write( JSON.stringify(info) );
+					response.write( JSON.stringify(result) );
 					response.end();
 				}else{
-					var info = 	{ "success":  
+					var info = 	{ "error":  
 					{  
-						"msg": "任务申请工单信息编辑成功!",  
-						"code":"20000"  
+						"msg": "您没有申请任务!",  
+						"code":"20001"  
 					}  };
-					response.write( JSON.stringify(info) );
+					response.write( JSON.stringify(result) );
 					response.end();
 				}
 			});	
@@ -299,27 +318,16 @@ function taskCommit(response, postData)
 		if(result.length>0)
 		{
 			//originalName
-			var whereStr = {TaskID:postJSON.originalTaskID};
+			var whereStr = {taskID:postJSON.originalTaskID};
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-				if( result.hasOwnProperty("errmsg") )
-				{
-					var info = 	{ "error":  
-						{  
-							"msg": "任务申请工单ID已存在!",  
-							"code":"21001"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}else{
-					var info = 	{ "success":  
-					{  
-						"msg": "任务申请工单信息编辑成功!",  
-						"code":"21000"  
-					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}
+				var info = 	{ "success":  
+				{  
+					"msg": "任务申请工单信息提交成功!",  
+					"code":"21000"  
+				}  };
+				response.write( JSON.stringify(info) );
+				response.end();
 			});	
 		}else{
 				var info = 	{ "error":  
