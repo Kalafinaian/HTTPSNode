@@ -6,7 +6,7 @@ function judgeTaskID(postJSON,response)
 {
 	if( !postJSON.hasOwnProperty("taskID") )
 	{
-		var info = 	{ "success":  
+		var info = 	{ "error":  
 		{  
 			"msg": "请输入任务申请工单ID!",  
 			"code":"00004"  
@@ -39,8 +39,8 @@ function judgeUserToken(postJSON,response)
 
 
 //---------------------开始--任务申请和任务修改函数--开始--------------------//
-//任务申请和任务修改函数--需要通过触发器自动绑定审批人//
-//任务申请和任务修改函数--需要已经验证没有触发器，直接通过代码绑定到肖良平//
+//任务申请和任务函数--需要已经验证没有触发器，直接通过代码绑定到肖良平//
+//任务修改和申请工单,内部函数不一，还是分开写，多提供一个接口的好：不能放在一起//
 function taskRequest(response, postData)
 {
 	console.log( "Request handler 'taskRequest' was called." );
@@ -51,7 +51,7 @@ function taskRequest(response, postData)
 	var collectionName = "taskInfo";
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeTaskID(postJSON,response)==false ){  return;  };
+    //if( judgeTaskID(postJSON,response)==false ){  return;  };
 	console.log(postJSON);
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	console.log(whereStr);
@@ -63,8 +63,10 @@ function taskRequest(response, postData)
 				//这里需要根据基站查询审批人
 				postJSON.approvalPerson = "肖良平";
 				postJSON.approvalPhone = "15520443869";
+				postJSON.taskID = parseInt(Date.now()/1000);
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+						console.log(result);
 						if( result.hasOwnProperty("errmsg") )
 						{
 							var info = 	{ "error":  
@@ -77,13 +79,9 @@ function taskRequest(response, postData)
 						}else{
 							var info = 	{ "success":  
 							{  
-								"msg": "任务申请工单添加成功!",  
+								"msg": "任务申请工单申请成功!",  
 								"code":"17000"  
 							}  };
-							if(postJSON.hasOwnProperty('taskID'))
-							{
-								info.msg = "任务工单修改成功";
-							}
 							response.write( JSON.stringify(info) );
 							response.end();
 						}
