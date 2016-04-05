@@ -201,6 +201,7 @@ function updateUser(response, postData)
 		{
 			//originalName
 			var whereStr = {username:postJSON.originalName};
+			delete postJSON.originalName; //删除字段
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 				if(result.hasOwnProperty("errmsg") )
