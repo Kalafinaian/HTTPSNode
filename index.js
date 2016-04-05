@@ -13,18 +13,18 @@ var handle = {};
 handle["/v0/"] = userInfoHandlers.login;
 handle["/v0/login"] = userInfoHandlers.login;
 handle["/v0/addUser"] = userInfoHandlers.addUser;
-handle["/v0/selectUser"] = userInfoHandlers.selectUser;
+handle["/v0/queryUser"] = userInfoHandlers.selectUser;
 handle["/v0/deleteUser"] = userInfoHandlers.deleteUser;
 handle["/v0/updateUser"] = userInfoHandlers.updateUser;
 
 
 handle["/v0/addStation"] = stationInfoHandlers.addStation;
-handle["/v0/selectStation"] = stationInfoHandlers.selectStation;
+handle["/v0/queryStation"] = stationInfoHandlers.selectStation;
 handle["/v0/deleteStation"] = stationInfoHandlers.deleteStation;
 handle["/v0/updateStation"] = stationInfoHandlers.updateStation;
 
 handle["/v0/addKey"] = keyInfoHandlers.addKey;
-handle["/v0/selectKey"] = keyInfoHandlers.selectKey;
+handle["/v0/queryKey"] = keyInfoHandlers.selectKey;
 handle["/v0/deleteKey"] = keyInfoHandlers.deleteKey;
 handle["/v0/updateKey"] = keyInfoHandlers.updateKey;
 
