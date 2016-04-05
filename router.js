@@ -8,6 +8,13 @@ function route(handle,pathname,response,postData)
 	}else
 	{
 		console.log("No request handler for " + pathname);
+		var info = 	{ "error":  
+		{  
+			"msg": "您请求的接口不存在",  
+			"code":"00007"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
 	}
 }
 //---------------------结束--路由配置函数--结束--------------------//
