@@ -16,7 +16,7 @@ handle["/v0/addUser"] = userInfoHandlers.addUser;
 handle["/v0/queryUser"] = userInfoHandlers.selectUser;
 handle["/v0/deleteUser"] = userInfoHandlers.deleteUser;
 handle["/v0/updateUser"] = userInfoHandlers.updateUser;
-
+handle["/v0/downloadUser"] = userInfoHandlers.downloadUser;
 
 handle["/v0/addStation"] = stationInfoHandlers.addStation;
 handle["/v0/queryStation"] = stationInfoHandlers.selectStation;
