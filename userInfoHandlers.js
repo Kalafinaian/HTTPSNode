@@ -64,6 +64,7 @@ function login(response, postData)
 				});
 				//再次查询，返回结果
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+					delete result.password;  //限制返回参数，不返回密码
 					response.write( JSON.stringify(result) );
 					response.end();
 				});	

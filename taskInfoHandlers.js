@@ -347,7 +347,7 @@ function taskCommit(response, postData)
 //---------------------开始--下载工单日志函数--开始--------------------//
 function downloadTask(response, postData)
 {
-	console.log( "Request handler 'downloadUser' was called." );
+	console.log( "Request handler 'downloadTask' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -438,7 +438,7 @@ function downloadTask(response, postData)
 //---------------------开始--任务申请修改--开始--------------------//
 function taskChange(response, postData)
 {
-	console.log( "Request handler 'taskRequest' was called." );
+	console.log( "Request handler 'taskChange' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
