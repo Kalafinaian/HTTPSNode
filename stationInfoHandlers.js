@@ -256,11 +256,99 @@ function selectStation(response, postData)
 //---------------------结束--基站查询函数--结束--------------------//
 
 
+//---------------------开始--Excel表格下载接口--开始--------------------//
+function downloadStation(response, postData)
+{
+	console.log( "Request handler 'downloadUser' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "userInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
 
-//---------------------开始--函数--开始--------------------//
-//---------------------结束--函数--结束--------------------//
-//---------------------开始--函数--开始--------------------//
-//---------------------结束--函数--结束--------------------//
+	console.log(postJSON);
+	//验证用户名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		console.log(result);
+		if(result.length>0)
+		{
+			var fileName = postJSON.operatorName;
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+				function(result){
+				console.log(result);
+				if( result.length>0 )
+				{
+						var fs = require('fs');
+						var nodeExcel = require('excel-export');
+						var conf ={};
+						conf.name = "mysheet";
+
+						conf.cols = [       
+						        {
+						            caption:'基站ID',
+						            type:'string',
+						        },
+						        {
+						            caption:'基站地址',
+						            type:'string',
+						        },
+						        {
+						            caption:'基站负责人',
+						            type:'string'
+						        },
+						        {
+						            caption:'基站负责人电话',
+						             type:'string'              
+						        }
+						];
+						conf.rows = [];
+						for(var i=0;i<result.length;i++)
+						{
+							conf.rows[i] = [result[i].stationID, result[i].address,
+							result[i].chargePerson, result[i].chargePhone ];
+						}
+
+						var result = nodeExcel.execute(conf);
+						console.log('export successfully!');
+						fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
+						var info = 	{ "success":  
+						{  
+							"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
+							"code":"11000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+				}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "没有数据记录!",  
+						"code":"11001"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				}
+			
+			});	
+		}else{
+			var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期",  
+					"code":"00000"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+		}
+	});
+
+}
+//---------------------结束--Excel表格下载接口--结束--------------------//
 
 
 
@@ -269,4 +357,5 @@ exports.addStation = addStation;
 exports.updateStation = updateStation;
 exports.deleteStation = deleteStation;
 exports.selectStation = selectStation;
+exports.downloadStation = downloadStation;
 //---------------------结束--模块导出接口声明--结束--------------------//
