@@ -38,7 +38,7 @@ function judgeUserToken(postJSON,response)
 
 
 
-//---------------------开始--任务申请和任务修改函数--开始--------------------//
+//---------------------开始--任务申请函数--开始--------------------//
 //任务申请和任务函数--需要已经验证没有触发器，直接通过代码绑定到肖良平//
 //任务修改和申请工单,内部函数不一，还是分开写，多提供一个接口的好：不能放在一起//
 function taskRequest(response, postData)
@@ -229,6 +229,7 @@ function taskAuthenticate(response, postData)
 
 }
 //---------------------结束--任务工单审批函数--结束--------------------//
+
 
 
 //---------------------开始--任务申请工单授权状态抓取函数--开始--------------------//
@@ -434,6 +435,56 @@ function downloadTask(response, postData)
 
 
 
+//---------------------开始--任务申请修改--开始--------------------//
+function taskChange(response, postData)
+{
+	console.log( "Request handler 'taskRequest' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "taskInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+    //if( judgeTaskID(postJSON,response)==false ){  return;  };
+	console.log(postJSON);
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+	//验证用户名和动态令牌
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
+			{
+				//更新请求数据
+				var whereStr = {taskID:postJSON.originalTaskID};
+				delete postJSON.originalTaskID;
+				delete postJSON.operatorName;
+				delete postJSON.accessToken;
+				var updateStr = {$set: postJSON };
+				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+					var info = 	{ "success":  
+					{  
+						"msg": "任务工单信息修改成功!",  
+						"code":"23000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				});	
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}	
+	});
+}
+//---------------------结束--任务申请修改--结束--------------------//
+
+
 
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.taskRequest = taskRequest; //任务申请和任务修改
@@ -442,4 +493,5 @@ exports.taskAuthenticate = taskAuthenticate;
 exports.taskAuthFetch = taskAuthFetch;
 exports.taskCommit = taskCommit;
 exports.downloadTask = downloadTask;
+exports.taskChange = taskChange;
 //---------------------结束--模块导出接口声明--结束--------------------//
