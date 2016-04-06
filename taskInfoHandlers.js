@@ -342,10 +342,96 @@ function taskCommit(response, postData)
 //---------------------结束--任务申请工单完成后，提交工说明单信息函数--结束--------------------//
 
 
-//---------------------开始--函数--开始--------------------//
-//---------------------结束--函数--结束--------------------//
-//---------------------开始--函数--开始--------------------//
-//---------------------结束--函数--结束--------------------//
+
+//---------------------开始--下载工单日志函数--开始--------------------//
+function downloadTask(response, postData)
+{
+	console.log( "Request handler 'downloadUser' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "userInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+	console.log(postJSON);
+	//验证用户名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		console.log(result);
+		if(result.length>0)
+		{
+			var fileName = postJSON.operatorName;
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+				function(result){
+				console.log(result);
+				if( result.length>0 )
+				{
+						var fs = require('fs');
+						var nodeExcel = require('excel-export');
+						var conf ={};
+						conf.name = "mysheet";
+
+						conf.cols = [       
+						        {
+						            caption:'申请者',
+						            type:'string',
+						        },
+						        {
+						            caption:'审批人',
+						            type:'string',
+						        },
+						        {
+						            caption:'申请状态',
+						            type:'string'
+						        }
+						];
+						conf.rows = [];
+						for(var i=0;i<result.length;i++)
+						{
+							conf.rows[i] = [result[i].applicantName, result[i].approvalPerson,
+							result[i].applicationStatus ];
+						}
+
+						var result = nodeExcel.execute(conf);
+						console.log('export successfully!');
+						fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
+						var info = 	{ "success":  
+						{  
+							"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
+							"code":"22000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+				}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "没有数据记录!",  
+						"code":"22001"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				}
+			
+			});	
+		}else{
+			var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期",  
+					"code":"00000"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+		}
+	});
+}
+//---------------------结束--下载工单日志函数--结束--------------------//
+
 
 
 
@@ -355,4 +441,5 @@ exports.taskFetch = taskFetch;
 exports.taskAuthenticate = taskAuthenticate;
 exports.taskAuthFetch = taskAuthFetch;
 exports.taskCommit = taskCommit;
+exports.downloadTask = downloadTask;
 //---------------------结束--模块导出接口声明--结束--------------------//
