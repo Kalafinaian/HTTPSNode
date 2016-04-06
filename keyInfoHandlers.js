@@ -282,7 +282,7 @@ function downloadKey(response, postData)
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
-			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  postJSON , 
 				function(result){
 				console.log(result);
 				if( result.length>0 )
