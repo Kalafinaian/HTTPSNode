@@ -31,7 +31,7 @@ function login(response, postData)
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "userInfo";
 	console.log(postJSON);
-	if( !postJSON.hasOwnProperty('username') || !postJSON.hasOwnProperty('password') )
+	if( !(postJSON.hasOwnProperty('username') || postJSON.hasOwnProperty('phone')) && !postJSON.hasOwnProperty('password') )
 	{
 			var info = 	{ "error":  
 				{  
