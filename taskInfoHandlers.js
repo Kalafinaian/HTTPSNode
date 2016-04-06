@@ -36,7 +36,24 @@ function judgeUserToken(postJSON,response)
 }
 //---------------------开始--验证动态令牌--开始--------------------//
 
-
+//---------------------开始--验证动态令牌有效期--开始--------------------//
+function judgeTokenTime(endTime,response)
+{
+	var nowTime = parseInt(Date.now()/1000);
+	if( nowTime>endTime )
+	{
+		var info = 	{ "error":  
+		{  
+			"msg": "动态令牌已过期，请重新登陆",  
+			"code":"00006"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return false;
+	}
+	return true;
+}
+//---------------------开始--验证动态令牌有效期--开始--------------------//
 
 //---------------------开始--任务申请函数--开始--------------------//
 //任务申请和任务函数--需要已经验证没有触发器，直接通过代码绑定到肖良平//
@@ -60,6 +77,9 @@ function taskRequest(response, postData)
 			console.log(result);
 			if(result.length>0)
 			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				
 				//这里需要根据基站查询审批人
 				postJSON.approvalPerson = "肖良平";
 				postJSON.approvalPhone = "15520443869";
@@ -135,6 +155,9 @@ function taskFetch(response, postData)
 		console.log(result);
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
 			console.log(postJSON);
@@ -192,6 +215,9 @@ function taskAuthenticate(response, postData)
 
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
 			//这里需要根据基站和电子钥匙信息生成授权码，授权时间
 			
 			if(postJSON.applicationStatus == "approve")
@@ -261,6 +287,9 @@ function taskAuthFetch(response, postData)
 
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
 			//originalName
 			var whereStr = {applicantName:postJSON.applicantName};
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName, whereStr,function(result){
@@ -316,6 +345,9 @@ function taskCommit(response, postData)
 
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
 			//originalName
 			var whereStr = {taskID:postJSON.originalTaskID};
 			var updateStr = {$set: postJSON };
@@ -364,6 +396,9 @@ function downloadTask(response, postData)
 		console.log(result);
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -455,6 +490,9 @@ function taskChange(response, postData)
 			console.log(result);
 			if(result.length>0)
 			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				
 				//更新请求数据
 				var whereStr = {taskID:postJSON.originalTaskID};
 				delete postJSON.originalTaskID;

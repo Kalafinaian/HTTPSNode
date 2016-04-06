@@ -36,6 +36,24 @@ function judgeUserToken(postJSON,response)
 }
 //---------------------开始--验证动态令牌--开始--------------------//
 
+//---------------------开始--验证动态令牌有效期--开始--------------------//
+function judgeTokenTime(endTime,response)
+{
+	var nowTime = parseInt(Date.now()/1000);
+	if( nowTime>endTime )
+	{
+		var info = 	{ "error":  
+		{  
+			"msg": "动态令牌已过期，请重新登陆",  
+			"code":"00006"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return false;
+	}
+	return true;
+}
+//---------------------开始--验证动态令牌有效期--开始--------------------//
 
 //---------------------开始--电子钥匙添加函数--开始--------------------//
 function addKey(response, postData)
@@ -57,6 +75,9 @@ function addKey(response, postData)
 			console.log(result);
 			if(result.length>0)
 			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						if( result.hasOwnProperty("errmsg") )
@@ -115,6 +136,8 @@ function deleteKey(response, postData)
 		console.log(result);
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			var whereStr = {username:postJSON.KeyID};
 			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 				console.log("删除信息"+result);
@@ -162,6 +185,9 @@ function updateKey(response, postData)
 
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
 			//originalName
 			var whereStr = {keyID:postJSON.originalKeyID};
 			var updateStr = {$set: postJSON };
@@ -223,6 +249,9 @@ function selectKey(response, postData)
 		console.log(result);
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
 			console.log(postJSON);
@@ -279,6 +308,9 @@ function downloadKey(response, postData)
 		console.log(result);
 		if(result.length>0)
 		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
