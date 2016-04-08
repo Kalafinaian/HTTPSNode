@@ -83,8 +83,10 @@ function login(response, postData)
 				});
 				//再次查询，返回结果
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-					delete result.password;  //限制返回参数，不返回密码
-					response.write( JSON.stringify(result) );
+					var json = {};
+					json.success = result[0];
+					delete json.password;  //限制返回参数，不返回密码
+					response.write( JSON.stringify(json) );
 					response.end();
 				});	
 			}	
@@ -298,7 +300,13 @@ function selectUser(response, postData)
 				function(result){
 				if( result.length>0 )
 				{
-					response.write( JSON.stringify(result) );
+					var json = {success:{}};
+					for(var i=0;i<result.length;i++)
+					{
+						json.success[i] = result[i];
+						delete json.success[i].password;  //限制返回参数，不返回密码
+					}
+					response.write( JSON.stringify(json) );
 					response.end();
 				}else{
 					var info = 	{ "userInfo":  

@@ -258,7 +258,12 @@ function selectStation(response, postData)
 				function(result){
 				if( result.length>0 )
 				{
-					response.write( JSON.stringify(result) );
+					var json = {success:{}};
+					for(var i=0;i<result.length;i++)
+					{
+						json.success[i] = result[i];
+					}
+					response.write( JSON.stringify(json) );
 					response.end();
 				}else{
 					var info = 	{ "error":  
