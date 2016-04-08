@@ -83,9 +83,47 @@ function login(response, postData)
 				});
 				//再次查询，返回结果
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-					var json = {};
-					json.success = result[0];
-					delete json.password;  //限制返回参数，不返回密码
+					var json = {
+						success:
+						{
+							userInfo:{},
+							regionInfo:{},
+							permissions:{}
+						}
+					};
+					json.success.userInfo.username = result[0].username;
+					json.success.userInfo.realname = result[0].realname;
+					json.success.userInfo.phone = result[0].phone;
+					json.success.userInfo.companyGroup = result[0].companyGroup;
+					json.success.userInfo.company = result[0].company;
+					json.success.userInfo.phone = result[0].userDescription;
+					json.success.userInfo.companyGroup = result[0].userGroup;
+					json.success.userInfo.company = result[0].userType;
+					
+					json.success.regionInfo.managementProvince = result[0].managementProvince;
+					json.success.regionInfo.managementCity = result[0].managementCity;
+					json.success.regionInfo.managementArea = result[0].managementArea;
+					
+					json.success.permissions.addStationAction = result[0].addStationAction;
+					json.success.permissions.deleteStationAction = result[0].deleteStationAction;
+					json.success.permissions.queryStationAction = result[0].queryStationAction;
+					json.success.permissions.updateStationAction = result[0].updateStationAction;
+					
+					json.success.permissions.addStaffAction = result[0].addStaffAction;
+					json.success.permissions.deleteStaffAction = result[0].deleteStaffAction;
+					json.success.permissions.queryStaffAction = result[0].queryStaffAction;
+					json.success.permissions.updateStaffAction = result[0].updateStaffAction;
+					
+					json.success.permissions.addKeyAction = result[0].addKeyAction;
+					json.success.permissions.deleteKeyAction = result[0].deleteKeyAction;
+					json.success.permissions.queryKeyAction = result[0].queryKeyAction;
+					json.success.permissions.updateKeyAction = result[0].updateKeyAction;
+					json.success.permissions.doorAuthorization = result[0].doorAuthorization;
+					
+					json.success.accessToken = result[0].accessToken;
+					json.success.tokenStartTime  = result[0].tokenStartTime ;
+					json.success.tokenEndTime = result[0].tokenEndTime;
+					
 					response.write( JSON.stringify(json) );
 					response.end();
 				});	
@@ -303,9 +341,47 @@ function selectUser(response, postData)
 					var json = {success:{}};
 					for(var i=0;i<result.length;i++)
 					{
-						json.success[i] = result[i];
-						delete json.success[i].password;  //限制返回参数，不返回密码
+						var mjson = {
+								userInfo:{},
+								regionInfo:{},
+								permissions:{}
+						};
+						mjson.userInfo.username = result[i].username;
+						mjson.userInfo.realname = result[i].realname;
+						mjson.userInfo.phone = result[i].phone;
+						mjson.userInfo.companyGroup = result[i].companyGroup;
+						mjson.userInfo.company = result[i].company;
+						mjson.userInfo.phone = result[i].userDescription;
+						mjson.userInfo.companyGroup = result[i].userGroup;
+						mjson.userInfo.company = result[i].userType;
+						
+						mjson.regionInfo.managementProvince = result[i].managementProvince;
+						mjson.regionInfo.managementCity = result[i].managementCity;
+						mjson.regionInfo.managementArea = result[i].managementArea;
+						
+						mjson.permissions.addStationAction = result[i].addStationAction;
+						mjson.permissions.deleteStationAction = result[i].deleteStationAction;
+						mjson.permissions.queryStationAction = result[i].queryStationAction;
+						mjson.permissions.updateStationAction = result[i].updateStationAction;
+						
+						mjson.permissions.addStaffAction = result[i].addStaffAction;
+						mjson.permissions.deleteStaffAction = result[i].deleteStaffAction;
+						mjson.permissions.queryStaffAction = result[i].queryStaffAction;
+						mjson.permissions.updateStaffAction = result[i].updateStaffAction;
+						
+						mjson.permissions.addKeyAction = result[i].addKeyAction;
+						mjson.permissions.deleteKeyAction = result[i].deleteKeyAction;
+						mjson.permissions.queryKeyAction = result[i].queryKeyAction;
+						mjson.permissions.updateKeyAction = result[i].updateKeyAction;
+						mjson.permissions.doorAuthorization = result[i].doorAuthorization;
+						
+						mjson.accessToken = result[i].accessToken;
+						mjson.tokenStartTime  = result[i].tokenStartTime ;
+						mjson.tokenEndTime = result[i].tokenEndTime;
+						
+						json.success[i] = mjson[i];
 					}
+					
 					response.write( JSON.stringify(json) );
 					response.end();
 				}else{
