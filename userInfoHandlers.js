@@ -96,9 +96,9 @@ function login(response, postData)
 					json.success.userInfo.phone = result[0].phone;
 					json.success.userInfo.companyGroup = result[0].companyGroup;
 					json.success.userInfo.company = result[0].company;
-					json.success.userInfo.phone = result[0].userDescription;
+					json.success.userInfo.userDescription = result[0].userDescription;
 					json.success.userInfo.companyGroup = result[0].userGroup;
-					json.success.userInfo.company = result[0].userType;
+					json.success.userInfo.userType = result[0].userType;
 					
 					json.success.regionInfo.managementProvince = result[0].managementProvince;
 					json.success.regionInfo.managementCity = result[0].managementCity;
@@ -339,6 +339,7 @@ function selectUser(response, postData)
 				if( result.length>0 )
 				{
 					var json = {success:{}};
+					//var marray = [];
 					for(var i=0;i<result.length;i++)
 					{
 						var mjson = {
@@ -351,9 +352,9 @@ function selectUser(response, postData)
 						mjson.userInfo.phone = result[i].phone;
 						mjson.userInfo.companyGroup = result[i].companyGroup;
 						mjson.userInfo.company = result[i].company;
-						mjson.userInfo.phone = result[i].userDescription;
-						mjson.userInfo.companyGroup = result[i].userGroup;
-						mjson.userInfo.company = result[i].userType;
+						mjson.userInfo.userDescription = result[i].userDescription;
+						mjson.userInfo.userGroup = result[i].userGroup;
+						mjson.userInfo.userType = result[i].userType;
 						
 						mjson.regionInfo.managementProvince = result[i].managementProvince;
 						mjson.regionInfo.managementCity = result[i].managementCity;
@@ -379,7 +380,8 @@ function selectUser(response, postData)
 						mjson.tokenStartTime  = result[i].tokenStartTime ;
 						mjson.tokenEndTime = result[i].tokenEndTime;
 						
-						json.success[i] = mjson[i];
+						//marray.push(mjson);
+						json.success[i] = mjson;
 					}
 					
 					response.write( JSON.stringify(json) );
