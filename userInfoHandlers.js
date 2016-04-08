@@ -88,7 +88,8 @@ function login(response, postData)
 						{
 							userInfo:{},
 							regionInfo:{},
-							permissions:{}
+							permissions:{},
+							tokenInfo:{}
 						}
 					};
 					json.success.userInfo.username = result[0].username;
@@ -120,9 +121,9 @@ function login(response, postData)
 					json.success.permissions.updateKeyAction = result[0].updateKeyAction;
 					json.success.permissions.doorAuthorization = result[0].doorAuthorization;
 					
-					json.success.accessToken = result[0].accessToken;
-					json.success.tokenStartTime  = result[0].tokenStartTime ;
-					json.success.tokenEndTime = result[0].tokenEndTime;
+					json.success.tokenInfo.accessToken = result[0].accessToken;
+					json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
+					json.success.tokenInfo.tokenEndTime = result[0].tokenEndTime;
 					
 					response.write( JSON.stringify(json) );
 					response.end();
@@ -345,7 +346,8 @@ function selectUser(response, postData)
 						var mjson = {
 								userInfo:{},
 								regionInfo:{},
-								permissions:{}
+								permissions:{},
+								tokenInfo:{}
 						};
 						mjson.userInfo.username = result[i].username;
 						mjson.userInfo.realname = result[i].realname;
@@ -376,9 +378,9 @@ function selectUser(response, postData)
 						mjson.permissions.updateKeyAction = result[i].updateKeyAction;
 						mjson.permissions.doorAuthorization = result[i].doorAuthorization;
 						
-						mjson.accessToken = result[i].accessToken;
-						mjson.tokenStartTime  = result[i].tokenStartTime ;
-						mjson.tokenEndTime = result[i].tokenEndTime;
+						mjson.tokenInfo.accessToken = result[i].accessToken;
+						mjson.tokenInfo.tokenStartTime  = result[i].tokenStartTime ;
+						mjson.tokenInfo.tokenEndTime = result[i].tokenEndTime;
 						
 						//marray.push(mjson);
 						json.success[i] = mjson;
