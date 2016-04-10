@@ -233,20 +233,29 @@ function taskAuthenticate(response, postData)
 				postJSON.approveStartTime = newStartTime;
 				postJSON.approveEndTime = newEndTime;
 				postJSON.approveTimes = 5;
+				//originalName
+				var whereStr = {taskID:postJSON.taskID};
+				var updateStr = {$set: postJSON };
+				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+					var info = 	{ "success":  
+					{  
+						"msg": "任务工单信息授权成功!",  
+						"code":"19000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				});	
+			}else{
+					var info = 	{ "success":  
+					{  
+						"msg": "任务工单信息:"+postJSON.applicationStatus,  
+						"code":"19001"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
 			}
 
-			//originalName
-			var whereStr = {taskID:postJSON.originalTaskID};
-			var updateStr = {$set: postJSON };
-			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-				var info = 	{ "success":  
-				{  
-					"msg": "任务工单信息授权成功!",  
-					"code":"19000"  
-				}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-			});	
+
 		}else{
 				var info = 	{ "error":  
 				{  
