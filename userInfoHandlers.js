@@ -98,7 +98,7 @@ function login(response, postData)
 					json.success.userInfo.companyGroup = result[0].companyGroup;
 					json.success.userInfo.company = result[0].company;
 					json.success.userInfo.userDescription = result[0].userDescription;
-					json.success.userInfo.companyGroup = result[0].userGroup;
+					json.success.userInfo.userGroup = result[0].userGroup;
 					json.success.userInfo.userType = result[0].userType;
 					
 					json.success.regionInfo.managementProvince = result[0].managementProvince;
@@ -337,10 +337,9 @@ function selectUser(response, postData)
 			delete postJSON.accessToken; 
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
 				function(result){
+					
 				if( result.length>0 )
 				{
-					var json = {success:{}};
-					//var marray = [];
 					for(var i=0;i<result.length;i++)
 					{
 						var mjson = {
@@ -382,10 +381,10 @@ function selectUser(response, postData)
 						mjson.tokenInfo.tokenStartTime  = result[i].tokenStartTime ;
 						mjson.tokenInfo.tokenEndTime = result[i].tokenEndTime;
 						
-						//marray.push(mjson);
-						json.success[i] = mjson;
+						//rearrange result
+						result[i] = mjson;
 					}
-					
+					var json = {success:result};
 					response.write( JSON.stringify(json) );
 					response.end();
 				}else{

@@ -259,11 +259,8 @@ function selectKey(response, postData)
 				function(result){
 				if( result.length>0 )
 				{
-					var json = {success:{}};
-					for(var i=0;i<result.length;i++)
-					{
-						json.success[i] = result[i];
-					}
+					var json = {success:result};
+
 					response.write( JSON.stringify(json) );
 					response.end();
 				}else{
