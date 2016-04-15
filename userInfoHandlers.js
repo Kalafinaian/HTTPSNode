@@ -156,7 +156,7 @@ function addUser(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -217,7 +217,7 @@ function deleteUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			var whereStr = {username:postJSON.username};
 			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
@@ -267,7 +267,7 @@ function updateUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			//originalName
 			var whereStr = {username:postJSON.originalName};
@@ -331,7 +331,7 @@ function selectUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -435,7 +435,7 @@ function downloadUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 

@@ -77,7 +77,7 @@ function addStation(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -123,34 +123,52 @@ function deleteStation(response, postData)
 {
 	console.log( "Request handler 'deleteStation' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
+
+	var postJSON = JSON.parse(postData);
+
+	if( !postJSON.hasOwnProperty("deleteList") || !postJSON.hasOwnProperty("operatorName") || !postJSON.hasOwnProperty("accessToken"))
+	{
+		var info = 	{ "error":  
+		{  
+			"msg": "参数格式错误!",  
+			"code":"08001"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return;
+	}
+
 	var mongoClient = require('mongodb').MongoClient;
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "stationInfo";
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeStationID(postJSON,response)==false ){  return;  };
-	//验证基站名和动态令牌
+
+	//验证用户名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 		console.log(result);
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
-			var whereStr = {username:postJSON.stationID};
-			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			for(var i=0;i<postJSON.deleteList.length;i++)
+			{
+				var whereStr = {stationID:postJSON.deleteList[i]};
+				dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 				console.log("删除信息"+result);
-				var info = 	{ "success":  
-				{  
-					"msg": "基站删除成功!",  
-					"code":"08000"  
-				}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-			});	
+				});	
+			}
+			var info = 	{ "success":  
+			{  
+				"msg": "基站删除成功!",  
+				"code":"08000"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+
 		}else{
 				var info = 	{ "error":  
 				{  
@@ -188,7 +206,7 @@ function updateStation(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			//originalName
 			var whereStr = {stationID:postJSON.originalStationID};
 			var updateStr = {$set: postJSON };
@@ -250,7 +268,7 @@ function selectStation(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -297,7 +315,7 @@ function downloadStation(response, postData)
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "userInfo";
 	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
+	//if( judgeUserToken(postJSON,response)==false ){  return;  };
 
 	console.log(postJSON);
 	//验证用户名和动态令牌

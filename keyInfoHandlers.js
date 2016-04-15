@@ -76,7 +76,7 @@ function addKey(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -137,7 +137,7 @@ function deleteKey(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			var whereStr = {username:postJSON.KeyID};
 			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 				console.log("删除信息"+result);
@@ -186,7 +186,7 @@ function updateKey(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			//originalName
 			var whereStr = {keyID:postJSON.originalKeyID};
@@ -250,7 +250,7 @@ function selectKey(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -311,7 +311,7 @@ function downloadKey(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 

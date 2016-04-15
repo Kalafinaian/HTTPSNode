@@ -78,12 +78,12 @@ function taskRequest(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
 				//这里需要根据基站查询审批人
 				postJSON.approvalPerson = "肖良平";
 				postJSON.approvalPhone = "15520443869";
-				postJSON.taskID = parseInt(Date.now()/1000);
+				postJSON.taskID = parseInt(Date.now()/1000).toString();
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						console.log(result);
@@ -156,7 +156,7 @@ function taskFetch(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -218,22 +218,25 @@ function taskAuthenticate(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			//这里需要根据基站和电子钥匙信息生成授权码，授权时间
 			
 			if(postJSON.applicationStatus == "approve")
 			{
-				postJSON.approveCode = "132464688";
+				var insertInfo = {};
 				var newStartTime = parseInt(Date.now()/1000);
 				var newEndTime = newStartTime + 24*3600;
-				postJSON.approveStartTime = newStartTime;
-				postJSON.approveEndTime = newEndTime;
-				postJSON.approveTimes = 5;
+				insertInfo.approveCode = (newStartTime/400).toString();
+				insertInfo.approveStartTime = newStartTime.toString();
+				insertInfo.approveEndTime = newEndTime.toString();
+				insertInfo.approveTimes = "5";
+				insertInfo.applicationStatus = "approve";
 				//originalName
 				var whereStr = {taskID:postJSON.taskID};
-				var updateStr = {$set: postJSON };
+				var updateStr = {$set: insertInfo };
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+					console.log("审批结果 "+result);
 					var info = 	{ "success":  
 					{  
 						"msg": "任务工单信息授权成功!",  
@@ -299,7 +302,7 @@ function taskAuthFetch(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			//originalName
 			var whereStr = {applicantName:postJSON.applicantName};
@@ -358,7 +361,7 @@ function taskCommit(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			//originalName
 			var whereStr = {taskID:postJSON.originalTaskID};
@@ -409,7 +412,7 @@ function downloadTask(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 
@@ -503,7 +506,7 @@ function taskChange(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
 				//更新请求数据
 				var whereStr = {taskID:postJSON.originalTaskID};
