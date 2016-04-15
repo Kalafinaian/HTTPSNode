@@ -124,7 +124,9 @@ function deleteStation(response, postData)
 	console.log( "Request handler 'deleteStation' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 
-	var postJSON = JSON.parse(postData);
+	var postJSON = querystring.parse(postData);
+
+	console.log(postJSON);
 
 	if( !postJSON.hasOwnProperty("deleteList") || !postJSON.hasOwnProperty("operatorName") || !postJSON.hasOwnProperty("accessToken"))
 	{
@@ -152,11 +154,18 @@ function deleteStation(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			var stationStr = postJSON.deleteList.toString();
+			stationStr = stationStr.replace("[","");
+			stationStr = stationStr.replace("]","");
+			console.log(stationStr);
 
-			for(var i=0;i<postJSON.deleteList.length;i++)
+			var stationList = stationStr.split(",");
+
+			for(var i=0;i<stationList.length;i++)
 			{
-				var whereStr = {stationID:postJSON.deleteList[i]};
+				console.log(stationList[i]);
+				console.log("删除的基站： "+stationList[i]);
+				var whereStr = {stationID:stationList[i].toString()};
 				dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 				console.log("删除信息"+result);
 				});	
