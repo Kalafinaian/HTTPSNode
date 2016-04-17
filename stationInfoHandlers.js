@@ -77,7 +77,7 @@ function addStation(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -215,7 +215,7 @@ function updateStation(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			//originalName
 			var whereStr = {stationID:postJSON.originalStationID};
 			var updateStr = {$set: postJSON };
@@ -277,7 +277,7 @@ function selectStation(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -324,7 +324,7 @@ function downloadStation(response, postData)
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 	var collectionName = "userInfo";
 	//判断操作者和动态令牌是否存在
-	//if( judgeUserToken(postJSON,response)==false ){  return;  };
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
 
 	console.log(postJSON);
 	//验证用户名和动态令牌

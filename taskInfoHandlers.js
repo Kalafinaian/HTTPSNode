@@ -78,7 +78,7 @@ function taskRequest(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
 				//这里需要根据基站查询审批人
 				postJSON.approvalPerson = "肖良平";
@@ -157,7 +157,7 @@ function taskFetch(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -219,7 +219,7 @@ function taskAuthenticate(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			delete postJSON.operatorName;
 			delete postJSON.accessToken;
 			//这里需要根据基站和电子钥匙信息生成授权码，授权时间
@@ -289,7 +289,7 @@ function taskAuthFetch(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			//originalName
 			var whereStr = {applicantName:postJSON.applicantName};
@@ -348,7 +348,7 @@ function taskCommit(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			//originalName
 			var whereStr = {taskID:postJSON.originalTaskID};
@@ -399,7 +399,7 @@ function downloadTask(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 
@@ -493,7 +493,7 @@ function taskChange(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
 				//更新请求数据
 				var whereStr = {taskID:postJSON.originalTaskID};

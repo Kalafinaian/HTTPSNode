@@ -80,54 +80,54 @@ function login(response, postData)
 				var updateStr = { $set: { "accessToken" : newAccessToken, "tokenStartTime":newStartTime.toString(), "tokenEndTime" : newEndTime.toString() }};
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , updateStr,  function(result){
 				 	console.log(result);
+					//再次查询，返回结果--更新后嵌套查询，避免动态令牌已过期
+					dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+						var json = {
+							success:
+							{
+								userInfo:{},
+								regionInfo:{},
+								permissions:{},
+								tokenInfo:{}
+							}
+						};
+						json.success.userInfo.username = result[0].username;
+						json.success.userInfo.realname = result[0].realname;
+						json.success.userInfo.phone = result[0].phone;
+						json.success.userInfo.companyGroup = result[0].companyGroup;
+						json.success.userInfo.company = result[0].company;
+						json.success.userInfo.userDescription = result[0].userDescription;
+						json.success.userInfo.userGroup = result[0].userGroup;
+						json.success.userInfo.userType = result[0].userType;
+						
+						json.success.regionInfo.managementProvince = result[0].managementProvince;
+						json.success.regionInfo.managementCity = result[0].managementCity;
+						json.success.regionInfo.managementArea = result[0].managementArea;
+						
+						json.success.permissions.addStationAction = result[0].addStationAction;
+						json.success.permissions.deleteStationAction = result[0].deleteStationAction;
+						json.success.permissions.queryStationAction = result[0].queryStationAction;
+						json.success.permissions.updateStationAction = result[0].updateStationAction;
+						
+						json.success.permissions.addStaffAction = result[0].addStaffAction;
+						json.success.permissions.deleteStaffAction = result[0].deleteStaffAction;
+						json.success.permissions.queryStaffAction = result[0].queryStaffAction;
+						json.success.permissions.updateStaffAction = result[0].updateStaffAction;
+						
+						json.success.permissions.addKeyAction = result[0].addKeyAction;
+						json.success.permissions.deleteKeyAction = result[0].deleteKeyAction;
+						json.success.permissions.queryKeyAction = result[0].queryKeyAction;
+						json.success.permissions.updateKeyAction = result[0].updateKeyAction;
+						json.success.permissions.doorAuthorization = result[0].doorAuthorization;
+						
+						json.success.tokenInfo.accessToken = result[0].accessToken;
+						json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
+						json.success.tokenInfo.tokenEndTime = result[0].tokenEndTime;
+						
+						response.write( JSON.stringify(json) );
+						response.end();
+					});	
 				});
-				//再次查询，返回结果
-				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-					var json = {
-						success:
-						{
-							userInfo:{},
-							regionInfo:{},
-							permissions:{},
-							tokenInfo:{}
-						}
-					};
-					json.success.userInfo.username = result[0].username;
-					json.success.userInfo.realname = result[0].realname;
-					json.success.userInfo.phone = result[0].phone;
-					json.success.userInfo.companyGroup = result[0].companyGroup;
-					json.success.userInfo.company = result[0].company;
-					json.success.userInfo.userDescription = result[0].userDescription;
-					json.success.userInfo.userGroup = result[0].userGroup;
-					json.success.userInfo.userType = result[0].userType;
-					
-					json.success.regionInfo.managementProvince = result[0].managementProvince;
-					json.success.regionInfo.managementCity = result[0].managementCity;
-					json.success.regionInfo.managementArea = result[0].managementArea;
-					
-					json.success.permissions.addStationAction = result[0].addStationAction;
-					json.success.permissions.deleteStationAction = result[0].deleteStationAction;
-					json.success.permissions.queryStationAction = result[0].queryStationAction;
-					json.success.permissions.updateStationAction = result[0].updateStationAction;
-					
-					json.success.permissions.addStaffAction = result[0].addStaffAction;
-					json.success.permissions.deleteStaffAction = result[0].deleteStaffAction;
-					json.success.permissions.queryStaffAction = result[0].queryStaffAction;
-					json.success.permissions.updateStaffAction = result[0].updateStaffAction;
-					
-					json.success.permissions.addKeyAction = result[0].addKeyAction;
-					json.success.permissions.deleteKeyAction = result[0].deleteKeyAction;
-					json.success.permissions.queryKeyAction = result[0].queryKeyAction;
-					json.success.permissions.updateKeyAction = result[0].updateKeyAction;
-					json.success.permissions.doorAuthorization = result[0].doorAuthorization;
-					
-					json.success.tokenInfo.accessToken = result[0].accessToken;
-					json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
-					json.success.tokenInfo.tokenEndTime = result[0].tokenEndTime;
-					
-					response.write( JSON.stringify(json) );
-					response.end();
-				});	
 			}	
 	});		
 }
@@ -156,7 +156,7 @@ function addUser(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -217,7 +217,7 @@ function deleteUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			var whereStr = {username:postJSON.username};
 			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
@@ -267,7 +267,7 @@ function updateUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			//originalName
 			var whereStr = {username:postJSON.originalName};
@@ -331,7 +331,7 @@ function selectUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
@@ -435,7 +435,7 @@ function downloadUser(response, postData)
 		if(result.length>0)
 		{
 			//动态令牌有效性判断
-			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
 			var fileName = postJSON.operatorName;
 			delete postJSON.operatorName; 
