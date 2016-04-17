@@ -220,43 +220,29 @@ function taskAuthenticate(response, postData)
 		{
 			//动态令牌有效性判断
 			//if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-			
+			delete postJSON.operatorName;
+			delete postJSON.accessToken;
 			//这里需要根据基站和电子钥匙信息生成授权码，授权时间
-			
-			if(postJSON.applicationStatus == "approve")
-			{
-				var insertInfo = {};
-				var newStartTime = parseInt(Date.now()/1000);
-				var newEndTime = newStartTime + 24*3600;
-				insertInfo.approveCode = (newStartTime/400).toString();
-				insertInfo.approveStartTime = newStartTime.toString();
-				insertInfo.approveEndTime = newEndTime.toString();
-				insertInfo.approveTimes = "5";
-				insertInfo.applicationStatus = "approve";
-				//originalName
-				var whereStr = {taskID:postJSON.taskID};
-				var updateStr = {$set: insertInfo };
-				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-					console.log("审批结果 "+result);
-					var info = 	{ "success":  
-					{  
-						"msg": "任务工单信息授权成功!",  
-						"code":"19000"  
-					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				});	
-			}else{
-					var info = 	{ "success":  
-					{  
-						"msg": "任务工单信息:"+postJSON.applicationStatus,  
-						"code":"19001"  
-					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-			}
-
-
+			var newStartTime = parseInt(Date.now()/1000);
+			var newEndTime = newStartTime + 24*3600;
+			postJSON.approveCode = (newStartTime/400).toString();
+			postJSON.approveStartTime = newStartTime.toString();
+			postJSON.approveEndTime = newEndTime.toString();
+			postJSON.approveTimes = "5";
+			//originalName
+			var whereStr = {taskID:postJSON.taskID};
+			var updateStr = {$set: postJSON };
+			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+				console.log("审批结果 "+result);
+				var info = 	{ "success":  
+				{  
+					"msg": "任务工单信息授权成功,授权状态为："+postJSON.applicationStatus,  
+					"applicationStatus":postJSON.applicationStatus,
+					"code":"19000"  
+				}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+			});	
 		}else{
 				var info = 	{ "error":  
 				{  
