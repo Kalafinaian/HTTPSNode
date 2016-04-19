@@ -67,7 +67,7 @@ function login(response, postData)
 			{
 				var info = 	{ "error":  
 					{  
-						"msg": "#err:用户名或密码错误!",  
+						"msg": "用户名或密码错误!",  
 						"code":"01002"  
 					}  };
 				response.write( JSON.stringify(info) );
@@ -157,9 +157,14 @@ function addUser(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
+				if( !postJSON.hasOwnProperty('password') )
+				{	
+					postJSON.password = "123456";
+				}
+				
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+						
 						if( result.hasOwnProperty("errmsg") )
 						{
 							var info = 	{ "error":  
