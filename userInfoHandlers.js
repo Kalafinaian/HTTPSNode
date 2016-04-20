@@ -161,7 +161,8 @@ function addUser(response, postData)
 				{	
 					postJSON.password = "123456";
 				}
-				
+				delete postJSON.accessToken;
+				delete postJSON.operatorName;
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						
@@ -277,6 +278,8 @@ function updateUser(response, postData)
 			//originalName
 			var whereStr = {username:postJSON.originalName};
 			delete postJSON.originalName; //删除字段
+			delete postJSON.accessToken;
+			delete postJSON.operatorName;
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 				if(result.hasOwnProperty("errmsg") )

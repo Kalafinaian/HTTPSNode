@@ -85,6 +85,8 @@ function taskRequest(response, postData)
 				postJSON.approvalPhone = "15520443869";
 				postJSON.taskID = parseInt(Date.now()/1000).toString();
 				postJSON.applicationStatus = "pending";
+				delete postJSON.accessToken;
+				delete postJSON.operatorName;
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						console.log(result);

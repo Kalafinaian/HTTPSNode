@@ -78,7 +78,8 @@ function addStation(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
+				delete postJSON.accessToken;
+				delete postJSON.operatorName;
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						if( result.hasOwnProperty("errmsg") )
