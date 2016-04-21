@@ -233,6 +233,7 @@ function taskAuthenticate(response, postData)
 			postJSON.approveTimes = "5";
 			//originalName
 			var whereStr = {taskID:postJSON.taskID};
+			delete postJSON.taskID;
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 				console.log("审批结果 "+result);
