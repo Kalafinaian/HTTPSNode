@@ -138,16 +138,16 @@ function taskFetch(response, postData)
 	var collectionName = "taskInfo";
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-	if( !postJSON.hasOwnProperty('approvalPerson') ){ 
-		var info = 	{ "error":  
-		{  
-			"msg": "请输入审批人名字!",  
-			"code":"18002"  
-		}  };
-		response.write( JSON.stringify(info) );
-		response.end();
-		return;
-	}
+	// if( !postJSON.hasOwnProperty('approvalPerson') ){ 
+	// 	var info = 	{ "error":  
+	// 	{  
+	// 		"msg": "请输入审批人名字!",  
+	// 		"code":"18002"  
+	// 	}  };
+	// 	response.write( JSON.stringify(info) );
+	// 	response.end();
+	// 	return;
+	// }
 	
 	console.log(postJSON);
 	//验证任务申请工单名和动态令牌
@@ -274,16 +274,16 @@ function taskAuthFetch(response, postData)
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-   	if( !postJSON.hasOwnProperty('applicantName') ){ 
-		var info = 	{ "error":  
-		{  
-			"msg": "请输入申请人的名字!",  
-			"code":"20002"  
-		}  };
-		response.write( JSON.stringify(info) );
-		response.end();
-		return;
-	}
+ 	//  if( !postJSON.hasOwnProperty('applicantName') ){ 
+	// 	var info = 	{ "error":  
+	// 	{  
+	// 		"msg": "请输入申请人的名字!",  
+	// 		"code":"20002"  
+	// 	}  };
+	// 	response.write( JSON.stringify(info) );
+	// 	response.end();
+	// 	return;
+	// }
 	//验证任务申请工单名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
