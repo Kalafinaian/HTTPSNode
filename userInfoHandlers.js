@@ -225,18 +225,33 @@ function deleteUser(response, postData)
 		{
 			//动态令牌有效性判断
 			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
 			var whereStr = {username:postJSON.username};
-			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-				console.log("删除信息"+result);
-				var info = 	{ "success":  
-				{  
-					"msg": "用户删除成功!",  
-					"code":"03000"  
-				}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-			});	
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+				console.log(result);
+				if(result.length>0)
+				{
+					var whereStr = {username:postJSON.username};
+					dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+						console.log("删除信息"+result);
+						var info = 	{ "success":  
+						{  
+							"msg": "用户删除成功!",  
+							"code":"03000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					});	
+				}else
+				{
+					var info = 	{ "error":  
+					{  
+						"msg": "您要删除的用户不存在!",  
+						"code":"03001"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();	
+				}});
+
 		}else{
 				var info = 	{ "error":  
 				{  
