@@ -99,7 +99,8 @@ function login(response, postData)
 						json.success.userInfo.userDescription = result[0].userDescription;
 						json.success.userInfo.userGroup = result[0].userGroup;
 						json.success.userInfo.userType = result[0].userType;
-						
+						json.success.userInfo.companyCode = result[0].companyCode;
+
 						json.success.regionInfo.managementProvince = result[0].managementProvince;
 						json.success.regionInfo.managementCity = result[0].managementCity;
 						json.success.regionInfo.managementArea = result[0].managementArea;
@@ -364,6 +365,7 @@ function selectUser(response, postData)
 						mjson.userInfo.userDescription = result[i].userDescription;
 						mjson.userInfo.userGroup = result[i].userGroup;
 						mjson.userInfo.userType = result[i].userType;
+						mjson.userInfo.companyCode = result[i].companyCode;
 						
 						mjson.regionInfo.managementProvince = result[i].managementProvince;
 						mjson.regionInfo.managementCity = result[i].managementCity;
