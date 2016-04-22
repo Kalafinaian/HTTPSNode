@@ -168,17 +168,19 @@ function deleteStation(response, postData)
 				console.log("删除的基站： "+stationList[i]);
 				var whereStr = {stationID:stationList[i].toString()};
 				dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-				console.log("删除信息"+result);
+					console.log("删除信息"+result);
+					if(i==stationList.length-1)
+					{
+						var info = 	{ "success":  
+						{  
+							"msg": "基站删除成功!",  
+							"code":"08000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}
 				});	
 			}
-			var info = 	{ "success":  
-			{  
-				"msg": "基站删除成功!",  
-				"code":"08000"  
-			}  };
-			response.write( JSON.stringify(info) );
-			response.end();
-
 		}else{
 				var info = 	{ "error":  
 				{  
