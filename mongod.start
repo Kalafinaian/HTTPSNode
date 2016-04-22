@@ -1,0 +1,3 @@
+nohup /usr/local/mongodb/bin/mongod --dbpath=/usr/local/mongodb/data/db/ --logpath=/usr/local/mongodb/logs/mongodb.log --logappend  > /usr/local/mongodb/MongoLogs/$(date +%Y-%m-%d_%H-%M).log  2>&1 &
+
+ps -u root | grep mongod
