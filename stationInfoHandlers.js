@@ -87,12 +87,16 @@ function addStation(response, postData)
 					if(result.length>0)
 					{
 
-						//判断用户approvalPerson是否存在
+						//直接替换为系统中负责人的电话号码
+						postJSON.approvalPhone = result[0].phone;
+	
 						var whereStr = {"username":postJSON.approvalPerson};
 						dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 							console.log(result);
 							if(result.length>0)
 							{
+									//直接替换为系统中审批人的电话号码
+									postJSON.chargePhone = result[0].phone;
 									//插入请求数据
 									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 											if( result.hasOwnProperty("errmsg") )
@@ -263,12 +267,14 @@ function updateStation(response, postData)
 									if(result.length>0)
 									{
 										//判断用户approvalPerson是否存在
+										postJSON.chargePhone = result[0].phone;
 										var whereStr = {"username":postJSON.approvalPerson};
 										dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 											console.log(result);
 											if(result.length>0)
 											{
 												    //编辑基站信息
+												    postJSON.approvalPhone = result[0].phone;
 													var whereStr = {stationID:postJSON.originalStationID};
 													var updateStr = {$set: postJSON };
 													dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
@@ -321,6 +327,7 @@ function updateStation(response, postData)
 									if(result.length>0)
 									{
 										    //编辑基站信息
+										    postJSON.chargePhone = result[0].phone;
 											var whereStr = {stationID:postJSON.originalStationID};
 											var updateStr = {$set: postJSON };
 											dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
@@ -364,6 +371,7 @@ function updateStation(response, postData)
 											if(result.length>0)
 											{
 												    //编辑基站信息
+												    postJSON.approvalPhone = result[0].phone;
 													var whereStr = {stationID:postJSON.originalStationID};
 													var updateStr = {$set: postJSON };
 													dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
