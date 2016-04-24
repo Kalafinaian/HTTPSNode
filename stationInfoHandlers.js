@@ -2,13 +2,30 @@ var querystring = require("querystring"); //post原始数据转JSON对象处理�
 var dbClient = require("./Mongo");  //数据库模块
 
 //封装JSON字段不确定参数判断函数---待完成
-function judgeStationID(postJSON,response)
+function judgeOriginalStationID(postJSON,response)
 {
 	if( !postJSON.hasOwnProperty("originalStationID") )
 	{
-		var info = 	{ "success":  
+		var info = 	{ "error":  
 		{  
 			"msg": "请输入原始基站ID!",  
+			"code":"00003"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return false;
+	}
+	return true;
+}
+
+//封装JSON字段不确定参数判断函数---待完成
+function judgeStationID(postJSON,response)
+{
+	if( !postJSON.hasOwnProperty("stationID") )
+	{
+		var info = 	{ "error":  
+		{  
+			"msg": "请输入基站ID!",  
 			"code":"00002"  
 		}  };
 		response.write( JSON.stringify(info) );
@@ -68,6 +85,7 @@ function addStation(response, postData)
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
     if( judgeStationID(postJSON,response)==false ){  return;  };
+
 	console.log(postJSON);
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	console.log(whereStr);
@@ -88,7 +106,8 @@ function addStation(response, postData)
 					{
 
 						//直接替换为系统中负责人的电话号码
-						postJSON.approvalPhone = result[0].phone;
+						postJSON.chargePhone = result[0].phone;
+						postJSON.chargeCompany = result[0].company;
 	
 						var whereStr = {"username":postJSON.approvalPerson};
 						dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
@@ -96,7 +115,7 @@ function addStation(response, postData)
 							if(result.length>0)
 							{
 									//直接替换为系统中审批人的电话号码
-									postJSON.chargePhone = result[0].phone;
+									postJSON.approvalPhone = result[0].phone;
 									//插入请求数据
 									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 											if( result.hasOwnProperty("errmsg") )
@@ -245,7 +264,7 @@ function updateStation(response, postData)
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeStationID(postJSON,response)==false ){  return;  };
+    if( judgeOriginalStationID(postJSON,response)==false ){  return;  };
 
 	//验证用户名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
@@ -268,6 +287,8 @@ function updateStation(response, postData)
 									{
 										//判断用户approvalPerson是否存在
 										postJSON.chargePhone = result[0].phone;
+										postJSON.chargeCompany = result[0].company;
+
 										var whereStr = {"username":postJSON.approvalPerson};
 										dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 											console.log(result);
@@ -328,6 +349,8 @@ function updateStation(response, postData)
 									{
 										    //编辑基站信息
 										    postJSON.chargePhone = result[0].phone;
+										    postJSON.chargeCompany = result[0].company;
+										    
 											var whereStr = {stationID:postJSON.originalStationID};
 											var updateStr = {$set: postJSON };
 											dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
