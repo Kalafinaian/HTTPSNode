@@ -4,11 +4,11 @@ var dbClient = require("./Mongo");  //数据库模块
 //封装JSON字段不确定参数判断函数---待完成
 function judgeStationID(postJSON,response)
 {
-	if( !postJSON.hasOwnProperty("stationID") )
+	if( !postJSON.hasOwnProperty("originalStationID") )
 	{
 		var info = 	{ "success":  
 		{  
-			"msg": "请输入基站ID!",  
+			"msg": "请输入原始基站ID!",  
 			"code":"00002"  
 		}  };
 		response.write( JSON.stringify(info) );
@@ -244,6 +244,7 @@ function updateStation(response, postData)
     if( judgeStationID(postJSON,response)==false ){  return;  };
 
 	//验证用户名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 			console.log(result);
 			if(result.length>0)
