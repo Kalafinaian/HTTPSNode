@@ -80,28 +80,63 @@ function addStation(response, postData)
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				delete postJSON.accessToken;
 				delete postJSON.operatorName;
-				//插入请求数据
-				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-						if( result.hasOwnProperty("errmsg") )
-						{
+				//判断用户chargePerson是否存在
+				var whereStr = {"username":postJSON.chargePerson};
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+					console.log(result);
+					if(result.length>0)
+					{
+
+						//判断用户approvalPerson是否存在
+						var whereStr = {"username":postJSON.approvalPerson};
+						dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+							console.log(result);
+							if(result.length>0)
+							{
+									//插入请求数据
+									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+											if( result.hasOwnProperty("errmsg") )
+											{
+												var info = 	{ "error":  
+													{  
+														"msg": "基站ID或锁ID或基站地址重复!",  
+														"code":"07001"  
+													}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}else{
+												var info = 	{ "success":  
+												{  
+													"msg": "基站添加成功!",  
+													"code":"07000"  
+												}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}
+									
+									});	
+
+							}else{
+								var info = 	{ "error":  
+									{  
+										"msg": "基站审批人没有录入系统",  
+										"code":"07003"  
+									}  };
+								response.write( JSON.stringify(info) );
+								response.end();
+							}
+						});
+					}else{
 							var info = 	{ "error":  
 								{  
-									"msg": "基站ID或锁ID或基站地址重复!",  
-									"code":"07001"  
+									"msg": "基站负责人没有录入系统",  
+									"code":"07002"  
 								}  };
 							response.write( JSON.stringify(info) );
 							response.end();
-						}else{
-							var info = 	{ "success":  
-							{  
-								"msg": "基站添加成功!",  
-								"code":"07000"  
-							}  };
-							response.write( JSON.stringify(info) );
-							response.end();
-						}
-				
-				});	
+					}
+				});
+
 			}else{
 				var info = 	{ "error":  
 					{  
@@ -207,47 +242,197 @@ function updateStation(response, postData)
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
     if( judgeStationID(postJSON,response)==false ){  return;  };
-	//验证基站名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-		console.log(result);
 
-		if(result.length>0)
-		{
-			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-			//originalName
-			var whereStr = {stationID:postJSON.originalStationID};
-			var updateStr = {$set: postJSON };
-			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-				if( result.hasOwnProperty("errmsg") )
+	//验证用户名和动态令牌
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				delete postJSON.accessToken;
+				delete postJSON.operatorName;
+
+				if( postJSON.hasOwnProperty("chargePerson") &&  postJSON.hasOwnProperty("approvalPerson") )
 				{
-					var info = 	{ "error":  
-						{  
-							"msg": "基站ID已存在!",  
-							"code":"09001"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}else{
-					var info = 	{ "success":  
-					{  
-						"msg": "基站信息编辑成功!",  
-						"code":"09000"  
-					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
+								//判断用户chargePerson是否存在
+								var whereStr = {"username":postJSON.chargePerson};
+								dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+									console.log(result);
+									if(result.length>0)
+									{
+										//判断用户approvalPerson是否存在
+										var whereStr = {"username":postJSON.approvalPerson};
+										dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+											console.log(result);
+											if(result.length>0)
+											{
+												    //编辑基站信息
+													var whereStr = {stationID:postJSON.originalStationID};
+													var updateStr = {$set: postJSON };
+													dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+														if( result.hasOwnProperty("errmsg") )
+														{
+															var info = 	{ "error":  
+																{  
+																	"msg": "基站ID已存在!",  
+																	"code":"09001"  
+																}  };
+															response.write( JSON.stringify(info) );
+															response.end();
+														}else{
+															var info = 	{ "success":  
+															{  
+																"msg": "基站信息编辑成功!",  
+																"code":"09000"  
+															}  };
+															response.write( JSON.stringify(info) );
+															response.end();
+														}
+													});									
+											}else{
+												var info = 	{ "error":  
+													{  
+														"msg": "基站审批人没有录入系统",  
+														"code":"09003"  
+													}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}
+										});
+									}else{
+											var info = 	{ "error":  
+												{  
+													"msg": "基站负责人没有录入系统",  
+													"code":"09002"  
+												}  };
+											response.write( JSON.stringify(info) );
+											response.end();
+									}
+								});
+
+				}else if( postJSON.hasOwnProperty("chargePerson") )
+				{
+								//判断用户chargePerson是否存在
+								var whereStr = {"username":postJSON.chargePerson};
+								dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+									console.log(result);
+									if(result.length>0)
+									{
+										    //编辑基站信息
+											var whereStr = {stationID:postJSON.originalStationID};
+											var updateStr = {$set: postJSON };
+											dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+												if( result.hasOwnProperty("errmsg") )
+												{
+													var info = 	{ "error":  
+														{  
+															"msg": "基站ID已存在!",  
+															"code":"09001"  
+														}  };
+													response.write( JSON.stringify(info) );
+													response.end();
+												}else{
+													var info = 	{ "success":  
+													{  
+														"msg": "基站信息编辑成功!",  
+														"code":"09000"  
+													}  };
+													response.write( JSON.stringify(info) );
+													response.end();
+												}
+											});									
+									}else{
+											var info = 	{ "error":  
+												{  
+													"msg": "基站负责人没有录入系统",  
+													"code":"09002"  
+												}  };
+											response.write( JSON.stringify(info) );
+											response.end();
+									}
+								});
+
+
+				}else if( postJSON.hasOwnProperty("approvalPerson") )
+				{
+										//判断用户approvalPerson是否存在
+										var whereStr = {"username":postJSON.approvalPerson};
+										dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+											console.log(result);
+											if(result.length>0)
+											{
+												    //编辑基站信息
+													var whereStr = {stationID:postJSON.originalStationID};
+													var updateStr = {$set: postJSON };
+													dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+														if( result.hasOwnProperty("errmsg") )
+														{
+															var info = 	{ "error":  
+																{  
+																	"msg": "基站ID已存在!",  
+																	"code":"09001"  
+																}  };
+															response.write( JSON.stringify(info) );
+															response.end();
+														}else{
+															var info = 	{ "success":  
+															{  
+																"msg": "基站信息编辑成功!",  
+																"code":"09000"  
+															}  };
+															response.write( JSON.stringify(info) );
+															response.end();
+														}
+													});									
+											}else{
+												var info = 	{ "error":  
+													{  
+														"msg": "基站审批人没有录入系统",  
+														"code":"09003"  
+													}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}
+										});
+								
+				}else
+				{
+
+								    //编辑基站信息
+									var whereStr = {stationID:postJSON.originalStationID};
+									var updateStr = {$set: postJSON };
+									dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+										if( result.hasOwnProperty("errmsg") )
+										{
+											var info = 	{ "error":  
+												{  
+													"msg": "基站ID已存在!",  
+													"code":"09001"  
+												}  };
+											response.write( JSON.stringify(info) );
+											response.end();
+										}else{
+											var info = 	{ "success":  
+											{  
+												"msg": "基站信息编辑成功!",  
+												"code":"09000"  
+											}  };
+											response.write( JSON.stringify(info) );
+											response.end();
+										}
+									});					
 				}
-			});	
-		}else{
+			}else{
 				var info = 	{ "error":  
-				{  
-					"msg": "用户名不存在或动态令牌已过期!",  
-					"code":"00000"  
-				}  };
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
 				response.write( JSON.stringify(info) );
-				response.end();	
-		}
+				response.end();
+				return;
+			}	
 	});
 
 }
@@ -269,7 +454,7 @@ function selectStation(response, postData)
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
 	
 	console.log(postJSON);
-	//验证基站名和动态令牌
+	//验证用户名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	console.log(whereStr);
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
