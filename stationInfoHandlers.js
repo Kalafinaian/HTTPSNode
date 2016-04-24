@@ -86,7 +86,7 @@ function addStation(response, postData)
 						{
 							var info = 	{ "error":  
 								{  
-									"msg": "基站ID或锁ID已存在!",  
+									"msg": "基站ID或锁ID或基站地址重复!",  
 									"code":"07001"  
 								}  };
 							response.write( JSON.stringify(info) );
