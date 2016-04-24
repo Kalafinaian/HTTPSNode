@@ -55,6 +55,7 @@ function judgeTokenTime(endTime,response)
 }
 //---------------------开始--验证动态令牌有效期--开始--------------------//
 
+
 //---------------------开始--任务申请函数--开始--------------------//
 //任务申请和任务函数--需要已经验证没有触发器，直接通过代码绑定到肖良平//
 //任务修改和申请工单,内部函数不一，还是分开写，多提供一个接口的好：不能放在一起//
@@ -72,44 +73,78 @@ function taskRequest(response, postData)
 	console.log(postJSON);
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	console.log(whereStr);
-	//验证用户名和动态令牌
+
+	//用户信息验证，验证用户名和动态令牌
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 			console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-				
-				//这里需要根据基站查询审批人
-				postJSON.approvalPerson = "肖良平";
-				postJSON.approvalPhone = "15520443869";
-				postJSON.taskID = parseInt(Date.now()/1000).toString();
-				postJSON.applicationStatus = "pending";
-				delete postJSON.accessToken;
-				delete postJSON.operatorName;
-				//插入请求数据
-				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+				var whereStr = {"address":postJSON.stationAddress};
+
+				//验证基站信息：查询申请的基站是否存在--因为数据库查询是异步的，所以必须嵌套
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , function(result){
+						//根据查询记录写入工单审批人信息
 						console.log(result);
-						if( result.hasOwnProperty("errmsg") )
+						if(result.length>0)
 						{
-							var info = 	{ "error":  
+							postJSON.approvalPerson = result[0].approvalPerson;
+							postJSON.approvalPhone = result[0].approvalPhone;
+							postJSON.taskID = parseInt(Date.now()/1000).toString();
+							postJSON.applicationStatus = "pending";
+							var whereStr = {"keyID":postJSON.applicantKeyID};
+							//验证电子钥匙的信息：查询电子钥匙ID是否存在--电子钥匙还需要做地域检查
+							dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
+								if(result.length>0)
+								{
+										delete postJSON.accessToken;
+										delete postJSON.operatorName;
+										//插入请求数据
+										dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+												console.log(result);
+												if( result.hasOwnProperty("errmsg") )
+												{
+													var info = 	{ "error":  
+														{  
+															"msg": "任务申请工单ID已存在!",  
+															"code":"17001"  
+														}  };
+													response.write( JSON.stringify(info) );
+													response.end();
+												}else{
+													var info = 	{ "success":  
+													{  
+														"msg": "任务申请工单申请成功!",  
+														"code":"17000"  
+													}  };
+													response.write( JSON.stringify(info) );
+													response.end();
+												}
+										});	
+								}else
+								{
+									var info = 	{ "error":  
+									{  
+										"msg": "您的电子钥匙未录入系统!",  
+										"code":"17003"  
+									}  };
+									response.write( JSON.stringify(info) );
+									response.end();
+								}
+							});	
+						}else
+						{
+								var info = 	{ "error":  
 								{  
-									"msg": "任务申请工单ID已存在!",  
-									"code":"17001"  
+									"msg": "您申请的基站未录入系统!",  
+									"code":"17002"  
 								}  };
-							response.write( JSON.stringify(info) );
-							response.end();
-						}else{
-							var info = 	{ "success":  
-							{  
-								"msg": "任务申请工单申请成功!",  
-								"code":"17000"  
-							}  };
-							response.write( JSON.stringify(info) );
-							response.end();
+								response.write( JSON.stringify(info) );
+								response.end();
 						}
-				
-				});	
+					});
+
 			}else{
 				var info = 	{ "error":  
 					{  
@@ -123,6 +158,7 @@ function taskRequest(response, postData)
 	});
 }
 //---------------------结束--任务申请和任务修改函数--结束--------------------//
+
 
 
 
