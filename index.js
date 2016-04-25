@@ -18,17 +18,25 @@ handle["/v0/deleteUser"] = userInfoHandlers.deleteUser;
 handle["/v0/updateUser"] = userInfoHandlers.updateUser;
 handle["/v0/downloadUser"] = userInfoHandlers.downloadUser;
 
+
+
 handle["/v0/addStation"] = stationInfoHandlers.addStation;
 handle["/v0/queryStation"] = stationInfoHandlers.selectStation;
 handle["/v0/deleteStation"] = stationInfoHandlers.deleteStation;
 handle["/v0/updateStation"] = stationInfoHandlers.updateStation;
 handle["/v0/downloadStation"] = stationInfoHandlers.downloadStation;
+handle["/v0/queryStationLog"] = stationInfoHandlers.queryStationLog;
+handle["/v0/downloadStationLog"] = stationInfoHandlers.downloadStationLog;
+
+
 
 handle["/v0/addKey"] = keyInfoHandlers.addKey;
 handle["/v0/queryKey"] = keyInfoHandlers.selectKey;
 handle["/v0/deleteKey"] = keyInfoHandlers.deleteKey;
 handle["/v0/updateKey"] = keyInfoHandlers.updateKey;
 handle["/v0/downloadKey"] = keyInfoHandlers.downloadKey;
+
+
 
 handle["/v0/taskRequest"] = taskInfoHandlers.taskRequest;
 handle["/v0/taskFetch"] = taskInfoHandlers.taskFetch;
