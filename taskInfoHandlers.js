@@ -91,6 +91,7 @@ function taskRequest(response, postData)
 						{
 							postJSON.approvalPerson = result[0].approvalPerson;
 							postJSON.approvalPhone = result[0].approvalPhone;
+							postJSON.stationID = result[0].stationID;
 							postJSON.taskID = parseInt(Date.now()/1000).toString();
 							postJSON.applicationStatus = "pending";
 							var whereStr = {"keyID":postJSON.applicantKeyID};
