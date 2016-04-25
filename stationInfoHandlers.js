@@ -630,10 +630,246 @@ function downloadStation(response, postData)
 
 
 
+
+
+//---------------------开始--基站日志查询函数--开始--------------------//
+function queryStationLog(response, postData)
+{
+	console.log( "Request handler 'queryStationLog' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+	
+	console.log(postJSON);
+
+	//验证用户名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+		console.log(result);
+		if(result.length>0)
+		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
+			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.endTime) } };
+
+			var whereStr  = {};
+
+			if( postJSON.hasOwnProperty('startTime') )
+			{
+				whereStr.taskStartTime = mstartTime.taskStartTime;
+				delete postJSON.startTime; 
+			}
+
+			if( postJSON.hasOwnProperty('endTime') )
+			{
+				whereStr.taskEndTime = mstartTime.taskEndTime;
+				delete postJSON.endTime; 
+			}
+
+			if( postJSON.hasOwnProperty('stationID') )
+			{
+				whereStr.stationID = postJSON.stationID;   
+			}
+
+			if( postJSON.hasOwnProperty('address') )
+			{
+				whereStr.stationAddress = postJSON.address;  
+			}
+
+
+			//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
+				function(result){
+				if( result.length>0 )
+				{
+					var json = {success:result};
+					response.write( JSON.stringify(json) );
+					response.end();
+				}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "没有查询记录!",  
+						"code":"24001"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				}
+			
+			});	
+		}else{
+			var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期",  
+					"code":"00000"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+		}
+	});
+}
+//---------------------结束--基站日志查询函数--结束--------------------//
+
+
+
+//---------------------开始--基站日志Excel表格下载接口--开始--------------------//
+function downloadStationLog(response, postData)
+{
+	console.log( "Request handler 'downloadStationLog' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+	
+	console.log(postJSON);
+
+	//验证用户名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	var fileName = postJSON.operatorName + "日志";
+
+	console.log(whereStr);
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+		console.log(result);
+		if(result.length>0)
+		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
+			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.endTime) } };
+
+			var whereStr  = {};
+
+			if( postJSON.hasOwnProperty('startTime') )
+			{
+				whereStr.taskStartTime = mstartTime.taskStartTime;
+				delete postJSON.startTime; 
+			}
+
+			if( postJSON.hasOwnProperty('endTime') )
+			{
+				whereStr.taskEndTime = mstartTime.taskEndTime;
+				delete postJSON.endTime; 
+			}
+
+			if( postJSON.hasOwnProperty('stationID') )
+			{
+				whereStr.stationID = postJSON.stationID;   
+			}
+
+			if( postJSON.hasOwnProperty('address') )
+			{
+				whereStr.stationAddress = postJSON.address;  
+			}
+
+
+			//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
+				function(result){
+				if( result.length>0 )
+				{
+						var fs = require('fs');
+						var nodeExcel = require('excel-export');
+						var conf ={};
+						conf.name = "mysheet";
+
+						conf.cols = [       
+						        {
+						            caption:'基站ID',
+						            type:'string',
+						        },
+						        {
+						            caption:'任务ID',
+						            type:'string',
+						        },
+						        {
+						            caption:'任务申请人',
+						            type:'string'
+						        },
+						        {
+						            caption:'申请人联系方式',
+						            type:'string'
+						        },
+						        {
+						            caption:'任务申请描述',
+						             type:'string'              
+						        },
+						        {
+						            caption:'任务起始时间',
+						             type:'string'              
+						        },
+						        {
+						            caption:'任务终止时间',
+						             type:'string'              
+						        }
+
+						];
+						conf.rows = [];
+						for(var i=0;i<result.length;i++)
+						{
+							conf.rows[i] = [result[i].stationID, result[i].taskID,
+							result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
+							result[i].taskStartTime, result[i].taskEndTime];
+						}
+
+						var result = nodeExcel.execute(conf);
+						console.log('export Log successfully!');
+						fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
+						var info = 	{ "success":  
+						{  
+							"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
+							"code":"25000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+				}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "没有查询记录!",  
+						"code":"25001"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+				}
+			
+			});	
+		}else{
+			var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期",  
+					"code":"00000"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+		}
+	});
+
+
+}
+//---------------------结束--基站日志Excel表格下载接口--结束--------------------//
+
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.addStation = addStation;
 exports.updateStation = updateStation;
 exports.deleteStation = deleteStation;
 exports.selectStation = selectStation;
 exports.downloadStation = downloadStation;
+exports.queryStationLog = queryStationLog;
+exports.downloadStationLog = downloadStationLog;
 //---------------------结束--模块导出接口声明--结束--------------------//
