@@ -819,11 +819,24 @@ function downloadStationLog(response, postData)
 
 						];
 						conf.rows = [];
+
+
 						for(var i=0;i<result.length;i++)
 						{
+
+							var startDate = new Date(result[i].taskStartTime * 1000); 
+							var endDate = new Date(result[i].taskEndTime * 1000);
+
+							var startDateTime = (startDate.getFullYear()) + "-" + (startDate.getMonth() + 1) + "-" +
+							(startDate.getDate()) + "   " + 
+							 (startDate.getHours()) + ":" + (startDate.getMinutes()) + ":" + (startDate.getSeconds());
+
+							var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
+
 							conf.rows[i] = [result[i].stationID, result[i].taskID,
 							result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
-							result[i].taskStartTime, result[i].taskEndTime];
+							startDateTime
+							, endDateTime ];
 						}
 
 						var result = nodeExcel.execute(conf);
