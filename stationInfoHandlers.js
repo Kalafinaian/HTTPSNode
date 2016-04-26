@@ -793,6 +793,14 @@ function downloadStationLog(response, postData)
 						            type:'string',
 						        },
 						        {
+						            caption:'基站地址',
+						            type:'string',
+						        },
+						        {
+						            caption:'电子钥匙ID',
+						            type:'string',
+						        },
+						        {
 						            caption:'任务ID',
 						            type:'string',
 						        },
@@ -833,11 +841,12 @@ function downloadStationLog(response, postData)
 
 							var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
 
-							conf.rows[i] = [result[i].stationID, result[i].taskID,
+							conf.rows[i] = [result[i].stationID, result[i].stationAddress,result[i].applicantKeyID, result[i].taskID,
 							result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
 							startDateTime
 							, endDateTime ];
 						}
+
 
 						var result = nodeExcel.execute(conf);
 						console.log('export Log successfully!');
