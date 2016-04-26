@@ -35,6 +35,8 @@ handle["/v0/queryKey"] = keyInfoHandlers.selectKey;
 handle["/v0/deleteKey"] = keyInfoHandlers.deleteKey;
 handle["/v0/updateKey"] = keyInfoHandlers.updateKey;
 handle["/v0/downloadKey"] = keyInfoHandlers.downloadKey;
+handle["/v0/queryKeyLog"] = keyInfoHandlers.queryKeyLog;
+handle["/v0/downloadKeyLog"] = keyInfoHandlers.downloadKeyLog;
 
 
 
