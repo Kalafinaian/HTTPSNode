@@ -130,7 +130,18 @@ function deleteKey(response, postData)
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeKeyID(postJSON,response)==false ){  return;  };
+    if( !postJSON.hasOwnProperty("deleteList") )
+    {
+		var info = 	{ "error":  
+		{  
+			"msg": "请输入要删除的电子钥匙数组数据!",  
+			"code":"13001"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return;
+    }
+    
 	//验证电子钥匙名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
@@ -139,17 +150,31 @@ function deleteKey(response, postData)
 		{
 			//动态令牌有效性判断
 			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-			var whereStr = {username:postJSON.KeyID};
-			dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-				console.log("删除信息"+result);
-				var info = 	{ "success":  
-				{  
-					"msg": "电子钥匙删除成功!",  
-					"code":"13000"  
-				}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-			});	
+
+
+			var keyStr = postJSON.deleteList.toString();
+			keyStr = keyStr.replace("[","");
+			keyStr = keyStr.replace("]","");
+			console.log(keyStr);
+
+			var keyList = keyStr.split(",");
+
+			for(var i=0;i<keyList.length;i++)
+			{
+				console.log(keyList[i]);
+				console.log("删除的电子钥匙： "+keyList[i]);
+				var whereStr = {keyID:keyList[i].toString()};
+				dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+					console.log("删除信息"+result);
+				});	
+			}
+			var info = 	{ "success":  
+			{  
+				"msg": "电子钥匙删除成功!",  
+				"code":"13000"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();
 		}else{
 				var info = 	{ "error":  
 				{  
@@ -193,6 +218,7 @@ function updateKey(response, postData)
 			var whereStr = {keyID:postJSON.originalKeyID};
 			delete postJSON.accessToken;
 			delete postJSON.operatorName;
+			delete postJSON.originalKeyID;
 			var updateStr = {$set: postJSON };
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 				if( result.hasOwnProperty("errmsg") )
