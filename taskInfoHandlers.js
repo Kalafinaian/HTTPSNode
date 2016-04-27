@@ -92,6 +92,10 @@ function taskRequest(response, postData)
 							postJSON.approvalPerson = result[0].approvalPerson;
 							postJSON.approvalPhone = result[0].approvalPhone;
 							postJSON.stationID = result[0].stationID;
+							postJSON.stationAddress = result[0].address;
+							postJSON.stationManagementProvince = result[0].managementProvince;
+							postJSON.stationManagementCity = result[0].managementCity;
+							postJSON.stationManagementArea = result[0].managementArea;
 
 							postJSON.taskID = parseInt(Date.now()/1000).toString();
 							postJSON.applicationStatus = "pending";
@@ -103,6 +107,54 @@ function taskRequest(response, postData)
 							dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
 								if(result.length>0)
 								{
+										//电子钥匙管理区域和基站管理区域包含关系判断待完成
+										//区域不包含则返回工单申请失败消息
+										postJSON.keyManagementProvince = result[0].managementProvince;
+										postJSON.keyManagementCity = result[0].managementCity;
+										postJSON.keyManagementArea = result[0].managementArea;
+										
+										//省级区域判定
+										if(postJSON.keyManagementProvince != "ALL" &&
+										postJSON.keyManagementProvince != postJSON.stationManagementProvince)
+										{
+											var info = 	{ "error":  
+											{  
+												"msg": "电子钥匙管理的省级区域没有包含基站所属省级区域!",  
+												"code":"17004"  
+											}  };
+											response.write( JSON.stringify(info) );
+											response.end();
+											return;
+										}
+										
+										//市级区域判定
+										if(postJSON.keyManagementCity != "ALL" &&
+										postJSON.keyManagementCity != postJSON.stationManagementCity)
+										{
+											var info = 	{ "error":  
+											{  
+												"msg": "电子钥匙管理的市级区域没有包含基站所属市级区域!",  
+												"code":"17005"  
+											}  };
+											response.write( JSON.stringify(info) );
+											response.end();	
+											return;
+										}
+										
+										//地级区域判定
+										if(postJSON.keyManagementArea != "ALL" &&
+										postJSON.keyManagementArea != postJSON.stationManagementArea)
+										{
+											var info = 	{ "error":  
+											{  
+												"msg": "电子钥匙管理的地级区域没有包含基站所属地级区域!",  
+												"code":"17006"  
+											}  };
+											response.write( JSON.stringify(info) );
+											response.end();	
+											return;
+										}
+										
 										delete postJSON.accessToken;
 										delete postJSON.operatorName;
 										//插入请求数据
