@@ -468,6 +468,23 @@ function queryKeyLog(response, postData)
 			}
 
 
+			if( postJSON.hasOwnProperty('keyManagementProvince') )
+			{
+				whereStr.keyManagementProvince = postJSON.keyManagementProvince;  
+			}
+
+			if( postJSON.hasOwnProperty('keyManagementCity') )
+			{
+				whereStr.keyManagementCity = postJSON.keyManagementCity;  
+			}
+
+
+			if( postJSON.hasOwnProperty('keyManagementArea') )
+			{
+				whereStr.keyManagementArea = postJSON.keyManagementArea;  
+			}
+
+
 			//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
 				function(result){
@@ -552,6 +569,22 @@ function downloadKeyLog(response, postData)
 			if( postJSON.hasOwnProperty('keyID') )
 			{
 				whereStr.applicantKeyID = postJSON.keyID;   
+			}
+
+			if( postJSON.hasOwnProperty('keyManagementProvince') )
+			{
+				whereStr.keyManagementProvince = postJSON.keyManagementProvince;  
+			}
+
+			if( postJSON.hasOwnProperty('keyManagementCity') )
+			{
+				whereStr.keyManagementCity = postJSON.keyManagementCity;  
+			}
+
+
+			if( postJSON.hasOwnProperty('keyManagementArea') )
+			{
+				whereStr.keyManagementArea = postJSON.keyManagementArea;  
 			}
 
 
