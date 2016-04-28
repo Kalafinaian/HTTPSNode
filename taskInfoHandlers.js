@@ -100,8 +100,21 @@ function taskRequest(response, postData)
 							postJSON.taskID = parseInt(Date.now()/1000).toString();
 							postJSON.applicationStatus = "pending";
 							//将时间类型转换为整型
+							re = /^1\d{9}$/;
+							if( !re.test(postJSON.taskStartTime) || !re.test(postJSON.taskEndTime) ) 
+							{
+									var info = 	{ "error":  
+									{  
+										"msg": "时间格式错误，请输入10位的时间戳!",  
+										"code":"17007"  
+									}  };
+									response.write( JSON.stringify(info) );
+									response.end();
+									return;
+							}
 							postJSON.taskStartTime = parseInt(postJSON.taskStartTime);
 							postJSON.taskEndTime = parseInt(postJSON.taskEndTime);
+
 							var whereStr = {"keyID":postJSON.applicantKeyID};
 							//验证电子钥匙的信息：查询电子钥匙ID是否存在--电子钥匙还需要做地域检查
 							dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
