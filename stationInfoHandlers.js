@@ -685,6 +685,22 @@ function queryStationLog(response, postData)
 				whereStr.stationAddress = postJSON.address;  
 			}
 
+			if( postJSON.hasOwnProperty('stationManagementProvince') )
+			{
+				whereStr.stationManagementProvince = postJSON.stationManagementProvince;  
+			}
+
+			if( postJSON.hasOwnProperty('stationManagementCity') )
+			{
+				whereStr.stationManagementCity = postJSON.stationManagementCity;  
+			}
+
+
+			if( postJSON.hasOwnProperty('stationManagementArea') )
+			{
+				whereStr.stationManagementArea = postJSON.stationManagementArea;  
+			}
+
 
 			//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
@@ -776,6 +792,22 @@ function downloadStationLog(response, postData)
 				whereStr.stationAddress = postJSON.address;  
 			}
 
+			if( postJSON.hasOwnProperty('stationManagementProvince') )
+			{
+				whereStr.stationManagementProvince = postJSON.stationManagementProvince;  
+			}
+
+			if( postJSON.hasOwnProperty('stationManagementCity') )
+			{
+				whereStr.stationManagementCity = postJSON.stationManagementCity;  
+			}
+
+
+			if( postJSON.hasOwnProperty('stationManagementArea') )
+			{
+				whereStr.stationManagementArea = postJSON.stationManagementArea;  
+			}
+
 
 			//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
@@ -802,6 +834,18 @@ function downloadStationLog(response, postData)
 						        },
 						        {
 						            caption:'任务ID',
+						            type:'string',
+						        },
+						        {
+						            caption:'电子钥匙有效省级区域',
+						            type:'string',
+						        },
+						        {
+						            caption:'电子钥匙有效市级区域',
+						            type:'string',
+						        },
+						        {
+						            caption:'电子钥匙有效地级区域',
 						            type:'string',
 						        },
 						        {
@@ -842,7 +886,8 @@ function downloadStationLog(response, postData)
 							var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
 
 							conf.rows[i] = [result[i].stationID, result[i].stationAddress,result[i].applicantKeyID, result[i].taskID,
-							result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
+							 result[i].keyManagementProvince, result[i].keyManagementCity, result[i].keyManagementArea,
+							 result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
 							startDateTime
 							, endDateTime ];
 						}
