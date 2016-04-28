@@ -615,6 +615,18 @@ function downloadKeyLog(response, postData)
 						            caption:'任务ID',
 						            type:'string',
 						        },
+ 						        {
+						            caption:'电子钥匙有效省级区域',
+						            type:'string',
+						        },
+						        {
+						            caption:'电子钥匙有效市级区域',
+						            type:'string',
+						        },
+						        {
+						            caption:'电子钥匙有效地级区域',
+						            type:'string',
+						        },
 						        {
 						            caption:'任务申请人',
 						            type:'string'
@@ -653,6 +665,7 @@ function downloadKeyLog(response, postData)
 							var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
 
 							conf.rows[i] = [result[i].stationID, result[i].stationAddress,result[i].applicantKeyID, result[i].taskID,
+							result[i].keyManagementProvince, result[i].keyManagementCity, result[i].keyManagementArea,
 							result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
 							startDateTime
 							, endDateTime ];
