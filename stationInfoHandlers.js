@@ -666,13 +666,13 @@ function queryStationLog(response, postData)
 			if( postJSON.hasOwnProperty('startTime') )
 			{
 				whereStr.taskStartTime = mstartTime.taskStartTime;
-				delete postJSON.startTime; 
+				//delete postJSON.startTime; 
 			}
 
 			if( postJSON.hasOwnProperty('endTime') )
 			{
 				whereStr.taskEndTime = mstartTime.taskEndTime;
-				delete postJSON.endTime; 
+				//delete postJSON.endTime; 
 			}
 
 			if( postJSON.hasOwnProperty('stationID') )
@@ -773,13 +773,13 @@ function downloadStationLog(response, postData)
 			if( postJSON.hasOwnProperty('startTime') )
 			{
 				whereStr.taskStartTime = mstartTime.taskStartTime;
-				delete postJSON.startTime; 
+				//delete postJSON.startTime; 
 			}
 
 			if( postJSON.hasOwnProperty('endTime') )
 			{
 				whereStr.taskEndTime = mstartTime.taskEndTime;
-				delete postJSON.endTime; 
+				//delete postJSON.endTime; 
 			}
 
 			if( postJSON.hasOwnProperty('stationID') )

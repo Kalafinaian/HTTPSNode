@@ -279,17 +279,18 @@ function taskFetch(response, postData)
 			if( postJSON.hasOwnProperty('taskStartTime') )
 			{
 				whereStr.taskStartTime = mstartTime.taskStartTime;
-				delete postJSON.taskStartTime; 
+				//delete postJSON.taskStartTime; 
 			}
 
 			if( postJSON.hasOwnProperty('taskEndTime') )
 			{
-				whereStr.taskEndTime = mstartTime.taskEndTime;
-				delete postJSON.taskEndTime; 
+				whereStr.taskEndTime = mendTime.taskEndTime;
+				//delete postJSON.taskEndTime; 
 			}
 
 
 			console.log(whereStr);
+			
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , 
 				function(result){
 				//console.log(result);

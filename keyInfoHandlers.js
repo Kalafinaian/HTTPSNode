@@ -453,13 +453,13 @@ function queryKeyLog(response, postData)
 			if( postJSON.hasOwnProperty('startTime') )
 			{
 				whereStr.taskStartTime = mstartTime.taskStartTime;
-				delete postJSON.startTime; 
+				//delete postJSON.startTime; 
 			}
 
 			if( postJSON.hasOwnProperty('endTime') )
 			{
 				whereStr.taskEndTime = mstartTime.taskEndTime;
-				delete postJSON.endTime; 
+				//delete postJSON.endTime; 
 			}
 
 			if( postJSON.hasOwnProperty('keyID') )
@@ -557,13 +557,13 @@ function downloadKeyLog(response, postData)
 			if( postJSON.hasOwnProperty('startTime') )
 			{
 				whereStr.taskStartTime = mstartTime.taskStartTime;
-				delete postJSON.startTime; 
+				//delete postJSON.startTime; 
 			}
 
 			if( postJSON.hasOwnProperty('endTime') )
 			{
 				whereStr.taskEndTime = mstartTime.taskEndTime;
-				delete postJSON.endTime; 
+				//delete postJSON.endTime; 
 			}
 
 			if( postJSON.hasOwnProperty('keyID') )
