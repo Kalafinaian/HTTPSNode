@@ -269,9 +269,30 @@ function taskFetch(response, postData)
 			
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
-			console.log(postJSON);
-			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+
+
+		    var whereStr = postJSON;
+
+			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
+			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
+
+			if( postJSON.hasOwnProperty('taskStartTime') )
+			{
+				whereStr.taskStartTime = mstartTime.taskStartTime;
+				delete postJSON.taskStartTime; 
+			}
+
+			if( postJSON.hasOwnProperty('taskEndTime') )
+			{
+				whereStr.taskEndTime = mstartTime.taskEndTime;
+				delete postJSON.taskEndTime; 
+			}
+
+
+			console.log(whereStr);
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , 
 				function(result){
+				//console.log(result);
 				if( result.length>0 )
 				{
 					var json = {success:result};
@@ -400,8 +421,28 @@ function taskAuthFetch(response, postData)
 			//动态令牌有效性判断
 			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 			
-			//originalName
-			var whereStr = {applicantName:postJSON.applicantName};
+			//查询工单
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+
+		    var whereStr = postJSON;
+
+			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
+			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
+
+			if( postJSON.hasOwnProperty('taskStartTime') )
+			{
+				whereStr.taskStartTime = mstartTime.taskStartTime;
+				delete postJSON.taskStartTime; 
+			}
+
+			if( postJSON.hasOwnProperty('taskEndTime') )
+			{
+				whereStr.taskEndTime = mstartTime.taskEndTime;
+				delete postJSON.taskEndTime; 
+			}
+
+			console.log(whereStr);
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName, whereStr,function(result){
 				if( result.length > 0 )
 				{
