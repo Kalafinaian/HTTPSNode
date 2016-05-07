@@ -92,6 +92,7 @@ function taskRequest(response, postData)
 							postJSON.approvalPerson = result[0].approvalPerson;
 							postJSON.approvalPhone = result[0].approvalPhone;
 							postJSON.stationID = result[0].stationID;
+							postJSON.lockID = result[0].lockID;
 							postJSON.stationAddress = result[0].address;
 							postJSON.stationManagementProvince = result[0].managementProvince;
 							postJSON.stationManagementCity = result[0].managementCity;
@@ -353,12 +354,14 @@ function taskAuthenticate(response, postData)
 			delete postJSON.operatorName;
 			delete postJSON.accessToken;
 			//这里需要根据基站和电子钥匙信息生成授权码，授权时间
-			var newStartTime = parseInt(Date.now()/1000);
-			var newEndTime = newStartTime + 24*3600;
-			postJSON.approveCode = (newStartTime/400).toString();
-			postJSON.approveStartTime = newStartTime.toString();
-			postJSON.approveEndTime = newEndTime.toString();
-			postJSON.approveTimes = "5";
+			//var newStartTime = parseInt(Date.now()/1000);
+			//var newEndTime = newStartTime + 24*3600;
+			//postJSON.approveCode = (newStartTime/400).toString();
+			//平台码
+			postJSON.approveCode = "42 01 73 63 74 74 01 06";
+			//postJSON.approveStartTime = newStartTime.toString();
+			//postJSON.approveEndTime = newEndTime.toString();
+			//postJSON.approveTimes = "5";
 			//originalName
 			var whereStr = {taskID:postJSON.taskID};
 			delete postJSON.taskID;
