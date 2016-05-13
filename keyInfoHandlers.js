@@ -203,7 +203,7 @@ function updateKey(response, postData)
 
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeKeyID(postJSON,response)==false ){  return;  };
+    //if( judgeKeyID(postJSON,response)==false ){  return;  };
 	//验证电子钥匙名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
