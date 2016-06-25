@@ -1633,8 +1633,7 @@ Or
 
 
 ###27、下载电子钥匙日志Excel表格
-功能说明：根据指定信息生成电子钥匙日志Excel表格，返回下载链接
-
+功能说明：根据指定信息生成电子钥匙日志Excel表格，返回下载链接  
 
 ```
 适用群体：Web端
@@ -1672,6 +1671,83 @@ Or
 		{
 			"msg": "没有数据记录",  
 			"code":"27001"  
+		}
+	}
+
+	
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+
+
+###28、从Excel表格中导入信息
+功能说明：用户先上传文件到服务器，然后指定使用哪个文件导入数据到后台数据库哪个表单
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/importStationFromExcel	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名        	|   类型  | 必须 | 说明        									|  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|filename		  	| String  |	No   | 文件名                         				|
+|importDestination	| String  |	No   | 导入目标：0--基站，1--电子钥匙	            |
+
+
+服务器返回参数：
+
+	{ 
+		"success":  
+		{  
+			"msg": "导入成功，请在前台查看",  
+			"code":"28000"  
+		}  
+	}
+
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "您指定的文件不存在",  
+			"code":"28001"  
+		}
+	}
+
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "文件格式不符合规范",  
+			"code":"28002"  
+		}
+	}
+
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "导入目标填写错误",  
+			"code":"28003"  
 		}
 	}
 
