@@ -630,6 +630,79 @@ function downloadStation(response, postData)
 
 
 
+//---------------------开始--从Excel表格导入基站数据接口--开始--------------------//
+function importStationFormExcel(response, postData)
+{
+	console.log( "Request handler 'importStationFormExcel' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "userInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+	console.log(postJSON);
+	//验证用户名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		console.log(result);
+		if(result.length>0)
+		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
+			var fileName = postJSON.operatorName;
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+
+			var formidable = require('formidable');
+			var uuid = require('node-uuid');
+			var fs = require('fs');
+
+		
+			//创建上传表单
+			var form = new formidable.IncomingForm();
+			//设置编辑
+			form.encoding = 'utf-8';
+			//设置上传目录
+			form.uploadDir = 'public/upload/';
+			form.keepExtensions = true;
+			//文件大小
+			form.maxFieldsSize = 10 * 1024 * 1024;
+			form.parse(req, function (err, fields, files) {
+				if(err) {
+					res.send(err);
+					return;
+				}
+				console.log(fields);
+
+				//文件名
+				var avatarName = "develop.xlsx";
+				//移动的文件目录
+				var newPath = form.uploadDir + avatarName;
+				fs.renameSync(files.file.path, newPath);
+				res.send('success');
+			});
+		
+
+		}else{
+			var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期",  
+					"code":"00000"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+		}
+	});
+
+}
+//---------------------结束--从Excel表格导入基站数据接口--结束--------------------//
+
+
 
 
 //---------------------开始--基站日志查询函数--开始--------------------//
