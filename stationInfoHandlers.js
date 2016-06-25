@@ -657,35 +657,15 @@ function importStationFormExcel(response, postData)
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
 
-			var formidable = require('formidable');
-			var uuid = require('node-uuid');
-			var fs = require('fs');
-
+			var info = 	{ "success":  
+			{  
+				"msg": "请先上传文件，并指定导入文件，正在完成中",  
+				"code":"00000"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();
 		
-			//创建上传表单
-			var form = new formidable.IncomingForm();
-			//设置编辑
-			form.encoding = 'utf-8';
-			//设置上传目录
-			form.uploadDir = 'public/upload/';
-			form.keepExtensions = true;
-			//文件大小
-			form.maxFieldsSize = 10 * 1024 * 1024;
-			form.parse(req, function (err, fields, files) {
-				if(err) {
-					res.send(err);
-					return;
-				}
-				console.log(fields);
 
-				//文件名
-				var avatarName = "develop.xlsx";
-				//移动的文件目录
-				var newPath = form.uploadDir + avatarName;
-				fs.renameSync(files.file.path, newPath);
-				res.send('success');
-			});
-		
 
 		}else{
 			var info = 	{ "error":  
@@ -1025,4 +1005,5 @@ exports.selectStation = selectStation;
 exports.downloadStation = downloadStation;
 exports.queryStationLog = queryStationLog;
 exports.downloadStationLog = downloadStationLog;
+exports.importStationFormExcel = importStationFormExcel;
 //---------------------结束--模块导出接口声明--结束--------------------//
