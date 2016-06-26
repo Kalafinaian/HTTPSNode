@@ -11,6 +11,7 @@ function onRequest(request,response)
 	var postData = "";
 	var pathname = url.parse(request.url).pathname;
 	console.log("Request for " + pathname + " started.");
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 
 	if( pathname == '/uploadFile' && request.method.toLowerCase() == 'post' )
 	{
@@ -24,33 +25,30 @@ function onRequest(request,response)
 		form.uploadDir = "./";
 		form.keepExtensions = true;
 		//文件大小
-		form.maxFieldsSize = 10 * 1024 * 1024;
+		form.maxFieldsSize = 1024 * 1024 * 1024;
 		form.parse(request, function (err, fields, files) {
 			if(err) {
-				response.send(err);
+				response.write(err);
+				//response.end();
 				return;
 			}
-			//console.log(fields);
 
 			console.log(files);
 
-			var extName = /\.[^\.]+/.exec(files.name);
-			var ext = Array.isArray(extName)
-				? extName[0]
-				: '';
-			//重命名，以防文件重复
-			var avatarName = uuid() + ext;
+
 			//移动的文件目录
-			var newPath = form.uploadDir + avatarName;
-			fs.renameSync(files.path, newPath);
+			var newPath = form.uploadDir + files.file.name;
+			fs.renameSync(files.file.path, newPath);
 
-			response.send('success');
+			response.write('success');
+			response.end();
+			return;
+
 		});
-
-		return;
 	}
 
-	
+
+
 }
 
 var options = {
