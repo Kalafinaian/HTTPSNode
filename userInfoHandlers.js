@@ -40,6 +40,44 @@ function judgeTokenTime(endTime,response)
 //---------------------开始--验证动态令牌有效期--开始--------------------//
 
 
+//---------------------开始--文件上传处理函数--开始--------------------//
+function upload(response, postData)
+{
+	console.log( "Request handler 'upload' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+
+	//处理文件上传数据
+	var formidable = require('formidable');
+	var fs = require('fs');
+	//创建上传表单
+	var form = new formidable.IncomingForm();
+	//设置编辑
+	form.encoding = 'utf-8';
+	//设置上传目录
+	form.uploadDir = 'public/upload/';
+	form.keepExtensions = true;
+	//文件大小
+	form.maxFieldsSize = 10 * 1024 * 1024;
+	form.parse(postData, function (err, fields, files) {
+		if(err) {
+			response.send(err);
+			return;
+		}
+		console.log(fields);
+
+		//文件名
+		var avatarName = "develop.xlsx";
+		//移动的文件目录
+		var newPath = form.uploadDir + avatarName;
+		fs.renameSync(files.file.path, newPath);
+		response.send('success');
+	});
+
+}
+
+//---------------------开始--文件上传处理函数--开始--------------------//
+
+
 //---------------------开始--登陆处理函数--开始--------------------//
 function login(response, postData)
 {
@@ -546,4 +584,5 @@ exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
 exports.selectUser = selectUser;
 exports.downloadUser = downloadUser;
+exports.upload = upload;
 //---------------------结束--模块导出接口声明--结束--------------------//
