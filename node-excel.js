@@ -8,8 +8,6 @@ function importStationFromExcel( importFileName, response )
 		console.log(excelObj );
 		var isWellFinished = true;
 		
-		//[ { name: 'Sheet1', data: [ [Object] ] } ]
-
 		var sheetData = excelObj[0].data; 
 		var rowCount = sheetData.length;
 
@@ -51,11 +49,34 @@ function importStationFromExcel( importFileName, response )
 			field.managementArea  = rowData[6].toString();
 			field.approvalPerson  = rowData[7].toString();
 			
-
+			//要注意异步编程的特性
 			dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
 					if( result.hasOwnProperty("errmsg") )
 					{
+						if(isWellFinished == true)
+						{
+							var failedInfo = 	{ "error":  
+							{  
+								"msg": "数据导入失败,基站数据有重复",  
+								"code":"28003"  
+							}  };
+							
+							response.write( JSON.stringify(failedInfo) );
+							response.end();
+						}
 						isWellFinished = false;
+					}
+
+					if( isWellFinished == true && i==(rowCount-1) )
+					{
+							var Info = 	{ "success":  
+							{  
+								"msg": "数据导入成功",  
+								"code":"28000"  
+							}  };
+							
+							response.write( JSON.stringify(Info) );
+							response.end();		
 					}
 					console.log(result);
 			});	
@@ -63,30 +84,7 @@ function importStationFromExcel( importFileName, response )
 			console.log(field);
 
 		}
-
-		if(isWellFinished == false)
-		{
-				var failedInfo = 	{ "error":  
-				{  
-					"msg": "数据导入失败,基站数据有重复",  
-					"code":"28003"  
-				}  };
-				
-				response.write( JSON.stringify(failedInfo) );
-				response.end();
-		}else
-		{
-				var Info = 	{ "success":  
-				{  
-					"msg": "数据导入成功",  
-					"code":"28000"  
-				}  };
-				
-				response.write( JSON.stringify(Info) );
-				response.end();			
-		}
-
-		
+	
 }
 
 
@@ -136,44 +134,43 @@ function importKeyFromExcel( importFileName, response )
 			field.managementCity  = rowData[2].toString();
 			field.managementArea  = rowData[3].toString();
 
-			
+			//要注意异步编程的特性
 			dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
 					if( result.hasOwnProperty("errmsg") )
 					{
+						if(isWellFinished == true)
+						{
+							var failedInfo = 	{ "error":  
+							{  
+								"msg": "数据导入失败,电子钥匙数据有重复",  
+								"code":"28005"  
+							}  };
+							
+							response.write( JSON.stringify(failedInfo) );
+							response.end();
+						}
 						isWellFinished = false;
 					}
+
+					if( isWellFinished == true && i==(rowCount-1) )
+					{
+							var Info = 	{ "success":  
+							{  
+								"msg": "数据导入成功",  
+								"code":"28000"  
+							}  };
+							
+							response.write( JSON.stringify(Info) );
+							response.end();		
+					}
 					console.log(result);
+
 			});	
 			
 			console.log(field);
 				
 		}
 			  
-			  
-		
-
-		if(isWellFinished == false)
-		{
-				var failedInfo = 	{ "error":  
-				{  
-					"msg": "数据导入失败,电子钥匙数据有重复",  
-					"code":"28005"  
-				}  };
-				
-				response.write( JSON.stringify(failedInfo) );
-				response.end();
-		}else
-		{
-				var Info = 	{ "success":  
-				{  
-					"msg": "数据导入成功",  
-					"code":"28000"  
-				}  };
-				
-				response.write( JSON.stringify(Info) );
-				response.end();			
-		}
-
 }
 
 
