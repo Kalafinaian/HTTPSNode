@@ -4,6 +4,19 @@ var fs = require('fs');
 
 function importStationFromExcel( importFileName, response )
 {
+	if( importFileName.indexOf(".xlsx") != (importFileName.length-5) )
+	{
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,文件类型错误",  
+					"code":"28007"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
+				return;	    
+	}
+
 	// 判断文件是否存在
 	fs.exists( "./upload/"+importFileName , function( exists ){
 	    if(exists == false )
@@ -112,6 +125,20 @@ function importStationFromExcel( importFileName, response )
 
 function importKeyFromExcel( importFileName, response )
 {
+	if( importFileName.indexOf(".xlsx") != (importFileName.length-5) )
+	{
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,文件类型错误",  
+					"code":"28007"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
+				return;	    
+	}
+
+
 	// 判断文件是否存在
 	fs.exists( "./upload/"+importFileName , function( exists ){
 	    if(exists == false )
