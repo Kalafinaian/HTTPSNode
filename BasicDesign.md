@@ -164,6 +164,11 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 			"approvalPerson"："肖良平",  //基站作业审批人
 			"approvalPhone"："15520443869",  //作业审批人电话
 			"approvalCompany"："中国移动成都分公司高新西区分公司",
+
+			"doorMagnetic":"开",
+			"lockingTab":"关"
+
+
 		}
 	}
 
@@ -223,6 +228,13 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 			"approveStartTime " : 1459173098, //允许使用该开门码开门的起始时间  %s 总秒数。起算时间为1970-01-01 00:00:00 UTC。 
 			"approveEndTime" : 1458568298, //允许使用该开门码开门的终止时间  %s 总秒数。起算时间为1970-01-01 00:00:00 UTC。 
 			"approveTimes":"5", //允许开门的次数
+
+
+			"applyTime":" ",
+			"approveTime":" ",
+			"workStatus":"未完成",
+			"workDescription":"",
+			"finishTime":" "
 
 		}
 	}

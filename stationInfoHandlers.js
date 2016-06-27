@@ -117,7 +117,7 @@ function addStation(response, postData)
 									//直接替换为系统中审批人的电话号码
 									postJSON.approvalPhone = result[0].phone;
 									//插入请求数据
-									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON, function(result){
 											if( result.hasOwnProperty("errmsg") )
 											{
 												var info = 	{ "error":  
