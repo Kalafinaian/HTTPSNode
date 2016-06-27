@@ -1,7 +1,7 @@
 var xlsx = require("node-xlsx");
+var dbClient = require("./Mongo");  //数据库模块
 
-
-function importStationFromExcel( importFileName )
+function importStationFromExcel( importFileName, response )
 {
 		var excelObj  = xlsx.parse( "./upload/"+importFileName );
 
@@ -47,7 +47,14 @@ function importStationFromExcel( importFileName )
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
 							if( result.hasOwnProperty("errmsg") )
 							{
-								return false;
+								var failedInfo = 	{ "error":  
+								{  
+									"msg": "数据导入失败,基站数据有重复",  
+									"code":"28004"  
+								}  };
+								
+								response.write( JSON.stringify(failedInfo) );
+								response.end();
 							}
 							console.log(result);
 					});	
@@ -63,7 +70,7 @@ function importStationFromExcel( importFileName )
 
 
 
-function importKeyFromExcel( importFileName )
+function importKeyFromExcel( importFileName, response )
 {
 		var excelObj  = xlsx.parse(  "./upload/" + importFileName );
 
@@ -106,7 +113,14 @@ function importKeyFromExcel( importFileName )
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
 							if( result.hasOwnProperty("errmsg") )
 							{
-								return false;
+								var failedInfo = 	{ "error":  
+								{  
+									"msg": "数据导入失败,电子钥匙数据有重复",  
+									"code":"28005"  
+								}  };
+								
+								response.write( JSON.stringify(failedInfo) );
+								response.end();
 							}
 							console.log(result);
 					});	

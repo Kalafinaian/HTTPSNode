@@ -659,39 +659,23 @@ function importDataFromExcel(response, postData)
 
 			var excelImport = require('./node-excel.js');
 
-			var successInfo = 	{ "success":  
-			{  
-				"msg": "数据导入成功",  
-				"code":"28000"  
-			}  };
-			var failedInfo = 	{ "error":  
-			{  
-				"msg": "数据导入失败",  
-				"code":"28001"  
-			}  };
-			
-			var info = successInfo;
-
 			if( postJSON.importDestination == '0' )
 			{
-				if( excelImport.importStationFromExcel(postJSON.filename) == false )
-				{
-					info = failedInfo;
-				}
+				excelImport.importStationFromExcel(postJSON.filename, response);
 			}else if( postJSON.importDestination == '1' )
 			{
-				if( excelImport.importKeyFromExcel(postJSON.filename) == false )
-				{
-					info = failedInfo;
-				}
+				excelImport.importKeyFromExcel(postJSON.filename, response);
 			}else{
 
-				info = failedInfo;
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,参数错误，目标不存在",  
+					"code":"28002"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
 			}
-
-			response.write( JSON.stringify(info) );
-			response.end();
-		
 
 		}else{
 			var info = 	{ "error":  
