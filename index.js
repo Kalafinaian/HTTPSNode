@@ -26,7 +26,7 @@ handle["/v0/queryStation"] = stationInfoHandlers.selectStation;
 handle["/v0/deleteStation"] = stationInfoHandlers.deleteStation;
 handle["/v0/updateStation"] = stationInfoHandlers.updateStation;
 handle["/v0/downloadStation"] = stationInfoHandlers.downloadStation;
-handle["/v0/importStationFormExcel"] = stationInfoHandlers.importStationFormExcel;
+handle["/v0/importDataFromExcel"] = stationInfoHandlers.importDataFromExcel;
 handle["/v0/queryStationLog"] = stationInfoHandlers.queryStationLog;
 handle["/v0/downloadStationLog"] = stationInfoHandlers.downloadStationLog;
 

@@ -631,9 +631,9 @@ function downloadStation(response, postData)
 
 
 //---------------------开始--从Excel表格导入基站数据接口--开始--------------------//
-function importStationFormExcel(response, postData)
+function importDataFromExcel(response, postData)
 {
-	console.log( "Request handler 'importStationFormExcel' was called." );
+	console.log( "Request handler 'importDataFromExcel' was called." );
 	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
@@ -1005,5 +1005,5 @@ exports.selectStation = selectStation;
 exports.downloadStation = downloadStation;
 exports.queryStationLog = queryStationLog;
 exports.downloadStationLog = downloadStationLog;
-exports.importStationFormExcel = importStationFormExcel;
+exports.importDataFromExcel = importDataFromExcel;
 //---------------------结束--模块导出接口声明--结束--------------------//
