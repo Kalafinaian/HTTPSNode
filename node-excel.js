@@ -1,8 +1,24 @@
 var xlsx = require("node-xlsx");
 var dbClient = require("./Mongo");  //数据库模块
+var fs = require('fs');
 
 function importStationFromExcel( importFileName, response )
 {
+	// 判断文件是否存在
+	fs.exists( "./upload/"+importFileName , function( exists ){
+	    if(exists == false )
+	    {
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,指定文件不存在",  
+					"code":"28006"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
+				return;	    	
+	    }
+
 		var excelObj  = xlsx.parse( "./upload/"+importFileName );
 
 		console.log(excelObj );
@@ -85,6 +101,10 @@ function importStationFromExcel( importFileName, response )
 			console.log(field);
 
 		}
+	});
+
+
+
 	
 }
 
@@ -92,6 +112,21 @@ function importStationFromExcel( importFileName, response )
 
 function importKeyFromExcel( importFileName, response )
 {
+	// 判断文件是否存在
+	fs.exists( "./upload/"+importFileName , function( exists ){
+	    if(exists == false )
+	    {
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,指定文件不存在",  
+					"code":"28006"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
+				return;	    	
+	    }
+
 		var excelObj  = xlsx.parse(  "./upload/" + importFileName );
 		var isWellFinished = true;
 		console.log(excelObj );
@@ -172,7 +207,9 @@ function importKeyFromExcel( importFileName, response )
 			console.log(field);
 				
 		}
-			  
+
+	});
+		  
 }
 
 
