@@ -25,6 +25,7 @@ function importStationFromExcel( importFileName, response )
 				
 				response.write( JSON.stringify(failedInfo) );
 				response.end();
+				return;
 		}
 
 		var mongoClient = require('mongodb').MongoClient;
@@ -115,6 +116,7 @@ function importKeyFromExcel( importFileName, response )
 				
 				response.write( JSON.stringify(failedInfo) );
 				response.end();
+				return;
 		}
 
 		var mongoClient = require('mongodb').MongoClient;
