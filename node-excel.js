@@ -21,7 +21,11 @@ function importStationFromExcel( importFileName )
 		      {
 		      	return false;
 		      }
-
+			  
+			  var mongoClient = require('mongodb').MongoClient;
+			  var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+			  var collectionName = "stationInfo";
+			  
 		      //逐条插入数据到数据库
 		      for (var i = 1; i < rowCount; i++) 
 		      {
@@ -38,6 +42,15 @@ function importStationFromExcel( importFileName )
 					field.managementCity  = rowData[5].toString();
 					field.managementArea  = rowData[6].toString();
 					field.approvalPerson  = rowData[7].toString();
+					
+
+					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
+							if( result.hasOwnProperty("errmsg") )
+							{
+								return false;
+							}
+							console.log(result);
+					});	
 
 
 					console.log(field);
@@ -72,6 +85,9 @@ function importKeyFromExcel( importFileName )
 		      	return false;
 		      }
 
+			  var mongoClient = require('mongodb').MongoClient;
+			  var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+			  var collectionName = "keyInfo";
 
 		      //逐条插入数据到数据库
 		      for (var i = 1; i < rowCount; i++) 
@@ -86,9 +102,20 @@ function importKeyFromExcel( importFileName )
 					field.managementCity  = rowData[2].toString();
 					field.managementArea  = rowData[3].toString();
 
+					
+					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
+							if( result.hasOwnProperty("errmsg") )
+							{
+								return false;
+							}
+							console.log(result);
+					});	
+					
 					console.log(field);
-		        
-		      }
+						
+			  }
+			  
+			  
 		}
 
 		return true;
