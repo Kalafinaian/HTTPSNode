@@ -100,6 +100,8 @@ function taskRequest(response, postData)
 
 							postJSON.taskID = parseInt(Date.now()/1000).toString();
 							postJSON.applicationStatus = "pending";
+
+
 							//将时间类型转换为整型
 							re = /^1\d{9}$/;
 							if( !re.test(postJSON.taskStartTime) || !re.test(postJSON.taskEndTime) ) 
@@ -115,7 +117,12 @@ function taskRequest(response, postData)
 							}
 							postJSON.taskStartTime = parseInt(postJSON.taskStartTime);
 							postJSON.taskEndTime = parseInt(postJSON.taskEndTime);
-
+							postJSON.approveTime = " ";
+							postJSON.workStatus = "未完成";
+							postJSON.workDescription = " ";
+							postJSON.finishTime = " ";
+					
+	
 							var whereStr = {"keyID":postJSON.applicantKeyID};
 							//验证电子钥匙的信息：查询电子钥匙ID是否存在--电子钥匙还需要做地域检查
 							dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
