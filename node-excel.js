@@ -3,7 +3,7 @@ var xlsx = require("node-xlsx");
 
 function importStationFromExcel( importFileName )
 {
-		var excelObj  = xlsx.parse( importFileName );
+		var excelObj  = xlsx.parse( "./upload/"+importFileName );
 
 		console.log(excelObj );
 
@@ -52,7 +52,7 @@ function importStationFromExcel( importFileName )
 
 function importKeyFromExcel( importFileName )
 {
-		var excelObj  = xlsx.parse( importFileName );
+		var excelObj  = xlsx.parse(  "./upload/" + importFileName );
 
 		console.log(excelObj );
 
