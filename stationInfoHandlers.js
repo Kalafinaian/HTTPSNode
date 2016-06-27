@@ -657,21 +657,47 @@ function importDataFromExcel(response, postData)
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
 
-			var info = 	{ "success":  
+			var excelImport = require('./node-excel.js');
+
+			var successInfo = 	{ "success":  
 			{  
-				"msg": "请先上传文件，并指定导入文件，正在完成中",  
-				"code":"00000"  
+				"msg": "数据导入成功",  
+				"code":"28000"  
 			}  };
+			var failedInfo = 	{ "error":  
+			{  
+				"msg": "数据导入失败",  
+				"code":"28001"  
+			}  };
+			
+			var info = successInfo;
+
+			if( postJSON.importDestination == '0' )
+			{
+				if( excelImport.importStationFromExcel(postJSON.filename) == false )
+				{
+					info = failedInfo;
+				}
+			}else if( postJSON.importDestination == '1' )
+			{
+				if( excelImport.importKeyFromExcel(postJSON.filename) == false )
+				{
+					info = failedInfo;
+				}
+			}else{
+
+				info = failedInfo;
+			}
+
 			response.write( JSON.stringify(info) );
 			response.end();
 		
-
 
 		}else{
 			var info = 	{ "error":  
 				{  
 					"msg": "用户名不存在或动态令牌已过期",  
-					"code":"00000"  
+					"code":"28000"  
 				}  };
 			response.write( JSON.stringify(info) );
 			response.end();

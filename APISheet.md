@@ -1694,7 +1694,7 @@ Or
 
 ```
 适用群体：Web端
-URL：https://www.smartlock.top/v0/importStationFromExcel	
+URL：https://www.smartlock.top/v0/importDataFromExcel	
 请求方式：POST
 ```	
 
