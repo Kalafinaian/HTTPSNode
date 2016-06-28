@@ -117,6 +117,7 @@ function taskRequest(response, postData)
 							}
 							postJSON.taskStartTime = parseInt(postJSON.taskStartTime);
 							postJSON.taskEndTime = parseInt(postJSON.taskEndTime);
+							postJSON.applyTime = parseInt(postJSON.applyTime);
 							postJSON.approveTime = " ";
 							postJSON.workStatus = "未完成";
 							postJSON.workDescription = " ";
