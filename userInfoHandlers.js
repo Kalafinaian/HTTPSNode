@@ -166,6 +166,102 @@ function addUser(response, postData)
 				}
 				delete postJSON.accessToken;
 				delete postJSON.operatorName;
+
+				var operatorInfo = result[0];
+
+				//后台自动降级不合法的权限
+				if( postJSON.hasOwnProperty('addStationAction') )
+				{	
+					if(operatorInfo.addStationAction == false)
+					{
+						operatorInfo.addStationAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('deleteStationAction') )
+				{	
+					if(operatorInfo.deleteStationAction == false)
+					{
+						operatorInfo.deleteStationAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('queryStationAction') )
+				{	
+					if(operatorInfo.queryStationAction == false)
+					{
+						operatorInfo.queryStationAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('updateStationAction') )
+				{	
+					if(operatorInfo.updateStationAction == false)
+					{
+						operatorInfo.updateStationAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('addStaffAction') )
+				{	
+					if(operatorInfo.addStaffAction == false)
+					{
+						operatorInfo.addStaffAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('deleteStaffAction') )
+				{	
+					if(operatorInfo.deleteStaffAction == false)
+					{
+						operatorInfo.deleteStaffAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('queryStaffAction') )
+				{	
+					if(operatorInfo.queryStaffAction == false)
+					{
+						operatorInfo.queryStaffAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('updateStaffAction') )
+				{	
+					if(operatorInfo.updateStaffAction == false)
+					{
+						operatorInfo.updateStaffAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('addKeyAction') )
+				{	
+					if(operatorInfo.addKeyAction == false)
+					{
+						operatorInfo.addKeyAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('deleteKeyAction') )
+				{	
+					if(operatorInfo.deleteKeyAction == false)
+					{
+						operatorInfo.deleteKeyAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('queryKeyAction') )
+				{	
+					if(operatorInfo.queryKeyAction == false)
+					{
+						operatorInfo.queryKeyAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('updateKeyAction') )
+				{	
+					if(operatorInfo.updateKeyAction == false)
+					{
+						operatorInfo.updateKeyAction = false;
+					}
+				}
+				if( postJSON.hasOwnProperty('doorAuthorization') )
+				{	
+					if(operatorInfo.doorAuthorization == false)
+					{
+						operatorInfo.doorAuthorization = false;
+					}
+				}
+
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						
