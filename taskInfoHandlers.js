@@ -281,6 +281,8 @@ function taskFetch(response, postData)
 
 
 		    var whereStr = postJSON;
+		    delete whereStr.applyStartTime;
+		    delete whereStr.applyEndTime;
 
 			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
