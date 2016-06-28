@@ -283,6 +283,9 @@ function taskFetch(response, postData)
 
 			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
+			var mApplyStartTime = { "applyTime":{$gte:parseInt( postJSON.applyStartTime) } };
+			var mApplyEndTime = { "applyTime":{$lte:parseInt( postJSON.applyEndTime) } };
+			var mApplyRange = { "applyTime":{$gte:parseInt( postJSON.applyStartTime) , $lte:parseInt( postJSON.applyEndTime) } };
 
 			if( postJSON.hasOwnProperty('taskStartTime') )
 			{
@@ -294,6 +297,23 @@ function taskFetch(response, postData)
 			{
 				whereStr.taskEndTime = mendTime.taskEndTime;
 				//delete postJSON.taskEndTime; 
+			}
+
+			if( postJSON.hasOwnProperty('applyStartTime') )
+			{
+				whereStr.applyTime = mApplyStartTime.applyTime;
+				//delete postJSON.taskStartTime; 
+			}
+
+			if( postJSON.hasOwnProperty('applyEndTime') )
+			{
+				whereStr.applyTime = mApplyEndTime.applyTime;
+				//delete postJSON.taskEndTime; 
+			}
+
+			if( postJSON.hasOwnProperty('applyEndTime') && postJSON.hasOwnProperty('applyStartTime') )
+			{
+				whereStr.applyTime = mApplyRange.applyTime;
 			}
 
 

@@ -1092,7 +1092,8 @@ URL：https://www.smartlock.top/v0/taskFetch
 |applicationStatus  | String  | No      | 审批状态                                   |
 |taskStartTime  	| String  | No      | 任务开始时间                               |
 |taskEndTime  		| String  | No      | 任务结束时间                               |
-
+|applyStartTime     | String  | No      | 任务申请时间起始时间                       |
+|applyEndTime       | String  | No      | 任务申请时间终止时间                       |
 
 服务器返回参数：
 
