@@ -738,16 +738,15 @@ function appTaskRecord(response, postData)
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 						console.log(result);
-						if( result.hasOwnProperty("errmsg") )
-						{
-							var info = 	{ "success":  
-							{  
-								"msg": "APP记录信息提交成功!",  
-								"code":"29000"  
-							}  };
-							response.write( JSON.stringify(info) );
-							response.end();
-						}
+
+						var info = 	{ "success":  
+						{  
+							"msg": "APP记录信息提交成功!",  
+							"code":"29000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+						
 				});	
 			}else{
 				var info = 	{ "error":  
