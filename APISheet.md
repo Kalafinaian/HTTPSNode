@@ -1794,6 +1794,29 @@ URL：https://www.smartlock.top/v0/appTaskRecord
 |openDoorType	    | String  |	No   | 开门类型							            |
 
 
+服务器返回参数：
+
+
+		{ 
+			"success":  
+			{  
+				"msg": "APP记录信息提交成功!",  
+				"code":"29000"  
+			}  
+		}
+
+Or
+
+		{
+			"error":
+			{
+				"msg": "用户名不存在或动态令牌已过期",  
+				"code":"00000"  
+			}
+		}
+
+
+
 
 ###30、查询APP历史数据接口
 
@@ -1821,3 +1844,35 @@ URL：https://www.smartlock.top/v0/appTaskConsult
 |operationType		| String  |	No   | 作业类型                         			|
 |operationResult	| String  |	No   | 作业结果							            |
 |openDoorType	    | String  |	No   | 开门类型							            |
+
+
+服务器返回参数：
+
+
+	{
+		"success":
+		result  /*查询结果数组*/
+	};
+
+
+Or
+
+		{ 
+			"error":  
+			{  
+				"msg": "没有查询记录",  
+				"code":"30001"  
+			}  
+		};
+
+
+Or
+
+
+		{ 
+			"error":  
+			{  
+				"msg": "用户名不存在或动态令牌已过期",  
+				"code":"00000"  
+			}  
+		};
