@@ -718,7 +718,7 @@ function appTaskRecord(response, postData)
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "taskInfo";
+	var collectionName = "appTaskInfo";
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
     //if( judgeTaskID(postJSON,response)==false ){  return;  };
@@ -772,7 +772,7 @@ function appTaskConsult(response, postData)
 	var postJSON = querystring.parse(postData);
 	var mongoClient = require('mongodb').MongoClient;
 	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "taskInfo";
+	var collectionName = "appTaskInfo";
 	//判断操作者和动态令牌是否存在
 	if( judgeUserToken(postJSON,response)==false ){  return;  };
     //if( judgeTaskID(postJSON,response)==false ){  return;  };
@@ -790,6 +790,8 @@ function appTaskConsult(response, postData)
 				//更新请求数据
 				delete postJSON.operatorName;
 				delete postJSON.accessToken;
+
+				var whereStr = postJSON;
 
 				var mApplyStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) } };
 				var mApplyEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.taskCommitEndTime) } };
@@ -813,22 +815,22 @@ function appTaskConsult(response, postData)
 				}
 
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName, whereStr,function(result){
-					if(result.length>0)
+					if( result.length > 0 )
 					{
-							var info = 	{"success":result};
-							response.write( JSON.stringify(info) );
-							response.end();
+						var json = {success:result};
+						response.write( JSON.stringify(json) );
+						response.end();
 					}else{
-							var info = 	{ "error":  
-								{  
-									"msg": "没有查询记录",  
-									"code":"30001"  
-								}  };
-							response.write( JSON.stringify(info) );
-							response.end();
+						var info = 	{ "error":  
+						{  
+							"msg": "没有查询记录!",  
+							"code":"30001"  
+						}  };
+						response.write( JSON.stringify(result) );
+						response.end();
 					}
-
 				});	
+
 			}else{
 				var info = 	{ "error":  
 					{  
