@@ -710,6 +710,142 @@ function taskChange(response, postData)
 
 
 
+//---------------------开始--上传APP历史数据接口--开始--------------------//
+function appTaskRecord(response, postData)
+{
+	console.log( "Request handler 'appTaskRecord' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "taskInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+    //if( judgeTaskID(postJSON,response)==false ){  return;  };
+	console.log(postJSON);
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+	//验证用户名和动态令牌
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				delete postJSON.operatorName;
+				delete postJSON.accessToken;
+
+				//插入请求数据
+				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+						console.log(result);
+						if( result.hasOwnProperty("errmsg") )
+						{
+							var info = 	{ "success":  
+							{  
+								"msg": "APP记录信息提交成功!",  
+								"code":"29000"  
+							}  };
+							response.write( JSON.stringify(info) );
+							response.end();
+						}
+				});	
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}	
+	});
+}
+//---------------------结束--上传APP历史数据接口--结束--------------------//
+
+
+
+//---------------------开始--查询APP历史数据接口--开始--------------------//
+function appTaskConsult(response, postData)
+{
+	console.log( "Request handler 'appTaskConsult' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "taskInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+    //if( judgeTaskID(postJSON,response)==false ){  return;  };
+	console.log(postJSON);
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+	//验证用户名和动态令牌
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				
+				//更新请求数据
+				delete postJSON.operatorName;
+				delete postJSON.accessToken;
+
+				var mApplyStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) } };
+				var mApplyEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.taskCommitEndTime) } };
+				var mApplyRange = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) , $lte:parseInt( postJSON.taskCommitEndTime) } };
+
+				if( postJSON.hasOwnProperty('taskCommitStartTime') )
+				{
+					whereStr.taskCommitTime = mApplyStartTime.taskCommitTime;
+					//delete postJSON.taskStartTime; 
+				}
+
+				if( postJSON.hasOwnProperty('taskCommitEndTime') )
+				{
+					whereStr.taskCommitTime = mApplyEndTime.taskCommitTime;
+					//delete postJSON.taskEndTime; 
+				}
+
+				if( postJSON.hasOwnProperty('taskCommitStartTime') && postJSON.hasOwnProperty('taskCommitEndTime') )
+				{
+					whereStr.taskCommitTime = mApplyRange.taskCommitTime;
+				}
+
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName, whereStr,function(result){
+					if(result.length>0)
+					{
+							var info = 	{"success":result};
+							response.write( JSON.stringify(info) );
+							response.end();
+					}else{
+							var info = 	{ "error":  
+								{  
+									"msg": "没有查询记录",  
+									"code":"30001"  
+								}  };
+							response.write( JSON.stringify(info) );
+							response.end();
+					}
+
+				});	
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}	
+	});
+}
+//---------------------结束--查询APP历史数据接口--结束--------------------//
+
+
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.taskRequest = taskRequest; //任务申请和任务修改
 exports.taskFetch = taskFetch;
@@ -718,4 +854,6 @@ exports.taskAuthFetch = taskAuthFetch;
 exports.taskCommit = taskCommit;
 exports.downloadTask = downloadTask;
 exports.taskChange = taskChange;
+exports.appTaskRecord = appTaskRecord;
+exports.appTaskConsult = appTaskConsult;
 //---------------------结束--模块导出接口声明--结束--------------------//

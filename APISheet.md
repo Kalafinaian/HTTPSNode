@@ -1763,3 +1763,61 @@ Or
 		}
 	}
 
+
+
+
+
+###29、上传APP历史数据接口  
+
+
+```
+适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/appTaskRecord	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名        	|   类型  | 必须 | 说明        									|  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|taskCommitTime		| String  |	No   | APP记录提交时间                        		|
+|applicantName		| String  |	No   | 申请人姓名                         			|
+|approvalPerson	    | String  |	No   | 批准人	            						|
+|stationID		  	| String  |	No   | 基站ID                         				|
+|stationAddress	    | String  |	No   | 基站地址	                                    |
+|lockID		  	    | String  |	No   | 钥匙ID                         				|
+|applicantKeyID	    | String  |	No   | 锁ID								            |
+|operationType		| String  |	No   | 作业类型                         			|
+|operationResult	| String  |	No   | 作业结果							            |
+|openDoorType	    | String  |	No   | 开门类型							            |
+
+
+
+###30、查询APP历史数据接口
+
+
+```
+适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/appTaskConsult	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名        	|   类型  | 必须 | 说明        									|  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|taskCommitStartTime| String  |	No   | APP记录提交起始查询时间                      |
+|taskCommitEndTime  | String  |	No   | APP记录提交结束查询时间                      |
+|applicantName		| String  |	No   | 申请人姓名                         			|
+|approvalPerson	    | String  |	No   | 批准人	            						|
+|stationID		  	| String  |	No   | 基站ID                         				|
+|stationAddress	    | String  |	No   | 基站地址	                                    |
+|lockID		  	    | String  |	No   | 钥匙ID                         				|
+|applicantKeyID	    | String  |	No   | 锁ID								            |
+|operationType		| String  |	No   | 作业类型                         			|
+|operationResult	| String  |	No   | 作业结果							            |
+|openDoorType	    | String  |	No   | 开门类型							            |

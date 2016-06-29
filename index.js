@@ -49,6 +49,9 @@ handle["/v0/taskAuthFetch"] = taskInfoHandlers.taskAuthFetch;
 handle["/v0/taskCommit"] = taskInfoHandlers.taskCommit;
 handle["/v0/downloadTask"] = taskInfoHandlers.downloadTask;
 handle["/v0/taskChange"] = taskInfoHandlers.taskChange;
+handle["/v0/appTaskRecord"] = taskInfoHandlers.appTaskRecord;
+handle["/v0/appTaskConsult"] = taskInfoHandlers.appTaskConsult;
+
 //---------------------结束--对象handle：存储处理函数--结束--------------------//
 
 
