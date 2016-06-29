@@ -11,41 +11,62 @@ function onRequest(request,response)
 	var postData = "";
 	var pathname = url.parse(request.url).pathname;
 	console.log("Request for " + pathname + " started.");
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	//response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 
-	if( pathname == '/uploadFile' && request.method.toLowerCase() == 'post' )
-	{
-		console.log("start upload");
+    try
+    {
+		if( pathname == '/uploadFile' && request.method.toLowerCase() == 'post' )
+		{
+			console.log("start upload");
 
-		//创建上传表单
-		var form = new formidable.IncomingForm();
-		//设置编辑
-		form.encoding = 'utf-8';
-		//设置上传目录
-		form.uploadDir = "./upload/";
-		form.keepExtensions = true;
-		//文件大小
-		form.maxFieldsSize = 1024 * 1024 * 1024;
-		form.parse(request, function (err, fields, files) {
-			if(err) {
-				response.write(err);
-				//response.end();
+			//创建上传表单
+			var form = new formidable.IncomingForm();
+			//设置编辑
+			form.encoding = 'utf-8';
+			//设置上传目录
+			form.uploadDir = "./";
+			form.keepExtensions = true;
+			//文件大小
+			form.maxFieldsSize = 1024 * 1024 * 1024;
+			form.parse(request, function (err, fields, files) {
+				if(err) {
+					response.write(err);
+					//response.end();
+					return;
+				}
+
+				console.log(files);
+
+
+				//移动的文件目录
+				var newPath = form.uploadDir + files.file.name;
+				fs.renameSync(files.file.path, newPath);
+
+
+				
+				
+				response.write('<html>');
+				response.write('<head>');
+				response.write(
+				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=success\">');
+				response.write('</head>');
+				response.write('</html>');
+				response.end();
 				return;
-			}
 
-			console.log(files);
+			});
+		}
 
-
-			//移动的文件目录
-			var newPath = form.uploadDir + files.file.name;
-			fs.renameSync(files.file.path, newPath);
-
-			response.write('success');
-			response.end();
-			return;
-
-		});
-	}
+    }catch(e)
+    {
+				response.write('<html>');
+				response.write('<head>');
+				response.write(
+				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=failure\">');
+				response.write('</head>');
+				response.write('</html>');
+				response.end();   	
+    }
 
 
 
