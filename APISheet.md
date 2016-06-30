@@ -1886,3 +1886,55 @@ Or
 				"code":"00000"  
 			}  
 		};
+
+
+
+
+###31、工单数据分析统计接口---未完待续
+
+
+```
+适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/taskAnalyse	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名        	|   类型  | 必须 | 说明        									|  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+
+
+
+服务器返回参数：
+
+
+	{
+		"success":
+		result  /*查询结果数组*/
+	};
+
+
+Or
+
+		{ 
+			"error":  
+			{  
+				"msg": "没有查询记录",  
+				"code":"31001"  
+			}  
+		};
+
+
+Or
+
+
+		{ 
+			"error":  
+			{  
+				"msg": "用户名不存在或动态令牌已过期",  
+				"code":"00000"  
+			}  
+		};
