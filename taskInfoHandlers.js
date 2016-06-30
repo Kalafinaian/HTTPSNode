@@ -280,7 +280,7 @@ function taskFetch(response, postData)
 			delete postJSON.accessToken; 
 
 
-		    var whereStr = postJSON;
+		    whereStr = postJSON;
 		    delete whereStr.applyStartTime;
 		    delete whereStr.applyEndTime;
 
@@ -305,18 +305,21 @@ function taskFetch(response, postData)
 			if( postJSON.hasOwnProperty('applyStartTime') )
 			{
 				whereStr.applyTime = mApplyStartTime.applyTime;
+				console.log( mApplyStartTime.applyTime );
 				//delete postJSON.taskStartTime; 
 			}
 
 			if( postJSON.hasOwnProperty('applyEndTime') )
 			{
 				whereStr.applyTime = mApplyEndTime.applyTime;
+				console.log( mApplyEndTime.applyTime );
 				//delete postJSON.taskEndTime; 
 			}
 
 			if( postJSON.hasOwnProperty('applyEndTime') && postJSON.hasOwnProperty('applyStartTime') )
 			{
 				whereStr.applyTime = mApplyRange.applyTime;
+				console.log( "both" );
 			}
 
 
