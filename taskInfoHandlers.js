@@ -814,8 +814,13 @@ function appTaskConsult(response, postData)
 				if( postJSON.hasOwnProperty('taskCommitStartTime') && postJSON.hasOwnProperty('taskCommitEndTime') )
 				{
 					whereStr.taskCommitTime = mApplyRange.taskCommitTime;
+					console.log( mApplyRange.taskCommitTime );
 				}
 
+			    delete whereStr.taskCommitStartTime;
+			    delete whereStr.taskCommitEndTime;
+
+			    console.log(whereStr);
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName, whereStr,function(result){
 					if( result.length > 0 )
 					{
