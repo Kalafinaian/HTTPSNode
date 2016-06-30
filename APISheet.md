@@ -1069,31 +1069,41 @@ Or
 
 
 
-###18、开门工单任务抓取（管理员定时调用）
-功能说明：管理员抓取指定的工单任务，从而完成后续授权处理
+###18、开门工单任务抓取
+功能说明：Web+APP抓取指定的工单任务，从而完成后续授权处理
 
 
 ```
-适用群体：Web端
+适用群体：Web端+APP端
 URL：https://www.smartlock.top/v0/taskFetch	
 请求方式：POST
 ```	
 
 请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
 
-|   参数名    		|   类型  |  必须 	| 说明        								 |  
-| :------:   	    | :----:  | :--:    |:----------------------------------------:  | 
-|operatorName   	| String  | Yes  	| 操作者用户账号-用户名        				 |  
-|accessToken 		| String  | Yes  	| 操作者API动态令牌							 | 
-|approvalPerson	    | String  | Yes     | 审批人姓名							     | 
-|approvalPhone		| String  | No      | 审批人联系方式                             |
-|applicantName   	| String  | No  	| 申请人名字      							 |  
-|applicationType   	| String  | No      | 工单类型      							 |  
-|applicationStatus  | String  | No      | 审批状态                                   |
-|taskStartTime  	| String  | No      | 任务开始时间                               |
-|taskEndTime  		| String  | No      | 任务结束时间                               |
-|applyStartTime     | String  | No      | 任务申请时间起始时间                       |
-|applyEndTime       | String  | No      | 任务申请时间终止时间                       |
+|   参数名    		    	|   类型  |  必须 	| 说明        								 |  
+| :------:   	        	| :----:  | :--:    |:----------------------------------------:  | 
+|operatorName   	    	| String  | Yes  	| 操作者用户账号-用户名        				 |  
+|accessToken 		     	| String  | Yes  	| 操作者API动态令牌							 | 
+|taskID                  	| String  | No      | 工单任务ID                                 |
+|approvalPerson	    		| String  | No      | 审批人姓名							     | 
+|approvalPhone				| String  | No      | 审批人联系方式                             |
+|applicantName   			| String  | No  	| 申请人名字      							 |  
+|applicationType   			| String  | No      | 工单类型      							 |  
+|applicationStatus  		| String  | No      | 审批状态                                   |
+|taskStartTime  			| String  | No      | 任务开始时间                               |
+|taskEndTime  				| String  | No      | 任务结束时间                               |
+|applyStartTime     		| String  | No      | 任务申请时间起始时间                       |
+|applyEndTime       		| String  | No      | 任务申请时间终止时间                       |
+|stationManagementProvince  | String  | No      | 工单申请的基站所属省份                     |
+|stationManagementCity      | String  | No      | 工单申请的基站所属市级区域				 |
+|stationManagementArea      | String  | No      | 工单申请的基站所属地级区域                 |
+|stationID                  | String  | No      | 基站ID                                     |
+|keyManagementProvince      | String  | No      | 工单申请的电子钥匙所属省份                 |
+|keyManagementCity      	| String  | No      | 工单申请的电子钥匙所属省份                 |
+|keyManagementArea      	| String  | No      | 工单申请的电子钥匙所属省份                 |
+
+
 
 服务器返回参数：
 
@@ -1199,12 +1209,12 @@ Or
 
 
 
-###20、开门工单任务申请状态抓取（工程师定时调用）
-功能说明：工程师获取授权信息
+###20、开门工单任务申请状态抓取
+功能说明：获取授权信息
 
 
 ```
-适用群体：Web端
+适用群体：Web端+APP端
 URL：https://www.smartlock.top/v0/taskAuthFetch	
 请求方式：POST
 ```	
