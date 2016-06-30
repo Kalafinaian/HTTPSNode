@@ -469,13 +469,13 @@ function taskAuthFetch(response, postData)
 			if( postJSON.hasOwnProperty('taskStartTime') )
 			{
 				whereStr.taskStartTime = mstartTime.taskStartTime;
-				delete postJSON.taskStartTime; 
+				//delete postJSON.taskStartTime; 
 			}
 
 			if( postJSON.hasOwnProperty('taskEndTime') )
 			{
 				whereStr.taskEndTime = mstartTime.taskEndTime;
-				delete postJSON.taskEndTime; 
+				//delete postJSON.taskEndTime; 
 			}
 
 			console.log(whereStr);
