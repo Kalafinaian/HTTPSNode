@@ -281,8 +281,6 @@ function taskFetch(response, postData)
 
 
 		    whereStr = postJSON;
-		    delete whereStr.applyStartTime;
-		    delete whereStr.applyEndTime;
 
 			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
@@ -322,7 +320,8 @@ function taskFetch(response, postData)
 				console.log( "both" );
 			}
 
-
+		    delete whereStr.applyStartTime;
+		    delete whereStr.applyEndTime;
 			console.log(whereStr);
 			
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , 
