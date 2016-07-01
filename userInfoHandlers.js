@@ -63,7 +63,7 @@ function login(response, postData)
 			response.end();
 			return false;
 	}
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	var whereStr = {username:postJSON.username,password:postJSON.password};
 	//查询用户名和密码
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 			if( result.length<=0 || result.hasOwnProperty("errmsg") )

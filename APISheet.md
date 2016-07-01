@@ -15,6 +15,7 @@ URL：https://www.smartlock.top/v0/login
 | :------:  | :----: | :--: | :---------:   | 
 | username  | String | Yes  | 用户名 		| 
 | password  | String | Yes  | 用户登陆密码  | 
+| platform  | String | Yes  | 平台码web/app |
 
 Code说明:前两位是API序号，后三位是状态序号。    
 
