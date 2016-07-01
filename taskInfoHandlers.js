@@ -795,25 +795,25 @@ function appTaskConsult(response, postData)
 
 				var whereStr = postJSON;
 
-				var mApplyStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) } };
-				var mApplyEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.taskCommitEndTime) } };
-				var mApplyRange = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) , $lte:parseInt( postJSON.taskCommitEndTime) } };
+				var mStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) } };
+				var mEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.taskCommitEndTime) } };
+				var mRange = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) , $lte:parseInt( postJSON.taskCommitEndTime) } };
 
 				if( postJSON.hasOwnProperty('taskCommitStartTime') )
 				{
-					whereStr.taskCommitTime = mApplyStartTime.taskCommitTime;
+					whereStr.taskCommitTime = mStartTime.taskCommitTime;
 					//delete postJSON.taskStartTime; 
 				}
 
 				if( postJSON.hasOwnProperty('taskCommitEndTime') )
 				{
-					whereStr.taskCommitTime = mApplyEndTime.taskCommitTime;
+					whereStr.taskCommitTime = mEndTime.taskCommitTime;
 					//delete postJSON.taskEndTime; 
 				}
 
 				if( postJSON.hasOwnProperty('taskCommitStartTime') && postJSON.hasOwnProperty('taskCommitEndTime') )
 				{
-					whereStr.taskCommitTime = mApplyRange.taskCommitTime;
+					whereStr.taskCommitTime = mRange.taskCommitTime;
 					console.log( mApplyRange.taskCommitTime );
 				}
 
@@ -854,7 +854,7 @@ function appTaskConsult(response, postData)
 
 
 
-//---------------------开始--工单的数据分析统计接口--开始--------------------//
+//---------------------开始--工单申请记录数据分析统计接口--开始--------------------//
 function taskAnalyse(response, postData)
 {
 	console.log( "Request handler 'taskAnalyse' was called." );
@@ -937,7 +937,7 @@ function taskAnalyse(response, postData)
 					response.end();
 				}else{
 					var json = {success:0};
-					response.write( JSON.stringify(info) );
+					response.write( JSON.stringify(json) );
 					response.end();
 				}
 			
@@ -954,7 +954,108 @@ function taskAnalyse(response, postData)
 		}
 	});
 }
-//---------------------结束--工单的数据分析统计接口--结束--------------------//
+//---------------------结束--工单申请记录数据分析统计接口--结束--------------------//
+
+
+
+//---------------------开始--各地市门锁工单操作记录统计接口--开始--------------------//
+function taskCalculate(response, postData)
+{
+	console.log( "Request handler 'taskCalculate' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "taskInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+	console.log(postJSON);
+	//验证任务申请工单名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+		console.log(result);
+		if(result.length>0)
+		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+
+
+		    whereStr = postJSON;
+
+			var mStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) } };
+			var mEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.taskCommitEndTime) } };
+			var mRange = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) , $lte:parseInt( postJSON.taskCommitEndTime) } };
+
+			if( postJSON.hasOwnProperty('taskCommitStartTime') )
+			{
+				whereStr.taskCommitTime = mStartTime.taskCommitTime;
+				//delete postJSON.taskStartTime; 
+			}
+
+			if( postJSON.hasOwnProperty('taskCommitEndTime') )
+			{
+				whereStr.taskCommitTime = mEndTime.taskCommitTime;
+				//delete postJSON.taskEndTime; 
+			}
+
+			if( postJSON.hasOwnProperty('taskCommitStartTime') && postJSON.hasOwnProperty('taskCommitEndTime') )
+			{
+				whereStr.taskCommitTime = mRange.taskCommitTime;
+				console.log( mRange.taskCommitTime );
+			}
+
+			if( postJSON.hasOwnProperty('taskType'))
+			{
+				if(postJSON.taskType == "open")
+				{
+					whereStr.operationResult = "开锁成功";
+				}else if(postJSON.taskType == "close")
+				{
+					whereStr.operationResult = "上锁成功！";
+				}
+			}
+
+			delete whereStr.taskType;
+		    delete whereStr.taskCommitStartTime;
+		    delete whereStr.taskCommitEndTime;
+
+		    console.log(whereStr);
+			
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , 
+				function(result){
+				//console.log(result);
+				if( result.length>0 )
+				{
+					var json = {success:result.length};
+
+					response.write( JSON.stringify(json) );
+					response.end();
+				}else{
+					var json = {success:0};
+					response.write( JSON.stringify(json) );
+					response.end();
+				}
+			
+			});	
+		}else{
+			var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期",  
+					"code":"00000"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+		}
+	});
+}
+//---------------------结束--各地市门锁工单操作记录统计接口--结束--------------------//
 
 
 
@@ -969,5 +1070,6 @@ exports.taskChange = taskChange;
 exports.appTaskRecord = appTaskRecord;
 exports.appTaskConsult = appTaskConsult;
 exports.taskAnalyse = taskAnalyse;
+exports.taskCalculate = taskCalculate;
 //---------------------结束--模块导出接口声明--结束--------------------//
 

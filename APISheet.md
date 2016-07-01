@@ -1789,20 +1789,26 @@ URL：https://www.smartlock.top/v0/appTaskRecord
 
 请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
 
-|   参数名        	|   类型  | 必须 | 说明        									|  
-| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
-|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
-|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-|taskCommitTime		| String  |	No   | APP记录提交时间                        		|
-|applicantName		| String  |	No   | 申请人姓名                         			|
-|approvalPerson	    | String  |	No   | 批准人	            						|
-|stationID		  	| String  |	No   | 基站ID                         				|
-|stationAddress	    | String  |	No   | 基站地址	                                    |
-|lockID		  	    | String  |	No   | 钥匙ID                         				|
-|applicantKeyID	    | String  |	No   | 锁ID								            |
-|operationType		| String  |	No   | 作业类型                         			|
-|operationResult	| String  |	No   | 作业结果							            |
-|openDoorType	    | String  |	No   | 开门类型							            |
+|   参数名        			|   类型  | 必须 | 说明        									|  
+| :------:    				| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   			| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 				| String  | Yes  | 操作者API动态令牌							| 
+|taskCommitTime				| String  |	No   | APP记录提交时间                        		|
+|applicantName				| String  |	No   | 申请人姓名                         			|
+|approvalPerson	    		| String  |	No   | 批准人	            						|
+|stationID		  			| String  |	No   | 基站ID                         				|
+|stationAddress	   		    | String  |	No   | 基站地址	                                    |
+|lockID		  	   		    | String  |	No   | 钥匙ID                         				|
+|applicantKeyID	    		| String  |	No   | 锁ID								            |
+|operationType				| String  |	No   | 作业类型                         			|
+|operationResult			| String  |	No   | 作业结果							            |
+|openDoorType	    		| String  |	No   | 开门类型							            |
+|stationManagementProvince	| String  | No   | 申请开门的基站所属省级区域                   |
+|stationManagementCity		| String  | No   | 申请开门的基站所属市级区域                   |
+|stationManagementArea		| String  | No   | 申请开门的基站所属地级区域                   |
+|keyManagementProvince		| String  | No   | 申请开门的电子钥匙省级区域                   |
+|keyManagementCity			| String  | No   | 申请开门的电子钥匙市级区域                   |
+|keyManagementArea			| String  | No   | 申请开门的电子钥匙地级区域                   |
 
 
 服务器返回参数：
@@ -1891,9 +1897,9 @@ Or
 
 
 
-###31、工单数据分析统计接口
+###31、工单申请记录数据分析统计接口
 
-根据以下条件查询工单条数（已完成）；前端可提供其他命令，指定后台返回的查询结果条数（未完待续）
+根据以下条件查询工单条数
 
 ```
 适用群体：Web端+APP端
@@ -1930,11 +1936,56 @@ URL：https://www.smartlock.top/v0/taskAnalyse
 |approveTime				| String  | No   | 工单审批通过时间                             |
 |workStatus					| String  | No   | 工单完成状态                                 |
 |workDescription			| String  | No   | 工单完成情况描述                             |
-|finishTime					| String  | No   | 工单完成或者提交最                           |
+|finishTime					| String  | No   | 工单完成或者最后提交时间                     |
 |applicantKeyID				| String  | No   | 申请的电子钥匙ID                             |
 |keyManagementProvince		| String  | No   | 申请开门的电子钥匙省级区域                   |
 |keyManagementCity			| String  | No   | 申请开门的电子钥匙市级区域                   |
 |keyManagementArea			| String  | No   | 申请开门的电子钥匙地级区域                   |
+
+
+服务器返回参数：
+
+
+		{
+			"success":num
+		}
+
+Or
+
+
+		{ 
+			"error":  
+			{  
+				"msg": "用户名不存在或动态令牌已过期",  
+				"code":"00000"  
+			}  
+		}
+
+
+
+###32、各地市门锁工单操作记录统计接口
+
+
+
+```
+适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/taskCalculate	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名        			|   类型  | 必须 | 说明        									|  
+| :------:    				| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   			| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 				| String  | Yes  | 操作者API动态令牌							| 
+|stationManagementProvince	| String  | No   | 申请开门的基站所属省级区域                   |
+|stationManagementCity		| String  | No   | 申请开门的基站所属市级区域                   |
+|stationManagementArea		| String  | No   | 申请开门的基站所属地级区域                   |
+|lockID						| String  | No   | 申请开门的门锁ID                             |
+|taskCommitStartTime	    | String  | No   | 申请时间的开始查询时间                       |
+|taskCommitEndTime		    | String  | No   | 申请时间的结束查询时间                       |
+|taskType                   | String  | No   | 开门和关门次数  open/close                   |
 
 
 服务器返回参数：

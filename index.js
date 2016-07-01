@@ -52,6 +52,7 @@ handle["/v0/taskChange"] = taskInfoHandlers.taskChange;
 handle["/v0/appTaskRecord"] = taskInfoHandlers.appTaskRecord;
 handle["/v0/appTaskConsult"] = taskInfoHandlers.appTaskConsult;
 handle["/v0/taskAnalyse"] = taskInfoHandlers.taskAnalyse;
+handle["/v0/taskCalculate"] = taskInfoHandlers.taskCalculate;
 //---------------------结束--对象handle：存储处理函数--结束--------------------//
 
 
