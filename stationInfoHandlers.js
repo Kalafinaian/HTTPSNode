@@ -488,6 +488,11 @@ function selectStation(response, postData)
 	console.log(postJSON);
 	//验证用户名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	if( postJSON.hasOwnProperty("address") )
+	{
+		postJSON.address =  "/" + address + "/";
+	}
+
 	console.log(whereStr);
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 		console.log(result);
@@ -499,6 +504,8 @@ function selectStation(response, postData)
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
 			var consultNum = 0;
+
+
 			if( postJSON.hasOwnProperty("lockNum") )
 			{
 				if(postJSON.lockNum == "open" )
