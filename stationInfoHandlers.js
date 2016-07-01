@@ -490,7 +490,7 @@ function selectStation(response, postData)
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 	if( postJSON.hasOwnProperty("address") )
 	{
-		postJSON.address =  "/" + address + "/";
+		postJSON.address =  "/" + postJSON.address + "/";
 	}
 
 	console.log(whereStr);
