@@ -90,6 +90,7 @@ function onRequest(request,response)
 					response.write('</html>');
 					response.end();
 					return;
+				}
 
 		}else{
 
