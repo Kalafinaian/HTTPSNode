@@ -1464,14 +1464,14 @@ URL：https://www.smartlock.top/v0/queryStationLog
 
 请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
 
-|   参数名    		|   类型  | 必须 | 说明        								    |  
-| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
-|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
-|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-|stationID	  		| String  |	No   | 唯一的基站标识                               |
-|address	  		| String  |	No	 | 基站地址                                     | 
-|startTime	  		| String  |	No   | 起始时间时间戳	                            |
-|endTime	  		| String  |	No	 | 结束时间时间戳                               | 
+|   参数名    				|   类型  | 必须 | 说明        								    |  
+| :------:    				| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   			| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 				| String  | Yes  | 操作者API动态令牌							| 
+|stationID	  				| String  |	No   | 唯一的基站标识                               |
+|address	  				| String  |	No	 | 基站地址                                     | 
+|startTime	  				| String  |	No   | 起始时间时间戳	                            |
+|endTime	  				| String  |	No	 | 结束时间时间戳                               | 
 |stationManagementProvince	| String  |	No	 | 有效省级地域                                 |
 |stationManagementCity		| String  |	No	 | 有效市级地域                                 |
 |stationManagementArea		| String  |	No	 | 有效区级地域                                 |
@@ -1531,14 +1531,14 @@ URL：https://www.smartlock.top/v0/downloadStationLog
 
 请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
 
-|   参数名        	|   类型  | 必须 | 说明        									|  
-| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
-|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
-|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-|stationID	  		| String  |	No   | 唯一的基站标识                               |
-|address	  		| String  |	No	 | 基站地址                                     | 
-|startTime	  		| String  |	No   | 起始时间时间戳	                            |
-|endTime	  		| String  |	No	 | 结束时间时间戳                               | 
+|   参数名        			|   类型  | 必须 | 说明        									|  
+| :------:    				| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   			| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 				| String  | Yes  | 操作者API动态令牌							| 
+|stationID	  				| String  |	No   | 唯一的基站标识                               |
+|address	  				| String  |	No	 | 基站地址                                     | 
+|startTime	  		        | String  |	No   | 起始时间时间戳	                            |
+|endTime	  		        | String  |	No	 | 结束时间时间戳                               | 
 |stationManagementProvince	| String  |	No	 | 有效省级地域                                 |
 |stationManagementCity		| String  |	No	 | 有效市级地域                                 |
 |stationManagementArea		| String  |	No	 | 有效区级地域                                 |
@@ -1589,13 +1589,13 @@ URL：https://www.smartlock.top/v0/queryKeyLog
 
 请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
 
-|   参数名    		|   类型  | 必须 | 说明        								    |  
-| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
-|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
-|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-|keyID		  		| String  |	No   | 唯一的电子钥匙标识                           |
-|startTime	  		| String  |	No   | 起始时间时间戳	                            |
-|endTime	  		| String  |	No	 | 结束时间时间戳                               | 
+|   参数名    		    |   类型  | 必须 | 说明        								    |  
+| :------:    		    | :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	    | String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		    | String  | Yes  | 操作者API动态令牌							| 
+|keyID		  		    | String  |	No   | 唯一的电子钥匙标识                           |
+|startTime	  		    | String  |	No   | 起始时间时间戳	                            |
+|endTime	  		    | String  |	No	 | 结束时间时间戳                               | 
 |keyManagementProvince	| String  |	No	 | 有效省级地域                                 |
 |keyManagementCity		| String  |	No	 | 有效市级地域                                 |
 |keyManagementArea		| String  |	No	 | 有效区级地域                                 |
@@ -1654,13 +1654,13 @@ URL：https://www.smartlock.top/v0/downloadKeyLog
 
 请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
 
-|   参数名        	|   类型  | 必须 | 说明        									|  
-| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
-|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
-|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-|keyID		  		| String  |	No   | 唯一的电子钥匙标识                           |
-|startTime	  		| String  |	No   | 起始时间时间戳	                            |
-|endTime	  		| String  |	No	 | 结束时间时间戳                               | 
+|   参数名        	    |   类型  | 必须 | 说明        									|  
+| :------:    		    | :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	    | String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		    | String  | Yes  | 操作者API动态令牌							| 
+|keyID		  		    | String  |	No   | 唯一的电子钥匙标识                           |
+|startTime	  		    | String  |	No   | 起始时间时间戳	                            |
+|endTime	  		    | String  |	No	 | 结束时间时间戳                               | 
 |keyManagementProvince	| String  |	No	 | 有效省级地域                                 |
 |keyManagementCity		| String  |	No	 | 有效市级地域                                 |
 |keyManagementArea		| String  |	No	 | 有效区级地域                                 |
@@ -1890,8 +1890,9 @@ Or
 
 
 
-###31、工单数据分析统计接口---未完待续
+###31、工单数据分析统计接口
 
+根据以下条件查询工单条数（已完成）；前端可提供其他命令，指定后台返回的查询结果条数（未完待续）
 
 ```
 适用群体：Web端+APP端
@@ -1901,32 +1902,46 @@ URL：https://www.smartlock.top/v0/taskAnalyse
 
 请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
 
-|   参数名        	|   类型  | 必须 | 说明        									|  
-| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
-|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
-|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-
+|   参数名        			|   类型  | 必须 | 说明        									|  
+| :------:    				| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   			| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 				| String  | Yes  | 操作者API动态令牌							| 
+|taskID						| String  | No   | 申请开门的任务ID                             |
+|applyStartTime			    | String  | No   | 申请时间的开始查询时间                       |
+|applyEndTime			    | String  | No   | 申请时间的结束查询时间                       |
+|applicantName				| String  | No   | 申请人名字                                   |
+|applicantCompany			| String  | No   | 申请人公司                                   |
+|applicantPhone				| String  | No   | 申请人联系方式                               |
+|applicationType			| String  | No   | 申请的任务类型                               |
+|applyDescription			| String  | No   | 申请任务描述                                 |
+|taskStartTime				| String  | No   | 申请任务开始的起始查询时间                   |
+|taskEndTime				| String  | No   | 申请任务结束的截止查询时间                   |
+|taskTimes					| String  | No   | 申请有效开门次数                             |
+|stationAddress				| String  | No   | 申请开门的基站地址                           |
+|approvalPerson				| String  | No   | 审批人账户名称                               |
+|approvalPhone				| String  | No   | 审批人联系方式                               |
+|stationID					| String  | No   | 申请开门的基站ID                             |
+|lockID						| String  | No   | 申请开门的门锁ID                             |
+|stationManagementProvince	| String  | No   | 申请开门的基站所属省级区域                   |
+|stationManagementCity		| String  | No   | 申请开门的基站所属市级区域                   |
+|stationManagementArea		| String  | No   | 申请开门的基站所属地级区域                   |
+|applicationStatus			| String  | No   | 工单申请状态                                 |
+|approveTime				| String  | No   | 工单审批通过时间                             |
+|workStatus					| String  | No   | 工单完成状态                                 |
+|workDescription			| String  | No   | 工单完成情况描述                             |
+|finishTime					| String  | No   | 工单完成或者提交最                           |
+|applicantKeyID				| String  | No   | 申请的电子钥匙ID                             |
+|keyManagementProvince		| String  | No   | 申请开门的电子钥匙省级区域                   |
+|keyManagementCity			| String  | No   | 申请开门的电子钥匙市级区域                   |
+|keyManagementArea			| String  | No   | 申请开门的电子钥匙地级区域                   |
 
 
 服务器返回参数：
 
 
-	{
-		"success":
-		result  /*查询结果数组*/
-	};
-
-
-Or
-
-		{ 
-			"error":  
-			{  
-				"msg": "没有查询记录",  
-				"code":"31001"  
-			}  
-		};
-
+		{
+			"success":num
+		}
 
 Or
 
@@ -1937,4 +1952,4 @@ Or
 				"msg": "用户名不存在或动态令牌已过期",  
 				"code":"00000"  
 			}  
-		};
+		}
