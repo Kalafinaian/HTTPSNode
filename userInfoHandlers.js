@@ -75,6 +75,21 @@ function login(response, postData)
 				response.write( JSON.stringify(info) );
 				response.end();
 			}else{
+
+				var userType = result[0].userType;
+				if( userType[2] == "3" )
+				{
+					   	//用户为工程师，用户不能登录前端页面
+						var minfo = { "error":  
+							{  
+								"msg": "工程师不能登陆前台页面!",  
+								"code":"01003"  
+							}  };
+						response.write( JSON.stringify(minfo) );
+						response.end();
+						return;
+			    }
+
 				//更新数据库中的动态令牌
 				var newAccessToken = Math.random().toString(36).substr(2);
 				var newStartTime = parseInt(Date.now()/1000);
@@ -127,6 +142,7 @@ function login(response, postData)
 						json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
 						json.success.tokenInfo.tokenEndTime = result[0].tokenEndTime;
 						
+
 						response.write( JSON.stringify(json) );
 						response.end();
 					});	
