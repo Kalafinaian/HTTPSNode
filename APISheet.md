@@ -644,7 +644,8 @@ URL：https://www.smartlock.top/v0/queryStation
 |managementProvince	| String  |	No	 | 所属省级地域                                 |
 |managementCity		| String  |	No	 | 所属市级地域                                 |
 |managementArea		| String  |	No	 | 所属区级地域                                 |
-|approvalPhone		| String  |	No	 | 基站作业审批人                               |    
+|approvalPhone		| String  |	No	 | 基站作业审批人                               | 
+|lockNum            | String  | No   | 门锁个数查询---Yes/No                        |   
 
 
 服务器返回参数：
@@ -675,6 +676,14 @@ Or
 			"code":"10001"  
 		}
 	}
+
+
+Or lockNum=Yes的时候
+
+	{
+		"success":num
+	}
+
 
 Or
 

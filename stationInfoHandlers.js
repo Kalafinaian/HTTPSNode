@@ -498,14 +498,55 @@ function selectStation(response, postData)
 
 			delete postJSON.operatorName; 
 			delete postJSON.accessToken; 
+			var consultNum = 0;
+			if( postJSON.hasOwnProperty("lockNum") )
+			{
+				if(postJSON.lockNum == "open" )
+				{
+						consultNum = 1;
+				}else if(postJSON.lockNum == "close" )
+				{
+						consultNum = 2;
+				}
+			}
+			delete postJSON.lockNum;
+
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
 				function(result){
 				if( result.length>0 )
 				{
-					var json = {success:result};
+					var json;
+					switch(consultNum)
+					{
+						case 0:
+						{
+							json = {success:result};
+							break;
+						}
+						case 1:
+						{
+							json = {success:result.length};
+							break;
+						}
+						case 2:
+						{
+							json = {success:result.length};
+							break;
+						}
+					}
+
 					response.write( JSON.stringify(json) );
 					response.end();
 				}else{
+
+					if(consultNum == 0)
+					{
+						var info = 	{ "success":0};
+						response.write( JSON.stringify(info) );
+						response.end();
+						return;
+					}
+
 					var info = 	{ "error":  
 					{  
 						"msg": "没有查询记录!",  
