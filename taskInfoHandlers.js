@@ -98,7 +98,7 @@ function taskRequest(response, postData)
 							postJSON.stationManagementCity = result[0].managementCity;
 							postJSON.stationManagementArea = result[0].managementArea;
 
-							postJSON.taskID = parseInt(Date.now()/1000).toString();
+							postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 							postJSON.applicationStatus = "pending";
 
 
