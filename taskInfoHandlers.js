@@ -854,6 +854,110 @@ function appTaskConsult(response, postData)
 
 
 
+//---------------------开始--工单的数据分析统计接口--开始--------------------//
+function taskAnalyse(response, postData)
+{
+	console.log( "Request handler 'taskAnalyse' was called." );
+	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var postJSON = querystring.parse(postData);
+	var mongoClient = require('mongodb').MongoClient;
+	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	var collectionName = "taskInfo";
+	//判断操作者和动态令牌是否存在
+	if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+	console.log(postJSON);
+	//验证任务申请工单名和动态令牌
+	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	console.log(whereStr);
+
+	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+		console.log(result);
+		if(result.length>0)
+		{
+			//动态令牌有效性判断
+			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+			
+			delete postJSON.operatorName; 
+			delete postJSON.accessToken; 
+
+
+		    whereStr = postJSON;
+
+			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
+			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
+			var mApplyStartTime = { "applyTime":{$gte:parseInt( postJSON.applyStartTime) } };
+			var mApplyEndTime = { "applyTime":{$lte:parseInt( postJSON.applyEndTime) } };
+			var mApplyRange = { "applyTime":{$gte:parseInt( postJSON.applyStartTime) , $lte:parseInt( postJSON.applyEndTime) } };
+
+			if( postJSON.hasOwnProperty('taskStartTime') )
+			{
+				whereStr.taskStartTime = mstartTime.taskStartTime;
+				//delete postJSON.taskStartTime; 
+			}
+
+			if( postJSON.hasOwnProperty('taskEndTime') )
+			{
+				whereStr.taskEndTime = mendTime.taskEndTime;
+				//delete postJSON.taskEndTime; 
+			}
+
+			if( postJSON.hasOwnProperty('applyStartTime') )
+			{
+				whereStr.applyTime = mApplyStartTime.applyTime;
+				console.log( mApplyStartTime.applyTime );
+				//delete postJSON.taskStartTime; 
+			}
+
+			if( postJSON.hasOwnProperty('applyEndTime') )
+			{
+				whereStr.applyTime = mApplyEndTime.applyTime;
+				console.log( mApplyEndTime.applyTime );
+				//delete postJSON.taskEndTime; 
+			}
+
+			if( postJSON.hasOwnProperty('applyEndTime') && postJSON.hasOwnProperty('applyStartTime') )
+			{
+				whereStr.applyTime = mApplyRange.applyTime;
+				console.log( "both" );
+			}
+
+		    delete whereStr.applyStartTime;
+		    delete whereStr.applyEndTime;
+			console.log(whereStr);
+			
+			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , 
+				function(result){
+				//console.log(result);
+				if( result.length>0 )
+				{
+					var json = {success:result.length};
+
+					response.write( JSON.stringify(json) );
+					response.end();
+				}else{
+					var json = {success:0};
+					response.write( JSON.stringify(info) );
+					response.end();
+				}
+			
+			});	
+		}else{
+			var info = 	{ "error":  
+				{  
+					"msg": "用户名不存在或动态令牌已过期",  
+					"code":"00000"  
+				}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+		}
+	});
+}
+//---------------------结束--工单的数据分析统计接口--结束--------------------//
+
+
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.taskRequest = taskRequest; //任务申请和任务修改
 exports.taskFetch = taskFetch;
@@ -864,4 +968,6 @@ exports.downloadTask = downloadTask;
 exports.taskChange = taskChange;
 exports.appTaskRecord = appTaskRecord;
 exports.appTaskConsult = appTaskConsult;
+exports.taskAnalyse = taskAnalyse;
 //---------------------结束--模块导出接口声明--结束--------------------//
+
