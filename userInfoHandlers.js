@@ -90,16 +90,16 @@ function login(response, postData)
 						response.end();
 						return;
 			    }
-
+			    delete postJSON.platform;
 				//更新数据库中的动态令牌
 				var newAccessToken = Math.random().toString(36).substr(2);
 				var newStartTime = parseInt(Date.now()/1000);
 				var newEndTime = newStartTime + 24*3600;
 				var updateStr = { $set: { "accessToken" : newAccessToken, "tokenStartTime":newStartTime.toString(), "tokenEndTime" : newEndTime.toString() }};
-				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , updateStr,  function(result){
+				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , updateStr,  function(result){
 				 	console.log(result);
 					//再次查询，返回结果--更新后嵌套查询，避免动态令牌已过期
-					dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+					dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 						var json = {
 							success:
 							{
