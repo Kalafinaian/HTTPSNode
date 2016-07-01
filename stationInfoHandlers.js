@@ -488,10 +488,6 @@ function selectStation(response, postData)
 	console.log(postJSON);
 	//验证用户名和动态令牌
 	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	if( postJSON.hasOwnProperty("address") )
-	{
-		postJSON.address =  "/" + postJSON.address + "/";
-	}
 
 	console.log(whereStr);
 	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
@@ -516,6 +512,12 @@ function selectStation(response, postData)
 						consultNum = 2;
 				}
 			}
+
+			if( postJSON.hasOwnProperty("address") )
+			{
+				postJSON.address =  {$regex:postJSON.address,$options:'i'};
+			}
+
 			delete postJSON.lockNum;
 
 			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
@@ -546,7 +548,7 @@ function selectStation(response, postData)
 					response.end();
 				}else{
 
-					if(consultNum == 0)
+					if(consultNum > 0)
 					{
 						var info = 	{ "success":0};
 						response.write( JSON.stringify(info) );
