@@ -77,7 +77,7 @@ function login(response, postData)
 			}else{
 
 				var userType = result[0].userType;
-				if( userType[2] == "3" )
+				if( userType[2] == "3" && postJSON.platform == "web" )
 				{
 					   	//用户为工程师，用户不能登录前端页面
 						var minfo = { "error":  
