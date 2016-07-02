@@ -1232,9 +1232,9 @@ function taskCalculate(response, postData)
 
 			    whereStr = postJSON;
 
-				var mStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) } };
-				var mEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.taskCommitEndTime) } };
-				var mRange = { "taskCommitTime":{$gte:parseInt( postJSON.taskCommitStartTime) , $lte:parseInt( postJSON.taskCommitEndTime) } };
+				var mStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.queryStartTime) } };
+				var mEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.queryEndTime) } };
+				var mRange = { "taskCommitTime":{$gte:parseInt( postJSON.queryStartTime) , $lte:parseInt( postJSON.queryEndTime) } };
 
 				if( postJSON.hasOwnProperty('taskCommitStartTime') )
 				{
@@ -1282,18 +1282,18 @@ function taskCalculate(response, postData)
 						var mmEndTime;
 						for(var i=0;i<result.length;i++)
 						{
-							if(result[i].hasOwnProperty('applyTime'))
+							if(result[i].hasOwnProperty('taskCommitTime'))
 							{
-								mmStartTime =  result[i].applyTime - result[i].applyTime%(3600*24) - 8*3600;
+								mmStartTime =  result[i].taskCommitTime - result[i].taskCommitTime%(3600*24) - 8*3600;
 								break;
 							}
 						}
 
 						for(var i=result.length-1;i>-1;i--)
 						{
-							if(result[i].hasOwnProperty('applyTime'))
+							if(result[i].hasOwnProperty('taskCommitTime'))
 							{
-								mmEndTime =  result[i].applyTime - result[i].applyTime%(3600*24) - 8*3600;
+								mmEndTime =  result[i].taskCommitTime - result[i].taskCommitTime%(3600*24) - 8*3600;
 								break;
 							}
 						}
@@ -1305,10 +1305,10 @@ function taskCalculate(response, postData)
 							marray.push( {date:formatToDate(mmtime*1000),num:0} );
 							for(var count = 0;count<result.length;count++)
 							{
-								console.log(result[i].applyTime+" "+mmtime)
-								if( result[i].hasOwnProperty('applyTime') 
-									&& (result[i].applyTime>mmtime) 
-									&& (result[i].applyTime<mmtime+24*3600) )
+								console.log(result[i].taskCommitTime+" "+mmtime)
+								if( result[i].hasOwnProperty('taskCommitTime') 
+									&& (result[i].taskCommitTime>mmtime) 
+									&& (result[i].taskCommitTime<mmtime+24*3600) )
 								{
 									marray[curPos].num++;
 								}
