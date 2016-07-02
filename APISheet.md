@@ -2006,8 +2006,8 @@ URL：https://www.smartlock.top/v0/taskCalculate
 |stationManagementCity		| String  | No   | 申请开门的基站所属市级区域                   |
 |stationManagementArea		| String  | No   | 申请开门的基站所属地级区域                   |
 |lockID						| String  | No   | 申请开门的门锁ID                             |
-|taskCommitStartTime	    | String  | No   | 申请时间的开始查询时间                       |
-|taskCommitEndTime		    | String  | No   | 申请时间的结束查询时间                       |
+|queryStartTime			    | String  | No   | 申请时间的开始查询时间                       |
+|queryEndTime			    | String  | No   | 申请时间的结束查询时间                       |
 |taskType                   | String  | No   | 开门和关门次数  open/close                   |
 
 

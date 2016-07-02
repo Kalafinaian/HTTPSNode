@@ -1111,6 +1111,9 @@ function taskAnalyse(response, postData)
 
 			    delete whereStr.applyStartTime;
 			    delete whereStr.applyEndTime;
+			    delete whereStr.queryStartTime;
+			    delete whereStr.queryEndTime;
+			    
 				console.log(whereStr);
 				
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , 
@@ -1268,6 +1271,8 @@ function taskCalculate(response, postData)
 				delete whereStr.taskType;
 			    delete whereStr.taskCommitStartTime;
 			    delete whereStr.taskCommitEndTime;
+			    delete whereStr.queryStartTime;
+			    delete whereStr.queryEndTime;
 
 			    console.log(whereStr);
 				
