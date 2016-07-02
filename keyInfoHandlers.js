@@ -60,7 +60,6 @@ function addKey(response, postData)
 {
 	try
 	{
-
 		console.log( "Request handler 'addKey' was called." );
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);

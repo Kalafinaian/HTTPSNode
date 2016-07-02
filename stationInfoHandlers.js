@@ -76,101 +76,113 @@ function judgeTokenTime(endTime,response)
 //---------------------开始--基站添加函数--开始--------------------//
 function addStation(response, postData)
 {
-	console.log( "Request handler 'addStation' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "stationInfo";
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeStationID(postJSON,response)==false ){  return;  };
+	try
+	{
+		console.log( "Request handler 'addStation' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "stationInfo";
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+	    if( judgeStationID(postJSON,response)==false ){  return;  };
 
-	console.log(postJSON);
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	console.log(whereStr);
-	//验证用户名和动态令牌
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
-			if(result.length>0)
-			{
-				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-				delete postJSON.accessToken;
-				delete postJSON.operatorName;
-				//判断用户chargePerson是否存在
-				var whereStr = {"username":postJSON.chargePerson};
-				dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-					console.log(result);
-					if(result.length>0)
-					{
+		console.log(postJSON);
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		//验证用户名和动态令牌
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+				console.log(result);
+				if(result.length>0)
+				{
+					//动态令牌有效性判断
+					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					delete postJSON.accessToken;
+					delete postJSON.operatorName;
+					//判断用户chargePerson是否存在
+					var whereStr = {"username":postJSON.chargePerson};
+					dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+						console.log(result);
+						if(result.length>0)
+						{
 
-						//直接替换为系统中负责人的电话号码
-						postJSON.chargePhone = result[0].phone;
-						postJSON.chargeCompany = result[0].company;
-	
-						var whereStr = {"username":postJSON.approvalPerson};
-						dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-							console.log(result);
-							if(result.length>0)
-							{
-									//直接替换为系统中审批人的电话号码
-									postJSON.approvalPhone = result[0].phone;
-									//插入请求数据
-									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON, function(result){
-											if( result.hasOwnProperty("errmsg") )
-											{
-												var info = 	{ "error":  
+							//直接替换为系统中负责人的电话号码
+							postJSON.chargePhone = result[0].phone;
+							postJSON.chargeCompany = result[0].company;
+		
+							var whereStr = {"username":postJSON.approvalPerson};
+							dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+								console.log(result);
+								if(result.length>0)
+								{
+										//直接替换为系统中审批人的电话号码
+										postJSON.approvalPhone = result[0].phone;
+										//插入请求数据
+										dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON, function(result){
+												if( result.hasOwnProperty("errmsg") )
+												{
+													var info = 	{ "error":  
+														{  
+															"msg": "基站ID或锁ID或基站地址重复!",  
+															"code":"07001"  
+														}  };
+													response.write( JSON.stringify(info) );
+													response.end();
+												}else{
+													var info = 	{ "success":  
 													{  
-														"msg": "基站ID或锁ID或基站地址重复!",  
-														"code":"07001"  
+														"msg": "基站添加成功!",  
+														"code":"07000"  
 													}  };
-												response.write( JSON.stringify(info) );
-												response.end();
-											}else{
-												var info = 	{ "success":  
-												{  
-													"msg": "基站添加成功!",  
-													"code":"07000"  
-												}  };
-												response.write( JSON.stringify(info) );
-												response.end();
-											}
-									
-									});	
+													response.write( JSON.stringify(info) );
+													response.end();
+												}
+										
+										});	
 
-							}else{
+								}else{
+									var info = 	{ "error":  
+										{  
+											"msg": "基站审批人没有录入系统",  
+											"code":"07003"  
+										}  };
+									response.write( JSON.stringify(info) );
+									response.end();
+								}
+							});
+						}else{
 								var info = 	{ "error":  
 									{  
-										"msg": "基站审批人没有录入系统",  
-										"code":"07003"  
+										"msg": "基站负责人没有录入系统",  
+										"code":"07002"  
 									}  };
 								response.write( JSON.stringify(info) );
 								response.end();
-							}
-						});
-					}else{
-							var info = 	{ "error":  
-								{  
-									"msg": "基站负责人没有录入系统",  
-									"code":"07002"  
-								}  };
-							response.write( JSON.stringify(info) );
-							response.end();
-					}
-				});
+						}
+					});
 
-			}else{
-				var info = 	{ "error":  
-					{  
-						"msg": "用户名不存在或动态令牌已过期",  
-						"code":"00000"  
-					}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-				return;
-			}	
-	});
+				}else{
+					var info = 	{ "error":  
+						{  
+							"msg": "用户名不存在或动态令牌已过期",  
+							"code":"00000"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}	
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
 }
 //---------------------结束--基站添加函数--结束--------------------//
 
@@ -180,72 +192,84 @@ function addStation(response, postData)
 //---------------------开始--基站删除函数--开始--------------------//
 function deleteStation(response, postData)
 {
-	console.log( "Request handler 'deleteStation' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-
-	var postJSON = querystring.parse(postData);
-
-	console.log(postJSON);
-
-	if( !postJSON.hasOwnProperty("deleteList") || !postJSON.hasOwnProperty("operatorName") || !postJSON.hasOwnProperty("accessToken"))
+	try
 	{
-		var info = 	{ "error":  
-		{  
-			"msg": "参数格式错误!",  
-			"code":"08001"  
-		}  };
-		response.write( JSON.stringify(info) );
-		response.end();
-		return;
-	}
+		console.log( "Request handler 'deleteStation' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "stationInfo";
+		var postJSON = querystring.parse(postData);
 
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
+		console.log(postJSON);
 
-	//验证用户名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-		console.log(result);
-		if(result.length>0)
+		if( !postJSON.hasOwnProperty("deleteList") || !postJSON.hasOwnProperty("operatorName") || !postJSON.hasOwnProperty("accessToken"))
 		{
-			//动态令牌有效性判断
-			var stationStr = postJSON.deleteList.toString();
-			stationStr = stationStr.replace("[","");
-			stationStr = stationStr.replace("]","");
-			console.log(stationStr);
-
-			var stationList = stationStr.split(",");
-
-			for(var i=0;i<stationList.length;i++)
-			{
-				console.log(stationList[i]);
-				console.log("删除的基站： "+stationList[i]);
-				var whereStr = {stationID:stationList[i].toString()};
-				dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-					console.log("删除信息"+result);
-				});	
-			}
-			var info = 	{ "success":  
+			var info = 	{ "error":  
 			{  
-				"msg": "基站删除成功!",  
-				"code":"08000"  
+				"msg": "参数格式错误!",  
+				"code":"08001"  
 			}  };
 			response.write( JSON.stringify(info) );
 			response.end();
-		}else{
-				var info = 	{ "error":  
+			return;
+		}
+
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "stationInfo";
+
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				var stationStr = postJSON.deleteList.toString();
+				stationStr = stationStr.replace("[","");
+				stationStr = stationStr.replace("]","");
+				console.log(stationStr);
+
+				var stationList = stationStr.split(",");
+
+				for(var i=0;i<stationList.length;i++)
+				{
+					console.log(stationList[i]);
+					console.log("删除的基站： "+stationList[i]);
+					var whereStr = {stationID:stationList[i].toString()};
+					dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+						console.log("删除信息"+result);
+					});	
+				}
+				var info = 	{ "success":  
 				{  
-					"msg": "用户名不存在或动态令牌已过期!",  
-					"code":"00000"  
+					"msg": "基站删除成功!",  
+					"code":"08000"  
 				}  };
 				response.write( JSON.stringify(info) );
-				response.end();	
-		}
-	});
+				response.end();
+			}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期!",  
+						"code":"00000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();	
+			}
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
 
 }
 //---------------------结束--基站删除函数--结束--------------------//
@@ -255,217 +279,229 @@ function deleteStation(response, postData)
 //---------------------开始--基站更新函数--开始--------------------//
 function updateStation(response, postData)
 {
-	console.log( "Request handler 'updateStation' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "stationInfo";
+	try
+	{
+		console.log( "Request handler 'updateStation' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "stationInfo";
 
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
-    if( judgeOriginalStationID(postJSON,response)==false ){  return;  };
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+	    if( judgeOriginalStationID(postJSON,response)==false ){  return;  };
 
-	//验证用户名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
-			if(result.length>0)
-			{
-				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-				delete postJSON.accessToken;
-				delete postJSON.operatorName;
-
-				if( postJSON.hasOwnProperty("chargePerson") &&  postJSON.hasOwnProperty("approvalPerson") )
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+				console.log(result);
+				if(result.length>0)
 				{
-								//判断用户chargePerson是否存在
-								var whereStr = {"username":postJSON.chargePerson};
-								dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-									console.log(result);
-									if(result.length>0)
-									{
-										//判断用户approvalPerson是否存在
-										postJSON.chargePhone = result[0].phone;
-										postJSON.chargeCompany = result[0].company;
+					//动态令牌有效性判断
+					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					delete postJSON.accessToken;
+					delete postJSON.operatorName;
 
-										var whereStr = {"username":postJSON.approvalPerson};
-										dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-											console.log(result);
-											if(result.length>0)
-											{
-												    //编辑基站信息
-												    postJSON.approvalPhone = result[0].phone;
-													var whereStr = {stationID:postJSON.originalStationID};
-													var updateStr = {$set: postJSON };
-													dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-														if( result.hasOwnProperty("errmsg") )
-														{
-															var info = 	{ "error":  
-																{  
-																	"msg": "基站ID已存在!",  
-																	"code":"09001"  
-																}  };
-															response.write( JSON.stringify(info) );
-															response.end();
-														}else{
-															var info = 	{ "success":  
-															{  
-																"msg": "基站信息编辑成功!",  
-																"code":"09000"  
-															}  };
-															response.write( JSON.stringify(info) );
-															response.end();
-														}
-													});									
-											}else{
-												var info = 	{ "error":  
-													{  
-														"msg": "基站审批人没有录入系统",  
-														"code":"09003"  
-													}  };
-												response.write( JSON.stringify(info) );
-												response.end();
-											}
-										});
-									}else{
-											var info = 	{ "error":  
-												{  
-													"msg": "基站负责人没有录入系统",  
-													"code":"09002"  
-												}  };
-											response.write( JSON.stringify(info) );
-											response.end();
-									}
-								});
+					if( postJSON.hasOwnProperty("chargePerson") &&  postJSON.hasOwnProperty("approvalPerson") )
+					{
+									//判断用户chargePerson是否存在
+									var whereStr = {"username":postJSON.chargePerson};
+									dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+										console.log(result);
+										if(result.length>0)
+										{
+											//判断用户approvalPerson是否存在
+											postJSON.chargePhone = result[0].phone;
+											postJSON.chargeCompany = result[0].company;
 
-				}else if( postJSON.hasOwnProperty("chargePerson") )
-				{
-								//判断用户chargePerson是否存在
-								var whereStr = {"username":postJSON.chargePerson};
-								dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-									console.log(result);
-									if(result.length>0)
-									{
-										    //编辑基站信息
-										    postJSON.chargePhone = result[0].phone;
-										    postJSON.chargeCompany = result[0].company;
-										    
-											var whereStr = {stationID:postJSON.originalStationID};
-											var updateStr = {$set: postJSON };
-											dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-												if( result.hasOwnProperty("errmsg") )
+											var whereStr = {"username":postJSON.approvalPerson};
+											dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+												console.log(result);
+												if(result.length>0)
 												{
+													    //编辑基站信息
+													    postJSON.approvalPhone = result[0].phone;
+														var whereStr = {stationID:postJSON.originalStationID};
+														var updateStr = {$set: postJSON };
+														dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+															if( result.hasOwnProperty("errmsg") )
+															{
+																var info = 	{ "error":  
+																	{  
+																		"msg": "基站ID已存在!",  
+																		"code":"09001"  
+																	}  };
+																response.write( JSON.stringify(info) );
+																response.end();
+															}else{
+																var info = 	{ "success":  
+																{  
+																	"msg": "基站信息编辑成功!",  
+																	"code":"09000"  
+																}  };
+																response.write( JSON.stringify(info) );
+																response.end();
+															}
+														});									
+												}else{
 													var info = 	{ "error":  
 														{  
-															"msg": "基站ID已存在!",  
-															"code":"09001"  
+															"msg": "基站审批人没有录入系统",  
+															"code":"09003"  
 														}  };
 													response.write( JSON.stringify(info) );
 													response.end();
-												}else{
-													var info = 	{ "success":  
-													{  
-														"msg": "基站信息编辑成功!",  
-														"code":"09000"  
-													}  };
-													response.write( JSON.stringify(info) );
-													response.end();
 												}
-											});									
-									}else{
-											var info = 	{ "error":  
-												{  
-													"msg": "基站负责人没有录入系统",  
-													"code":"09002"  
-												}  };
-											response.write( JSON.stringify(info) );
-											response.end();
-									}
-								});
-
-
-				}else if( postJSON.hasOwnProperty("approvalPerson") )
-				{
-										//判断用户approvalPerson是否存在
-										var whereStr = {"username":postJSON.approvalPerson};
-										dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-											console.log(result);
-											if(result.length>0)
-											{
-												    //编辑基站信息
-												    postJSON.approvalPhone = result[0].phone;
-													var whereStr = {stationID:postJSON.originalStationID};
-													var updateStr = {$set: postJSON };
-													dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-														if( result.hasOwnProperty("errmsg") )
-														{
-															var info = 	{ "error":  
-																{  
-																	"msg": "基站ID已存在!",  
-																	"code":"09001"  
-																}  };
-															response.write( JSON.stringify(info) );
-															response.end();
-														}else{
-															var info = 	{ "success":  
-															{  
-																"msg": "基站信息编辑成功!",  
-																"code":"09000"  
-															}  };
-															response.write( JSON.stringify(info) );
-															response.end();
-														}
-													});									
-											}else{
+											});
+										}else{
 												var info = 	{ "error":  
 													{  
-														"msg": "基站审批人没有录入系统",  
-														"code":"09003"  
+														"msg": "基站负责人没有录入系统",  
+														"code":"09002"  
 													}  };
 												response.write( JSON.stringify(info) );
 												response.end();
-											}
-										});
-								
-				}else
-				{
-
-								    //编辑基站信息
-									var whereStr = {stationID:postJSON.originalStationID};
-									var updateStr = {$set: postJSON };
-									dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-										if( result.hasOwnProperty("errmsg") )
-										{
-											var info = 	{ "error":  
-												{  
-													"msg": "基站ID已存在!",  
-													"code":"09001"  
-												}  };
-											response.write( JSON.stringify(info) );
-											response.end();
-										}else{
-											var info = 	{ "success":  
-											{  
-												"msg": "基站信息编辑成功!",  
-												"code":"09000"  
-											}  };
-											response.write( JSON.stringify(info) );
-											response.end();
 										}
-									});					
-				}
-			}else{
-				var info = 	{ "error":  
-					{  
-						"msg": "用户名不存在或动态令牌已过期",  
-						"code":"00000"  
-					}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-				return;
-			}	
-	});
+									});
+
+					}else if( postJSON.hasOwnProperty("chargePerson") )
+					{
+									//判断用户chargePerson是否存在
+									var whereStr = {"username":postJSON.chargePerson};
+									dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+										console.log(result);
+										if(result.length>0)
+										{
+											    //编辑基站信息
+											    postJSON.chargePhone = result[0].phone;
+											    postJSON.chargeCompany = result[0].company;
+											    
+												var whereStr = {stationID:postJSON.originalStationID};
+												var updateStr = {$set: postJSON };
+												dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+													if( result.hasOwnProperty("errmsg") )
+													{
+														var info = 	{ "error":  
+															{  
+																"msg": "基站ID已存在!",  
+																"code":"09001"  
+															}  };
+														response.write( JSON.stringify(info) );
+														response.end();
+													}else{
+														var info = 	{ "success":  
+														{  
+															"msg": "基站信息编辑成功!",  
+															"code":"09000"  
+														}  };
+														response.write( JSON.stringify(info) );
+														response.end();
+													}
+												});									
+										}else{
+												var info = 	{ "error":  
+													{  
+														"msg": "基站负责人没有录入系统",  
+														"code":"09002"  
+													}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+										}
+									});
+
+
+					}else if( postJSON.hasOwnProperty("approvalPerson") )
+					{
+											//判断用户approvalPerson是否存在
+											var whereStr = {"username":postJSON.approvalPerson};
+											dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+												console.log(result);
+												if(result.length>0)
+												{
+													    //编辑基站信息
+													    postJSON.approvalPhone = result[0].phone;
+														var whereStr = {stationID:postJSON.originalStationID};
+														var updateStr = {$set: postJSON };
+														dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+															if( result.hasOwnProperty("errmsg") )
+															{
+																var info = 	{ "error":  
+																	{  
+																		"msg": "基站ID已存在!",  
+																		"code":"09001"  
+																	}  };
+																response.write( JSON.stringify(info) );
+																response.end();
+															}else{
+																var info = 	{ "success":  
+																{  
+																	"msg": "基站信息编辑成功!",  
+																	"code":"09000"  
+																}  };
+																response.write( JSON.stringify(info) );
+																response.end();
+															}
+														});									
+												}else{
+													var info = 	{ "error":  
+														{  
+															"msg": "基站审批人没有录入系统",  
+															"code":"09003"  
+														}  };
+													response.write( JSON.stringify(info) );
+													response.end();
+												}
+											});
+									
+					}else
+					{
+
+									    //编辑基站信息
+										var whereStr = {stationID:postJSON.originalStationID};
+										var updateStr = {$set: postJSON };
+										dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+											if( result.hasOwnProperty("errmsg") )
+											{
+												var info = 	{ "error":  
+													{  
+														"msg": "基站ID已存在!",  
+														"code":"09001"  
+													}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}else{
+												var info = 	{ "success":  
+												{  
+													"msg": "基站信息编辑成功!",  
+													"code":"09000"  
+												}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}
+										});					
+					}
+				}else{
+					var info = 	{ "error":  
+						{  
+							"msg": "用户名不存在或动态令牌已过期",  
+							"code":"00000"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}	
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
 
 }
 //---------------------结束--基站更新函数--结束--------------------//
@@ -476,107 +512,119 @@ function updateStation(response, postData)
 //---------------------开始--基站查询函数--开始--------------------//
 function selectStation(response, postData)
 {
-	console.log( "Request handler 'selectStation' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "stationInfo";
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
-	
-	console.log(postJSON);
-	//验证用户名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+	try
+	{
+		console.log( "Request handler 'selectStation' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "stationInfo";
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+		
+		console.log(postJSON);
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 
-	console.log(whereStr);
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-		console.log(result);
-		if(result.length>0)
-		{
-			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
-			delete postJSON.operatorName; 
-			delete postJSON.accessToken; 
-			var consultNum = 0;
-
-
-			if( postJSON.hasOwnProperty("lockNum") )
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
 			{
-				if(postJSON.lockNum == "open" )
-				{
-						consultNum = 1;
-				}else if(postJSON.lockNum == "close" )
-				{
-						consultNum = 2;
-				}
-			}
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
-			if( postJSON.hasOwnProperty("address") )
-			{
-				postJSON.address =  {$regex:postJSON.address,$options:'i'};
-			}
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+				var consultNum = 0;
 
-			delete postJSON.lockNum;
 
-			dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
-				function(result){
-				if( result.length>0 )
+				if( postJSON.hasOwnProperty("lockNum") )
 				{
-					var json;
-					switch(consultNum)
+					if(postJSON.lockNum == "open" )
 					{
-						case 0:
-						{
-							json = {success:result};
-							break;
-						}
-						case 1:
-						{
-							json = {success:result.length};
-							break;
-						}
-						case 2:
-						{
-							json = {success:result.length};
-							break;
-						}
+							consultNum = 1;
+					}else if(postJSON.lockNum == "close" )
+					{
+							consultNum = 2;
 					}
+				}
 
-					response.write( JSON.stringify(json) );
-					response.end();
-				}else{
+				if( postJSON.hasOwnProperty("address") )
+				{
+					postJSON.address =  {$regex:postJSON.address,$options:'i'};
+				}
 
-					if(consultNum > 0)
+				delete postJSON.lockNum;
+
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+					function(result){
+					if( result.length>0 )
 					{
-						var info = 	{ "success":0};
+						var json;
+						switch(consultNum)
+						{
+							case 0:
+							{
+								json = {success:result};
+								break;
+							}
+							case 1:
+							{
+								json = {success:result.length};
+								break;
+							}
+							case 2:
+							{
+								json = {success:result.length};
+								break;
+							}
+						}
+
+						response.write( JSON.stringify(json) );
+						response.end();
+					}else{
+
+						if(consultNum > 0)
+						{
+							var info = 	{ "success":0};
+							response.write( JSON.stringify(info) );
+							response.end();
+							return;
+						}
+
+						var info = 	{ "error":  
+						{  
+							"msg": "没有查询记录!",  
+							"code":"10001"  
+						}  };
 						response.write( JSON.stringify(info) );
 						response.end();
-						return;
 					}
-
-					var info = 	{ "error":  
+				
+				});	
+			}else{
+				var info = 	{ "error":  
 					{  
-						"msg": "没有查询记录!",  
-						"code":"10001"  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
 					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}
-			
-			});	
-		}else{
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}catch(e)
+	{
 			var info = 	{ "error":  
-				{  
-					"msg": "用户名不存在或动态令牌已过期",  
-					"code":"00000"  
-				}  };
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
 			response.write( JSON.stringify(info) );
-			response.end();
-			return;
-		}
-	});
+			response.end();	
+	}
 }
 //---------------------结束--基站查询函数--结束--------------------//
 
@@ -584,96 +632,108 @@ function selectStation(response, postData)
 //---------------------开始--Excel表格下载接口--开始--------------------//
 function downloadStation(response, postData)
 {
-	console.log( "Request handler 'downloadUser' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "userInfo";
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
+	try
+	{
+		console.log( "Request handler 'downloadUser' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "userInfo";
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
 
-	console.log(postJSON);
-	//验证用户名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	console.log(whereStr);
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-		console.log(result);
-		if(result.length>0)
-		{
-			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-			
-			var fileName = postJSON.operatorName;
-			delete postJSON.operatorName; 
-			delete postJSON.accessToken; 
-			dbClient.selectFunc( mongoClient, DB_CONN_STR, "stationInfo",  postJSON , 
-				function(result){
-				console.log(result);
-				if( result.length>0 )
-				{
-						var fs = require('fs');
-						var nodeExcel = require('excel-export');
-						var conf ={};
-						conf.name = "mysheet";
+		console.log(postJSON);
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				
+				var fileName = postJSON.operatorName;
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, "stationInfo",  postJSON , 
+					function(result){
+					console.log(result);
+					if( result.length>0 )
+					{
+							var fs = require('fs');
+							var nodeExcel = require('excel-export');
+							var conf ={};
+							conf.name = "mysheet";
 
-						conf.cols = [       
-						        {
-						            caption:'基站ID',
-						            type:'string',
-						        },
-						        {
-						            caption:'基站地址',
-						            type:'string',
-						        },
-						        {
-						            caption:'基站负责人',
-						            type:'string'
-						        },
-						        {
-						            caption:'基站负责人电话',
-						             type:'string'              
-						        }
-						];
-						conf.rows = [];
-						for(var i=0;i<result.length;i++)
-						{
-							conf.rows[i] = [result[i].stationID, result[i].address,
-							result[i].chargePerson, result[i].chargePhone ];
-						}
+							conf.cols = [       
+							        {
+							            caption:'基站ID',
+							            type:'string',
+							        },
+							        {
+							            caption:'基站地址',
+							            type:'string',
+							        },
+							        {
+							            caption:'基站负责人',
+							            type:'string'
+							        },
+							        {
+							            caption:'基站负责人电话',
+							             type:'string'              
+							        }
+							];
+							conf.rows = [];
+							for(var i=0;i<result.length;i++)
+							{
+								conf.rows[i] = [result[i].stationID, result[i].address,
+								result[i].chargePerson, result[i].chargePhone ];
+							}
 
-						var result = nodeExcel.execute(conf);
-						console.log('export successfully!');
-						fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
-						var info = 	{ "success":  
+							var result = nodeExcel.execute(conf);
+							console.log('export successfully!');
+							fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
+							var info = 	{ "success":  
+							{  
+								"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
+								"code":"11000"  
+							}  };
+							response.write( JSON.stringify(info) );
+							response.end();
+					}else{
+						var info = 	{ "error":  
 						{  
-							"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
-							"code":"11000"  
+							"msg": "没有数据记录!",  
+							"code":"11001"  
 						}  };
 						response.write( JSON.stringify(info) );
 						response.end();
-				}else{
-					var info = 	{ "error":  
+					}
+				
+				});	
+			}else{
+				var info = 	{ "error":  
 					{  
-						"msg": "没有数据记录!",  
-						"code":"11001"  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
 					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}
-			
-			});	
-		}else{
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}catch(e)
+	{
 			var info = 	{ "error":  
-				{  
-					"msg": "用户名不存在或动态令牌已过期",  
-					"code":"00000"  
-				}  };
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
 			response.write( JSON.stringify(info) );
-			response.end();
-			return;
-		}
-	});
+			response.end();	
+	}
 
 }
 //---------------------结束--Excel表格下载接口--结束--------------------//
@@ -683,61 +743,73 @@ function downloadStation(response, postData)
 //---------------------开始--从Excel表格导入基站数据接口--开始--------------------//
 function importDataFromExcel(response, postData)
 {
-	console.log( "Request handler 'importDataFromExcel' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-	var collectionName = "userInfo";
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
+	try
+	{
+		console.log( "Request handler 'importDataFromExcel' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "userInfo";
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
 
-	console.log(postJSON);
-	//验证用户名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	console.log(whereStr);
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-		console.log(result);
-		if(result.length>0)
-		{
-			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-			
-			var fileName = postJSON.operatorName;
-			delete postJSON.operatorName; 
-			delete postJSON.accessToken; 
-
-			var excelImport = require('./node-excel.js');
-
-			if( postJSON.importDestination == '0' )
+		console.log(postJSON);
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
 			{
-				excelImport.importStationFromExcel(postJSON.filename, response);
-			}else if( postJSON.importDestination == '1' )
-			{
-				excelImport.importKeyFromExcel(postJSON.filename, response);
-			}else{
-
-				var failedInfo = 	{ "error":  
-				{  
-					"msg": "数据导入失败,参数错误，目标不存在",  
-					"code":"28002"  
-				}  };
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
-				response.write( JSON.stringify(failedInfo) );
-				response.end();
-			}
+				var fileName = postJSON.operatorName;
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
 
-		}else{
+				var excelImport = require('./node-excel.js');
+
+				if( postJSON.importDestination == '0' )
+				{
+					excelImport.importStationFromExcel(postJSON.filename, response);
+				}else if( postJSON.importDestination == '1' )
+				{
+					excelImport.importKeyFromExcel(postJSON.filename, response);
+				}else{
+
+					var failedInfo = 	{ "error":  
+					{  
+						"msg": "数据导入失败,参数错误，目标不存在",  
+						"code":"28002"  
+					}  };
+					
+					response.write( JSON.stringify(failedInfo) );
+					response.end();
+				}
+
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"28000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}catch(e)
+	{
 			var info = 	{ "error":  
-				{  
-					"msg": "用户名不存在或动态令牌已过期",  
-					"code":"28000"  
-				}  };
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
 			response.write( JSON.stringify(info) );
-			response.end();
-			return;
-		}
-	});
+			response.end();	
+	}
 
 }
 //---------------------结束--从Excel表格导入基站数据接口--结束--------------------//
@@ -748,103 +820,115 @@ function importDataFromExcel(response, postData)
 //---------------------开始--基站日志查询函数--开始--------------------//
 function queryStationLog(response, postData)
 {
-	console.log( "Request handler 'queryStationLog' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	try
+	{
+		console.log( "Request handler 'queryStationLog' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
-	
-	console.log(postJSON);
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+		
+		console.log(postJSON);
 
-	//验证用户名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	console.log(whereStr);
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-		console.log(result);
-		if(result.length>0)
-		{
-			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
-			delete postJSON.operatorName; 
-			delete postJSON.accessToken; 
-			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
-			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.endTime) } };
-
-			var whereStr  = {};
-
-			if( postJSON.hasOwnProperty('startTime') )
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
 			{
-				whereStr.taskStartTime = mstartTime.taskStartTime;
-				//delete postJSON.startTime; 
-			}
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
-			if( postJSON.hasOwnProperty('endTime') )
-			{
-				whereStr.taskEndTime = mstartTime.taskEndTime;
-				//delete postJSON.endTime; 
-			}
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
+				var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.endTime) } };
 
-			if( postJSON.hasOwnProperty('stationID') )
-			{
-				whereStr.stationID = postJSON.stationID;   
-			}
+				var whereStr  = {};
 
-			if( postJSON.hasOwnProperty('address') )
-			{
-				whereStr.stationAddress = postJSON.address;  
-			}
-
-			if( postJSON.hasOwnProperty('stationManagementProvince') )
-			{
-				whereStr.stationManagementProvince = postJSON.stationManagementProvince;  
-			}
-
-			if( postJSON.hasOwnProperty('stationManagementCity') )
-			{
-				whereStr.stationManagementCity = postJSON.stationManagementCity;  
-			}
-
-
-			if( postJSON.hasOwnProperty('stationManagementArea') )
-			{
-				whereStr.stationManagementArea = postJSON.stationManagementArea;  
-			}
-
-
-			//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
-			dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
-				function(result){
-				if( result.length>0 )
+				if( postJSON.hasOwnProperty('startTime') )
 				{
-					var json = {success:result};
-					response.write( JSON.stringify(json) );
-					response.end();
-				}else{
-					var info = 	{ "error":  
-					{  
-						"msg": "没有查询记录!",  
-						"code":"24001"  
-					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
+					whereStr.taskStartTime = mstartTime.taskStartTime;
+					//delete postJSON.startTime; 
 				}
-			
-			});	
-		}else{
+
+				if( postJSON.hasOwnProperty('endTime') )
+				{
+					whereStr.taskEndTime = mstartTime.taskEndTime;
+					//delete postJSON.endTime; 
+				}
+
+				if( postJSON.hasOwnProperty('stationID') )
+				{
+					whereStr.stationID = postJSON.stationID;   
+				}
+
+				if( postJSON.hasOwnProperty('address') )
+				{
+					whereStr.stationAddress = postJSON.address;  
+				}
+
+				if( postJSON.hasOwnProperty('stationManagementProvince') )
+				{
+					whereStr.stationManagementProvince = postJSON.stationManagementProvince;  
+				}
+
+				if( postJSON.hasOwnProperty('stationManagementCity') )
+				{
+					whereStr.stationManagementCity = postJSON.stationManagementCity;  
+				}
+
+
+				if( postJSON.hasOwnProperty('stationManagementArea') )
+				{
+					whereStr.stationManagementArea = postJSON.stationManagementArea;  
+				}
+
+
+				//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
+					function(result){
+					if( result.length>0 )
+					{
+						var json = {success:result};
+						response.write( JSON.stringify(json) );
+						response.end();
+					}else{
+						var info = 	{ "error":  
+						{  
+							"msg": "没有查询记录!",  
+							"code":"24001"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}
+				
+				});	
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}catch(e)
+	{
 			var info = 	{ "error":  
-				{  
-					"msg": "用户名不存在或动态令牌已过期",  
-					"code":"00000"  
-				}  };
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
 			response.write( JSON.stringify(info) );
-			response.end();
-			return;
-		}
-	});
+			response.end();	
+	}
 }
 //---------------------结束--基站日志查询函数--结束--------------------//
 
@@ -853,204 +937,216 @@ function queryStationLog(response, postData)
 //---------------------开始--基站日志Excel表格下载接口--开始--------------------//
 function downloadStationLog(response, postData)
 {
-	console.log( "Request handler 'downloadStationLog' was called." );
-	response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	var postJSON = querystring.parse(postData);
-	var mongoClient = require('mongodb').MongoClient;
-	var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+	try
+	{
+		console.log( "Request handler 'downloadStationLog' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 
-	//判断操作者和动态令牌是否存在
-	if( judgeUserToken(postJSON,response)==false ){  return;  };
-	
-	console.log(postJSON);
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+		
+		console.log(postJSON);
 
-	//验证用户名和动态令牌
-	var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-	var fileName = postJSON.operatorName + "日志";
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		var fileName = postJSON.operatorName + "日志";
 
-	console.log(whereStr);
-	dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-		console.log(result);
-		if(result.length>0)
-		{
-			//动态令牌有效性判断
-			if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
-			delete postJSON.operatorName; 
-			delete postJSON.accessToken; 
-			var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
-			var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.endTime) } };
-
-			var whereStr  = {};
-
-			if( postJSON.hasOwnProperty('startTime') )
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			console.log(result);
+			if(result.length>0)
 			{
-				whereStr.taskStartTime = mstartTime.taskStartTime;
-				//delete postJSON.startTime; 
-			}
+				//动态令牌有效性判断
+				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
-			if( postJSON.hasOwnProperty('endTime') )
-			{
-				whereStr.taskEndTime = mstartTime.taskEndTime;
-				//delete postJSON.endTime; 
-			}
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
+				var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.endTime) } };
 
-			if( postJSON.hasOwnProperty('stationID') )
-			{
-				whereStr.stationID = postJSON.stationID;   
-			}
+				var whereStr  = {};
 
-			if( postJSON.hasOwnProperty('address') )
-			{
-				whereStr.stationAddress = postJSON.address;  
-			}
-
-			if( postJSON.hasOwnProperty('stationManagementProvince') )
-			{
-				whereStr.stationManagementProvince = postJSON.stationManagementProvince;  
-			}
-
-			if( postJSON.hasOwnProperty('stationManagementCity') )
-			{
-				whereStr.stationManagementCity = postJSON.stationManagementCity;  
-			}
-
-
-			if( postJSON.hasOwnProperty('stationManagementArea') )
-			{
-				whereStr.stationManagementArea = postJSON.stationManagementArea;  
-			}
-
-
-			//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
-			dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
-				function(result){
-				if( result.length>0 )
+				if( postJSON.hasOwnProperty('startTime') )
 				{
-						var fs = require('fs');
-						var nodeExcel = require('excel-export');
-						var conf ={};
-						conf.name = "mysheet";
+					whereStr.taskStartTime = mstartTime.taskStartTime;
+					//delete postJSON.startTime; 
+				}
 
-						conf.cols = [       
-						        {
-						            caption:'基站ID',
-						            type:'string',
-						        },
-						        {
-						            caption:'基站地址',
-						            type:'string',
-						        },
-						        {
-						            caption:'电子钥匙ID',
-						            type:'string',
-						        },
-						        {
-						            caption:'任务ID',
-						            type:'string',
-						        },
-						        {
-						            caption:'电子钥匙有效省级区域',
-						            type:'string',
-						        },
-						        {
-						            caption:'电子钥匙有效市级区域',
-						            type:'string',
-						        },
-						        {
-						            caption:'电子钥匙有效地级区域',
-						            type:'string',
-						        },
- 						        {
-						            caption:'基站有效省级区域',
-						            type:'string',
-						        },
-						        {
-						            caption:'基站有效市级区域',
-						            type:'string',
-						        },
-						        {
-						            caption:'基站有效地级区域',
-						            type:'string',
-						        },
-						        {
-						            caption:'任务申请人',
-						            type:'string'
-						        },
-						        {
-						            caption:'申请人联系方式',
-						            type:'string'
-						        },
-						        {
-						            caption:'任务申请描述',
-						             type:'string'              
-						        },
-						        {
-						            caption:'任务起始时间',
-						             type:'string'              
-						        },
-						        {
-						            caption:'任务终止时间',
-						             type:'string'              
-						        }
+				if( postJSON.hasOwnProperty('endTime') )
+				{
+					whereStr.taskEndTime = mstartTime.taskEndTime;
+					//delete postJSON.endTime; 
+				}
 
-						];
-						conf.rows = [];
+				if( postJSON.hasOwnProperty('stationID') )
+				{
+					whereStr.stationID = postJSON.stationID;   
+				}
+
+				if( postJSON.hasOwnProperty('address') )
+				{
+					whereStr.stationAddress = postJSON.address;  
+				}
+
+				if( postJSON.hasOwnProperty('stationManagementProvince') )
+				{
+					whereStr.stationManagementProvince = postJSON.stationManagementProvince;  
+				}
+
+				if( postJSON.hasOwnProperty('stationManagementCity') )
+				{
+					whereStr.stationManagementCity = postJSON.stationManagementCity;  
+				}
 
 
-						for(var i=0;i<result.length;i++)
-						{
-
-							var startDate = new Date(result[i].taskStartTime * 1000); 
-							var endDate = new Date(result[i].taskEndTime * 1000);
-
-							var startDateTime = (startDate.getFullYear()) + "-" + (startDate.getMonth() + 1) + "-" +
-							(startDate.getDate()) + "   " + 
-							 (startDate.getHours()) + ":" + (startDate.getMinutes()) + ":" + (startDate.getSeconds());
-
-							var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
-
-							conf.rows[i] = [result[i].stationID, result[i].stationAddress,result[i].applicantKeyID, result[i].taskID,
-							 result[i].keyManagementProvince, result[i].keyManagementCity, result[i].keyManagementArea,
-							 result[i].stationManagementProvince, result[i].stationManagementCity, result[i].stationManagementArea,
-							 result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
-							startDateTime
-							, endDateTime ];
-						}
+				if( postJSON.hasOwnProperty('stationManagementArea') )
+				{
+					whereStr.stationManagementArea = postJSON.stationManagementArea;  
+				}
 
 
-						var result = nodeExcel.execute(conf);
-						console.log('export Log successfully!');
-						fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
-						var info = 	{ "success":  
+				//{"taskStartTime":{$gte:parseInt(startTime)}}   {"taskEndTime":{$lte:parseInt(endTime) }}
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , 
+					function(result){
+					if( result.length>0 )
+					{
+							var fs = require('fs');
+							var nodeExcel = require('excel-export');
+							var conf ={};
+							conf.name = "mysheet";
+
+							conf.cols = [       
+							        {
+							            caption:'基站ID',
+							            type:'string',
+							        },
+							        {
+							            caption:'基站地址',
+							            type:'string',
+							        },
+							        {
+							            caption:'电子钥匙ID',
+							            type:'string',
+							        },
+							        {
+							            caption:'任务ID',
+							            type:'string',
+							        },
+							        {
+							            caption:'电子钥匙有效省级区域',
+							            type:'string',
+							        },
+							        {
+							            caption:'电子钥匙有效市级区域',
+							            type:'string',
+							        },
+							        {
+							            caption:'电子钥匙有效地级区域',
+							            type:'string',
+							        },
+	 						        {
+							            caption:'基站有效省级区域',
+							            type:'string',
+							        },
+							        {
+							            caption:'基站有效市级区域',
+							            type:'string',
+							        },
+							        {
+							            caption:'基站有效地级区域',
+							            type:'string',
+							        },
+							        {
+							            caption:'任务申请人',
+							            type:'string'
+							        },
+							        {
+							            caption:'申请人联系方式',
+							            type:'string'
+							        },
+							        {
+							            caption:'任务申请描述',
+							             type:'string'              
+							        },
+							        {
+							            caption:'任务起始时间',
+							             type:'string'              
+							        },
+							        {
+							            caption:'任务终止时间',
+							             type:'string'              
+							        }
+
+							];
+							conf.rows = [];
+
+
+							for(var i=0;i<result.length;i++)
+							{
+
+								var startDate = new Date(result[i].taskStartTime * 1000); 
+								var endDate = new Date(result[i].taskEndTime * 1000);
+
+								var startDateTime = (startDate.getFullYear()) + "-" + (startDate.getMonth() + 1) + "-" +
+								(startDate.getDate()) + "   " + 
+								 (startDate.getHours()) + ":" + (startDate.getMinutes()) + ":" + (startDate.getSeconds());
+
+								var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
+
+								conf.rows[i] = [result[i].stationID, result[i].stationAddress,result[i].applicantKeyID, result[i].taskID,
+								 result[i].keyManagementProvince, result[i].keyManagementCity, result[i].keyManagementArea,
+								 result[i].stationManagementProvince, result[i].stationManagementCity, result[i].stationManagementArea,
+								 result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
+								startDateTime
+								, endDateTime ];
+							}
+
+
+							var result = nodeExcel.execute(conf);
+							console.log('export Log successfully!');
+							fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
+							var info = 	{ "success":  
+							{  
+								"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
+								"code":"25000"  
+							}  };
+							response.write( JSON.stringify(info) );
+							response.end();
+					}else{
+						var info = 	{ "error":  
 						{  
-							"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
-							"code":"25000"  
+							"msg": "没有查询记录!",  
+							"code":"25001"  
 						}  };
 						response.write( JSON.stringify(info) );
 						response.end();
-				}else{
-					var info = 	{ "error":  
+					}
+				
+				});	
+			}else{
+				var info = 	{ "error":  
 					{  
-						"msg": "没有查询记录!",  
-						"code":"25001"  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
 					}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-				}
-			
-			});	
-		}else{
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}catch(e)
+	{
 			var info = 	{ "error":  
-				{  
-					"msg": "用户名不存在或动态令牌已过期",  
-					"code":"00000"  
-				}  };
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
 			response.write( JSON.stringify(info) );
-			response.end();
-			return;
-		}
-	});
+			response.end();	
+	}
 
 
 }
