@@ -1144,7 +1144,7 @@ function taskAnalyse(response, postData)
 						var curPos = 0;
 						for(var mmtime=mmStartTime;mmtime<mmEndTime;mmtime=mmtime+8*3600)
 						{
-							marray.push( {date:formatToDate(mmtime),num:0} );
+							marray.push( {date:formatToDate(mmtime*1000),num:0} );
 							for(;count<result.length;count++)
 							{
 								if( result[i].hasOwnProperty('applyTime') 
