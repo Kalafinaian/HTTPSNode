@@ -1140,13 +1140,14 @@ function taskAnalyse(response, postData)
 							}
 						}
 
-						var count = 0;
+						
 						var curPos = 0;
-						for(var mmtime=mmStartTime;mmtime<mmEndTime;mmtime=mmtime+24*3600)
+						for(var mmtime=mmStartTime;mmtime<mmEndTime+24*3600;mmtime=mmtime+24*3600)
 						{
 							marray.push( {date:formatToDate(mmtime*1000),num:0} );
-							for(;count<result.length;count++)
+							for(var count = 0;count<result.length;count++)
 							{
+								console.log(result[i].applyTime+" "+mmtime)
 								if( result[i].hasOwnProperty('applyTime') 
 									&& (result[i].applyTime>mmtime) 
 									&& (result[i].applyTime<mmtime+24*3600) )
@@ -1209,7 +1210,7 @@ function taskCalculate(response, postData)
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
 		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-		var collectionName = "taskInfo";
+		var collectionName = "appTaskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
 
@@ -1275,9 +1276,49 @@ function taskCalculate(response, postData)
 					//console.log(result);
 					if( result.length>0 )
 					{
-						var json = {success:result.length};
+						var json;
+						var marray = [];
+						var mmStartTime;
+						var mmEndTime;
+						for(var i=0;i<result.length;i++)
+						{
+							if(result[i].hasOwnProperty('applyTime'))
+							{
+								mmStartTime =  result[i].applyTime - result[i].applyTime%(3600*24) - 8*3600;
+								break;
+							}
+						}
 
+						for(var i=result.length-1;i>-1;i--)
+						{
+							if(result[i].hasOwnProperty('applyTime'))
+							{
+								mmEndTime =  result[i].applyTime - result[i].applyTime%(3600*24) - 8*3600;
+								break;
+							}
+						}
+
+						
+						var curPos = 0;
+						for(var mmtime=mmStartTime;mmtime<mmEndTime+24*3600;mmtime=mmtime+24*3600)
+						{
+							marray.push( {date:formatToDate(mmtime*1000),num:0} );
+							for(var count = 0;count<result.length;count++)
+							{
+								console.log(result[i].applyTime+" "+mmtime)
+								if( result[i].hasOwnProperty('applyTime') 
+									&& (result[i].applyTime>mmtime) 
+									&& (result[i].applyTime<mmtime+24*3600) )
+								{
+									marray[curPos].num++;
+								}
+							}
+							curPos++;
+						}
+
+						json = {success:marray};
 						response.write( JSON.stringify(json) );
+
 						response.end();
 					}else{
 						var json = {success:0};

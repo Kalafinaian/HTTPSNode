@@ -1954,8 +1954,24 @@ URL：https://www.smartlock.top/v0/taskAnalyse
 
 
 		{
-			"success":num
+				"success":
+				[
+					{
+						“date”:20160627
+						“num”:10
+					},
+					{
+						“date”:20160628
+						“num”:11
+					},
+					{
+						“date”:20160629
+						“num”:12
+					}
+				]
+
 		}
+
 
 Or
 
@@ -1999,7 +2015,22 @@ URL：https://www.smartlock.top/v0/taskCalculate
 
 
 		{
-			"success":num
+				"success":
+				[
+					{
+						“date”:20160627
+						“num”:10
+					},
+					{
+						“date”:20160628
+						“num”:11
+					},
+					{
+						“date”:20160629
+						“num”:12
+					}
+				]
+
 		}
 
 Or
