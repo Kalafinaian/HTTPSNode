@@ -650,6 +650,8 @@ URL：https://www.smartlock.top/v0/queryStation
 
 服务器返回参数：
 
+lockNum=No或不存在的时候：
+
 	{
 		"success":
 		{
@@ -678,10 +680,26 @@ Or
 	}
 
 
-Or lockNum=Yes的时候
+lockNum=Yes的时候：
+
 
 	{
-		"success":num
+			"success":
+			[
+				{
+					"managementArea":"成华区"
+					"num":10
+				},
+				{
+					"managementArea":"青羊区"
+					"num":11
+				},
+				{
+					"managementArea":"金牛区"
+					"num":12
+				},
+				...
+			]
 	}
 
 

@@ -542,12 +542,9 @@ function selectStation(response, postData)
 
 				if( postJSON.hasOwnProperty("lockNum") )
 				{
-					if(postJSON.lockNum == "open" )
+					if(postJSON.lockNum == "Yes" )
 					{
 							consultNum = 1;
-					}else if(postJSON.lockNum == "close" )
-					{
-							consultNum = 2;
 					}
 				}
 
@@ -572,12 +569,27 @@ function selectStation(response, postData)
 							}
 							case 1:
 							{
-								json = {success:result.length};
-								break;
-							}
-							case 2:
-							{
-								json = {success:result.length};
+								var marray = [];
+								for(var i=0;i<result.length;i++)
+								{
+									if(result[i].hasOwnProperty("managementArea"))
+									{
+										var isExists = false;
+										for(var j=0;j<marray.length;j++)
+										{
+											if( marray[i] == result[i].managementArea)
+											{
+												isExists = true;
+												marray[i].num++;
+											}
+										}
+										if(isExists == false)
+										{
+											marray.push( {"managementArea":result[i].managementArea, "num":1} );
+										}
+									}
+								}
+								json = { success:marray };
 								break;
 							}
 						}
