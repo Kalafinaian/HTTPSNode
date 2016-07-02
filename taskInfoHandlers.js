@@ -1022,6 +1022,22 @@ function appTaskConsult(response, postData)
 //---------------------结束--查询APP历史数据接口--结束--------------------//
 
 
+//---------------------开始--时间戳转日期--开始--------------------//
+function add0(m){return m<10?'0'+m:m }
+function formatToDate(shijianchuo)
+{
+//shijianchuo是整数，否则要parseInt转换
+var time = new Date(shijianchuo);
+var y = time.getFullYear();
+var m = time.getMonth()+1;
+var d = time.getDate();
+var h = time.getHours();
+var mm = time.getMinutes();
+var s = time.getSeconds();
+return y+'-'+add0(m)+'-'+add0(d);
+//y+'-'+add0(m)+'-'+add0(d) +' '+add0(h)+':'+add0(mm)+':'+add0(s);
+}
+//---------------------结束--时间戳转日期--结束--------------------//
 
 //---------------------开始--工单申请记录数据分析统计接口--开始--------------------//
 function taskAnalyse(response, postData)
@@ -1057,9 +1073,9 @@ function taskAnalyse(response, postData)
 
 				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 				var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
-				var mApplyStartTime = { "applyTime":{$gte:parseInt( postJSON.applyStartTime) } };
-				var mApplyEndTime = { "applyTime":{$lte:parseInt( postJSON.applyEndTime) } };
-				var mApplyRange = { "applyTime":{$gte:parseInt( postJSON.applyStartTime) , $lte:parseInt( postJSON.applyEndTime) } };
+				var mApplyStartTime = { "applyTime":{$gte:parseInt( postJSON.queryStartTime) } };
+				var mApplyEndTime = { "applyTime":{$lte:parseInt( postJSON.queryEndTime) } };
+				var mApplyRange = { "applyTime":{$gte:parseInt( postJSON.queryStartTime) , $lte:parseInt( postJSON.queryEndTime) } };
 
 				if( postJSON.hasOwnProperty('taskStartTime') )
 				{
@@ -1102,12 +1118,56 @@ function taskAnalyse(response, postData)
 					//console.log(result);
 					if( result.length>0 )
 					{
-						var json = {success:result.length};
+						var json;
+						var marray = [];
+						var mmStartTime;
+						var mmEndTime;
+						for(var i=0;i<result.length;i++)
+						{
+							if(result[i].hasOwnProperty('applyTime'))
+							{
+								mmStartTime =  result[i].applyTime - result[i].applyTime%(3600*24) - 8*3600;
+								break;
+							}
+						}
 
+						for(var i=result.length-1;i>-1;i--)
+						{
+							if(result[i].hasOwnProperty('applyTime'))
+							{
+								mmEndTime =  result[i].applyTime - result[i].applyTime%(3600*24) - 8*3600;
+								break;
+							}
+						}
+
+						var count = 0;
+						var curPos = 0;
+						for(var mmtime=mmStartTime;mmtime<mmEndTime;mmtime=mmtime+8*3600)
+						{
+							marray.push( {date:formatToDate(mmtime),num:0} );
+							for(;count<result.length;count++)
+							{
+								if( result[i].hasOwnProperty('applyTime') 
+									&& (result[i].applyTime>mmtime) 
+									&& (result[i].applyTime<mmtime+8*3600) )
+								{
+									marray[curPos].num++;
+								}
+							}
+							curPos++;
+						}
+
+						json = {success:marray};
 						response.write( JSON.stringify(json) );
+
 						response.end();
+
 					}else{
-						var json = {success:0};
+						var json = 	{ "error":  
+							{  
+								"msg": "没有查询记录",  
+								"code":"31001"  
+							}  };
 						response.write( JSON.stringify(json) );
 						response.end();
 					}

@@ -1942,35 +1942,13 @@ URL：https://www.smartlock.top/v0/taskAnalyse
 | :------:    				| :----:  | :--: | :----------------------------------------: 	| 
 |operatorName   			| String  | Yes  | 操作者用户账号-用户名        				|  
 |accessToken 				| String  | Yes  | 操作者API动态令牌							| 
-|taskID						| String  | No   | 申请开门的任务ID                             |
-|applyStartTime			    | String  | No   | 申请时间的开始查询时间                       |
-|applyEndTime			    | String  | No   | 申请时间的结束查询时间                       |
-|applicantName				| String  | No   | 申请人名字                                   |
-|applicantCompany			| String  | No   | 申请人公司                                   |
-|applicantPhone				| String  | No   | 申请人联系方式                               |
-|applicationType			| String  | No   | 申请的任务类型                               |
-|applyDescription			| String  | No   | 申请任务描述                                 |
-|taskStartTime				| String  | No   | 申请任务开始的起始查询时间                   |
-|taskEndTime				| String  | No   | 申请任务结束的截止查询时间                   |
-|taskTimes					| String  | No   | 申请有效开门次数                             |
-|stationAddress				| String  | No   | 申请开门的基站地址                           |
-|approvalPerson				| String  | No   | 审批人账户名称                               |
-|approvalPhone				| String  | No   | 审批人联系方式                               |
-|stationID					| String  | No   | 申请开门的基站ID                             |
 |lockID						| String  | No   | 申请开门的门锁ID                             |
 |stationManagementProvince	| String  | No   | 申请开门的基站所属省级区域                   |
 |stationManagementCity		| String  | No   | 申请开门的基站所属市级区域                   |
 |stationManagementArea		| String  | No   | 申请开门的基站所属地级区域                   |
-|applicationStatus			| String  | No   | 工单申请状态                                 |
-|approveTime				| String  | No   | 工单审批通过时间                             |
-|workStatus					| String  | No   | 工单完成状态                                 |
-|workDescription			| String  | No   | 工单完成情况描述                             |
-|finishTime					| String  | No   | 工单完成或者最后提交时间                     |
-|applicantKeyID				| String  | No   | 申请的电子钥匙ID                             |
-|keyManagementProvince		| String  | No   | 申请开门的电子钥匙省级区域                   |
-|keyManagementCity			| String  | No   | 申请开门的电子钥匙市级区域                   |
-|keyManagementArea			| String  | No   | 申请开门的电子钥匙地级区域                   |
-
+|queryStartTime 			| String  | No   | 开始查询时间                      		    |
+|queryEndTime			    | String  | No   | 结束查询时间                      		    |
+	
 
 服务器返回参数：
 
