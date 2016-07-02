@@ -179,8 +179,8 @@ function taskRequest(response, postData)
 										
 										delete postJSON.accessToken;
 										delete postJSON.operatorName;
-										postJSON.taskStatus = "正常"；
-										postJSON.taskDescription = "工单等待审批"；
+										postJSON.taskStatus = "正常";
+										postJSON.taskDescription = "工单等待审批";
 										//插入请求数据
 										dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 												console.log(result);
@@ -337,8 +337,8 @@ function taskFetch(response, postData)
 					{
 						if( result[i].applicationStatus == "pending" && Date.now()/1000 > result[i].taskStartTime )
 						{
-							result[i].taskStatus = "异常"；
-							result[i].taskDescription = "工单未及时审批"；
+							result[i].taskStatus = "异常";
+							result[i].taskDescription = "工单未及时审批";
 
 							//更新工单状态
 							var whereTask = {taskID:result[i].taskID};
@@ -418,8 +418,8 @@ function taskAuthenticate(response, postData)
 			var whereStr = {taskID:postJSON.taskID};
 			delete postJSON.taskID;
 
-			postJSON.taskStatus = "正常"；
-			postJSON.taskDescription = "工单已经审批"；
+			postJSON.taskStatus = "正常";
+			postJSON.taskDescription = "工单已经审批";
 			var updateStr = {$set: postJSON };
 
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
