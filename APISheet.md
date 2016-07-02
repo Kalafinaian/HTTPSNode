@@ -1112,7 +1112,8 @@ URL：https://www.smartlock.top/v0/taskFetch
 |keyManagementProvince      | String  | No      | 工单申请的电子钥匙所属省份                 |
 |keyManagementCity      	| String  | No      | 工单申请的电子钥匙所属省份                 |
 |keyManagementArea      	| String  | No      | 工单申请的电子钥匙所属省份                 |
-
+|taskStatus                 | String  | No      | 工单异常状态					             |
+|taskDescription            | String  | No      | 工单异常状态描述					         |
 
 
 服务器返回参数：

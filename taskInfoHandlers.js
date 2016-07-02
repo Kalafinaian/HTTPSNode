@@ -179,6 +179,8 @@ function taskRequest(response, postData)
 										
 										delete postJSON.accessToken;
 										delete postJSON.operatorName;
+										postJSON.taskStatus = "正常"；
+										postJSON.taskDescription = "工单等待审批"；
 										//插入请求数据
 										dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 												console.log(result);
@@ -331,8 +333,26 @@ function taskFetch(response, postData)
 				{
 					var json = {success:result};
 
+					for(var i=0;i<result.length;i++)
+					{
+						if( result[i].applicationStatus == "pending" && Date.now()/1000 > result[i].taskStartTime )
+						{
+							result[i].taskStatus = "异常"；
+							result[i].taskDescription = "工单未及时审批"；
+
+							//更新工单状态
+							var whereTask = {taskID:result[i].taskID};
+							var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
+							dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,function(result){
+								console.log("更新工单状态 "+result);
+							});	
+
+						}
+					}
+
 					response.write( JSON.stringify(json) );
 					response.end();
+
 				}else{
 					var info = 	{ "error":  
 					{  
@@ -397,7 +417,11 @@ function taskAuthenticate(response, postData)
 			//originalName
 			var whereStr = {taskID:postJSON.taskID};
 			delete postJSON.taskID;
+
+			postJSON.taskStatus = "正常"；
+			postJSON.taskDescription = "工单已经审批"；
 			var updateStr = {$set: postJSON };
+
 			dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 				console.log("审批结果 "+result);
 				var info = 	{ "success":  
