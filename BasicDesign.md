@@ -234,7 +234,10 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 			"approveTime":" ",
 			"workStatus":"未完成",
 			"workDescription":"",
-			"finishTime":" "
+			"finishTime":" ",
+
+			"taskStatus": "正常",          //异常     
+			"taskDescription": "工单等待审批"  //工单未及时审批、工程师在工单截止时间前未上站......           
 
 		}
 	}

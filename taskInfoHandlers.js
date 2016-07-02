@@ -346,34 +346,51 @@ function taskFetch(response, postData)
 
 					for(var i=0;i<result.length;i++)
 					{
-						//更新工单状态--根据审批时间判断工单异常--审批时间大于申请的上站开始时间
-						if( result[i].applicationStatus == "pending" && Date.now()/1000 > result[i].taskStartTime )
+						try
 						{
-							//更新工单状态
-							var whereTask = {taskID:result[i].taskID};
-							var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
-							dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,function(result){
-								console.log("更新工单状态 "+result);
-							});	
-						}
+							//更新工单状态--根据审批时间判断工单异常--审批时间大于申请的上站开始时间
+							if( result[i].hasOwnProperty(applicationStatus) && result[i].applicationStatus == "pending" &&  result[i].hasOwnProperty(taskStartTime) && Date.now()/1000 > result[i].taskStartTime )
+							{
+								//更新工单状态
+								var whereTask = {taskID:result[i].taskID};
+								var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
+								dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,function(result){
+									console.log("更新工单状态 "+result);
+								});	
+							}
 
-						var whereTask = {taskID:result[i].taskID , operationResult:"开锁成功"};
-						//更新工单状态--根据上站时间与工作时间判断工单异常--上站结束时间已过，工作人员未上站
-						dbClient.selectFunc( mongoClient, DB_CONN_STR, "appTaskInfo",  whereStr , function(result){
-								//console.log(result);
-								if( result.length<=0 &&   Date.now()/1000 > result[i].taskEndTime )
-								{
-									result[i].taskStatus = "异常";
-									result[i].taskDescription = "工程师未及时上站";
-									//更新工单状态
-									var whereTask = {taskID:result[i].taskID};
-									var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
-									dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,function(result){
-										   console.log("更新工单状态 "+result);
-									});	
-								}
-						});	
+							var whereTask = {taskID:result[i].taskID , operationResult:"开锁成功"};
+							//更新工单状态--根据上站时间与工作时间判断工单异常--上站结束时间已过，工作人员未上站
+							dbClient.selectFunc( mongoClient, DB_CONN_STR, "appTaskInfo",  whereStr , function(result){
+									//console.log(result);
+									if( result.length<=0 &&  result[i].hasOwnProperty(taskEndTime) && Date.now()/1000 > result[i].taskEndTime )
+									{
+										result[i].taskStatus = "异常";
+										result[i].taskDescription = "工程师未及时上站";
+
+										try
+										{
+											//更新工单状态
+											var whereTask = {taskID:result[i].taskID};
+											var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
+											dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,
+											function(result)
+											{
+												   console.log("更新工单状态 "+result);
+											});	
+										}catch(e)
+										{
+											console.log("工单判断异常，可能缺少参数");
+										}
+
+									}
+							});	
+						}catch(e)
+						{
+							console.log("查询参数不足,参数不足，参数不足");
+						}
 					}
+
 
 				}else{
 					var info = 	{ "error":  
