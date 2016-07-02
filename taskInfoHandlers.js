@@ -331,27 +331,49 @@ function taskFetch(response, postData)
 				//console.log(result);
 				if( result.length>0 )
 				{
-					var json = {success:result};
-
 					for(var i=0;i<result.length;i++)
 					{
 						if( result[i].applicationStatus == "pending" && Date.now()/1000 > result[i].taskStartTime )
 						{
 							result[i].taskStatus = "异常";
 							result[i].taskDescription = "工单未及时审批";
+						}
+					}
+					//为了快速返回数据，将更新状态的操作置后
+					var json = {success:result};
+					response.write( JSON.stringify(json) );
+					response.end();
 
+					for(var i=0;i<result.length;i++)
+					{
+						//更新工单状态--根据审批时间判断工单异常--审批时间大于申请的上站开始时间
+						if( result[i].applicationStatus == "pending" && Date.now()/1000 > result[i].taskStartTime )
+						{
 							//更新工单状态
 							var whereTask = {taskID:result[i].taskID};
 							var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
 							dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,function(result){
 								console.log("更新工单状态 "+result);
 							});	
-
 						}
-					}
 
-					response.write( JSON.stringify(json) );
-					response.end();
+						var whereTask = {taskID:result[i].taskID , operationResult:"开锁成功"};
+						//更新工单状态--根据上站时间与工作时间判断工单异常--上站结束时间已过，工作人员未上站
+						dbClient.selectFunc( mongoClient, DB_CONN_STR, "appTaskInfo",  whereStr , function(result){
+								//console.log(result);
+								if( result.length<=0 &&   Date.now()/1000 > result[i].taskEndTime )
+								{
+									result[i].taskStatus = "异常";
+									result[i].taskDescription = "工程师未及时上站";
+									//更新工单状态
+									var whereTask = {taskID:result[i].taskID};
+									var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
+									dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,function(result){
+										   console.log("更新工单状态 "+result);
+									});	
+								}
+						});	
+					}
 
 				}else{
 					var info = 	{ "error":  
