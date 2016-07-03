@@ -1157,6 +1157,7 @@ function taskAnalyse(response, postData)
 							}
 						}
 
+						console.log("查询开始时间 "+formatToDetailDate(mmStartTime*1000)+" 查询结束时间 "+formatToDetailDate(mmEndTime*1000))
 						
 						var curPos = 0;
 						for(var mmtime=mmStartTime;mmtime<mmEndTime+24*3600;mmtime=mmtime+24*3600)
@@ -1303,7 +1304,8 @@ function taskCalculate(response, postData)
 						{
 							if(result[i].hasOwnProperty('taskCommitTime'))
 							{
-								mmStartTime =  result[i].taskCommitTime - result[i].taskCommitTime%(3600*24) - 8*3600;
+								var mtime = parseInt(result[i].taskCommitTime);
+								mmStartTime =  result[i].mtime - result[i].mtime%(3600*24) - 8*3600;
 								break;
 							}
 						}
@@ -1312,12 +1314,13 @@ function taskCalculate(response, postData)
 						{
 							if(result[i].hasOwnProperty('taskCommitTime'))
 							{
-								mmEndTime =  result[i].taskCommitTime - result[i].taskCommitTime%(3600*24) - 8*3600;
+								var mtime = parseInt(result[i].taskCommitTime);
+								mmEndTime =  mtime - mtime%(3600*24) - 8*3600;
 								break;
 							}
 						}
 
-						
+						console.log("查询开始时间 "+formatToDetailDate(mmStartTime*1000)+" 查询结束时间 "+formatToDetailDate(mmEndTime*1000))		
 						var curPos = 0;
 						for(var mmtime=mmStartTime;mmtime<mmEndTime+24*3600;mmtime=mmtime+24*3600)
 						{
