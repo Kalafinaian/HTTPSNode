@@ -913,6 +913,7 @@ function appTaskRecord(response, postData)
 					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 					delete postJSON.operatorName;
 					delete postJSON.accessToken;
+					postJSON.taskCommitTime = parseInt(postJSON.taskCommitTime);
 
 					//插入请求数据
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
