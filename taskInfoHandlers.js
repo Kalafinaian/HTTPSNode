@@ -1163,12 +1163,12 @@ function taskAnalyse(response, postData)
 						for(var mmtime=mmStartTime;mmtime<mmEndTime+24*3600;mmtime=mmtime+24*3600)
 						{
 							marray.push( {date:formatToDate(mmtime*1000),num:0} );
-							for(var count = 0;count<result.length;count++)
+							for(var j = 0;j<result.length;j++)
 							{
-								console.log(result[i].applyTime+" "+mmtime)
-								if( result[i].hasOwnProperty('applyTime') 
-									&& (result[i].applyTime>mmtime) 
-									&& (result[i].applyTime<mmtime+24*3600) )
+								console.log(result[j].applyTime+" "+mmtime)
+								if( result[j].hasOwnProperty('applyTime') 
+									&& (result[j].applyTime>mmtime) 
+									&& (result[j].applyTime<mmtime+24*3600) )
 								{
 									marray[curPos].num++;
 								}
@@ -1325,12 +1325,12 @@ function taskCalculate(response, postData)
 						for(var mmtime=mmStartTime;mmtime<mmEndTime+24*3600;mmtime=mmtime+24*3600)
 						{
 							marray.push( {date:formatToDate(mmtime*1000),num:0} );
-							for(var count = 0;count<result.length;count++)
+							for(var j = 0;j<result.length;j++)
 							{
-								console.log(result[i].taskCommitTime+" "+mmtime)
-								if( result[i].hasOwnProperty('taskCommitTime') 
-									&& (parseInt(result[i].taskCommitTime)>mmtime) 
-									&& (parseInt(result[i].taskCommitTime)<mmtime+24*3600) )
+								console.log(result[j].taskCommitTime+" "+mmtime)
+								if( result[j].hasOwnProperty('applyTime') 
+									&& (result[j].taskCommitTime>mmtime) 
+									&& (result[j].taskCommitTime<mmtime+24*3600) )
 								{
 									marray[curPos].num++;
 								}
