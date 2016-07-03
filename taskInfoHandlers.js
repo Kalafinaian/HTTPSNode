@@ -1222,7 +1222,7 @@ function taskCalculate(response, postData)
 {
 	try
 	{
-		console.log( "Request handler 'taskCalculate' was called."+ );
+		console.log( "Request handler 'taskCalculate' was called.");
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
