@@ -1305,7 +1305,7 @@ function taskCalculate(response, postData)
 							if(result[i].hasOwnProperty('taskCommitTime'))
 							{
 								var mtime = parseInt(result[i].taskCommitTime);
-								mmStartTime =  result[i].mtime - result[i].mtime%(3600*24) - 8*3600;
+								mmStartTime =  mtime - mtime%(3600*24) - 8*3600;
 								break;
 							}
 						}
