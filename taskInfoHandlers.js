@@ -1329,8 +1329,8 @@ function taskCalculate(response, postData)
 							{
 								console.log(result[j].taskCommitTime+" "+mmtime)
 								if( result[j].hasOwnProperty('applyTime') 
-									&& (result[j].taskCommitTime>mmtime) 
-									&& (result[j].taskCommitTime<mmtime+24*3600) )
+									&& (parseInt(result[j].taskCommitTime)>mmtime) 
+									&& (parseInt(result[j].taskCommitTime)<mmtime+24*3600) )
 								{
 									marray[curPos].num++;
 								}
