@@ -1103,24 +1103,24 @@ function taskAnalyse(response, postData)
 					//delete postJSON.taskEndTime; 
 				}
 
-				if( postJSON.hasOwnProperty('applyStartTime') )
+				if( postJSON.hasOwnProperty('queryStartTime') )
 				{
 					whereStr.applyTime = mApplyStartTime.applyTime;
 					console.log( mApplyStartTime.applyTime );
 					//delete postJSON.taskStartTime; 
 				}
 
-				if( postJSON.hasOwnProperty('applyEndTime') )
+				if( postJSON.hasOwnProperty('queryEndTime') )
 				{
 					whereStr.applyTime = mApplyEndTime.applyTime;
 					console.log( mApplyEndTime.applyTime );
 					//delete postJSON.taskEndTime; 
 				}
 
-				if( postJSON.hasOwnProperty('applyEndTime') && postJSON.hasOwnProperty('applyStartTime') )
+				if( postJSON.hasOwnProperty('queryStartTime') && postJSON.hasOwnProperty('queryEndTime') )
 				{
 					whereStr.applyTime = mApplyRange.applyTime;
-					console.log( "both" );
+					console.log( mApplyRange );
 				}
 
 			    delete whereStr.applyStartTime;
@@ -1254,19 +1254,19 @@ function taskCalculate(response, postData)
 				var mEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.queryEndTime) } };
 				var mRange = { "taskCommitTime":{$gte:parseInt( postJSON.queryStartTime) , $lte:parseInt( postJSON.queryEndTime) } };
 
-				if( postJSON.hasOwnProperty('taskCommitStartTime') )
+				if( postJSON.hasOwnProperty('queryStartTime') )
 				{
 					whereStr.taskCommitTime = mStartTime.taskCommitTime;
 					//delete postJSON.taskStartTime; 
 				}
 
-				if( postJSON.hasOwnProperty('taskCommitEndTime') )
+				if( postJSON.hasOwnProperty('queryEndTime') )
 				{
 					whereStr.taskCommitTime = mEndTime.taskCommitTime;
 					//delete postJSON.taskEndTime; 
 				}
 
-				if( postJSON.hasOwnProperty('taskCommitStartTime') && postJSON.hasOwnProperty('taskCommitEndTime') )
+				if( postJSON.hasOwnProperty('queryStartTime') && postJSON.hasOwnProperty('queryEndTime') )
 				{
 					whereStr.taskCommitTime = mRange.taskCommitTime;
 					console.log( mRange.taskCommitTime );
