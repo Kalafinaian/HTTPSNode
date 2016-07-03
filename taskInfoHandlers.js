@@ -1087,8 +1087,8 @@ function taskAnalyse(response, postData)
 
 				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 				var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
-				var mApplyStartTime = { "applyTime":{$gte:Date.parse(postJSON.queryStartTime)/1000 } };
-				var mApplyEndTime = { "applyTime":{$lte:Date.parse(postJSON.queryEndTime)/1000 };
+				var mApplyStartTime = { "applyTime":{$gte: Date.parse(postJSON.queryStartTime)/1000 } };
+				var mApplyEndTime = { "applyTime":{$lte: Date.parse(postJSON.queryEndTime)/1000 } };
 				var mApplyRange = { "applyTime":{$gte:Date.parse(postJSON.queryStartTime)/1000 , $lte:Date.parse(postJSON.queryEndTime)/1000 } };
 
 				if( postJSON.hasOwnProperty('taskStartTime') )
