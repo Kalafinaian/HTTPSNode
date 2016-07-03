@@ -1,6 +1,36 @@
 var querystring = require("querystring"); //post原始数据转JSON对象处理模块
 var dbClient = require("./Mongo");  //数据库模块
 
+
+//---------------------开始--时间戳转日期--开始--------------------//
+function add0(m){return m<10?'0'+m:m }
+function formatToDate(timeStamp)
+{
+	//shijianchuo是整数，否则要parseInt转换
+	var time = new Date(timeStamp);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y+'-'+add0(m)+'-'+add0(d);
+}
+function formatToDetailDate(timeStamp)
+{
+	//shijianchuo是整数，否则要parseInt转换
+	var time = new Date(timeStamp);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y+'-'+add0(m)+'-'+add0(d) +' '+add0(h)+':'+add0(mm)+':'+add0(s);
+}
+//---------------------结束--时间戳转日期--结束--------------------//
+
+
 //封装JSON字段不确定参数判断函数---待完成
 function judgeTaskID(postJSON,response)
 {
@@ -1022,22 +1052,6 @@ function appTaskConsult(response, postData)
 //---------------------结束--查询APP历史数据接口--结束--------------------//
 
 
-//---------------------开始--时间戳转日期--开始--------------------//
-function add0(m){return m<10?'0'+m:m }
-function formatToDate(shijianchuo)
-{
-//shijianchuo是整数，否则要parseInt转换
-var time = new Date(shijianchuo);
-var y = time.getFullYear();
-var m = time.getMonth()+1;
-var d = time.getDate();
-var h = time.getHours();
-var mm = time.getMinutes();
-var s = time.getSeconds();
-return y+'-'+add0(m)+'-'+add0(d);
-//y+'-'+add0(m)+'-'+add0(d) +' '+add0(h)+':'+add0(mm)+':'+add0(s);
-}
-//---------------------结束--时间戳转日期--结束--------------------//
 
 //---------------------开始--工单申请记录数据分析统计接口--开始--------------------//
 function taskAnalyse(response, postData)
@@ -1208,7 +1222,7 @@ function taskCalculate(response, postData)
 {
 	try
 	{
-		console.log( "Request handler 'taskCalculate' was called." );
+		console.log( "Request handler 'taskCalculate' was called."+ );
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;

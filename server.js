@@ -2,6 +2,35 @@ var httpsModule = require("https");
 var fs = require('fs');
 var url = require("url");
 
+//---------------------开始--时间戳转日期--开始--------------------//
+function add0(m){return m<10?'0'+m:m }
+function formatToDate(timeStamp)
+{
+	//shijianchuo是整数，否则要parseInt转换
+	var time = new Date(timeStamp);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y+'-'+add0(m)+'-'+add0(d);
+}
+function formatToDetailDate(timeStamp)
+{
+	//shijianchuo是整数，否则要parseInt转换
+	var time = new Date(timeStamp);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y+'-'+add0(m)+'-'+add0(d) +' '+add0(h)+':'+add0(mm)+':'+add0(s);
+}
+//---------------------结束--时间戳转日期--结束--------------------//
+
+
 //---------------------开始--https启动监听，路由分配函数--开始--------------------//
 function start(route,handle){
 	//https响应回调函数
@@ -10,6 +39,7 @@ function start(route,handle){
 		var postData = "";
 		var pathname = url.parse(request.url).pathname;
 		console.log("Request for " + pathname + " started.");
+		console.log("current time is "+ formatToDetailDate(Date.now()));
 
 		request.setEncoding("utf8");
 		request.addListener("data", function(postDataChunk)
