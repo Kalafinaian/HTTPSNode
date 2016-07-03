@@ -1,4 +1,4 @@
-var querystring = require("querystring"); //post原始数据转JSON对象处理模块
+﻿var querystring = require("querystring"); //post原始数据转JSON对象处理模块
 var dbClient = require("./Mongo");  //数据库模块
 
 
@@ -1087,9 +1087,9 @@ function taskAnalyse(response, postData)
 
 				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 				var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
-				var mApplyStartTime = { "applyTime":{$gte:parseInt( postJSON.queryStartTime) } };
-				var mApplyEndTime = { "applyTime":{$lte:parseInt( postJSON.queryEndTime) } };
-				var mApplyRange = { "applyTime":{$gte:parseInt( postJSON.queryStartTime) , $lte:parseInt( postJSON.queryEndTime) } };
+				var mApplyStartTime = { "applyTime":{$gte:Date.parse(postJSON.queryStartTime)/1000 } };
+				var mApplyEndTime = { "applyTime":{$lte:Date.parse(postJSON.queryEndTime)/1000 };
+				var mApplyRange = { "applyTime":{$gte:Date.parse(postJSON.queryStartTime)/1000 , $lte:Date.parse(postJSON.queryEndTime)/1000 } };
 
 				if( postJSON.hasOwnProperty('taskStartTime') )
 				{
@@ -1250,9 +1250,9 @@ function taskCalculate(response, postData)
 
 			    whereStr = postJSON;
 
-				var mStartTime = { "taskCommitTime":{$gte:parseInt( postJSON.queryStartTime) } };
-				var mEndTime = { "taskCommitTime":{$lte:parseInt( postJSON.queryEndTime) } };
-				var mRange = { "taskCommitTime":{$gte:parseInt( postJSON.queryStartTime) , $lte:parseInt( postJSON.queryEndTime) } };
+				var mStartTime = { "taskCommitTime":{$gte: Date.parse(postJSON.queryStartTime)/1000  } };
+				var mEndTime = { "taskCommitTime":{$lte: Date.parse(postJSON.queryEndTime)/1000 } };
+				var mRange = { "taskCommitTime":{$gte: Date.parse(postJSON.queryStartTime)/1000 , $lte: Date.parse(postJSON.queryEndTime)/1000 } };
 
 				if( postJSON.hasOwnProperty('queryStartTime') )
 				{
