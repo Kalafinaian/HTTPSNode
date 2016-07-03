@@ -147,9 +147,21 @@ function taskRequest(response, postData)
 										response.end();
 										return;
 								}
-								postJSON.taskStartTime = parseInt(postJSON.taskStartTime);
-								postJSON.taskEndTime = parseInt(postJSON.taskEndTime);
-								postJSON.applyTime = parseInt(postJSON.applyTime);
+								if(postJSON.hasOwnProperty('taskStartTime'))
+								{
+									postJSON.taskStartTime = parseInt(postJSON.taskStartTime);
+								}
+								
+								if(postJSON.hasOwnProperty('taskEndTime'))
+								{
+									postJSON.taskEndTime = parseInt(postJSON.taskEndTime);
+								}
+								
+								if(postJSON.hasOwnProperty('applyTime'))
+								{
+									postJSON.applyTime = parseInt(postJSON.applyTime);
+								}
+								
 								postJSON.approveTime = " ";
 								postJSON.workStatus = "未完成";
 								postJSON.workDescription = " ";
@@ -913,7 +925,11 @@ function appTaskRecord(response, postData)
 					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 					delete postJSON.operatorName;
 					delete postJSON.accessToken;
-					postJSON.taskCommitTime = parseInt(postJSON.taskCommitTime);
+					if(postJSON.hasOwnProperty('taskCommitTime'))
+					{
+						postJSON.taskCommitTime = parseInt(postJSON.taskCommitTime);
+					}
+
 
 					//插入请求数据
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
