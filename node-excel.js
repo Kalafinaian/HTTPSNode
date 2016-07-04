@@ -213,7 +213,7 @@ function importKeyFromExcel( importFileName, response )
 
 			var successInfo = 	{ "error":  
 			{  
-				"msg": "数据导入成功,重复数据和包含系统之外的工作人员条目已剔除",  
+				"msg": "数据导入成功,重复数据已剔除",  
 				"code":"28000"  
 			}  };
 			
