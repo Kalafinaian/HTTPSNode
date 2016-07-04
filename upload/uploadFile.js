@@ -40,24 +40,34 @@ function onRequest(request,response)
 
 				console.log(files);
 
+				try
+				{
+					//移动的文件目录
+					//var newPath = form.uploadDir + files.file.name;
+					var newPath = '基站数据批量导入.xlsx';
+					fs.renameSync(files.file.path, newPath);
 
-				//移动的文件目录
-				//var newPath = form.uploadDir + files.file.name;
-				var newPath = '基站数据批量导入.xlsx';
-				fs.renameSync(files.file.path, newPath);
-
-				// cmdStr = 'mv '+ files.file.name + ' 基站数据批量导入.xlsx';
-				// exec(cmdStr);
-				
-				
-				response.write('<html>');
-				response.write('<head>');
-				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=success\">');
-				response.write('</head>');
-				response.write('</html>');
-				response.end();
-				return;
+					// cmdStr = 'mv '+ files.file.name + ' 基站数据批量导入.xlsx';
+					// exec(cmdStr);
+					response.write('<html>');
+					response.write('<head>');
+					response.write(
+					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=success\">');
+					response.write('</head>');
+					response.write('</html>');
+					response.end();
+					return;
+				}catch(e)
+				{
+					response.write('<html>');
+					response.write('<head>');
+					response.write(
+					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=failure\">');
+					response.write('</head>');
+					response.write('</html>');
+					response.end();
+					return;
+				}
 
 			});
 		}else if( pathname == '/uploadKeyFile' && request.method.toLowerCase() == 'post' ){
@@ -81,23 +91,36 @@ function onRequest(request,response)
 
 					console.log(files);
 
-
-					//移动的文件目录
-					//var newPath = form.uploadDir + files.file.name;
-					var newPath = '电子钥匙数据批量导入.xlsx';
-					fs.renameSync(files.file.path, newPath);
-
 					// cmdStr = 'mv '+ files.file.name + ' 电子钥匙数据批量导入.xlsx';
 					// exec(cmdStr);
-					
-					response.write('<html>');
-					response.write('<head>');
-					response.write(
-					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyManage.html?result=success\">');
-					response.write('</head>');
-					response.write('</html>');
-					response.end();
-					return;
+					try
+					{
+						//移动的文件目录
+						//var newPath = form.uploadDir + files.file.name;
+						var newPath = '电子钥匙数据批量导入.xlsx';
+						fs.renameSync(files.file.path, newPath);
+
+						// cmdStr = 'mv '+ files.file.name + ' 电子钥匙数据批量导入.xlsx';
+						// exec(cmdStr);
+						response.write('<html>');
+						response.write('<head>');
+						response.write(
+						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyManage.html?result=success\">');
+						response.write('</head>');
+						response.write('</html>');
+						response.end();
+						return;
+					}catch(e)
+					{
+						response.write('<html>');
+						response.write('<head>');
+						response.write(
+						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyManage.html?result=failure\">');
+						response.write('</head>');
+						response.write('</html>');
+						response.end();
+						return;
+					}
 				});
 
 		}else{
