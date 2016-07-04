@@ -81,42 +81,85 @@ function importStationFromExcel( importFileName, response )
 				field.managementArea  = rowData[6].toString();
 				field.approvalPerson  = rowData[7].toString();
 				
-				//要注意异步编程的特性
-				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
-						if( result.hasOwnProperty("errmsg") )
-						{
-							if(isWellFinished == true)
+
+				var whereStr = {"username":field.chargePerson};
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+					console.log(result);
+					if(result.length>0)
+					{
+
+						//直接替换为系统中负责人的电话号码
+						field.chargePhone = result[0].phone;
+						field.chargeCompany = result[0].company;
+	
+						var whereStr = {"username":field.approvalPerson};
+						dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+							console.log(result);
+							if(result.length>0)
 							{
-								var failedInfo = 	{ "error":  
-								{  
-									"msg": "数据导入失败,基站数据有重复",  
-									"code":"28003"  
-								}  };
-								
-								response.write( JSON.stringify(failedInfo) );
+									//直接替换为系统中审批人的电话号码
+									field.approvalPhone = result[0].phone;
+									//插入请求数据
+									//要注意异步编程的特性
+									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
+											if( result.hasOwnProperty("errmsg") )
+											{
+												if(isWellFinished == true)
+												{
+													var failedInfo = 	{ "error":  
+													{  
+														"msg": "数据导入失败,基站数据有重复",  
+														"code":"28003"  
+													}  };
+													
+													response.write( JSON.stringify(failedInfo) );
+													response.end();
+													return;
+												}
+												isWellFinished = false;
+											}
+
+											if( isWellFinished == true && i==(rowCount-1) )
+											{
+													var Info = 	{ "success":  
+													{  
+														"msg": "数据导入成功",  
+														"code":"28000"  
+													}  };
+													
+													response.write( JSON.stringify(Info) );
+													response.end();		
+													return;
+											}
+											console.log(result);
+									});	
+
+									console.log(field);
+
+							}else{
+								var info = 	{ "error":  
+									{  
+										"msg": "基站审批人没有录入系统",  
+										"code":"07003"  
+									}  };
+								response.write( JSON.stringify(info) );
 								response.end();
+								return;
 							}
-							isWellFinished = false;
-						}
-
-						if( isWellFinished == true && i==(rowCount-1) )
-						{
-								var Info = 	{ "success":  
+						});
+					}else{
+							var info = 	{ "error":  
 								{  
-									"msg": "数据导入成功",  
-									"code":"28000"  
+									"msg": "基站负责人没有录入系统",  
+									"code":"07002"  
 								}  };
-								
-								response.write( JSON.stringify(Info) );
-								response.end();		
-						}
-						console.log(result);
-				});	
-
-				console.log(field);
+							response.write( JSON.stringify(info) );
+							response.end();
+							return;
+					}
+				});
 
 			}
-
 		} catch(e)
 		{ 
 				var failedInfo = 	{ "error":  
