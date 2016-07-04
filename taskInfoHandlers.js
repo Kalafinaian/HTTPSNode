@@ -527,7 +527,14 @@ function taskAuthenticate(response, postData)
 
 				postJSON.taskStatus = "正常";
 				postJSON.taskDescription = "工单已经审批";
+				
+				if(postJSON.hasOwnProperty('approveTime'))
+				{
+					postJSON.approveTime = parseInt(postJSON.approveTime);
+				}
 				var updateStr = {$set: postJSON };
+
+
 
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					console.log("审批结果 "+result);
