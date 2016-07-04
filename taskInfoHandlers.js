@@ -338,7 +338,7 @@ function taskFetch(response, postData)
 				delete postJSON.accessToken; 
 
 
-	       		    whereStr = postJSON;
+	       		whereStr = postJSON;
 
 				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 				var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
@@ -945,7 +945,30 @@ function appTaskRecord(response, postData)
 							}  };
 							response.write( JSON.stringify(info) );
 							response.end();
-							
+
+							try
+							{
+								//更新基站开关门状态
+								var whereStr = {lockID:postJSON.lockID};
+								var updateStr = {};
+								if(postJSON.operationResult ==  "上锁成功！" )
+								{
+									updateStr.doorStatus = "closed";
+								}
+
+								if(postJSON.operationResult ==  "开锁成功" )
+								{
+									updateStr.doorStatus = "open";
+								}
+
+								dbClient.updatFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
+										console.log(result);	
+								});	
+							}catch(e)
+							{
+								console.log(e);
+							}
+	
 					});	
 				}else{
 					var info = 	{ "error":  
