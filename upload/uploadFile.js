@@ -12,6 +12,9 @@ function onRequest(request,response)
 	var pathname = url.parse(request.url).pathname;
 	console.log("Request for " + pathname + " started.");
 	//response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+	var exec = require('child_process').exec; 
+	var cmdStr = 'rm *.xlsx';
+	exec(cmdStr);
 
     try
     {
