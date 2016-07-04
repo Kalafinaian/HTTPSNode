@@ -600,6 +600,7 @@ function selectStation(response, postData)
 							case 1:
 							{
 								var marray = [];
+								//统计同一区域基站或门锁个数
 								for(var i=0;i<result.length;i++)
 								{
 									if(result[i].hasOwnProperty("managementArea"))
@@ -607,7 +608,8 @@ function selectStation(response, postData)
 										var isExists = false;
 										for(var j=0;j<marray.length;j++)
 										{
-											if( marray[i] == result[i].managementArea)
+											//去重计数
+											if( marray[i].managementArea == result[i].managementArea)
 											{
 												isExists = true;
 												marray[i].num++;
