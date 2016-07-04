@@ -37,8 +37,7 @@ function importStationFromExcel( importFileName, response )
 			var excelObj  = xlsx.parse( "./upload/"+importFileName );
 
 			console.log(excelObj );
-			var isWellFinished = true;
-			
+
 			var sheetData = excelObj[0].data; 
 			var rowCount = sheetData.length;
 
@@ -64,6 +63,7 @@ function importStationFromExcel( importFileName, response )
 			var collectionName = "stationInfo";
 
 			//逐条插入数据到数据库
+			var resultInfoForAll = {success:[]};
 
 			for (var i = 1; i < rowCount; i++) 
 			{
@@ -104,61 +104,36 @@ function importStationFromExcel( importFileName, response )
 									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
 											if( result.hasOwnProperty("errmsg") )
 											{
-												if(isWellFinished == true)
-												{
-													var failedInfo = 	{ "error":  
-													{  
+													var Info = {  
+														"num": i,
 														"msg": "数据导入失败,基站数据有重复",  
 														"code":"28003"  
-													}  };
+													};
+													resultInfoForAll.success.push(Info);
 													
-													response.write( JSON.stringify(failedInfo) );
-													response.end();
-													return;
-												}
-												isWellFinished = false;
-											}
-
-											if( isWellFinished == true && i==(rowCount-1) )
-											{
-													var Info = 	{ "success":  
-													{  
+											}else{
+													var Info = {  
+														"num": i,
 														"msg": "数据导入成功",  
 														"code":"28000"  
-													}  };
-													
+													};
+
+													resultInfoForAll.success.push(Info);
+											}
+
+											if( i==(rowCount-1) )
+											{
 													response.write( JSON.stringify(Info) );
 													response.end();		
 													return;
 											}
 											console.log(result);
 									});	
-
 									console.log(field);
-
-							}else{
-								var info = 	{ "error":  
-									{  
-										"msg": "基站审批人没有录入系统",  
-										"code":"07003"  
-									}  };
-								response.write( JSON.stringify(info) );
-								response.end();
-								return;
 							}
 						});
-					}else{
-							var info = 	{ "error":  
-								{  
-									"msg": "基站负责人没有录入系统",  
-									"code":"07002"  
-								}  };
-							response.write( JSON.stringify(info) );
-							response.end();
-							return;
 					}
 				});
-
 			}
 		} catch(e)
 		{ 
@@ -172,7 +147,6 @@ function importStationFromExcel( importFileName, response )
 				response.end();
 		}
 
-	
 	});
 
 

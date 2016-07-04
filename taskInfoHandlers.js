@@ -527,7 +527,7 @@ function taskAuthenticate(response, postData)
 
 				postJSON.taskStatus = "正常";
 				postJSON.taskDescription = "工单已经审批";
-				
+
 				if(postJSON.hasOwnProperty('approveTime'))
 				{
 					postJSON.approveTime = parseInt(postJSON.approveTime);
