@@ -177,7 +177,7 @@ function importKeyFromExcel( importFileName, response )
 			firstRowData[1].toString() != '电子钥匙管理省份' || 
 			firstRowData[2].toString() != '电子钥匙管理市级区域' ||
 			firstRowData[3].toString() != '电子钥匙管理地级区域' ||
-			firstRowData[3].toString() != '网格编号' )
+			firstRowData[4].toString() != '网格编号' )
 			{
 					var failedInfo = 	{ "error":  
 					{  
@@ -205,6 +205,7 @@ function importKeyFromExcel( importFileName, response )
 				field.managementProvince  = rowData[1].toString();
 				field.managementCity  = rowData[2].toString();
 				field.managementArea  = rowData[3].toString();
+				field.gridID =  rowData[4].toString();
 				//要注意异步编程的特性
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){});	
 				console.log(field);	
