@@ -1,3 +1,60 @@
+
+//---------------------开始--count查询函数--开始--------------------//
+var countData = function(db, collectionName, queryFilter,callback) {   
+  var collection = db.collection(collectionName);    //连接到表 
+  collection.count(queryFilter, function(err, result) {    //插入数据
+	    if(err)
+	    {
+	      callback(err);
+	      db.close();
+	      return;
+	    }	 
+	    callback(result);
+  });
+}
+
+function countFunc( mongoClient, DB_CONN_STR, collectionName,queryFilter,callback)
+{
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
+		console.log("连接成功！");
+		countData(db, collectionName, queryFilter, function(result){
+			 callback(result);
+			 db.close();
+		})
+	});
+}
+//---------------------结束--count查询函数--结束--------------------//
+
+
+//---------------------开始--distinct查询函数--开始--------------------//
+var distincData = function(db, collectionName, field, queryFilter,callback) {   
+  var collection = db.collection(collectionName);    //连接到表 
+  collection.distinct(field, queryFilter, function(err, result) {    //插入数据
+	    if(err)
+	    {
+	      callback(err);
+	      db.close();
+	      return;
+	    }	 
+	    callback(result);
+  });
+}
+
+function distinctFunc( mongoClient, DB_CONN_STR, collectionName, field, queryFilter,callback)
+{
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
+		console.log("连接成功！");
+		distincData(db, collectionName, field, queryFilter, function(result){
+			 callback(result);
+			 db.close();
+		})
+	});
+}
+//---------------------结束--distinct查询函数--结束--------------------//
+
+
+
+
 //---------------------开始--数据插入函数--开始--------------------//
 var insertData = function(db, collectionName, data , callback) {   
   var collection = db.collection(collectionName);    //连接到表 
@@ -157,5 +214,7 @@ exports.insertFunc = insertFunc;
 exports.selectFunc = selectFunc;
 exports.updateFunc = updateFunc;
 exports.deleteFunc = deleteFunc;
+exports.distinctFunc = distinctFunc;
+exports.countFunc = countFunc;
 exports.invokeProcFunc = invokeProcFunc;
 //---------------------结束--模块导出接口声明--结束--------------------//
