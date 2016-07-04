@@ -94,7 +94,9 @@ function importStationFromExcel( importFileName, response )
 							{
 									//直接替换为系统中审批人的电话号码
 									field.approvalPhone = result[0].phone;
-									dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){});
+									dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
+										console.log("基站数据导入结果 "+result);	
+									});
 							}
 						});
 					}
@@ -208,7 +210,7 @@ function importKeyFromExcel( importFileName, response )
 				field.gridID =  rowData[4].toString();
 				//要注意异步编程的特性
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
-					console.log("导入结果 "+result);	
+					console.log("电子钥匙数据导入结果 "+result);	
 				});	
 				console.log("导入的数据 " + field);	
 			}
