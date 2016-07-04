@@ -399,8 +399,8 @@ function taskFetch(response, postData)
 								//更新工单状态--根据审批时间判断工单异常--审批时间大于申请的上站开始时间
 								if( result[i].hasOwnProperty(applicationStatus) && result[i].applicationStatus == "pending" &&  result[i].hasOwnProperty(taskStartTime) && Date.now()/1000 > result[i].taskStartTime )
 								{       
-                                                                       result[i].taskStatus = "异常";
-                                                                       result[i].taskDescription = "工单未及时审批";
+								    result[i].taskStatus = "异常";
+								    result[i].taskDescription = "工单未及时审批";
 
 									//更新工单状态
 									var whereTask = {taskID:result[i].taskID};
@@ -438,6 +438,7 @@ function taskFetch(response, postData)
 								});	
 							}catch(e)
 							{
+								console.log("error "+e);
 								console.log("查询参数不足,参数不足，参数不足");
 							}
 						}
