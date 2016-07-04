@@ -208,7 +208,7 @@ function importKeyFromExcel( importFileName, response )
 				field.gridID =  rowData[4].toString();
 				//要注意异步编程的特性
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){});	
-				console.log(field);	
+				console.log("导入的数据" + field);	
 			}
 
 			var successInfo = 	{ "error":  
