@@ -35,7 +35,6 @@ function importStationFromExcel( importFileName, response )
 		try 
 		{
 			var excelObj  = xlsx.parse( "./upload/"+importFileName );
-
 			console.log(excelObj );
 
 			var sheetData = excelObj[0].data; 
@@ -63,14 +62,11 @@ function importStationFromExcel( importFileName, response )
 			var collectionName = "stationInfo";
 
 			//逐条插入数据到数据库
-			var resultInfoForAll = {success:[]};
-
 			for (var i = 1; i < rowCount; i++) 
 			{
 				var rowData = sheetData[i]; 
 				var columnCount = rowData.length;
 				var field = {};
-
 
 				field.stationID  = rowData[0].toString();
 				field.address  = rowData[1].toString();
@@ -87,7 +83,6 @@ function importStationFromExcel( importFileName, response )
 					console.log(result);
 					if(result.length>0)
 					{
-
 						//直接替换为系统中负责人的电话号码
 						field.chargePhone = result[0].phone;
 						field.chargeCompany = result[0].company;
@@ -99,42 +94,21 @@ function importStationFromExcel( importFileName, response )
 							{
 									//直接替换为系统中审批人的电话号码
 									field.approvalPhone = result[0].phone;
-									//插入请求数据
-									//要注意异步编程的特性
-									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
-											if( result.hasOwnProperty("errmsg") )
-											{
-													var Info = {  
-														"num": i,
-														"msg": "数据导入失败,基站数据有重复",  
-														"code":"28003"  
-													};
-													resultInfoForAll.success.push(Info);
-													
-											}else{
-													var Info = {  
-														"num": i,
-														"msg": "数据导入成功",  
-														"code":"28000"  
-													};
-
-													resultInfoForAll.success.push(Info);
-											}
-
-											if( i==(rowCount-1) )
-											{
-													response.write( JSON.stringify(Info) );
-													response.end();		
-													return;
-											}
-											console.log(result);
-									});	
-									console.log(field);
+									dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){});
 							}
 						});
 					}
 				});
 			}
+
+			var successInfo = 	{ "error":  
+			{  
+				"msg": "数据导入成功,重复数据和包含系统之外的工作人员条目已剔除",  
+				"code":"28000"  
+			}  };
+			
+			response.write( JSON.stringify(successInfo) );
+			response.end();
 		} catch(e)
 		{ 
 				var failedInfo = 	{ "error":  
@@ -190,7 +164,6 @@ function importKeyFromExcel( importFileName, response )
 		try 
 		{
 			var excelObj  = xlsx.parse(  "./upload/" + importFileName );
-			var isWellFinished = true;
 			console.log(excelObj );
 
 			//[ { name: 'Sheet1', data: [ [Object] ] } ]
@@ -203,7 +176,8 @@ function importKeyFromExcel( importFileName, response )
 			if( firstRowData[0].toString() != '电子钥匙ID' || 
 			firstRowData[1].toString() != '电子钥匙管理省份' || 
 			firstRowData[2].toString() != '电子钥匙管理市级区域' ||
-			firstRowData[3].toString() != '电子钥匙管理地级区域' )
+			firstRowData[3].toString() != '电子钥匙管理地级区域' ||
+			firstRowData[3].toString() != '网格编号' )
 			{
 					var failedInfo = 	{ "error":  
 					{  
@@ -227,48 +201,23 @@ function importKeyFromExcel( importFileName, response )
 				var columnCount = rowData.length;
 				var field = {};
 
-
 				field.keyID  = rowData[0].toString();
 				field.managementProvince  = rowData[1].toString();
 				field.managementCity  = rowData[2].toString();
 				field.managementArea  = rowData[3].toString();
-
 				//要注意异步编程的特性
-				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
-						if( result.hasOwnProperty("errmsg") )
-						{
-							if(isWellFinished == true)
-							{
-								var failedInfo = 	{ "error":  
-								{  
-									"msg": "数据导入失败,电子钥匙数据有重复",  
-									"code":"28005"  
-								}  };
-								
-								response.write( JSON.stringify(failedInfo) );
-								response.end();
-							}
-							isWellFinished = false;
-						}
-
-						if( isWellFinished == true && i==(rowCount-1) )
-						{
-								var Info = 	{ "success":  
-								{  
-									"msg": "数据导入成功",  
-									"code":"28000"  
-								}  };
-								
-								response.write( JSON.stringify(Info) );
-								response.end();		
-						}
-						console.log(result);
-
-				});	
-				
-				console.log(field);
-					
+				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){});	
+				console.log(field);	
 			}
+
+			var successInfo = 	{ "error":  
+			{  
+				"msg": "数据导入成功,重复数据和包含系统之外的工作人员条目已剔除",  
+				"code":"28000"  
+			}  };
+			
+			response.write( JSON.stringify(successInfo) );
+			response.end();
 
 		} catch(e)
 		{ 
@@ -281,12 +230,7 @@ function importKeyFromExcel( importFileName, response )
 				response.write( JSON.stringify(failedInfo) );
 				response.end();
 		}
-
-
-	
-
-	});
-		  
+	});	  
 }
 
 

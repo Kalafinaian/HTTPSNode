@@ -39,7 +39,8 @@ function onRequest(request,response)
 
 
 				//移动的文件目录
-				var newPath = form.uploadDir + files.file.name;
+				//var newPath = form.uploadDir + files.file.name;
+				var newPath = form.uploadDir + "基站数据批量导入.xlsx";
 				fs.renameSync(files.file.path, newPath);
 
 
@@ -78,7 +79,8 @@ function onRequest(request,response)
 
 
 					//移动的文件目录
-					var newPath = form.uploadDir + files.file.name;
+					//var newPath = form.uploadDir + files.file.name;
+					var newPath = form.uploadDir + "电子钥匙数据批量导入.xlsx";
 					fs.renameSync(files.file.path, newPath);
 
 
