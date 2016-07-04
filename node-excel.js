@@ -78,31 +78,8 @@ function importStationFromExcel( importFileName, response )
 				field.managementCity  = rowData[5].toString();
 				field.managementArea  = rowData[6].toString();
 				field.approvalPerson  = rowData[7].toString();
-				
-
-				var whereStr = {"username":field.chargePerson};
-				dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-					console.log(result);
-					if(result.length>0)
-					{
-						//直接替换为系统中负责人的电话号码
-						field.chargePhone = result[0].phone;
-						field.chargeCompany = result[0].company;
-	
-						var whereStr = {"username":field.approvalPerson};
-						dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-							console.log(result);
-							if(result.length>0)
-							{
-									//直接替换为系统中审批人的电话号码
-									field.approvalPhone = result[0].phone;
-									console.log(field);
-									dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
+				dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
 										console.log("基站数据导入结果 "+result);	
-									});
-							}
-						});
-					}
 				});
 			}
 
