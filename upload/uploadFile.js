@@ -13,8 +13,8 @@ function onRequest(request,response)
 	console.log("Request for " + pathname + " started.");
 	//response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 	var exec = require('child_process').exec; 
-	var cmdStr = 'rm *.xlsx';
-	exec(cmdStr);
+	// var cmdStr = 'rm *.xlsx';
+	// exec(cmdStr);
 
     try
     {
@@ -43,10 +43,11 @@ function onRequest(request,response)
 
 				//移动的文件目录
 				//var newPath = form.uploadDir + files.file.name;
-				var newPath = form.uploadDir + "基站数据批量导入.xlsx";
+				var newPath = form.uploadDir + files.file.name;
 				fs.renameSync(files.file.path, newPath);
 
-
+				cmdStr = 'mv '+ files.file.name + ' 基站数据批量导入.xlsx';
+				exec(cmdStr);
 				
 				
 				response.write('<html>');
@@ -83,10 +84,12 @@ function onRequest(request,response)
 
 					//移动的文件目录
 					//var newPath = form.uploadDir + files.file.name;
-					var newPath = form.uploadDir + "电子钥匙数据批量导入.xlsx";
+					var newPath = form.uploadDir + files.file.name;
 					fs.renameSync(files.file.path, newPath);
 
-
+					cmdStr = 'mv '+ files.file.name + ' 电子钥匙数据批量导入.xlsx';
+					exec(cmdStr);
+					
 					response.write('<html>');
 					response.write('<head>');
 					response.write(
