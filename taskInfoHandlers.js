@@ -338,7 +338,7 @@ function taskFetch(response, postData)
 				delete postJSON.accessToken; 
 
 
-			    whereStr = postJSON;
+	       		    whereStr = postJSON;
 
 				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.taskStartTime) } };
 				var mendTime = { "taskEndTime":{$lte:parseInt( postJSON.taskEndTime) } };
@@ -387,14 +387,6 @@ function taskFetch(response, postData)
 					//console.log(result);
 					if( result.length>0 )
 					{
-						for(var i=0;i<result.length;i++)
-						{
-							if( result[i].applicationStatus == "pending" && Date.now()/1000 > result[i].taskStartTime )
-							{
-								result[i].taskStatus = "异常";
-								result[i].taskDescription = "工单未及时审批";
-							}
-						}
 						//为了快速返回数据，将更新状态的操作置后
 						var json = {success:result};
 						response.write( JSON.stringify(json) );
@@ -406,7 +398,10 @@ function taskFetch(response, postData)
 							{
 								//更新工单状态--根据审批时间判断工单异常--审批时间大于申请的上站开始时间
 								if( result[i].hasOwnProperty(applicationStatus) && result[i].applicationStatus == "pending" &&  result[i].hasOwnProperty(taskStartTime) && Date.now()/1000 > result[i].taskStartTime )
-								{
+								{       
+                                                                       result[i].taskStatus = "异常";
+                                                                       result[i].taskDescription = "工单未及时审批";
+
 									//更新工单状态
 									var whereTask = {taskID:result[i].taskID};
 									var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
