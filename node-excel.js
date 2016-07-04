@@ -40,6 +40,8 @@ function importStationFromExcel( importFileName, response )
 			var sheetData = excelObj[0].data; 
 			var rowCount = sheetData.length;
 
+			console.log("数据长度： " + rowCount);
+
 			var firstRowData = sheetData[0]; 
 			//excel格式判断
 			if( firstRowData[0].toString() != '基站ID' || firstRowData[1].toString() != '基站地址' || firstRowData[2].toString() != '锁ID' ||
@@ -67,7 +69,7 @@ function importStationFromExcel( importFileName, response )
 				var rowData = sheetData[i]; 
 				var columnCount = rowData.length;
 				var field = {};
-
+				console.log( rowData)
 				field.stationID  = rowData[0].toString();
 				field.address  = rowData[1].toString();
 				field.lockID  = rowData[2].toString();
@@ -94,6 +96,7 @@ function importStationFromExcel( importFileName, response )
 							{
 									//直接替换为系统中审批人的电话号码
 									field.approvalPhone = result[0].phone;
+									console.log(field);
 									dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
 										console.log("基站数据导入结果 "+result);	
 									});
@@ -172,6 +175,7 @@ function importKeyFromExcel( importFileName, response )
 
 			var sheetData = excelObj[0].data; 
 			var rowCount = sheetData.length;
+			console.log("数据长度： " + rowCount);
 
 			var firstRowData = sheetData[0]; 
 			//excel格式判断
@@ -200,6 +204,7 @@ function importKeyFromExcel( importFileName, response )
 			for (var i = 1; i < rowCount; i++) 
 			{
 				var rowData = sheetData[i]; 
+				console.log( "第i行数据 "+ rowData)
 				var columnCount = rowData.length;
 				var field = {};
 
