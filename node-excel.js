@@ -18,7 +18,7 @@ function importStationFromExcel( importFileName, response )
 	}
 
 	// 判断文件是否存在
-	fs.exists( "./upload/"+importFileName , function( exists ){
+	fs.exists( "/usr/share/NodeJS/Node.js/upload/"+importFileName , function( exists ){
 	    if(exists == false )
 	    {
 				var failedInfo = 	{ "error":  
@@ -34,7 +34,7 @@ function importStationFromExcel( importFileName, response )
 
 		try 
 		{
-			var excelObj  = xlsx.parse( "./upload/"+importFileName );
+			var excelObj  = xlsx.parse( "/usr/share/NodeJS/Node.js/upload/"+importFileName );
 			console.log(excelObj );
 
 			var sheetData = excelObj[0].data; 
@@ -147,7 +147,7 @@ function importKeyFromExcel( importFileName, response )
 
 
 	// 判断文件是否存在
-	fs.exists( "./upload/"+importFileName , function( exists ){
+	fs.exists( "/usr/share/NodeJS/Node.js/upload/"+importFileName , function( exists ){
 	    if(exists == false )
 	    {
 				var failedInfo = 	{ "error":  
@@ -163,7 +163,7 @@ function importKeyFromExcel( importFileName, response )
 
 		try 
 		{
-			var excelObj  = xlsx.parse(  "./upload/" + importFileName );
+			var excelObj  = xlsx.parse(  "/usr/share/NodeJS/Node.js/upload/"+importFileName );
 			console.log(excelObj );
 
 			//[ { name: 'Sheet1', data: [ [Object] ] } ]
