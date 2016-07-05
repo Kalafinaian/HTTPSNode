@@ -22,7 +22,7 @@ handle["/v0/downloadUser"] = userInfoHandlers.downloadUser;
 
 
 handle["/v0/addStation"] = stationInfoHandlers.addStation;
-handle["/v0/queryStation"] = stationInfoHandlers.queryStation;
+handle["/v0/queryStation"] = stationInfoHandlers.selectStation;
 handle["/v0/deleteStation"] = stationInfoHandlers.deleteStation;
 handle["/v0/updateStation"] = stationInfoHandlers.updateStation;
 handle["/v0/downloadStation"] = stationInfoHandlers.downloadStation;
