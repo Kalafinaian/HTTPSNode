@@ -107,6 +107,19 @@ function addKey(response, postData)
 				{
 					//动态令牌有效性判断
 					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
+					if( result[0].hasOwnProperty('addKeyAction') == false || result[0].addKeyAction != "true" )
+					{	
+						var info = 	{ "error":  
+							{  
+								"msg": "你没有添加电子钥匙的权限!",  
+								"code":"00010"  
+							}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+						return;
+					}		
+								
 					delete postJSON.accessToken;
 					delete postJSON.operatorName;
 					//插入请求数据
@@ -194,6 +207,17 @@ function deleteKey(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
+				if( result[0].hasOwnProperty('deleteKeyAction') == false || result[0].deleteKeyAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有删除电子钥匙的权限!",  
+							"code":"00011"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 
 				var keyStr = postJSON.deleteList.toString();
 				keyStr = keyStr.replace("[","");
@@ -269,6 +293,17 @@ function updateKey(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
+				if( result[0].hasOwnProperty('updateKeyAction') == false || result[0].updateKeyAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有修改电子钥匙的权限!",  
+							"code":"00013"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 				//originalName
 				var whereStr = {keyID:postJSON.originalKeyID};
 				delete postJSON.accessToken;
@@ -348,6 +383,18 @@ function selectKey(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
+				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询电子钥匙的权限!",  
+							"code":"00012"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
+
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				console.log(postJSON);
@@ -422,7 +469,19 @@ function downloadKey(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询电子钥匙的权限!",  
+							"code":"00012"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 				 
+
 				var fileName = postJSON.operatorName + "电子钥匙信息";
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
@@ -539,6 +598,17 @@ function queryKeyLog(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询电子钥匙的权限!",  
+							"code":"00012"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
@@ -656,6 +726,17 @@ function downloadKeyLog(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询电子钥匙的权限!",  
+							"code":"00012"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
