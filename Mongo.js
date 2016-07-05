@@ -1,3 +1,27 @@
+//---------------------开始--批量update--开始--------------------//
+var updateMultiData = function(db, collectionName, whereStr ,updateStr){   
+  var collection = db.collection(collectionName);   //连接到表 
+  collection.update( whereStr, updateStr, {w: 1, multi:true}, function(err, result) {    //更新数据
+    if(err)
+    {
+	      console.log(err);
+	      db.close();
+	      return;
+    }	
+    console.log(result); 
+    db.close();
+  });
+}
+
+function updateMultiFunc( mongoClient,DB_CONN_STR,collectionName, whereStr ,updateStr)
+{
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
+	  console.log("连接成功！");
+	  updateMultiData(db, collectionName, whereStr ,updateStr, {multi:true});
+	});
+}
+//---------------------结束--批量update---结束--------------------//
+
 
 //---------------------开始--count查询函数--开始--------------------//
 var countData = function(db, collectionName, queryFilter,callback) {   
@@ -217,4 +241,5 @@ exports.deleteFunc = deleteFunc;
 exports.distinctFunc = distinctFunc;
 exports.countFunc = countFunc;
 exports.invokeProcFunc = invokeProcFunc;
+exports.updateMultiFunc = updateMultiFunc;
 //---------------------结束--模块导出接口声明--结束--------------------//
