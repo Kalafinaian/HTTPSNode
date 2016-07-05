@@ -977,7 +977,49 @@ function appTaskRecord(response, postData)
 						postJSON.taskCommitTime = parseInt(postJSON.taskCommitTime);
 					}
 
-					if(postJSON.hasOwnProperty(''))
+					try
+					{
+						//修改工单开门码，对工单列表修改所有的工单开门码
+						var whereStr = {lockID:postJSON.lockID};
+						var updateStr = {};
+						if(postJSON.operationResult ==  "修改密码成功" )
+						{
+							updateStr.approveCode = postJSON.approveCode;
+						}
+
+						dbClient.updateFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , updateStr , function(result){
+								//console.log(result);	
+						});	
+					}catch(e)
+					{
+						console.log(e);
+					}
+
+
+					try
+					{
+						//更新基站开关门状态
+						var whereStr = {lockID:postJSON.lockID};
+						var updateStr = {};
+						if(postJSON.operationResult ==  "上锁成功！" )
+						{
+							updateStr.doorStatus = "closed";
+						}
+
+						if(postJSON.operationResult ==  "开锁成功" )
+						{
+							updateStr.doorStatus = "open";
+						}
+
+
+						dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
+								//console.log(result);	
+						});	
+					}catch(e)
+					{
+						console.log(e);
+					}
+	
 
 					//插入请求数据
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -990,30 +1032,6 @@ function appTaskRecord(response, postData)
 							}  };
 							response.write( JSON.stringify(info) );
 							response.end();
-
-							try
-							{
-								//更新基站开关门状态
-								var whereStr = {lockID:postJSON.lockID};
-								var updateStr = {};
-								if(postJSON.operationResult ==  "上锁成功！" )
-								{
-									updateStr.doorStatus = "closed";
-								}
-
-								if(postJSON.operationResult ==  "开锁成功" )
-								{
-									updateStr.doorStatus = "open";
-								}
-
-								dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
-										//console.log(result);	
-								});	
-							}catch(e)
-							{
-								console.log(e);
-							}
-	
 					});	
 				}else{
 					var info = 	{ "error":  
