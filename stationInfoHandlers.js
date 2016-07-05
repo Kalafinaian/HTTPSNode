@@ -723,19 +723,23 @@ function downloadStation(response, postData)
 							            type:'string',
 							        },
 							        {
+							            caption:'基站门锁ID',
+							            type:'string'
+							        },
+							        {
 							            caption:'基站负责人',
 							            type:'string'
 							        },
 							        {
-							            caption:'基站负责人电话',
+							            caption:'基站审批人',
 							             type:'string'              
 							        }
 							];
 							conf.rows = [];
 							for(var i=0;i<result.length;i++)
 							{
-								conf.rows[i] = [result[i].stationID, result[i].address,
-								result[i].chargePerson, result[i].chargePhone ];
+								conf.rows[i] = [result[i].stationID, result[i].lockID , result[i].address,
+								result[i].chargePerson, result[i].approvalPerson ];
 							}
 
 							var result = nodeExcel.execute(conf);
