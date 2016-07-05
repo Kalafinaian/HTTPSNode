@@ -44,7 +44,7 @@ function onRequest(request,response)
 				{
 					//移动的文件目录
 					//var newPath = form.uploadDir + files.file.name;
-					var newPath = '基站数据批量导入.xlsx';
+					var newPath = form.uploadDir + '基站数据批量导入.xlsx';
 					fs.renameSync(files.file.path, newPath);
 
 					// cmdStr = 'mv '+ files.file.name + ' 基站数据批量导入.xlsx';
@@ -97,7 +97,7 @@ function onRequest(request,response)
 					{
 						//移动的文件目录
 						//var newPath = form.uploadDir + files.file.name;
-						var newPath = '电子钥匙数据批量导入.xlsx';
+						var newPath = form.uploadDir + '电子钥匙数据批量导入.xlsx';
 						fs.renameSync(files.file.path, newPath);
 
 						// cmdStr = 'mv '+ files.file.name + ' 电子钥匙数据批量导入.xlsx';
