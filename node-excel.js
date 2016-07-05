@@ -84,7 +84,7 @@ function importStationFromExcel( importFileName, response )
 				});
 			}
 
-			var successInfo = 	{ "error":  
+			var successInfo = 	{ "success":  
 			{  
 				"msg": "数据导入成功,重复数据和包含系统之外的工作人员条目已剔除",  
 				"code":"28000"  
@@ -198,7 +198,7 @@ function importKeyFromExcel( importFileName, response )
 				console.log("导入的数据 " + field);	
 			}
 
-			var successInfo = 	{ "error":  
+			var successInfo = 	{ "success":  
 			{  
 				"msg": "数据导入成功,重复数据已剔除",  
 				"code":"28000"  
