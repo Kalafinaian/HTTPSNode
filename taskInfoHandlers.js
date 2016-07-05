@@ -108,7 +108,7 @@ function taskRequest(response, postData)
 
 		//用户信息验证，验证用户名和动态令牌
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -118,7 +118,7 @@ function taskRequest(response, postData)
 					//验证基站信息：查询申请的基站是否存在--因为数据库查询是异步的，所以必须嵌套
 					dbClient.selectFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , function(result){
 							//根据查询记录写入工单审批人信息
-							console.log(result);
+							//console.log(result);
 							if(result.length>0)
 							{
 								postJSON.approvalPerson = result[0].approvalPerson;
@@ -227,7 +227,7 @@ function taskRequest(response, postData)
 											postJSON.taskDescription = "工单等待审批";
 											//插入请求数据
 											dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-													console.log(result);
+													//console.log(result);
 													if( result.hasOwnProperty("errmsg") )
 													{
 														var info = 	{ "error":  
@@ -328,7 +328,7 @@ function taskFetch(response, postData)
 		console.log(whereStr);
 
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -500,7 +500,7 @@ function taskAuthenticate(response, postData)
 		//验证任务申请工单名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 
 			if(result.length>0)
 			{
@@ -595,7 +595,7 @@ function taskAuthFetch(response, postData)
 		//验证任务申请工单名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 
 			if(result.length>0)
 			{
@@ -686,7 +686,7 @@ function taskCommit(response, postData)
 		//验证任务申请工单名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 
 			if(result.length>0)
 			{
@@ -749,7 +749,7 @@ function downloadTask(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -760,7 +760,7 @@ function downloadTask(response, postData)
 				delete postJSON.accessToken; 
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  postJSON , 
 					function(result){
-					console.log(result);
+					//console.log(result);
 					if( result.length>0 )
 					{
 							var fs = require('fs');
@@ -855,7 +855,7 @@ function taskChange(response, postData)
 		console.log(whereStr);
 		//验证用户名和动态令牌
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -921,7 +921,7 @@ function appTaskRecord(response, postData)
 		console.log(whereStr);
 		//验证用户名和动态令牌
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -936,7 +936,7 @@ function appTaskRecord(response, postData)
 
 					//插入请求数据
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-							console.log(result);
+							//console.log(result);
 
 							var info = 	{ "success":  
 							{  
@@ -962,7 +962,7 @@ function appTaskRecord(response, postData)
 								}
 
 								dbClient.updatFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
-										console.log(result);	
+										//console.log(result);	
 								});	
 							}catch(e)
 							{
@@ -1015,7 +1015,7 @@ function appTaskConsult(response, postData)
 		console.log(whereStr);
 		//验证用户名和动态令牌
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -1116,7 +1116,7 @@ function taskAnalyse(response, postData)
 		console.log(whereStr);
 
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -1281,7 +1281,7 @@ function taskCalculate(response, postData)
 		console.log(whereStr);
 
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断

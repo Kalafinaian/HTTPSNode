@@ -123,7 +123,7 @@ function addStation(response, postData)
 		console.log(whereStr);
 		//验证用户名和动态令牌
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -133,7 +133,7 @@ function addStation(response, postData)
 					//判断用户chargePerson是否存在
 					var whereStr = {"username":postJSON.chargePerson};
 					dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-						console.log(result);
+						//console.log(result);
 						if(result.length>0)
 						{
 
@@ -143,7 +143,7 @@ function addStation(response, postData)
 		
 							var whereStr = {"username":postJSON.approvalPerson};
 							dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-								console.log(result);
+								//console.log(result);
 								if(result.length>0)
 								{
 										//直接替换为系统中审批人的电话号码
@@ -253,7 +253,7 @@ function deleteStation(response, postData)
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -325,7 +325,7 @@ function updateStation(response, postData)
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -338,7 +338,7 @@ function updateStation(response, postData)
 									//判断用户chargePerson是否存在
 									var whereStr = {"username":postJSON.chargePerson};
 									dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-										console.log(result);
+										//console.log(result);
 										if(result.length>0)
 										{
 											//判断用户approvalPerson是否存在
@@ -347,7 +347,7 @@ function updateStation(response, postData)
 
 											var whereStr = {"username":postJSON.approvalPerson};
 											dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-												console.log(result);
+												//console.log(result);
 												if(result.length>0)
 												{
 													    //编辑基站信息
@@ -400,7 +400,7 @@ function updateStation(response, postData)
 									//判断用户chargePerson是否存在
 									var whereStr = {"username":postJSON.chargePerson};
 									dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-										console.log(result);
+										//console.log(result);
 										if(result.length>0)
 										{
 											    //编辑基站信息
@@ -446,7 +446,7 @@ function updateStation(response, postData)
 											//判断用户approvalPerson是否存在
 											var whereStr = {"username":postJSON.approvalPerson};
 											dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-												console.log(result);
+												//console.log(result);
 												if(result.length>0)
 												{
 													    //编辑基站信息
@@ -559,7 +559,7 @@ function selectStation(response, postData)
 
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -600,7 +600,7 @@ function selectStation(response, postData)
 							case 1:
 							{
 								var marray = [];
-								console.log(result);
+								//console.log(result);
 								//统计同一区域基站或门锁个数
 								for(var i=0;i<result.length;i++)
 								{
@@ -694,7 +694,7 @@ function downloadStation(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -705,7 +705,7 @@ function downloadStation(response, postData)
 				delete postJSON.accessToken; 
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, "stationInfo",  postJSON , 
 					function(result){
-					console.log(result);
+					//console.log(result);
 					if( result.length>0 )
 					{
 							var fs = require('fs');
@@ -805,7 +805,7 @@ function importDataFromExcel(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -883,7 +883,7 @@ function queryStationLog(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -1002,7 +1002,7 @@ function downloadStationLog(response, postData)
 
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断

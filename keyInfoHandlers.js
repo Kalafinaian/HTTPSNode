@@ -102,7 +102,7 @@ function addKey(response, postData)
 		console.log(whereStr);
 		//验证用户名和动态令牌
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -188,7 +188,7 @@ function deleteKey(response, postData)
 		//验证电子钥匙名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -262,7 +262,7 @@ function updateKey(response, postData)
 		//验证电子钥匙名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 
 			if(result.length>0)
 			{
@@ -342,7 +342,7 @@ function selectKey(response, postData)
 		console.log(whereStr);
 
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -417,7 +417,7 @@ function downloadKey(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -428,7 +428,7 @@ function downloadKey(response, postData)
 				delete postJSON.accessToken; 
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  postJSON , 
 					function(result){
-					console.log(result);
+					//console.log(result);
 					if( result.length>0 )
 					{
 							var fs = require('fs');
@@ -530,7 +530,7 @@ function queryKeyLog(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -647,7 +647,7 @@ function downloadKeyLog(response, postData)
 
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断

@@ -127,7 +127,7 @@ function login(response, postData)
 					var newEndTime = newStartTime + 24*3600;
 					var updateStr = { $set: { "accessToken" : newAccessToken, "tokenStartTime":newStartTime.toString(), "tokenEndTime" : newEndTime.toString() }};
 					dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , updateStr,  function(result){
-					 	console.log(result);
+					 	//console.log(result);
 						//再次查询，返回结果--更新后嵌套查询，避免动态令牌已过期
 						dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 							var json = {
@@ -214,7 +214,7 @@ function addUser(response, postData)
 		console.log(whereStr);
 		//验证用户名和动态令牌
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-				console.log(result);
+				//console.log(result);
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
@@ -389,19 +389,19 @@ function deleteUser(response, postData)
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				var whereStr = {username:postJSON.username};
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-					console.log(result);
+					//console.log(result);
 					if(result.length>0)
 					{
 						var whereStr = {username:postJSON.username};
 						dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-							console.log("删除信息"+result);
+							//console.log("删除信息"+result);
 							var info = 	{ "success":  
 							{  
 								"msg": "用户删除成功!",  
@@ -465,7 +465,7 @@ function updateUser(response, postData)
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 
 			if(result.length>0)
 			{
@@ -544,7 +544,7 @@ function selectUser(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -661,7 +661,7 @@ function downloadUser(response, postData)
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-			console.log(result);
+			//console.log(result);
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
@@ -672,7 +672,7 @@ function downloadUser(response, postData)
 				delete postJSON.accessToken; 
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
 					function(result){
-					console.log(result);
+					//console.log(result);
 					if( result.length>0 )
 					{
 							var fs = require('fs');
