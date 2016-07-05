@@ -132,6 +132,7 @@ function taskRequest(response, postData)
 
 								postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 								postJSON.applicationStatus = "pending";
+								postJSON.approveCode = "42 01 73 63 74 74 01 06";
 
 
 								//将时间类型转换为整型
@@ -405,9 +406,8 @@ function taskFetch(response, postData)
 									//更新工单状态
 									var whereTask = {taskID:result[i].taskID};
 									var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
-									dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,function(result){
-										console.log("更新工单状态 "+result);
-									});	
+									dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "taskInfo", whereTask, updateStr);
+	
 								}
 
 								var whereTask = {taskID:result[i].taskID , operationResult:"开锁成功"};
@@ -425,11 +425,7 @@ function taskFetch(response, postData)
 												//更新工单状态
 												var whereTask = {taskID:result[i].taskID};
 												var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
-												dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr,
-												function(result)
-												{
-													 console.log("更新工单状态 "+result);
-												});	
+												dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "taskInfo", whereTask, updateStr);
 											}
 										}catch(e)
 										{
@@ -526,7 +522,7 @@ function taskAuthenticate(response, postData)
 				//var newEndTime = newStartTime + 24*3600;
 				//postJSON.approveCode = (newStartTime/400).toString();
 				//平台码
-				postJSON.approveCode = "42 01 73 63 74 74 01 06";
+				//postJSON.approveCode = "42 01 73 63 74 74 01 06";
 				//postJSON.approveStartTime = newStartTime.toString();
 				//postJSON.approveEndTime = newEndTime.toString();
 				//postJSON.approveTimes = "5";
@@ -987,9 +983,8 @@ function appTaskRecord(response, postData)
 							updateStr = {$set:{approveCode:postJSON.approveCode}};
 						}
 
-						dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
-								//console.log(result);	
-						});	
+						dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr);	
+
 					}catch(e)
 					{
 						console.log(e);

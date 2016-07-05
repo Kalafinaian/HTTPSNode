@@ -10,6 +10,7 @@ var updateMultiData = function(db, collectionName, whereStr ,updateStr){
     }	
     console.log(result); 
     db.close();
+    return;
   });
 }
 
