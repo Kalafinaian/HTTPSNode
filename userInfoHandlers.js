@@ -221,7 +221,7 @@ function addUser(response, postData)
 					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 					try{
-						if( result[0].hasOwnProperty('addStaffAction') == false || result[0].addStaffAction != true )
+						if( result[0].hasOwnProperty('addStaffAction') == false || result[0].addStaffAction != "true" )
 						{	
 							var info = 	{ "error":  
 								{  
@@ -423,7 +423,7 @@ function deleteUser(response, postData)
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 
-				if( result[0].hasOwnProperty('deleteStaffAction') == false || result[0].deleteStaffAction != true )
+				if( result[0].hasOwnProperty('deleteStaffAction') == false || result[0].deleteStaffAction != "true" )
 				{	
 					var info = 	{ "error":  
 						{  
@@ -513,7 +513,7 @@ function updateUser(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
-				if( result[0].hasOwnProperty('updateStaffAction') == false || result[0].updateStaffAction != true )
+				if( result[0].hasOwnProperty('updateStaffAction') == false || result[0].updateStaffAction != "true" )
 				{	
 					var info = 	{ "error":  
 						{  
@@ -604,7 +604,7 @@ function selectUser(response, postData)
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
 
-				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != true )
+				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != "true" )
 				{	
 					var info = 	{ "error":  
 						{  
@@ -733,7 +733,7 @@ function downloadUser(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
-				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != true )
+				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != "true" )
 				{	
 					var info = 	{ "error":  
 						{  
