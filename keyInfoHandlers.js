@@ -452,13 +452,17 @@ function downloadKey(response, postData)
 							        {
 							            caption:'有效区级地域',
 							             type:'string'              
-							        }
+							        },							        
+							        {
+							            caption:'电子钥匙网格ID',
+							            type:'string'
+							        },
 							];
 							conf.rows = [];
 							for(var i=0;i<result.length;i++)
 							{
 								conf.rows[i] = [result[i].keyID, result[i].managementProvince,
-								result[i].managementCity, result[i].managementArea ];
+								result[i].managementCity, result[i].managementArea, result[i].gridID ];
 							}
 
 							var result = nodeExcel.execute(conf);
