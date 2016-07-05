@@ -27,7 +27,7 @@ function onRequest(request,response)
 			//设置编辑
 			form.encoding = 'utf-8';
 			//设置上传目录
-			form.uploadDir = "./";
+			form.uploadDir = "/usr/share/NodeJS/Node.js/upload/";
 			form.keepExtensions = true;
 			//文件大小
 			form.maxFieldsSize = 1024 * 1024 * 1024;
@@ -78,7 +78,7 @@ function onRequest(request,response)
 				//设置编辑
 				form.encoding = 'utf-8';
 				//设置上传目录
-				form.uploadDir = "./";
+				form.uploadDir = "/usr/share/NodeJS/Node.js/upload/";
 				form.keepExtensions = true;
 				//文件大小
 				form.maxFieldsSize = 1024 * 1024 * 1024;
