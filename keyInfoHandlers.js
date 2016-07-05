@@ -106,7 +106,7 @@ function addKey(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 					if( result[0].hasOwnProperty('addKeyAction') == false || result[0].addKeyAction != "true" )
 					{	
@@ -205,7 +205,7 @@ function deleteKey(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 				if( result[0].hasOwnProperty('deleteKeyAction') == false || result[0].deleteKeyAction != "true" )
 				{	
@@ -291,7 +291,7 @@ function updateKey(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 				if( result[0].hasOwnProperty('updateKeyAction') == false || result[0].updateKeyAction != "true" )
 				{	
@@ -381,7 +381,7 @@ function selectKey(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
 				{	
@@ -468,7 +468,7 @@ function downloadKey(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
 				{	
 					var info = 	{ "error":  
@@ -597,7 +597,7 @@ function queryKeyLog(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
 				{	
 					var info = 	{ "error":  
@@ -725,7 +725,7 @@ function downloadKeyLog(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				if( result[0].hasOwnProperty('queryKeyAction') == false || result[0].queryKeyAction != "true" )
 				{	
 					var info = 	{ "error":  

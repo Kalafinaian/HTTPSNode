@@ -218,7 +218,7 @@ function addUser(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 					try{
 						if( result[0].hasOwnProperty('addStaffAction') == false || result[0].addStaffAction != "true" )
@@ -420,7 +420,7 @@ function deleteUser(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 
 				if( result[0].hasOwnProperty('deleteStaffAction') == false || result[0].deleteStaffAction != "true" )
@@ -511,7 +511,7 @@ function updateUser(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 				if( result[0].hasOwnProperty('updateStaffAction') == false || result[0].updateStaffAction != "true" )
 				{	
@@ -601,7 +601,7 @@ function selectUser(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 
 				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != "true" )
@@ -731,7 +731,7 @@ function downloadUser(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != "true" )
 				{	

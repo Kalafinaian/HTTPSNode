@@ -112,7 +112,7 @@ function taskRequest(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 					var whereStr = {"address":postJSON.stationAddress};
 
 					//验证基站信息：查询申请的基站是否存在--因为数据库查询是异步的，所以必须嵌套
@@ -332,7 +332,7 @@ function taskFetch(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
@@ -505,7 +505,7 @@ function taskAuthenticate(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 				if( result[0].hasOwnProperty('doorAuthorization') == false || result[0].doorAuthorization != "true" )
 				{	
@@ -613,7 +613,7 @@ function taskAuthFetch(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				//查询工单
 				delete postJSON.operatorName; 
@@ -704,7 +704,7 @@ function taskCommit(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				//originalName
 				var whereStr = {taskID:postJSON.originalTaskID};
@@ -766,7 +766,7 @@ function downloadTask(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				var fileName = postJSON.operatorName+"任务信息";
 				delete postJSON.operatorName; 
@@ -903,7 +903,7 @@ function taskChange(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 					
 					//更新请求数据
 					var whereStr = {taskID:postJSON.originalTaskID};
@@ -969,7 +969,7 @@ function appTaskRecord(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 					delete postJSON.operatorName;
 					delete postJSON.accessToken;
 					if(postJSON.hasOwnProperty('taskCommitTime'))
@@ -1063,7 +1063,7 @@ function appTaskConsult(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 					
 					//更新请求数据
 					delete postJSON.operatorName;
@@ -1164,7 +1164,7 @@ function taskAnalyse(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
@@ -1329,7 +1329,7 @@ function taskCalculate(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 

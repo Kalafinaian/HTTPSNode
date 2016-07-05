@@ -127,7 +127,19 @@ function addStation(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+					if( result[0].hasOwnProperty('addStationAction') == false || result[0].addStationAction != "true" )
+					{	
+						var info = 	{ "error":  
+							{  
+								"msg": "你没有添加基站的权限!",  
+								"code":"00002"  
+							}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+						return;
+					}
+
 					delete postJSON.accessToken;
 					delete postJSON.operatorName;
 					//判断用户chargePerson是否存在
@@ -247,8 +259,7 @@ function deleteStation(response, postData)
 		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 		var collectionName = "stationInfo";
 
-		//判断操作者和动态令牌是否存在
-		if( judgeUserToken(postJSON,response)==false ){  return;  };
+
 
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
@@ -257,6 +268,21 @@ function deleteStation(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				if( result[0].hasOwnProperty('deleteStationAction') == false || result[0].deleteStationAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有删除基站的权限!",  
+							"code":"00003"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
+
+
 				var stationStr = postJSON.deleteList.toString();
 				stationStr = stationStr.replace("[","");
 				stationStr = stationStr.replace("]","");
@@ -329,7 +355,20 @@ function updateStation(response, postData)
 				if(result.length>0)
 				{
 					//动态令牌有效性判断
-					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+					if( result[0].hasOwnProperty('updateStationAction') == false || result[0].updateStationAction != "true" )
+					{	
+						var info = 	{ "error":  
+							{  
+								"msg": "你没有修改基站的权限!",  
+								"code":"00005"  
+							}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+						return;
+					}
+
 					delete postJSON.accessToken;
 					delete postJSON.operatorName;
 
@@ -563,8 +602,18 @@ function selectStation(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('queryStationAction') == false || result[0].queryStationAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询基站的权限!",  
+							"code":"00004"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				var consultNum = 0;
@@ -698,8 +747,18 @@ function downloadStation(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-				
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('queryStationAction') == false || result[0].queryStationAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询基站的权限!",  
+							"code":"00004"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}				
 				var fileName = postJSON.operatorName;
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
@@ -813,9 +872,19 @@ function importDataFromExcel(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-				
-				var fileName = postJSON.operatorName;
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('addStationAction') == false || result[0].addStationAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有添加基站的权限!",  
+							"code":"00002"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}				
+								var fileName = postJSON.operatorName;
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 
@@ -891,8 +960,18 @@ function queryStationLog(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('queryStationAction') == false || result[0].queryStationAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询基站的权限!",  
+							"code":"00004"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
@@ -1010,8 +1089,18 @@ function downloadStationLog(response, postData)
 			if(result.length>0)
 			{
 				//动态令牌有效性判断
-				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+				if( result[0].hasOwnProperty('queryStationAction') == false || result[0].queryStationAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询基站的权限!",  
+							"code":"00004"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				var mstartTime = { "taskStartTime":{$gte:parseInt( postJSON.startTime) } };
