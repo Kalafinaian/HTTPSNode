@@ -814,7 +814,7 @@ function downloadTask(response, postData)
 							for(var i=0;i<result.length;i++)
 							{
 								conf.rows[i] = [ result[i].taskID, result[i].stationAddress,
-								result[i].taskStartTime ,result[i].taskEndTime, result[i].applyDescription,
+								new Date(result[i].taskStartTime*1000).toISOString() , new Date(result[i].taskEndTime*1000).toISOString(), result[i].applyDescription,
 								result[i].applicationType,result[i].applicantName, result[i].approvalPerson,
 								result[i].stationManagementProvince+result[i].stationManagementCity+result[i].stationManagementArea,
 								result[i].applicationStatus ];
