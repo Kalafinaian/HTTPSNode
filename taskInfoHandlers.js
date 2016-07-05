@@ -768,13 +768,41 @@ function downloadTask(response, postData)
 							var conf ={};
 							conf.name = "mysheet";
 
-							conf.cols = [       
+							conf.cols = [  
+							        {
+							            caption:'作业编号',
+							            type:'string',
+							        },
+							        {
+							            caption:'基站地址',
+							            type:'string',
+							        },     
+							        {
+							            caption:'工单开始时间',
+							            type:'string',
+							        },
+							        {
+							            caption:'工单结束时间',
+							            type:'string',
+							        },						
+							        {
+							            caption:'工单描述',
+							            type:'string',
+							        },
+							        {
+							            caption:'工单类型',
+							            type:'string',
+							        },     
 							        {
 							            caption:'申请者',
 							            type:'string',
 							        },
 							        {
 							            caption:'审批人',
+							            type:'string',
+							        },
+   							        {
+							            caption:'工单所属片区',
 							            type:'string',
 							        },
 							        {
@@ -785,7 +813,10 @@ function downloadTask(response, postData)
 							conf.rows = [];
 							for(var i=0;i<result.length;i++)
 							{
-								conf.rows[i] = [result[i].applicantName, result[i].approvalPerson,
+								conf.rows[i] = [ result[i].taskID, result[i].stationAddress,
+								result[i].taskStartTime ,result[i].taskEndTime, result[i].applyDescription,
+								result[i].applicationType,result[i].applicantName, result[i].approvalPerson,
+								result[i].stationManagementProvince+result[i].stationManagementCity+result[i].stationManagementArea,
 								result[i].applicationStatus ];
 							}
 
