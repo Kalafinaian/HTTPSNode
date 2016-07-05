@@ -219,131 +219,158 @@ function addUser(response, postData)
 				{
 					//动态令牌有效性判断
 					if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-					if( !postJSON.hasOwnProperty('password') )
-					{	
-						postJSON.password = "123456";
-					}
-					delete postJSON.accessToken;
-					delete postJSON.operatorName;
 
-					var operatorInfo = result[0];
-
-					//后台自动降级不合法的权限
-					if( postJSON.hasOwnProperty('addStationAction') )
-					{	
-						if(operatorInfo.addStationAction == false)
-						{
-							operatorInfo.addStationAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('deleteStationAction') )
-					{	
-						if(operatorInfo.deleteStationAction == false)
-						{
-							operatorInfo.deleteStationAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('queryStationAction') )
-					{	
-						if(operatorInfo.queryStationAction == false)
-						{
-							operatorInfo.queryStationAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('updateStationAction') )
-					{	
-						if(operatorInfo.updateStationAction == false)
-						{
-							operatorInfo.updateStationAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('addStaffAction') )
-					{	
-						if(operatorInfo.addStaffAction == false)
-						{
-							operatorInfo.addStaffAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('deleteStaffAction') )
-					{	
-						if(operatorInfo.deleteStaffAction == false)
-						{
-							operatorInfo.deleteStaffAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('queryStaffAction') )
-					{	
-						if(operatorInfo.queryStaffAction == false)
-						{
-							operatorInfo.queryStaffAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('updateStaffAction') )
-					{	
-						if(operatorInfo.updateStaffAction == false)
-						{
-							operatorInfo.updateStaffAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('addKeyAction') )
-					{	
-						if(operatorInfo.addKeyAction == false)
-						{
-							operatorInfo.addKeyAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('deleteKeyAction') )
-					{	
-						if(operatorInfo.deleteKeyAction == false)
-						{
-							operatorInfo.deleteKeyAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('queryKeyAction') )
-					{	
-						if(operatorInfo.queryKeyAction == false)
-						{
-							operatorInfo.queryKeyAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('updateKeyAction') )
-					{	
-						if(operatorInfo.updateKeyAction == false)
-						{
-							operatorInfo.updateKeyAction = false;
-						}
-					}
-					if( postJSON.hasOwnProperty('doorAuthorization') )
-					{	
-						if(operatorInfo.doorAuthorization == false)
-						{
-							operatorInfo.doorAuthorization = false;
-						}
-					}
-
-					//插入请求数据
-					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-							
-							if( result.hasOwnProperty("errmsg") )
-							{
-								var info = 	{ "error":  
-									{  
-										"msg": "用户或手机号已经存在!",  
-										"code":"02001"  
-									}  };
-								response.write( JSON.stringify(info) );
-								response.end();
-							}else{
-								var info = 	{ "success":  
+					try{
+						if( result[0].hasOwnProperty('addStaffAction') == false || result[0].addStaffAction != true )
+						{	
+							var info = 	{ "error":  
 								{  
-									"msg": "用户添加成功!",  
-									"code":"02000"  
+									"msg": "你没有添加员工的权限!",  
+									"code":"00006"  
 								}  };
-								response.write( JSON.stringify(info) );
-								response.end();
+							response.write( JSON.stringify(info) );
+							response.end();
+							return;
+						}
+
+						if( !postJSON.hasOwnProperty('password') )
+						{	
+							postJSON.password = "123456";
+						}
+						delete postJSON.accessToken;
+						delete postJSON.operatorName;
+
+						var operatorInfo = result[0];
+
+						//后台自动降级不合法的权限
+						if( postJSON.hasOwnProperty('addStationAction') )
+						{	
+							if(operatorInfo.addStationAction == false)
+							{
+								operatorInfo.addStationAction = false;
 							}
-					
-					});	
+						}
+						if( postJSON.hasOwnProperty('deleteStationAction') )
+						{	
+							if(operatorInfo.deleteStationAction == false)
+							{
+								operatorInfo.deleteStationAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('queryStationAction') )
+						{	
+							if(operatorInfo.queryStationAction == false)
+							{
+								operatorInfo.queryStationAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('updateStationAction') )
+						{	
+							if(operatorInfo.updateStationAction == false)
+							{
+								operatorInfo.updateStationAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('addStaffAction') )
+						{	
+							if(operatorInfo.addStaffAction == false)
+							{
+								operatorInfo.addStaffAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('deleteStaffAction') )
+						{	
+							if(operatorInfo.deleteStaffAction == false)
+							{
+								operatorInfo.deleteStaffAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('queryStaffAction') )
+						{	
+							if(operatorInfo.queryStaffAction == false)
+							{
+								operatorInfo.queryStaffAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('updateStaffAction') )
+						{	
+							if(operatorInfo.updateStaffAction == false)
+							{
+								operatorInfo.updateStaffAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('addKeyAction') )
+						{	
+							if(operatorInfo.addKeyAction == false)
+							{
+								operatorInfo.addKeyAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('deleteKeyAction') )
+						{	
+							if(operatorInfo.deleteKeyAction == false)
+							{
+								operatorInfo.deleteKeyAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('queryKeyAction') )
+						{	
+							if(operatorInfo.queryKeyAction == false)
+							{
+								operatorInfo.queryKeyAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('updateKeyAction') )
+						{	
+							if(operatorInfo.updateKeyAction == false)
+							{
+								operatorInfo.updateKeyAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('doorAuthorization') )
+						{	
+							if(operatorInfo.doorAuthorization == false)
+							{
+								operatorInfo.doorAuthorization = false;
+							}
+						}
+
+						//插入请求数据
+						dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+								
+								if( result.hasOwnProperty("errmsg") )
+								{
+									var info = 	{ "error":  
+										{  
+											"msg": "用户或手机号已经存在!",  
+											"code":"02001"  
+										}  };
+									response.write( JSON.stringify(info) );
+									response.end();
+								}else{
+									var info = 	{ "success":  
+									{  
+										"msg": "用户添加成功!",  
+										"code":"02000"  
+									}  };
+									response.write( JSON.stringify(info) );
+									response.end();
+								}
+						
+						});	
+					}catch(e)
+					{
+							var info = 	{ "error":  
+							{  
+								"msg": "参数错误",  
+								"code":"00011"  
+							}  };
+							response.write( JSON.stringify(info) );
+							response.end();
+							return;
+					}
+
+
 				}else{
 					var info = 	{ "error":  
 						{  
@@ -394,6 +421,20 @@ function deleteUser(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
+
+				if( result[0].hasOwnProperty('deleteStaffAction') == false || result[0].deleteStaffAction != true )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有删除员工的权限!",  
+							"code":"00008"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
+
 				var whereStr = {username:postJSON.username};
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 					//console.log(result);
@@ -472,6 +513,18 @@ function updateUser(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 
+				if( result[0].hasOwnProperty('updateStaffAction') == false || result[0].updateStaffAction != true )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有修改员工的权限!",  
+							"code":"00007"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
+
 				//originalName
 				var whereStr = {username:postJSON.originalName};
 				delete postJSON.originalName; //删除字段
@@ -549,6 +602,19 @@ function selectUser(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
+
+				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != true )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询员工的权限!",  
+							"code":"00009"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
@@ -667,6 +733,18 @@ function downloadUser(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
+				if( result[0].hasOwnProperty('queryStaffAction') == false || result[0].queryStaffAction != true )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有查询员工的权限!",  
+							"code":"00009"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}	
+							
 				var fileName = postJSON.operatorName;
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
