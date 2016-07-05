@@ -977,6 +977,7 @@ function appTaskRecord(response, postData)
 						postJSON.taskCommitTime = parseInt(postJSON.taskCommitTime);
 					}
 
+					if(postJSON.hasOwnProperty(''))
 
 					//插入请求数据
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -1005,7 +1006,7 @@ function appTaskRecord(response, postData)
 									updateStr.doorStatus = "open";
 								}
 
-								dbClient.updatFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
+								dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
 										//console.log(result);	
 								});	
 							}catch(e)

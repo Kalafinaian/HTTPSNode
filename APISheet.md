@@ -1829,7 +1829,8 @@ URL：https://www.smartlock.top/v0/appTaskRecord
 |stationAddress	   		    | String  |	No   | 基站地址	                                    |
 |lockID		  	   		    | String  |	No   | 钥匙ID                         				|
 |applicantKeyID	    		| String  |	No   | 锁ID								            |
-|operationType				| String  |	No   | 作业类型                         			|
+|operationType				| String  |	No   | 作业类型   离站  上站  修改密码              |
+|approveCode			    | String  | No   | 修改密码时上传该字段，后台将更新为开门码     |
 |operationResult			| String  |	No   | 作业结果							            |
 |openDoorType	    		| String  |	No   | 开门类型							            |
 |stationManagementProvince	| String  | No   | 申请开门的基站所属省级区域                   |
@@ -1838,6 +1839,7 @@ URL：https://www.smartlock.top/v0/appTaskRecord
 |keyManagementProvince		| String  | No   | 申请开门的电子钥匙省级区域                   |
 |keyManagementCity			| String  | No   | 申请开门的电子钥匙市级区域                   |
 |keyManagementArea			| String  | No   | 申请开门的电子钥匙地级区域                   |
+
 
 
 服务器返回参数：
