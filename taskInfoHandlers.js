@@ -984,10 +984,10 @@ function appTaskRecord(response, postData)
 						var updateStr = {};
 						if(postJSON.operationResult ==  "修改密码成功" )
 						{
-							updateStr.approveCode = postJSON.approveCode;
+							updateStr = {$set:{approveCode:postJSON.approveCode}};
 						}
 
-						dbClient.updateFunc( mongoClient, DB_CONN_STR, "taskInfo",  whereStr , updateStr , function(result){
+						dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
 								//console.log(result);	
 						});	
 					}catch(e)
@@ -1003,12 +1003,12 @@ function appTaskRecord(response, postData)
 						var updateStr = {};
 						if(postJSON.operationResult ==  "上锁成功！" )
 						{
-							updateStr.doorStatus = "closed";
+							updateStr = {$set:{doorStatus:"closed"}};
 						}
 
 						if(postJSON.operationResult ==  "开锁成功" )
 						{
-							updateStr.doorStatus = "open";
+							updateStr = {$set:{doorStatus:"open"}};
 						}
 
 
