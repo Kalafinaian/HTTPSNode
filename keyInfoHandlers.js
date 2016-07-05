@@ -411,7 +411,7 @@ function downloadKey(response, postData)
 		var collectionName = "userInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
-
+		//var fileName = postJSON.operatorName + "电子钥匙信息";
 		console.log(postJSON);
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
@@ -422,8 +422,8 @@ function downloadKey(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
-				
-				var fileName = postJSON.operatorName;
+				 
+				var fileName = postJSON.operatorName + "电子钥匙信息";
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  postJSON , 
@@ -796,10 +796,10 @@ function downloadKeyLog(response, postData)
 
 							var result = nodeExcel.execute(conf);
 							console.log('export Log successfully!');
-							fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
+							fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'电子钥匙日志.xlsx', result, 'binary');
 							var info = 	{ "success":  
 							{  
-								"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
+								"url": 'https://www.smartlock.top/'+fileName+'电子钥匙日志.xlsx',  
 								"code":"27000"  
 							}  };
 							response.write( JSON.stringify(info) );

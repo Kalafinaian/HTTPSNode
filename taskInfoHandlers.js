@@ -755,7 +755,7 @@ function downloadTask(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
 				
-				var fileName = postJSON.operatorName;
+				var fileName = postJSON.operatorName+"任务信息";
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, "taskInfo",  postJSON , 

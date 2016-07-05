@@ -744,10 +744,10 @@ function downloadStation(response, postData)
 
 							var result = nodeExcel.execute(conf);
 							console.log('export successfully!');
-							fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'.xlsx', result, 'binary');
+							fs.writeFileSync('/usr/share/nginx/MBS_WebSourceCode/'+fileName+'基站信息.xlsx', result, 'binary');
 							var info = 	{ "success":  
 							{  
-								"url": 'https://www.smartlock.top/'+fileName+'.xlsx',  
+								"url": 'https://www.smartlock.top/'+fileName+'基站信息.xlsx',  
 								"code":"11000"  
 							}  };
 							response.write( JSON.stringify(info) );
@@ -1002,7 +1002,7 @@ function downloadStationLog(response, postData)
 
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-		var fileName = postJSON.operatorName + "日志";
+		var fileName = postJSON.operatorName + "基站日志";
 
 		console.log(whereStr);
 		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
