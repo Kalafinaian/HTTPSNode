@@ -680,7 +680,7 @@ function downloadStation(response, postData)
 {
 	try
 	{
-		console.log( "Request handler 'downloadUser' was called." );
+		console.log( "Request handler 'downloadStation' was called." );
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
@@ -1137,21 +1137,21 @@ function downloadStationLog(response, postData)
 							for(var i=0;i<result.length;i++)
 							{
 
-								var startDate = new Date(result[i].taskStartTime * 1000); 
-								var endDate = new Date(result[i].taskEndTime * 1000);
+								var startDate = new Date(result[i].taskStartTime * 1000).toISOString(); 
+								var endDate = new Date(result[i].taskEndTime * 1000).toISOString();
 
-								var startDateTime = (startDate.getFullYear()) + "-" + (startDate.getMonth() + 1) + "-" +
-								(startDate.getDate()) + "   " + 
-								 (startDate.getHours()) + ":" + (startDate.getMinutes()) + ":" + (startDate.getSeconds());
+								// var startDateTime = (startDate.getFullYear()) + "-" + (startDate.getMonth() + 1) + "-" +
+								// (startDate.getDate()) + "   " + 
+								//  (startDate.getHours()) + ":" + (startDate.getMinutes()) + ":" + (startDate.getSeconds());
 
-								var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
+								// var endDateTime  = (endDate.getFullYear()) + "-" + (endDate.getMonth() + 1) + "-" +(endDate.getDate()) + "   " + (endDate.getHours()) + ":" + (endDate.getMinutes()) + ":" + (endDate.getSeconds());
 
 								conf.rows[i] = [result[i].stationID, result[i].stationAddress,result[i].applicantKeyID, result[i].taskID,
 								 result[i].keyManagementProvince, result[i].keyManagementCity, result[i].keyManagementArea,
 								 result[i].stationManagementProvince, result[i].stationManagementCity, result[i].stationManagementArea,
 								 result[i].applicantName, result[i].applicantPhone, result[i].applyDescription,
-								startDateTime
-								, endDateTime ];
+								startDate
+								, endDate ];
 							}
 
 
