@@ -506,6 +506,19 @@ function taskAuthenticate(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result.tokenEndTime,response)==false ){ return; };
+
+				if( result[0].hasOwnProperty('doorAuthorization') == false || result[0].doorAuthorization != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有审批基站开门的权限!",  
+							"code":"00014"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
+				
 				delete postJSON.operatorName;
 				delete postJSON.accessToken;
 				//这里需要根据基站和电子钥匙信息生成授权码，授权时间
