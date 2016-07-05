@@ -78,6 +78,7 @@ function importStationFromExcel( importFileName, response )
 				field.managementCity  = rowData[5].toString();
 				field.managementArea  = rowData[6].toString();
 				field.approvalPerson  = rowData[7].toString();
+				field.doorStatus = "closed";
 				dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
 										console.log("基站数据导入结果 "+result);	
 				});
