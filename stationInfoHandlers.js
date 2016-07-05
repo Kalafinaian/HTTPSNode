@@ -719,12 +719,12 @@ function downloadStation(response, postData)
 							            type:'string',
 							        },
 							        {
-							            caption:'基站地址',
-							            type:'string',
-							        },
-							        {
 							            caption:'基站门锁ID',
 							            type:'string'
+							        },
+							        {
+							            caption:'基站地址',
+							            type:'string',
 							        },
 							        {
 							            caption:'基站负责人',
