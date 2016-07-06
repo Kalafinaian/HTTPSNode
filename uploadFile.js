@@ -52,7 +52,7 @@ function onRequest(request,response)
 					response.write('<html>');
 					response.write('<head>');
 					response.write(
-					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=success\">');
+					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=success\">');
 					response.write('</head>');
 					response.write('</html>');
 					response.end();
@@ -62,7 +62,7 @@ function onRequest(request,response)
 					response.write('<html>');
 					response.write('<head>');
 					response.write(
-					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=failure\">');
+					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=failure\">');
 					response.write('</head>');
 					response.write('</html>');
 					response.end();
@@ -105,7 +105,7 @@ function onRequest(request,response)
 						response.write('<html>');
 						response.write('<head>');
 						response.write(
-						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyManage.html?result=success\">');
+						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=success\">');
 						response.write('</head>');
 						response.write('</html>');
 						response.end();
@@ -115,7 +115,7 @@ function onRequest(request,response)
 						response.write('<html>');
 						response.write('<head>');
 						response.write(
-						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyManage.html?result=failure\">');
+						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=failure\">');
 						response.write('</head>');
 						response.write('</html>');
 						response.end();
@@ -130,7 +130,7 @@ function onRequest(request,response)
 				response.write('<html>');
 				response.write('<head>');
 				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=failure\">');
+				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=failure\">');
 				response.write('</head>');
 				response.write('</html>');
 				response.end();   
@@ -138,7 +138,7 @@ function onRequest(request,response)
 				response.write('<html>');
 				response.write('<head>');
 				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyManage.html?result=failure\">');
+				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=failure\">');
 				response.write('</head>');
 				response.write('</html>');
 				response.end();   	
@@ -153,7 +153,7 @@ function onRequest(request,response)
 				response.write('<html>');
 				response.write('<head>');
 				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationManage.html?result=failure\">');
+				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=failure\">');
 				response.write('</head>');
 				response.write('</html>');
 				response.end();   
@@ -161,7 +161,7 @@ function onRequest(request,response)
 				response.write('<html>');
 				response.write('<head>');
 				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyManage.html?result=failure\">');
+				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=failure\">');
 				response.write('</head>');
 				response.write('</html>');
 				response.end();   	
