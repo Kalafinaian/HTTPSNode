@@ -32,6 +32,7 @@ handle["/v0/downloadStationLog"] = stationInfoHandlers.downloadStationLog;
 
 
 
+
 handle["/v0/addKey"] = keyInfoHandlers.addKey;
 handle["/v0/queryKey"] = keyInfoHandlers.selectKey;
 handle["/v0/deleteKey"] = keyInfoHandlers.deleteKey;
@@ -39,6 +40,18 @@ handle["/v0/updateKey"] = keyInfoHandlers.updateKey;
 handle["/v0/downloadKey"] = keyInfoHandlers.downloadKey;
 handle["/v0/queryKeyLog"] = keyInfoHandlers.queryKeyLog;
 handle["/v0/downloadKeyLog"] = keyInfoHandlers.downloadKeyLog;
+
+
+
+
+handle["/v0/addLock"] = lockInfoHandlers.addLock;
+handle["/v0/queryLock"] = lockInfoHandlers.selectLock;
+handle["/v0/deleteLock"] = lockInfoHandlers.deleteLock;
+handle["/v0/updateLock"] = lockInfoHandlers.updateLock;
+handle["/v0/downloadLock"] = lockInfoHandlers.downloadLock;
+handle["/v0/queryLockLog"] = lockInfoHandlers.queryLockLog;
+handle["/v0/downloadLockLog"] = lockInfoHandlers.downloadLockLog;
+
 
 
 

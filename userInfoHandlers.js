@@ -168,6 +168,12 @@ function login(response, postData)
 							json.success.permissions.queryKeyAction = result[0].queryKeyAction;
 							json.success.permissions.updateKeyAction = result[0].updateKeyAction;
 							json.success.permissions.doorAuthorization = result[0].doorAuthorization;
+
+							json.success.permissions.addLockAction = result[0].addLockAction;
+							json.success.permissions.deleteLockAction = result[0].deleteLockAction;
+							json.success.permissions.queryLockAction = result[0].queryLockAction;
+							json.success.permissions.updateLockAction = result[0].updateLockAction;
+							json.success.permissions.doorAuthorization = result[0].doorAuthorization;
 							
 							json.success.tokenInfo.accessToken = result[0].accessToken;
 							json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
@@ -325,6 +331,34 @@ function addUser(response, postData)
 							if(operatorInfo.updateKeyAction == false)
 							{
 								operatorInfo.updateKeyAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('addLockAction') )
+						{	
+							if(operatorInfo.addLockAction == false)
+							{
+								operatorInfo.addLockAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('deleteLockAction') )
+						{	
+							if(operatorInfo.deleteLockAction == false)
+							{
+								operatorInfo.deleteLockAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('queryLockAction') )
+						{	
+							if(operatorInfo.queryLockAction == false)
+							{
+								operatorInfo.queryLockAction = false;
+							}
+						}
+						if( postJSON.hasOwnProperty('updateLockAction') )
+						{	
+							if(operatorInfo.updateLockAction == false)
+							{
+								operatorInfo.updateLockAction = false;
 							}
 						}
 						if( postJSON.hasOwnProperty('doorAuthorization') )
@@ -659,6 +693,11 @@ function selectUser(response, postData)
 							mjson.permissions.deleteKeyAction = result[i].deleteKeyAction;
 							mjson.permissions.queryKeyAction = result[i].queryKeyAction;
 							mjson.permissions.updateKeyAction = result[i].updateKeyAction;
+
+							mjson.permissions.addLockAction = result[i].addLockAction;
+							mjson.permissions.deleteLockAction = result[i].deleteLockAction;
+							mjson.permissions.queryLockAction = result[i].queryLockAction;
+							mjson.permissions.updateLockAction = result[i].updateLockAction;
 							mjson.permissions.doorAuthorization = result[i].doorAuthorization;
 							
 							mjson.tokenInfo.accessToken = result[i].accessToken;

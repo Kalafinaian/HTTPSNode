@@ -70,6 +70,13 @@ Code说明:前两位是API序号，后三位是状态序号。
 				"updateKeyAction" : "true",  
 
 
+				//锁具管理--锁具录入时的增删查改权限和锁具授权  
+				"addLockAction" : "true",  
+				"deleteLockAction" : "true",  
+				"queryLockAction" : "true",  
+				"updateLockAction" : "true",  
+
+
 				//作业管理--是否具有开门授权的权限  
 				"doorAuthorization" : "true", 	
 			}
@@ -2045,3 +2052,267 @@ Or
 				"code":"00000"  
 			}  
 		}
+
+
+
+
+
+##五、锁具管理
+
+###33、添加锁具  
+
+功能说明： 用户添加锁具 ，锁具所属基站ID必须已经录入数据库
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/addLock 	    		
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken=""&LockID=""...   application/x-www-form-urlencoded
+
+|   参数名       	|   类型  | 必须 | 说明        									|  
+| :------:   	    | :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|lockID	  		    | String  |	Yes  | 唯一的锁具标识                           	|
+|ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "锁具添加成功",
+			"code":"33000"
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "锁具已存在",
+			"code":"33001"
+		}
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+###34、删除锁具 
+
+功能说明： 用户删除指定的锁具 
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/deleteLock 				    		
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken=""&deleteList=[LockID1,LockID2]...   application/x-www-form-urlencoded
+
+|   参数名       	|   类型  | 必须 | 说明        									|  
+| :------:   	    | :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|deleteList	  		| String  |	Yes  | 锁具ID列表                               |
+
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "锁具删除成功",
+			"code":"34000"
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+###35、编辑锁具
+功能说明： 用户编辑指定的锁具 
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/updateLock 			    		
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken=""&LockID=""...   application/x-www-form-urlencoded
+
+|参数名       		| 类型    | 必须 | 说明        									|  
+|:------:   	    | :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|originalLockID	    | String  |	Yes  | 唯一的锁具标识                           	|
+|LockID	  		    | String  |	No   | 唯一的锁具标识                           	|
+|ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "锁具信息编辑成功",
+			"code":"35000"
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "锁具ID已存在",
+			"code":"35001"
+		}
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+
+###36、查询锁具
+功能说明： 用户查询指定的锁具 
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/queryLock 				    		
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken=""&LockID=""...   application/x-www-form-urlencoded
+
+|   参数名       	|   类型  | 必须 | 说明        									|  
+| :------:   	    | :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|LockID	  		    | String  |	No   | 唯一的锁具标识                          		|
+|ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			[
+				{
+					锁具信息
+				｝,
+
+
+				...
+				{
+					锁具信息
+				｝				
+			]
+		}
+	}
+	
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "没有查询记录",
+			"code":"36001"
+		}
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+###37、锁具信息Excel下载请求接口
+功能说明： 用户添加锁具 
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadLock 				
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken=""&LockID=""...   application/x-www-form-urlencoded
+
+|   参数名       	|   类型  | 必须 | 说明        									|  
+| :------:   	    | :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|LockID	  		    | String  |	No   | 唯一的锁具标识                           	|
+|ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
+
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"url": "锁具信息下载URL",
+			"code":"37000"
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "没有数据记录",
+			"code":"37001"
+		}
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}

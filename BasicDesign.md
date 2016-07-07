@@ -49,6 +49,20 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 	27、https://www.smartlock.top/v0/downloadKeyLog	        下载指定电子钥匙相关任务Excel记录日志
 
 
+###6、统计接口
+	28、https://www.smartlock.top/v0/importDataFromExcel     从Excel表格中导入信息
+	29、https://www.smartlock.top/v0/appTaskRecord	         上传APP历史数据接口  
+	30、https://www.smartlock.top/v0/appTaskConsult          查询APP历史数据接口
+	31、https://www.smartlock.top/v0/taskAnalyse             工单申请记录数据分析统计接口
+	32、https://www.smartlock.top/v0/taskCalculate	         各地市门锁工单操作记录统计接口
+
+
+###7、锁具管理
+	33、https://www.smartlock.top/v0/addLock 	    	添加锁具
+	34、https://www.smartlock.top/v0/deleteLock 			删除锁具
+	35、https://www.smartlock.top/v0/updateLock 			编辑锁具
+	36、https://www.smartlock.top/v0/queryLock 			查询锁具
+	37、https://www.smartlock.top/v0/downloadLock 		锁具信息Excel下载请求接口
 		
 总体任务：前期实现基本API，后期实现数据库备份，操作日志记录，大量数据压力测试等工作			
 			
@@ -60,12 +74,19 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 2、超级管理员用户可以添加比自己权限更低或者等同的用户；  
 3、所有用户只能添加权限更低的用户；  
 4、所有用户只能添加自己管辖区域范围内的基站；  
-5、所有用户只能操作自己管辖区域内的基站。  
+5、所有用户只能操作自己管辖区域内的基站；
+
+
+##三、后台对权限管理的实现 
+1、具体权限管理
+后台根据权限码限制用户权限；即一是限制用户权限只能降级添加；二是根据权限码限制用户各个API操作；
+2、地域权限管理
+后台查询数据库和操作数据库时，填上用户的地域信息，限制用户只能查看自己地域下的信息； 
 
 
 
 
-##三、后台基本数据表定义
+##四、后台基本数据表定义
 
 
 **后台处理的核心数据是用户信息和基站信息**
@@ -120,6 +141,12 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 			"queryKeyAction" : "true",  
 			"updateKeyAction" : "true",  
 
+			//锁具管理--电子钥匙录入时的增删查改权限
+			"addLockAction" : "true",  
+			"deleteLockAction" : "true",  
+			"queryLockAction" : "true",  
+			"updateLockAction" : "true",  
+
 
 			//作业管理--是否具有开门授权的权限
 			"doorAuthorization" : "true", //开门授权
@@ -150,9 +177,6 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 
 			//负责人、基站所属公司
 			"chargePerson":"陆金波"，   //基站负责人
-			"chargePhone":"14652341236", //基站负责人电话
-			"chargeCompany":"中国移动成都分公司高新西区分公司"，  //基站所属公司
-
 
 			//所属管辖区域
 			"managementProvince":"四川省"，
@@ -162,13 +186,6 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 
 			//基站任务审批人
 			"approvalPerson"："肖良平",  //基站作业审批人
-			"approvalPhone"："15520443869",  //作业审批人电话
-			"approvalCompany"："中国移动成都分公司高新西区分公司",
-
-			"doorMagnetic":"开",
-			"lockingTab":"关"
-
-
 		}
 	}
 
@@ -190,7 +207,22 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 	}
 
 
-###4、任务管理JSON字段设计
+
+###4、锁具管理JSON字段设计
+**锁具基本信息**
+
+	{
+		"lockInfo" : //锁具信息
+		{
+			//基本信息-ID
+			"lockID" : "434968874",  //锁具ID
+			"ownedStationID":"4338968874"    //锁具所属基站的ID
+		}
+	}
+
+
+
+###5、任务管理JSON字段设计
 **任务信息用于作业授权管理、作业管日志理功能实现**
 
 	{
@@ -204,8 +236,6 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 			
 			//申请信息
 			"applicantName":"陈刚"， //作业申请人--必须--工程师按用户名拉取自己申请的工单
-			"applicantCompany":"中国移动成都分公司高新西区分公司"， //申请人公司
-			"applicantPhone":"14780413613", //申请人电话--必须
 			"applicatKeyID":"1346464674", //申请授权的电子钥匙ID--必须
 			"applicationType":"",   //申请类型
 			"applyDescription":"",  //申请描述
@@ -216,7 +246,6 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 
 			//基站任务审批信息
 			"approvalPerson"："樊建峰",  //作业审批人--根据申请任务的基站，查找审批人--审批人按用户名拉取自己负责的工单
-			"approvalPhone"："15464674156",  //作业审批人电话
 			"reason":"情况属实，给予开门权限", //审批人作业审批说明
 
 			//审批状态
