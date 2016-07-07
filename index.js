@@ -5,6 +5,7 @@ var router = require("./router"); //路由配置模块
 var userInfoHandlers = require("./userInfoHandlers");  //用户信息请求处理模块
 var stationInfoHandlers = require("./stationInfoHandlers");  //基站信息请求处理模块
 var keyInfoHandlers = require("./keyInfoHandlers");  //电子钥匙信息请求处理模块
+var lockInfoHandlers = require("./lockInfoHandlers");  //锁具信息请求处理模块
 var taskInfoHandlers = require("./taskInfoHandlers");  //工单任务信息请求处理模块
 
 
