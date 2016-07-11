@@ -2,10 +2,11 @@
 //localhost:27017/csis
 //var cursor = db.getCollectionNames(); // 获取collection 名
 //print(cursor);
-//数据库名  备份目的地（备份文件名）  备份时间  备份内容  
+//数据库名  备份目的地（备份文件名）  备份时间 
+//192.168.1.155/csis
 var dbClient = require("./Mongo");  //数据库模块
 var mongoClient = require('mongodb').MongoClient;
-var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+var DB_CONN_STR = 'mongodb://192.168.1.155:27017/csis';	
 var collectionName = "backupInfo";
 
 //---------------------开始--时间戳转日期--开始--------------------//
@@ -41,13 +42,13 @@ function formatToDetailDate(timeStamp)
 //第一步：node调用shell完成备份
 var exec = require('child_process').exec; 
 
-var cmdStr = 'rm *.xlsx';
+var cmdStr = 'mongodump  -h 192.168.1.155 -d csis -o /usr/local/mongoBackup';
 exec(cmdStr);
 
 
 
 //第二步：node将备份记录写入数据库
-var insertStr = {dbName:"csis",backupName:"",backupTime:"",backupTimeStamp:""};
+var insertStr = {dbName:"csis",backupDir:"/usr/local/mongoBackup",backupTime:"",backupTimeStamp:""};
 var timeStamp = Date.now();
 insertStr.backupTime = formatToDetailDate(timeStamp);
 insertStr.backupTimeStamp = parseInt(timeStamp/1000);
