@@ -2,6 +2,8 @@
 
 mongo作为一个完备的脚本解释器，可以执行js文件；如果不行，使用node完成批处理
 
+写一个shell，先备份数据库，然后在数据表中通过mongo解释器添加备份记录
+
 通过mongodump完成备份
 
 通过mongorestore完成恢复
