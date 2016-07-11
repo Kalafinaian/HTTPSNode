@@ -52,6 +52,15 @@ function start(route,handle){
 			if( request.method.toLowerCase() == 'post' )
 			{
 				route(handle, pathname, response, postData);
+				var postJSON = querystring.parse(postData);
+				var mongoClient = require('mongodb').MongoClient;
+				var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+				var collectionName = "operateInfo";
+				postJSON.apiName = pathname;
+				delete accessToken;
+				//插入请求数据
+				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){});	
+
 			}	
 		});
 		
