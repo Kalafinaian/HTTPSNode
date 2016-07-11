@@ -1014,7 +1014,7 @@ function appTaskRecord(response, postData)
 							updateStr = {$set:{approveCode:postJSON.approveCode}};
 						}
 
-						dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr);	
+						dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);	
 
 					}catch(e)
 					{
@@ -1030,17 +1030,19 @@ function appTaskRecord(response, postData)
 						if(postJSON.operationResult ==  "上锁成功！" )
 						{
 							updateStr = {$set:{doorStatus:"closed"}};
+							dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
+								//console.log(result);	
+							});	
 						}
 
 						if(postJSON.operationResult ==  "开锁成功" )
 						{
 							updateStr = {$set:{doorStatus:"open"}};
+							dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
+								//console.log(result);	
+							});	
 						}
 
-
-						dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
-								//console.log(result);	
-						});	
 					}catch(e)
 					{
 						console.log(e);

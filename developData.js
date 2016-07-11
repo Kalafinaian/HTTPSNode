@@ -50,4 +50,6 @@ db.userInfo.insert({ "username" : "九鼎", "realname" : "九鼎", "phone" : "13
 
 db.stationInfo.update({},{$set:{approveCode:"4201736374740106"}},{multi:true})
 
+db.keyInfo.update({},{$set:{approveCode:"4201736374740106"}},{multi:true})
+
 WriteResult({ "nMatched" : 8, "nUpserted" : 0, "nModified" : 8 })
