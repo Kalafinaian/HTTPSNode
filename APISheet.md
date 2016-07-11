@@ -1078,6 +1078,7 @@ URL：https://www.smartlock.top/v0/taskRequest
 |taskStartTime	  	| String  |	Yes  | 申请开门的起始时间                          	|
 |taskEndTime	    | String  |	Yes  | 申请开门的起始时间                         	|
 |taskTimes		   	| String  | Yes  | 申请开门的次数      							|  
+|applyType          | String  | Yes  | 申请的工单类型 app/key                       |
 
 
 
@@ -2078,6 +2079,7 @@ URL：https://www.smartlock.top/v0/addLock
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
 |lockID	  		    | String  |	Yes  | 唯一的锁具标识                           	|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
+|lockType           | String  | Yes  | 锁具类型                                     |
 
 
 服务器返回参数：
@@ -2129,7 +2131,7 @@ URL：https://www.smartlock.top/v0/deleteLock
 |operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
 |deleteList	  		| String  |	Yes  | 锁具ID列表                               |
-
+|lockType           | String  | Yes  | 锁具类型                                     |
 
 
 服务器返回参数：
@@ -2172,6 +2174,8 @@ URL：https://www.smartlock.top/v0/updateLock
 |originalLockID	    | String  |	Yes  | 唯一的锁具标识                           	|
 |LockID	  		    | String  |	No   | 唯一的锁具标识                           	|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
+|lockType           | String  | Yes  | 锁具类型                                     |
+
 
 服务器返回参数：
 
@@ -2223,6 +2227,7 @@ URL：https://www.smartlock.top/v0/queryLock
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
 |LockID	  		    | String  |	No   | 唯一的锁具标识                          		|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
+|lockType           | String  | Yes  | 锁具类型                                     |
 
 
 服务器返回参数：
@@ -2284,7 +2289,7 @@ URL：https://www.smartlock.top/v0/downloadLock
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
 |LockID	  		    | String  |	No   | 唯一的锁具标识                           	|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
-
+|lockType           | String  | Yes  | 锁具类型                                     |
 
 
 服务器返回参数：

@@ -168,7 +168,38 @@ function taskRequest(response, postData)
 								postJSON.workDescription = " ";
 								postJSON.finishTime = " ";
 						
-		
+								if(postJSON.hasOwnProperty("applyType") && postJSON.applyType == "app")
+								{
+											
+									delete postJSON.accessToken;
+									delete postJSON.operatorName;
+									postJSON.taskStatus = "正常";
+									postJSON.taskDescription = "工单等待审批";
+									//插入请求数据
+									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+											//console.log(result);
+											if( result.hasOwnProperty("errmsg") )
+											{
+												var info = 	{ "error":  
+													{  
+														"msg": "任务申请工单ID已存在!",  
+														"code":"17001"  
+													}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}else{
+												var info = 	{ "success":  
+												{  
+													"msg": "任务申请工单申请成功!",  
+													"code":"17000"  
+												}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}
+									});										
+									return;
+								}
+
 								var whereStr = {"keyID":postJSON.applicantKeyID};
 								//验证电子钥匙的信息：查询电子钥匙ID是否存在--电子钥匙还需要做地域检查
 								dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
