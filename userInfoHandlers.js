@@ -578,22 +578,22 @@ function personalConfig(response, postData)
 				}
 
 				//originalName
-				var whereStr = {username:postJSON.originalName};
+				var whereStr = {username:postJSON.operatorName};
 				delete postJSON.originalName; //删除字段
 				delete postJSON.accessToken;
 				delete postJSON.operatorName;
 				var updateStr = {$set: postJSON };
-				isOwnEmpty(postJSON)
-				{
-					var info = 	{ "error":  
-						{  
-							"msg": "你没有指定配置任何属性!",  
-							"code":"00014"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-					return;					
-				}
+				// isOwnEmpty(postJSON)
+				// {
+				// 	var info = 	{ "error":  
+				// 		{  
+				// 			"msg": "你没有指定配置任何属性!",  
+				// 			"code":"00014"  
+				// 		}  };
+				// 	response.write( JSON.stringify(info) );
+				// 	response.end();
+				// 	return;					
+				// }
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					if(result.hasOwnProperty("errmsg") )
 					{
@@ -682,17 +682,17 @@ function updateUser(response, postData)
 				delete postJSON.accessToken;
 				delete postJSON.operatorName;
 				var updateStr = {$set: postJSON };
-				isOwnEmpty(postJSON)
-				{
-					var info = 	{ "error":  
-						{  
-							"msg": "你没有指定修改任何属性!",  
-							"code":"00014"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-					return;					
-				}
+				// isOwnEmpty(postJSON)
+				// {
+				// 	var info = 	{ "error":  
+				// 		{  
+				// 			"msg": "你没有指定修改任何属性!",  
+				// 			"code":"00014"  
+				// 		}  };
+				// 	response.write( JSON.stringify(info) );
+				// 	response.end();
+				// 	return;					
+				// }
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					if(result.hasOwnProperty("errmsg") )
 					{
