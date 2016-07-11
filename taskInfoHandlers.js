@@ -132,7 +132,7 @@ function taskRequest(response, postData)
 
 								postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 								postJSON.applicationStatus = "pending";
-								postJSON.approveCode = "42 01 73 63 74 74 01 06";
+								//postJSON.approveCode = "42 01 73 63 74 74 01 06";
 
 
 								//将时间类型转换为整型
@@ -195,7 +195,7 @@ function taskRequest(response, postData)
 											}
 											
 											//市级区域判定
-											if(postJSON.keyManagementCity != "ALL" &&
+											if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" &&
 											postJSON.keyManagementCity != postJSON.stationManagementCity)
 											{
 												var info = 	{ "error":  
@@ -209,7 +209,7 @@ function taskRequest(response, postData)
 											}
 											
 											//地级区域判定
-											if(postJSON.keyManagementArea != "ALL" &&
+											if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" && postJSON.keyManagementArea != "ALL" &&
 											postJSON.keyManagementArea != postJSON.stationManagementArea)
 											{
 												var info = 	{ "error":  
