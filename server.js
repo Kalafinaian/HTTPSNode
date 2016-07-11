@@ -49,16 +49,8 @@ function start(route,handle){
 		});
 
 		request.addListener("end", function() {
-			if(postData.length<4)
+			if( request.method.toLowerCase() == 'post' )
 			{
-				var info = 	{ "error":  
-				{  
-					"msg": "#err:参数错误",  
-					"code":"01000"  
-				}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-			}else{
 				route(handle, pathname, response, postData);
 			}	
 		});
