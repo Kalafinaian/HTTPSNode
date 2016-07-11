@@ -58,30 +58,5 @@ dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  insertStr , func
 
 
 //第三步：预留数据恢复脚本
+//mongorestore -h  192.168.1.162 -d  csis --dir  /usr/local/mongoBackup/csis
 
-
-//备份端的脚本---通过备份端远程连接数据库备份，并写入备份记录
-// mongodump --help
-// #命令帮助
-
-// mongodump  -h 192.168.0.1 -u "mydbuser" -p "123" -d mydb  -o d:\mydb
-// #备份192.168.0.1上的mydb库到本地的 d:\mydb 目录，如果mongod服务启用了认证，则必须使用用户名密码进行谁
-// #注意此处的认证用户必须是mydb库中的用户，如果admin库中有超级用户，但mydb库没有用户，也是无法备份的，必须在mydb中创建一个用户才行。
-
-// mongodump  -h 192.168.0.1 -u "mydbuser" -p "123" -d mydb  -c User -o d:\User
-// #备份192.168.0.1上的mydb库中的User集合
-
-
-
-// 恢复： mongorestore
-
-// mongorestore --help
-// #命令帮助
-
-// mongorestore -h  192.168.0.2 -u "root" -p "123"  d:\mydb
-// #从备份目录d:\mydb下恢复数据库到192.168.0.1上
-// #整库恢复使用admin库下的用户进行认证
-
-// mongorestore -h  192.168.0.2 -u "mydb_user" -p "123"  -d mydb  d:\User\mydb --drop
-// #从备份目录d:\User\mydb下恢复集合到192.168.0.1上mydb库的User集合,如果存在则先删除再恢复
-// #指定数据库名则需使用指定库下的用户进行认证
