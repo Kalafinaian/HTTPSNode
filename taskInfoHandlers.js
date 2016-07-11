@@ -459,7 +459,7 @@ function taskFetch(response, postData)
 										//console.log(result);
 										try
 										{
-											if( result.length<=0 &&  result[i].hasOwnProperty("taskEndTime") && Date.now()/1000 > result[i].taskEndTime )
+											if( result[i].hasOwnProperty("taskEndTime") && Date.now()/1000 > result[i].taskEndTime )
 											{
 												result[i].taskStatus = "异常";
 												result[i].taskDescription = "工程师未及时上站";
