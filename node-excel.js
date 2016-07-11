@@ -1,6 +1,7 @@
 var xlsx = require("node-xlsx");
 var dbClient = require("./Mongo");  //数据库模块
 var fs = require('fs');
+function trimStr(str){return str.replace(/\s+/g,"");}
 
 function importStationFromExcel( importFileName, response )
 {
@@ -70,14 +71,14 @@ function importStationFromExcel( importFileName, response )
 				var columnCount = rowData.length;
 				var field = {};
 				console.log( rowData)
-				field.stationID  = rowData[0].toString();
-				field.address  = rowData[1].toString();
-				field.lockID  = rowData[2].toString();
-				field.chargePerson  = rowData[3].toString();
-				field.managementProvince  = rowData[4].toString();
-				field.managementCity  = rowData[5].toString();
-				field.managementArea  = rowData[6].toString();
-				field.approvalPerson  = rowData[7].toString();
+				field.stationID  = trimStr( rowData[0].toString() );
+				field.address  = trimStr( rowData[1].toString() );
+				field.lockID  = trimStr( rowData[2].toString() );
+				field.chargePerson  = trimStr( rowData[3].toString() );
+				field.managementProvince  = trimStr( rowData[4].toString() );
+				field.managementCity  = trimStr( rowData[5].toString() );
+				field.managementArea  = trimStr( rowData[6].toString() );
+				field.approvalPerson  = trimStr( rowData[7].toString() );
 				field.doorStatus = "closed";
 				dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
 										console.log("基站数据导入结果 "+result);	
@@ -186,11 +187,11 @@ function importKeyFromExcel( importFileName, response )
 				var columnCount = rowData.length;
 				var field = {};
 
-				field.keyID  = rowData[0].toString();
-				field.managementProvince  = rowData[1].toString();
-				field.managementCity  = rowData[2].toString();
-				field.managementArea  = rowData[3].toString();
-				field.gridID =  rowData[4].toString();
+				field.keyID  = trimStr( rowData[0].toString() );
+				field.managementProvince  = trimStr( rowData[1].toString() );
+				field.managementCity  = trimStr( rowData[2].toString() );
+				field.managementArea  = trimStr( rowData[3].toString() );
+				field.gridID =  trimStr( rowData[4].toString() );
 				//要注意异步编程的特性
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  field, function(result){
 					console.log("电子钥匙数据导入结果 "+result);	
