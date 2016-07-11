@@ -1,0 +1,7 @@
+通过mongo批处理和定时任务完成备份
+
+mongo作为一个完备的脚本解释器，可以执行js文件；如果不行，使用node完成批处理
+
+通过mongodump完成备份
+
+通过mongorestore完成恢复
