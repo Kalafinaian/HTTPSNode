@@ -581,17 +581,17 @@ function taskAuthenticate(response, postData)
 					postJSON.approveTime = parseInt(postJSON.approveTime);
 				}
 				var updateStr = {$set: postJSON };
-				isOwnEmpty(postJSON)
-				{
-					var info = 	{ "error":  
-						{  
-							"msg": "你没有指定修改任何属性!",  
-							"code":"00014"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-					return;					
-				}
+				// isOwnEmpty(postJSON)
+				// {
+				// 	var info = 	{ "error":  
+				// 		{  
+				// 			"msg": "你没有指定修改任何属性!",  
+				// 			"code":"00014"  
+				// 		}  };
+				// 	response.write( JSON.stringify(info) );
+				// 	response.end();
+				// 	return;					
+				// }
 
 
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
