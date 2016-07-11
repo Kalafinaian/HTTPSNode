@@ -1,0 +1,4385 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>APISheet.md—E:\GitHubHTTPSNode</title>
+    <style type="text/css">
+    html{font-family: sans-serif;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%}body{margin: 0}article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display: block}audio,canvas,progress,video{display: inline-block;vertical-align: baseline}audio:not([controls]){display: none;height: 0}[hidden],template{display: none}a{background: transparent}a:active,a:hover{outline: 0}abbr[title]{border-bottom: 1px dotted}b,strong{font-weight: bold}dfn{font-style: italic}h1{font-size: 2em;margin: 0.67em 0}mark{background: #ff0;color: #000}small{font-size: 80%}sub,sup{font-size: 75%;line-height: 0;position: relative;vertical-align: baseline}sup{top: -0.5em}sub{bottom: -0.25em}img{border: 0}svg:not(:root){overflow: hidden}figure{margin: 1em 40px}hr{box-sizing: content-box;height: 0}pre{overflow: auto}code,kbd,pre,samp{font-family: monospace, monospace;font-size: 1em}button,input,optgroup,select,textarea{color: inherit;font: inherit;margin: 0}button{overflow: visible}button,select{text-transform: none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance: button;cursor: pointer}button[disabled],html input[disabled]{cursor: default}button::-moz-focus-inner,input::-moz-focus-inner{border: 0;padding: 0}input{line-height: normal}input[type="checkbox"],input[type="radio"]{box-sizing: border-box;padding: 0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height: auto}input[type="search"]{-webkit-appearance: textfield;box-sizing: content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance: none}fieldset{border: 1px solid #c0c0c0;margin: 0 2px;padding: 0.35em 0.625em 0.75em}legend{border: 0;padding: 0}textarea{overflow: auto}optgroup{font-weight: bold}table{border-collapse: collapse;border-spacing: 0}td,th{padding: 0}*{box-sizing: border-box}input,select,textarea,button{font: 13px/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"}body{min-width: 1020px;font: 13px/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";color: #333;background-color: #fff}a{color: #4183c4;text-decoration: none}a:hover,a:active{text-decoration: underline}hr,.rule{height: 0;margin: 15px 0;overflow: hidden;background: transparent;border: 0;border-bottom: 1px solid #ddd}hr:before,.rule:before{display: table;content: ""}hr:after,.rule:after{display: table;clear: both;content: ""}h1,h2,h3,h4,h5,h6{margin-top: 15px;margin-bottom: 15px;line-height: 1.1}h1{font-size: 30px}h2{font-size: 21px}h3{font-size: 16px}h4{font-size: 14px}h5{font-size: 12px}h6{font-size: 11px}small{font-size: 90%}blockquote{margin: 0}.lead{margin-bottom: 30px;font-size: 20px;font-weight: 300;color: #555}.text-muted{color: #999}.text-danger{color: #bd2c00}.text-emphasized{font-weight: bold;color: #333}ul,ol{padding: 0;margin-top: 0;margin-bottom: 0}ol ol,ul ol{list-style-type: lower-roman}ul ul ol,ul ol ol,ol ul ol,ol ol ol{list-style-type: lower-alpha}dd{margin-left: 0}tt,code{font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;font-size: 12px}pre{margin-top: 0;margin-bottom: 0;font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace}#realtime .status{overflow: visible;position: absolute;top: -5px;left: 0;background: url("/public/images/github-status.png");width: 26px;height: 26px;display: block;margin: 0 5px 0 0}#realtime .up{background-position: 0 0}#realtime .problem{background-position: 0 -53px}#realtime .down{background-position: 0 -26px}.container{max-width: 920px;margin: 0 auto 20px auto}#header{background: #FAFAFA;background: -moz-linear-gradient(#FAFAFA, #EAEAEA);background: -webkit-linear-gradient(#FAFAFA, #EAEAEA);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#eaeaea')";border-bottom: 1px solid #CACACA;box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),0 0 10px rgba(0, 0, 0, 0.1)}#markup{padding: 3px}#markup article{padding-top: 30px}.markdown-body{overflow: hidden;font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;font-size: 16px;line-height: 1.6;word-wrap: break-word}.markdown-body>*:first-child{margin-top: 0 !important}.markdown-body>*:last-child{margin-bottom: 0 !important}.markdown-body .absent{color: #c00}.markdown-body .anchor{position: absolute;top: 0;left: 0;display: block;padding-right: 6px;padding-left: 30px;margin-left: -30px}.markdown-body .anchor:focus{outline: none}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{position: relative;margin-top: 1em;margin-bottom: 16px;font-weight: bold;line-height: 1.4}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{display: none;color: #000;vertical-align: middle}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{padding-left: 8px;margin-left: -30px;text-decoration: none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{display: inline-block}.markdown-body h1 tt,.markdown-body h1 code,.markdown-body h2 tt,.markdown-body h2 code,.markdown-body h3 tt,.markdown-body h3 code,.markdown-body h4 tt,.markdown-body h4 code,.markdown-body h5 tt,.markdown-body h5 code,.markdown-body h6 tt,.markdown-body h6 code{font-size: inherit}.markdown-body h1{padding-bottom: 0.3em;font-size: 2.25em;line-height: 1.2;border-bottom: 1px solid #eee}.markdown-body h1 .anchor{line-height: 1}.markdown-body h2{padding-bottom: 0.3em;font-size: 1.75em;line-height: 1.225;border-bottom: 1px solid #eee}.markdown-body h2 .anchor{line-height: 1}.markdown-body h3{font-size: 1.5em;line-height: 1.43}.markdown-body h3 .anchor{line-height: 1.2}.markdown-body h4{font-size: 1.25em}.markdown-body h4 .anchor{line-height: 1.2}.markdown-body h5{font-size: 1em}.markdown-body h5 .anchor{line-height: 1.1}.markdown-body h6{font-size: 1em;color: #777}.markdown-body h6 .anchor{line-height: 1.1}.markdown-body p,.markdown-body blockquote,.markdown-body ul,.markdown-body ol,.markdown-body dl,.markdown-body table,.markdown-body pre{margin-top: 0;margin-bottom: 16px}.markdown-body hr{height: 4px;padding: 0;margin: 16px 0;background-color: #e7e7e7;border: 0 none}.markdown-body ul,.markdown-body ol{padding-left: 2em}.markdown-body ul.no-list,.markdown-body ol.no-list{padding: 0;list-style-type: none}.markdown-body ul ul,.markdown-body ul ol,.markdown-body ol ol,.markdown-body ol ul{margin-top: 0;margin-bottom: 0}.markdown-body li>p{margin-top: 16px}.markdown-body dl{padding: 0}.markdown-body dl dt{padding: 0;margin-top: 16px;font-size: 1em;font-style: italic;font-weight: bold}.markdown-body dl dd{padding: 0 16px;margin-bottom: 16px}.markdown-body blockquote{padding: 0 15px;color: #777;border-left: 4px solid #ddd}.markdown-body blockquote>:first-child{margin-top: 0}.markdown-body blockquote>:last-child{margin-bottom: 0}.markdown-body table{display: block;width: 100%;overflow: auto;word-break: normal;word-break: keep-all}.markdown-body table th{font-weight: bold}.markdown-body table th,.markdown-body table td{padding: 6px 13px;border: 1px solid #ddd}.markdown-body table tr{background-color: #fff;border-top: 1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color: #f8f8f8}.markdown-body img{max-width: 100%;box-sizing: border-box}.markdown-body span.frame{display: block;overflow: hidden}.markdown-body span.frame>span{display: block;float: left;width: auto;padding: 7px;margin: 13px 0 0;overflow: hidden;border: 1px solid #ddd}.markdown-body span.frame span img{display: block;float: left}.markdown-body span.frame span span{display: block;padding: 5px 0 0;clear: both;color: #333}.markdown-body span.align-center{display: block;overflow: hidden;clear: both}.markdown-body span.align-center>span{display: block;margin: 13px auto 0;overflow: hidden;text-align: center}.markdown-body span.align-center span img{margin: 0 auto;text-align: center}.markdown-body span.align-right{display: block;overflow: hidden;clear: both}.markdown-body span.align-right>span{display: block;margin: 13px 0 0;overflow: hidden;text-align: right}.markdown-body span.align-right span img{margin: 0;text-align: right}.markdown-body span.float-left{display: block;float: left;margin-right: 13px;overflow: hidden}.markdown-body span.float-left span{margin: 13px 0 0}.markdown-body span.float-right{display: block;float: right;margin-left: 13px;overflow: hidden}.markdown-body span.float-right>span{display: block;margin: 13px auto 0;overflow: hidden;text-align: right}.markdown-body code,.markdown-body tt{padding: 0;padding-top: 0.2em;padding-bottom: 0.2em;margin: 0;font-size: 85%;background-color: rgba(0,0,0,0.04);border-radius: 3px}.markdown-body code:before,.markdown-body code:after,.markdown-body tt:before,.markdown-body tt:after{letter-spacing: -0.2em;content: "\00a0"}.markdown-body code br,.markdown-body tt br{display: none}.markdown-body del code{text-decoration: inherit}.markdown-body pre>code{padding: 0;margin: 0;font-size: 100%;word-break: normal;white-space: pre;background: transparent;border: 0}.markdown-body .highlight{margin-bottom: 16px}.markdown-body .highlight pre,.markdown-body pre{padding: 16px;overflow: auto;font-size: 85%;line-height: 1.45;background-color: #f7f7f7;border-radius: 3px}.markdown-body .highlight pre{margin-bottom: 0;word-break: normal}.markdown-body pre{word-wrap: normal}.markdown-body pre code,.markdown-body pre tt{display: inline;max-width: initial;padding: 0;margin: 0;overflow: initial;line-height: inherit;word-wrap: normal;background-color: transparent;border: 0}.markdown-body pre code:before,.markdown-body pre code:after,.markdown-body pre tt:before,.markdown-body pre tt:after{content: normal}.markdown-body kbd{display: inline-block;padding: 3px 5px;font-size: 11px;line-height: 10px;color: #555;vertical-align: middle;background-color: #fcfcfc;border: solid 1px #ccc;border-bottom-color: #bbb;border-radius: 3px;box-shadow: inset 0 -1px 0 #bbb}.codehilite{background: #ffffff}.codehilite .c{color: #999988;font-style: italic}.codehilite .err{color: #a61717;background-color: #e3d2d2}.codehilite .k{color: #000000;font-weight: bold}.codehilite .o{color: #000000;font-weight: bold}.codehilite .cm{color: #999988;font-style: italic}.codehilite .cp{color: #999999;font-weight: bold}.codehilite .c1{color: #999988;font-style: italic}.codehilite .cs{color: #999999;font-weight: bold;font-style: italic}.codehilite .gd{color: #000000;background-color: #ffdddd}.codehilite .gd .x{color: #000000;background-color: #ffaaaa}.codehilite .ge{color: #000000;font-style: italic}.codehilite .gr{color: #aa0000}.codehilite .gh{color: #999999}.codehilite .gi{color: #000000;background-color: #ddffdd}.codehilite .gi .x{color: #000000;background-color: #aaffaa}.codehilite .go{color: #888888}.codehilite .gp{color: #555555}.codehilite .gs{font-weight: bold}.codehilite .gu{color: #aaaaaa}.codehilite .gt{color: #aa0000}.codehilite .kc{color: #000000;font-weight: bold}.codehilite .kd{color: #000000;font-weight: bold}.codehilite .kp{color: #000000;font-weight: bold}.codehilite .kr{color: #000000;font-weight: bold}.codehilite .kt{color: #445588;font-weight: bold}.codehilite .m{color: #009999}.codehilite .s{color: #d14}.codehilite .na{color: #008080}.codehilite .nb{color: #0086B3}.codehilite .nc{color: #445588;font-weight: bold}.codehilite .no{color: #008080}.codehilite .ni{color: #800080}.codehilite .ne{color: #990000;font-weight: bold}.codehilite .nf{color: #990000;font-weight: bold}.codehilite .nn{color: #555555}.codehilite .nt{color: #000080}.codehilite .nv{color: #008080}.codehilite .ow{color: #000000;font-weight: bold}.codehilite .w{color: #bbbbbb}.codehilite .mf{color: #009999}.codehilite .mh{color: #009999}.codehilite .mi{color: #009999}.codehilite .mo{color: #009999}.codehilite .sb{color: #d14}.codehilite .sc{color: #d14}.codehilite .sd{color: #d14}.codehilite .s2{color: #d14}.codehilite .se{color: #d14}.codehilite .sh{color: #d14}.codehilite .si{color: #d14}.codehilite .sx{color: #d14}.codehilite .sr{color: #009926}.codehilite .s1{color: #d14}.codehilite .ss{color: #990073}.codehilite .bp{color: #999999}.codehilite .vc{color: #008080}.codehilite .vg{color: #008080}.codehilite .vi{color: #008080}.codehilite .il{color: #009999}
+    </style>
+    <style type="text/css">
+      .markdown-body hr{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC")}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="markup">
+        <article id="content" class="markdown-body">
+          <h2>一、用户和权限管理</h2>
+<h3>1、用户登陆</h3>
+<p>功能说明：通过用户名和密码实现登陆操作。</p>
+<div class="codehilite"><pre>适用群体：Web端+APP端    
+URL：https://www.smartlock.top/v0/login     
+请求方式：POST   
+</pre></div>
+
+
+<p>请求参数：username=""&amp;password=""   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>username</td>
+<td>String</td>
+<td>Yes</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>password</td>
+<td>String</td>
+<td>Yes</td>
+<td>用户登陆密码</td>
+</tr>
+<tr>
+<td>platform</td>
+<td>String</td>
+<td>Yes</td>
+<td>平台码web/app</td>
+</tr>
+</tbody>
+</table>
+<p>Code说明:前两位是API序号，后三位是状态序号。    </p>
+<p>服务器返回参数:  </p>
+<div class="codehilite"><pre>{  
+    &quot;success&quot;:
+    {
+        //基本信息
+        &quot;userInfo&quot; :
+        {
+            &quot;username&quot; : &quot;陈刚&quot;, //用户名--具有唯一性
+            &quot;realname&quot;:&quot;陈刚&quot;,   //真实姓名 
+            &quot;phone&quot; : &quot;14780413613&quot;, //手机号--具有唯一性
+            &quot;companyGroup&quot;:&quot;运营商&quot;, //用户所属公司
+            &quot;company&quot;: &quot;中国移动成都分公司高新西区分公司&quot;， //用户所属公司 
+            &quot;userDescription&quot; : &quot;基站管理员&quot;,  //用户说明，由管理员指定，这里不做限制  
+            &quot;userGroup&quot;:&quot;&quot;,  //用户自定义权限，按固定的权限分组；若指定Group，权限则固定为group的权限，后续权限字段免填
+            &quot;userType&quot;:&quot;1&quot;， //用户类型，1表示管理员，0表示工程师
+        }
+
+
+        &quot;regionInfo&quot;:
+        {
+            //管理范围--限制只能操作成都市地区基站、员工、作业数据;ALL表示可以查看所有同级区域  
+            &quot;managementProvince&quot;:&quot;四川省&quot;，  
+            &quot;managementCity&quot;:&quot;成都市&quot;，  
+            &quot;managementArea&quot;:&quot;ALL&quot;，     
+        }
+
+
+        &quot;permissions&quot;:
+        {
+            //基站管理--基站录入时的增删查改权限  
+            &quot;addStationAction&quot; : &quot;true&quot;,  
+            &quot;deleteStationAction&quot; : &quot;true&quot;,  
+            &quot;queryStationAction&quot; : &quot;true&quot;,  
+            &quot;updateStationAction&quot; : &quot;true&quot;,
+
+            //员工管理--员工录入时的增删查改权限 
+            &quot;addStaffAction&quot; : &quot;true&quot;,  
+            &quot;deleteStaffAction&quot; : &quot;true&quot;,  
+            &quot;queryStaffAction&quot; : &quot;true&quot;,  
+            &quot;updateStaffAction&quot; : &quot;true&quot;,
+
+
+            //电子钥匙管理--电子钥匙录入时的增删查改权限  
+            &quot;addKeyAction&quot; : &quot;true&quot;,  
+            &quot;deleteKeyAction&quot; : &quot;true&quot;,  
+            &quot;queryKeyAction&quot; : &quot;true&quot;,  
+            &quot;updateKeyAction&quot; : &quot;true&quot;,
+
+
+            //锁具管理--锁具录入时的增删查改权限和锁具授权  
+            &quot;addLockAction&quot; : &quot;true&quot;,  
+            &quot;deleteLockAction&quot; : &quot;true&quot;,  
+            &quot;queryLockAction&quot; : &quot;true&quot;,  
+            &quot;updateLockAction&quot; : &quot;true&quot;,
+
+
+            //作业管理--是否具有开门授权的权限  
+            &quot;doorAuthorization&quot; : &quot;true&quot;,   
+        }
+
+
+        &quot;tokenInfo&quot;:
+        {
+            //使用动态令牌，可以增强安全性  
+            &quot;accessToken&quot; : &quot;faueswyghfils&quot;,  //API动态令牌   
+            &quot;tokenStartTime &quot; : 1459173098, //动态令牌起始时间   %s 总秒数。起算时间为1970-01-01 00:00:00 UTC。   
+            &quot;tokenEndTime&quot; : 1458568298 //动态令牌终止时间  %s 总秒数。起算时间为1970-01-01 00:00:00 UTC。  
+        }
+
+    }
+}
+</pre></div>
+
+
+<p>Or  </p>
+<div class="codehilite"><pre>{ 
+    &quot;error&quot;:  
+    {  
+        &quot;msg&quot;: &quot;请输入用户名和密码&quot;,  
+        &quot;code&quot;:&quot;01001&quot;  
+    }  
+}
+</pre></div>
+
+
+<p>Or </p>
+<div class="codehilite"><pre>{  
+    &quot;error&quot;:  
+    {  
+        &quot;msg&quot;: &quot;#err:用户名或密码错误!&quot;,  
+        &quot;code&quot;:&quot;01002&quot;  
+    }  
+}
+</pre></div>
+
+
+<h3>2、添加用户</h3>
+<p>功能说明：用户如果具有添加用户的权限，通过API动态令牌、用户名可以新增其他用户；
+新增的用户在管理权限上要降低或相等；
+在管理地域上都应该从属于当前用户。</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/addUser    
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""newUserName=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th align="left">类型</th>
+<th align="left">必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>username</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>用户登陆名称--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>password</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>用户登陆密码--没有密码不能登陆</td>
+</tr>
+<tr>
+<td>phone</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>用户联系方式--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>userType</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>用户类型，1表示管理员，0表示工程师</td>
+</tr>
+<tr>
+<td>companyGroup</td>
+<td align="left">String</td>
+<td align="left">No</td>
+<td>用户所属公司类型</td>
+</tr>
+<tr>
+<td>company</td>
+<td align="left">String</td>
+<td align="left">No</td>
+<td>用户所属公司</td>
+</tr>
+<tr>
+<td>companyCode</td>
+<td align="left">String</td>
+<td align="left">No</td>
+<td>预留扩展字段</td>
+</tr>
+<tr>
+<td>userDescription</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>用户自己指定，可以不填写,默认为空</td>
+</tr>
+<tr>
+<td>userGroup</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>userGroup指定，则固定权限，具体权限不可配置</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>没有地域则没有任何权限，ALL表示同级所有区域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>没有地域则没有任何权限，ALL表示同级所有区域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td align="left">String</td>
+<td align="left">Yes</td>
+<td>没有地域则没有任何权限，ALL表示同级所有区域</td>
+</tr>
+<tr>
+<td>addStationAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，增加基站信息的权限</td>
+</tr>
+<tr>
+<td>deleteStationAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，删除基站信息的权限</td>
+</tr>
+<tr>
+<td>queryStationAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，查询基站信息的权限</td>
+</tr>
+<tr>
+<td>updateStationAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，更新基站信息的权限</td>
+</tr>
+<tr>
+<td>addStaffAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，增加用户信息的权限</td>
+</tr>
+<tr>
+<td>deleteStaffAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，删除用户信息的权限</td>
+</tr>
+<tr>
+<td>queryStaffAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，查询用户信息的权限</td>
+</tr>
+<tr>
+<td>updateStaffAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，更新用户信息的权限</td>
+</tr>
+<tr>
+<td>addKeyAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，增加电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>deleteKeyAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，删除电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>queryKeyAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，查询电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>updateKeyAction</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，更新电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>doorAuthorization</td>
+<td align="left">String</td>
+<td align="left">NO</td>
+<td>默认为false ，开门授权的权限</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;用户添加成功！&quot;,
+        &quot;code&quot;:&quot;02000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户或手机号已经存在!&quot;,
+        &quot;code&quot;:&quot;02001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期!&quot;,
+        &quot;code&quot;:&quot;00000&quot;
+    }
+}
+</pre></div>
+
+
+<h3>3、删除用户</h3>
+<p>功能说明：删除受用户管理的用户。</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/deleteUser 
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""username=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号--用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>username</td>
+<td>String</td>
+<td>Yes</td>
+<td>删除用户的名称--必须是已经存在的用户</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;用户删除成功!&quot;,
+        &quot;code&quot;:&quot;03000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期!&quot;,
+        &quot;code&quot;:&quot;00000&quot;
+    }
+}
+</pre></div>
+
+
+<h3>4、编辑用户</h3>
+<p>功能说明：编辑受管理的用户和和当前用户信息。</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/updateUser     
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""originalName=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>originalName</td>
+<td>String</td>
+<td>Yes</td>
+<td>用户在编辑之前的名字（指具有唯一性的登录名）</td>
+</tr>
+<tr>
+<td>username</td>
+<td>String</td>
+<td>No</td>
+<td>用户登陆名称--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>password</td>
+<td>String</td>
+<td>No</td>
+<td>用户登陆密码--没有密码不能登陆</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>String</td>
+<td>No</td>
+<td>用户联系方式--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>userType</td>
+<td>String</td>
+<td>No</td>
+<td>用户类型，1表示管理员，0表示工程师</td>
+</tr>
+<tr>
+<td>companyGroup</td>
+<td>String</td>
+<td>No</td>
+<td>用户所属公司类型,必填项</td>
+</tr>
+<tr>
+<td>company</td>
+<td>String</td>
+<td>No</td>
+<td>用户所属公司,必填项</td>
+</tr>
+<tr>
+<td>userDescription</td>
+<td>String</td>
+<td>NO</td>
+<td>用户自己指定，可以不填写,默认为空</td>
+</tr>
+<tr>
+<td>userGroup</td>
+<td>String</td>
+<td>NO</td>
+<td>userGroup指定，则固定权限，具体权限不可配置</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>addStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加基站信息的权限</td>
+</tr>
+<tr>
+<td>deleteStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除基站信息的权限</td>
+</tr>
+<tr>
+<td>queryStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询基站信息的权限</td>
+</tr>
+<tr>
+<td>updateStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新基站信息的权限</td>
+</tr>
+<tr>
+<td>addStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加用户信息的权限</td>
+</tr>
+<tr>
+<td>deleteStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除用户信息的权限</td>
+</tr>
+<tr>
+<td>queryStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询用户信息的权限</td>
+</tr>
+<tr>
+<td>updateStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新用户信息的权限</td>
+</tr>
+<tr>
+<td>addKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>deleteKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>queryKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>updateKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>doorAuthorization</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，开门授权的权限</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;用户信息编辑成功&quot;,
+        &quot;code&quot;:&quot;04000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名或手机号重复!&quot;,  
+        &quot;code&quot;:&quot;040001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期!&quot;,
+        &quot;code&quot;:&quot;00000&quot;
+    }
+}
+</pre></div>
+
+
+<h3>5、查询用户</h3>
+<p>功能说明：用户查询接口，没有查询限制则查询所有权限内可见的用户</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/queryUser  
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>username</td>
+<td>String</td>
+<td>No</td>
+<td>用户登陆名称--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>String</td>
+<td>No</td>
+<td>用户联系方式--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>userType</td>
+<td>String</td>
+<td>No</td>
+<td>用户类型，1表示管理员，0表示工程师</td>
+</tr>
+<tr>
+<td>companyGroup</td>
+<td>String</td>
+<td>No</td>
+<td>用户所属公司类型,必填项</td>
+</tr>
+<tr>
+<td>company</td>
+<td>String</td>
+<td>No</td>
+<td>用户所属公司,必填项</td>
+</tr>
+<tr>
+<td>userDescription</td>
+<td>String</td>
+<td>NO</td>
+<td>用户自己指定，可以不填写,默认为空</td>
+</tr>
+<tr>
+<td>userGroup</td>
+<td>String</td>
+<td>NO</td>
+<td>userGroup指定，则固定权限，具体权限不可配置</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>addStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加基站信息的权限</td>
+</tr>
+<tr>
+<td>deleteStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除基站信息的权限</td>
+</tr>
+<tr>
+<td>queryStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询基站信息的权限</td>
+</tr>
+<tr>
+<td>updateStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新基站信息的权限</td>
+</tr>
+<tr>
+<td>addStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加用户信息的权限</td>
+</tr>
+<tr>
+<td>deleteStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除用户信息的权限</td>
+</tr>
+<tr>
+<td>queryStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询用户信息的权限</td>
+</tr>
+<tr>
+<td>updateStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新用户信息的权限</td>
+</tr>
+<tr>
+<td>addKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>deleteKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>queryKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>updateKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>doorAuthorization</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，开门授权的权限</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                用户信息
+            ｝,
+
+
+            ...
+            {
+                用户信息
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有查询记录!&quot;,  
+        &quot;code&quot;:&quot;05001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>6、下载用户信息Excel表格</h3>
+<p>功能说明：</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadUser
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>username</td>
+<td>String</td>
+<td>No</td>
+<td>用户登陆名称--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>String</td>
+<td>No</td>
+<td>用户联系方式--不能与现有名称重复</td>
+</tr>
+<tr>
+<td>userType</td>
+<td>String</td>
+<td>No</td>
+<td>用户类型，1表示管理员，0表示工程师</td>
+</tr>
+<tr>
+<td>companyGroup</td>
+<td>String</td>
+<td>No</td>
+<td>用户所属公司类型,必填项</td>
+</tr>
+<tr>
+<td>company</td>
+<td>String</td>
+<td>No</td>
+<td>用户所属公司,必填项</td>
+</tr>
+<tr>
+<td>userDescription</td>
+<td>String</td>
+<td>NO</td>
+<td>用户自己指定，可以不填写,默认为空</td>
+</tr>
+<tr>
+<td>userGroup</td>
+<td>String</td>
+<td>NO</td>
+<td>userGroup指定，则固定权限，具体权限不可配置</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>NO</td>
+<td>可以不填--没有地域则没有任何权限</td>
+</tr>
+<tr>
+<td>addStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加基站信息的权限</td>
+</tr>
+<tr>
+<td>deleteStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除基站信息的权限</td>
+</tr>
+<tr>
+<td>queryStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询基站信息的权限</td>
+</tr>
+<tr>
+<td>updateStationAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新基站信息的权限</td>
+</tr>
+<tr>
+<td>addStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加用户信息的权限</td>
+</tr>
+<tr>
+<td>deleteStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除用户信息的权限</td>
+</tr>
+<tr>
+<td>queryStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询用户信息的权限</td>
+</tr>
+<tr>
+<td>updateStaffAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新用户信息的权限</td>
+</tr>
+<tr>
+<td>addKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，增加电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>deleteKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，删除电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>queryKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，查询电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>updateKeyAction</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，更新电子钥匙信息的权限</td>
+</tr>
+<tr>
+<td>doorAuthorization</td>
+<td>String</td>
+<td>NO</td>
+<td>默认为false ，开门授权的权限</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{ 
+    &quot;success&quot;:  
+    {  
+        &quot;url&quot;: &quot;https://www.smartlock.top/b.xlsx&quot;,  
+        &quot;code&quot;:&quot;06000&quot;  
+    }  
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{ 
+    &quot;error&quot;:  
+    {  
+        &quot;msg&quot;: &quot;没有数据记录!&quot;,  
+        &quot;code&quot;:&quot;06001&quot;  
+    }  
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h2>二、基站管理</h2>
+<h3>7、添加基站</h3>
+<p>功能说明：</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/addStation
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;stationID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>Yes</td>
+<td>唯一的基站标识</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>Yes</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>doorStatus</td>
+<td>String</td>
+<td>No</td>
+<td>基站门的开关状态</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>Yes</td>
+<td>基站门锁ID</td>
+</tr>
+<tr>
+<td>chargePerson</td>
+<td>String</td>
+<td>Yes</td>
+<td>基站负责人账号</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>Yes</td>
+<td>所属省级地域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>Yes</td>
+<td>所属市级地域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>Yes</td>
+<td>所属区级地域</td>
+</tr>
+<tr>
+<td>approvalPerson</td>
+<td>String</td>
+<td>Yes</td>
+<td>基站作业审批人账号--添加的审批人必须具有审批该基站的权限</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;基站添加成功&quot;,
+        &quot;code&quot;:&quot;07000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;基站ID已存在&quot;,
+        &quot;code&quot;:&quot;07001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>8、删除基站</h3>
+<p>功能说明：删除指定的基站</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/deleteStation
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;deleteList=[id1,id2,...,idn]... <br>
+application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>deleteList</td>
+<td>String</td>
+<td>Yes</td>
+<td>被删除的基站ID-唯一的基站标识</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;基站删除成功!&quot;,  
+        &quot;code&quot;:&quot;08000&quot;  
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;基站名不存在或动态令牌已过期!&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>9、编辑基站</h3>
+<p>功能说明：编辑指定的基站</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/updateStation
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>originalStationID</td>
+<td>String</td>
+<td>Yes</td>
+<td>被编辑的基站ID-唯一的基站标识</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的基站标识</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>No</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>doorStatus</td>
+<td>String</td>
+<td>No</td>
+<td>基站门的开关状态</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>No</td>
+<td>基站门锁ID</td>
+</tr>
+<tr>
+<td>chargePerson</td>
+<td>String</td>
+<td>No</td>
+<td>基站负责人</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>所属省级地域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>No</td>
+<td>所属市级地域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>No</td>
+<td>所属区级地域</td>
+</tr>
+<tr>
+<td>approvalPerson</td>
+<td>String</td>
+<td>No</td>
+<td>基站作业审批人</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;基站信息编辑成功!&quot;,  
+        &quot;code&quot;:&quot;09000&quot;  
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;基站ID已存在!&quot;,  
+        &quot;code&quot;:&quot;09001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;基站名不存在或动态令牌已过期!&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>10、查询基站</h3>
+<p>功能说明：查询指定的基站,address支持模糊查询</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/queryStation   
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的基站标识</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>No</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>doorStatus</td>
+<td>String</td>
+<td>No</td>
+<td>基站门的开关状态</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>No</td>
+<td>基站门锁ID</td>
+</tr>
+<tr>
+<td>chargePerson</td>
+<td>String</td>
+<td>No</td>
+<td>基站负责人</td>
+</tr>
+<tr>
+<td>chargePhone</td>
+<td>String</td>
+<td>No</td>
+<td>负责人联系方式</td>
+</tr>
+<tr>
+<td>chargeCompany</td>
+<td>String</td>
+<td>No</td>
+<td>负责人公司</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>所属省级地域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>No</td>
+<td>所属市级地域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>No</td>
+<td>所属区级地域</td>
+</tr>
+<tr>
+<td>approvalPhone</td>
+<td>String</td>
+<td>No</td>
+<td>基站作业审批人</td>
+</tr>
+<tr>
+<td>lockNum</td>
+<td>String</td>
+<td>No</td>
+<td>门锁个数查询---Yes/No</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<p>lockNum=No或不存在的时候：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                基站信息
+            ｝,
+
+
+            ...
+            {
+                基站信息
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有查询记录!&quot;,  
+        &quot;code&quot;:&quot;10001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>lockNum=Yes的时候：</p>
+<div class="codehilite"><pre>{
+        &quot;success&quot;:
+        [
+            {
+                &quot;managementArea&quot;:&quot;成华区&quot;
+                &quot;num&quot;:10
+            },
+            {
+                &quot;managementArea&quot;:&quot;青羊区&quot;
+                &quot;num&quot;:11
+            },
+            {
+                &quot;managementArea&quot;:&quot;金牛区&quot;
+                &quot;num&quot;:12
+            },
+            ...
+        ]
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>11、下载基站信息Excel表格</h3>
+<p>功能说明：根据指定信息生成Excel表格，返回下载链接</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadStation    
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的基站标识</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>No</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>doorStatus</td>
+<td>String</td>
+<td>No</td>
+<td>基站门的开关状态</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>No</td>
+<td>基站门锁ID</td>
+</tr>
+<tr>
+<td>chargePerson</td>
+<td>String</td>
+<td>No</td>
+<td>基站负责人</td>
+</tr>
+<tr>
+<td>chargePhone</td>
+<td>String</td>
+<td>No</td>
+<td>负责人联系方式</td>
+</tr>
+<tr>
+<td>chargeCompany</td>
+<td>String</td>
+<td>No</td>
+<td>负责人公司</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>所属省级地域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>No</td>
+<td>所属市级地域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>No</td>
+<td>所属区级地域</td>
+</tr>
+<tr>
+<td>approvalPhone</td>
+<td>String</td>
+<td>No</td>
+<td>基站作业审批人</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{ 
+    &quot;success&quot;:  
+    {  
+        &quot;url&quot;: &quot;https://www.smartlock.top/b.xlsx&quot;,  
+        &quot;code&quot;:&quot;11000&quot;  
+    }  
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有数据记录&quot;,  
+        &quot;code&quot;:&quot;11001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h2>三、电子钥匙管理</h2>
+<h3>12、添加电子钥匙</h3>
+<p>功能说明： 用户添加电子钥匙 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/addKey                 
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;keyID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>keyID</td>
+<td>String</td>
+<td>Yes</td>
+<td>唯一的电子钥匙标识</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;电子钥匙添加成功&quot;,
+        &quot;code&quot;:&quot;12000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;电子钥匙已存在&quot;,
+        &quot;code&quot;:&quot;12001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>13、删除电子钥匙</h3>
+<p>功能说明： 用户删除指定的电子钥匙 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/deleteKey                          
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;deleteList=[keyID1,keyID2]...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>deleteList</td>
+<td>String</td>
+<td>Yes</td>
+<td>电子钥匙ID列表</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;电子钥匙删除成功&quot;,
+        &quot;code&quot;:&quot;13000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>14、编辑电子钥匙</h3>
+<p>功能说明： 用户编辑指定的电子钥匙 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/updateKey                      
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;keyID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td align="left">accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td align="left">originalKeyID</td>
+<td>String</td>
+<td>Yes</td>
+<td>唯一的电子钥匙标识</td>
+</tr>
+<tr>
+<td align="left">keyID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的电子钥匙标识</td>
+</tr>
+<tr>
+<td align="left">managementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td align="left">managementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td align="left">managementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;电子钥匙信息编辑成功&quot;,
+        &quot;code&quot;:&quot;14000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;电子钥匙ID已存在&quot;,
+        &quot;code&quot;:&quot;14001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>15、查询电子钥匙</h3>
+<p>功能说明： 用户查询指定的电子钥匙 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/queryKey                           
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;keyID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>keyID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的电子钥匙标识</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                电子钥匙信息
+            ｝,
+
+
+            ...
+            {
+                电子钥匙信息
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有查询记录&quot;,
+        &quot;code&quot;:&quot;15001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>16、电子钥匙信息Excel下载请求接口</h3>
+<p>功能说明： 用户添加电子钥匙 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadKey                
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;keyID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>keyID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的电子钥匙标识</td>
+</tr>
+<tr>
+<td>managementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td>managementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td>managementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;url&quot;: &quot;电子钥匙信息下载URL&quot;,
+        &quot;code&quot;:&quot;16000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有数据记录&quot;,
+        &quot;code&quot;:&quot;16001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h2>四、任务申请和授权管理</h2>
+<h3>17、开门工单任务申请（工程师）</h3>
+<p>功能说明：工程师开门申请指定的工单任务</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/taskRequest    
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>stationAddress</td>
+<td>String</td>
+<td>Yes</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请者姓名</td>
+</tr>
+<tr>
+<td>applicantCompany</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请者所属公司</td>
+</tr>
+<tr>
+<td>applicantPhone</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请者联系方式</td>
+</tr>
+<tr>
+<td>applicantKeyID</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请授权的电子钥匙ID</td>
+</tr>
+<tr>
+<td>applicationType</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请任务紧急情况</td>
+</tr>
+<tr>
+<td>applyDescription</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请描述</td>
+</tr>
+<tr>
+<td>taskStartTime</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请开门的起始时间</td>
+</tr>
+<tr>
+<td>taskEndTime</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请开门的起始时间</td>
+</tr>
+<tr>
+<td>taskTimes</td>
+<td>String</td>
+<td>Yes</td>
+<td>申请开门的次数</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;任务申请工单申请成功!&quot;,  
+        &quot;code&quot;:&quot;17000&quot;  
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>18、开门工单任务抓取</h3>
+<p>功能说明：Web+APP抓取指定的工单任务，从而完成后续授权处理</p>
+<div class="codehilite"><pre>适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/taskFetch  
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者API动态令牌</td>
+</tr>
+<tr>
+<td>taskID</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单任务ID</td>
+</tr>
+<tr>
+<td>approvalPerson</td>
+<td>String</td>
+<td>No</td>
+<td align="left">审批人姓名</td>
+</tr>
+<tr>
+<td>approvalPhone</td>
+<td>String</td>
+<td>No</td>
+<td align="left">审批人联系方式</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>No</td>
+<td align="left">申请人名字</td>
+</tr>
+<tr>
+<td>applicationType</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单类型</td>
+</tr>
+<tr>
+<td>applicationStatus</td>
+<td>String</td>
+<td>No</td>
+<td align="left">审批状态</td>
+</tr>
+<tr>
+<td>taskStartTime</td>
+<td>String</td>
+<td>No</td>
+<td align="left">任务开始时间</td>
+</tr>
+<tr>
+<td>taskEndTime</td>
+<td>String</td>
+<td>No</td>
+<td align="left">任务结束时间</td>
+</tr>
+<tr>
+<td>applyStartTime</td>
+<td>String</td>
+<td>No</td>
+<td align="left">任务申请时间起始时间</td>
+</tr>
+<tr>
+<td>applyEndTime</td>
+<td>String</td>
+<td>No</td>
+<td align="left">任务申请时间终止时间</td>
+</tr>
+<tr>
+<td>stationManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单申请的基站所属省份</td>
+</tr>
+<tr>
+<td>stationManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单申请的基站所属市级区域</td>
+</tr>
+<tr>
+<td>stationManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单申请的基站所属地级区域</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td align="left">基站ID</td>
+</tr>
+<tr>
+<td>keyManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单申请的电子钥匙所属省份</td>
+</tr>
+<tr>
+<td>keyManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单申请的电子钥匙所属省份</td>
+</tr>
+<tr>
+<td>keyManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单申请的电子钥匙所属省份</td>
+</tr>
+<tr>
+<td>taskStatus</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单异常状态</td>
+</tr>
+<tr>
+<td>taskDescription</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单异常状态描述</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                工单信息
+            ｝,
+
+
+            ...
+            {
+                工单信息
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;暂时没有需要处理的工单!&quot;,  
+        &quot;code&quot;:&quot;18001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;请输入任务申请工单ID!&quot;,  
+        &quot;code&quot;:&quot;00004&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>19、开门工单任务授权（管理员审批任务）</h3>
+<p>功能说明：管理员审批工单任务</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/taskAuthenticate   
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者API动态令牌</td>
+</tr>
+<tr>
+<td>taskID</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">工单ID</td>
+</tr>
+<tr>
+<td>applicationStatus</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">同意，拒绝，延期 ，等待处理</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;任务工单信息授权成功!&quot;,  
+        &quot;code&quot;:&quot;19000&quot;  
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;请输入任务申请工单ID!&quot;,  
+        &quot;code&quot;:&quot;00004&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>20、开门工单任务申请状态抓取</h3>
+<p>功能说明：获取授权信息</p>
+<div class="codehilite"><pre>适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/taskAuthFetch  
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者API动态令牌</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">申请人名字</td>
+</tr>
+<tr>
+<td>applicationStatus</td>
+<td>String</td>
+<td>No</td>
+<td align="left">任务工单状态</td>
+</tr>
+<tr>
+<td>approvalPerson</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">审批人姓名</td>
+</tr>
+<tr>
+<td>approvalPhone</td>
+<td>String</td>
+<td>No</td>
+<td align="left">审批人联系方式</td>
+</tr>
+<tr>
+<td>applicationType</td>
+<td>String</td>
+<td>No</td>
+<td align="left">工单类型</td>
+</tr>
+<tr>
+<td>taskStartTime</td>
+<td>String</td>
+<td>No</td>
+<td align="left">任务开始时间</td>
+</tr>
+<tr>
+<td>taskEndTime</td>
+<td>String</td>
+<td>No</td>
+<td align="left">任务结束时间</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                工单信息
+            ｝,
+
+
+            ...
+            {
+                工单信息
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;请输入申请人的名字!&quot;,  
+        &quot;code&quot;:&quot;20002&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;您没有申请任务!&quot;,  
+        &quot;code&quot;:&quot;20001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>21、开门工单任务上传接口（工程师上传开门结果）</h3>
+<p>功能说明：工程师任务完成后上传工单完成信息</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/taskCommit 
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">操作者API动态令牌</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">申请者姓名</td>
+</tr>
+<tr>
+<td>taskDescription</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">任务完成的描述信息</td>
+</tr>
+<tr>
+<td>taskStatus</td>
+<td>String</td>
+<td>Yes</td>
+<td align="left">完成，未完成，等等</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;任务申请工单信息提交成功!&quot;,  
+        &quot;code&quot;:&quot;21000&quot;  
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>22、下载基站的开门申请任务记录日志</h3>
+<p>功能说明：</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadTask   
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>taskID</td>
+<td>String</td>
+<td>No</td>
+<td>任务ID号</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>No</td>
+<td>申请者姓名</td>
+</tr>
+<tr>
+<td>applicationStatus</td>
+<td>String</td>
+<td>No</td>
+<td>任务工单状态</td>
+</tr>
+<tr>
+<td>applicantCompany</td>
+<td>String</td>
+<td>No</td>
+<td>申请者所属公司</td>
+</tr>
+<tr>
+<td>applicantPhone</td>
+<td>String</td>
+<td>No</td>
+<td>申请者联系方式</td>
+</tr>
+<tr>
+<td>applicatKeyID</td>
+<td>String</td>
+<td>No</td>
+<td>申请授权的电子钥匙ID</td>
+</tr>
+<tr>
+<td>applicationType</td>
+<td>String</td>
+<td>No</td>
+<td>申请任务紧急情况</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>申请授权的基站ID</td>
+</tr>
+<tr>
+<td>approvalPerson</td>
+<td>String</td>
+<td>No</td>
+<td>审批人姓名</td>
+</tr>
+<tr>
+<td>approvalPhone</td>
+<td>String</td>
+<td>No</td>
+<td>审批人联系方式</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;url&quot;: &#39;https://www.smartlock.top/&#39;+fileName+&#39;.xlsx&#39;,  
+        &quot;code&quot;:&quot;22000&quot;  
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有数据记录!&quot;,  
+        &quot;code&quot;:&quot;22001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>23、工单任务修改接口</h3>
+<p>功能说明：修改已提交的工单</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/taskChange 
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>originalTaskID</td>
+<td>String</td>
+<td>Yes</td>
+<td>任务原始ID号</td>
+</tr>
+<tr>
+<td>taskID</td>
+<td>String</td>
+<td>No</td>
+<td>任务ID号</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>No</td>
+<td>申请者姓名</td>
+</tr>
+<tr>
+<td>applicationStatus</td>
+<td>String</td>
+<td>No</td>
+<td>任务工单状态</td>
+</tr>
+<tr>
+<td>applicantCompany</td>
+<td>String</td>
+<td>No</td>
+<td>申请者所属公司</td>
+</tr>
+<tr>
+<td>applicantPhone</td>
+<td>String</td>
+<td>No</td>
+<td>申请者联系方式</td>
+</tr>
+<tr>
+<td>applicatKeyID</td>
+<td>String</td>
+<td>No</td>
+<td>申请授权的电子钥匙ID</td>
+</tr>
+<tr>
+<td>applicationType</td>
+<td>String</td>
+<td>No</td>
+<td>申请任务紧急情况</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>申请授权的基站ID</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;任务工单信息修改成功!&quot;,  
+        &quot;code&quot;:&quot;23000&quot;  
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有数据记录!&quot;,  
+        &quot;code&quot;:&quot;23001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h2>四、基站日志管理</h2>
+<h3>24、查询基站日志</h3>
+<p>功能说明：查询指定的基站日志 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/queryStationLog    
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的基站标识</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>No</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>String</td>
+<td>No</td>
+<td>起始时间时间戳</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>String</td>
+<td>No</td>
+<td>结束时间时间戳</td>
+</tr>
+<tr>
+<td>stationManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td>stationManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td>stationManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                基站日志一
+            ｝,
+
+
+            ...
+            {
+                基站日志二
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有查询记录!&quot;,  
+        &quot;code&quot;:&quot;24001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>25、下载基站日志Excel表格</h3>
+<p>功能说明：根据指定信息生成基站日志Excel表格，返回下载链接</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadStationLog 
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的基站标识</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>No</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>String</td>
+<td>No</td>
+<td>起始时间时间戳</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>String</td>
+<td>No</td>
+<td>结束时间时间戳</td>
+</tr>
+<tr>
+<td>stationManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td>stationManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td>stationManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{ 
+    &quot;success&quot;:  
+    {  
+        &quot;url&quot;: &quot;https://www.smartlock.top/log.xlsx&quot;,  
+        &quot;code&quot;:&quot;25000&quot;  
+    }  
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有数据记录&quot;,  
+        &quot;code&quot;:&quot;25001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h2>五、电子钥匙日志管理</h2>
+<h3>26、查询电子钥匙日志</h3>
+<p>功能说明：查询指定的电子钥匙日志 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/queryKeyLog    
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>keyID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的电子钥匙标识</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>String</td>
+<td>No</td>
+<td>起始时间时间戳</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>String</td>
+<td>No</td>
+<td>结束时间时间戳</td>
+</tr>
+<tr>
+<td>keyManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td>keyManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td>keyManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                电子钥匙日志一
+            ｝,
+
+
+            ...
+            {
+                电子钥匙日志二
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有查询记录!&quot;,  
+        &quot;code&quot;:&quot;26001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>27、下载电子钥匙日志Excel表格</h3>
+<p>功能说明：根据指定信息生成电子钥匙日志Excel表格，返回下载链接  </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadKeyLog 
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>keyID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的电子钥匙标识</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>String</td>
+<td>No</td>
+<td>起始时间时间戳</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>String</td>
+<td>No</td>
+<td>结束时间时间戳</td>
+</tr>
+<tr>
+<td>keyManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>有效省级地域</td>
+</tr>
+<tr>
+<td>keyManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>有效市级地域</td>
+</tr>
+<tr>
+<td>keyManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>有效区级地域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{ 
+    &quot;success&quot;:  
+    {  
+        &quot;url&quot;: &quot;https://www.smartlock.top/log.xlsx&quot;,  
+        &quot;code&quot;:&quot;27000&quot;  
+    }  
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有数据记录&quot;,  
+        &quot;code&quot;:&quot;27001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>28、从Excel表格中导入信息</h3>
+<p>功能说明：用户先上传文件到服务器，然后指定使用哪个文件导入数据到后台数据库哪个表单</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/importDataFromExcel    
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>filename</td>
+<td>String</td>
+<td>No</td>
+<td>文件名</td>
+</tr>
+<tr>
+<td>importDestination</td>
+<td>String</td>
+<td>No</td>
+<td>导入目标：0--基站，1--电子钥匙</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{ 
+    &quot;success&quot;:  
+    {  
+        &quot;msg&quot;: &quot;导入成功，请在前台查看&quot;,  
+        &quot;code&quot;:&quot;28000&quot;  
+    }  
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;您指定的文件不存在&quot;,  
+        &quot;code&quot;:&quot;28001&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;文件格式不符合规范&quot;,  
+        &quot;code&quot;:&quot;28002&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;导入目标填写错误&quot;,  
+        &quot;code&quot;:&quot;28003&quot;  
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>29、上传APP历史数据接口</h3>
+<div class="codehilite"><pre>适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/appTaskRecord  
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>taskID</td>
+<td>String</td>
+<td>No</td>
+<td>工单ID</td>
+</tr>
+<tr>
+<td>taskCommitTime</td>
+<td>String</td>
+<td>No</td>
+<td>APP记录提交时间</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>No</td>
+<td>申请人姓名</td>
+</tr>
+<tr>
+<td>approvalPerson</td>
+<td>String</td>
+<td>No</td>
+<td>批准人</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>基站ID</td>
+</tr>
+<tr>
+<td>stationAddress</td>
+<td>String</td>
+<td>No</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>No</td>
+<td>钥匙ID</td>
+</tr>
+<tr>
+<td>applicantKeyID</td>
+<td>String</td>
+<td>No</td>
+<td>锁ID</td>
+</tr>
+<tr>
+<td>operationType</td>
+<td>String</td>
+<td>No</td>
+<td>作业类型   离站  上站  修改密码</td>
+</tr>
+<tr>
+<td>approveCode</td>
+<td>String</td>
+<td>No</td>
+<td>修改密码时上传该字段，后台将更新为开门码</td>
+</tr>
+<tr>
+<td>operationResult</td>
+<td>String</td>
+<td>No</td>
+<td>作业结果</td>
+</tr>
+<tr>
+<td>openDoorType</td>
+<td>String</td>
+<td>No</td>
+<td>开门类型</td>
+</tr>
+<tr>
+<td>stationManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属省级区域</td>
+</tr>
+<tr>
+<td>stationManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属市级区域</td>
+</tr>
+<tr>
+<td>stationManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属地级区域</td>
+</tr>
+<tr>
+<td>keyManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的电子钥匙省级区域</td>
+</tr>
+<tr>
+<td>keyManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的电子钥匙市级区域</td>
+</tr>
+<tr>
+<td>keyManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的电子钥匙地级区域</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>    { 
+        &quot;success&quot;:  
+        {  
+            &quot;msg&quot;: &quot;APP记录信息提交成功!&quot;,  
+            &quot;code&quot;:&quot;29000&quot;  
+        }  
+    }
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>    {
+        &quot;error&quot;:
+        {
+            &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+            &quot;code&quot;:&quot;00000&quot;  
+        }
+    }
+</pre></div>
+
+
+<h3>30、查询APP历史数据接口</h3>
+<div class="codehilite"><pre>适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/appTaskConsult 
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>taskCommitStartTime</td>
+<td>String</td>
+<td>No</td>
+<td>APP记录提交起始查询时间</td>
+</tr>
+<tr>
+<td>taskCommitEndTime</td>
+<td>String</td>
+<td>No</td>
+<td>APP记录提交结束查询时间</td>
+</tr>
+<tr>
+<td>applicantName</td>
+<td>String</td>
+<td>No</td>
+<td>申请人姓名</td>
+</tr>
+<tr>
+<td>approvalPerson</td>
+<td>String</td>
+<td>No</td>
+<td>批准人</td>
+</tr>
+<tr>
+<td>stationID</td>
+<td>String</td>
+<td>No</td>
+<td>基站ID</td>
+</tr>
+<tr>
+<td>stationAddress</td>
+<td>String</td>
+<td>No</td>
+<td>基站地址</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>No</td>
+<td>钥匙ID</td>
+</tr>
+<tr>
+<td>applicantKeyID</td>
+<td>String</td>
+<td>No</td>
+<td>锁ID</td>
+</tr>
+<tr>
+<td>operationType</td>
+<td>String</td>
+<td>No</td>
+<td>作业类型</td>
+</tr>
+<tr>
+<td>operationResult</td>
+<td>String</td>
+<td>No</td>
+<td>作业结果</td>
+</tr>
+<tr>
+<td>openDoorType</td>
+<td>String</td>
+<td>No</td>
+<td>开门类型</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    result  /*查询结果数组*/
+};
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>    { 
+        &quot;error&quot;:  
+        {  
+            &quot;msg&quot;: &quot;没有查询记录&quot;,  
+            &quot;code&quot;:&quot;30001&quot;  
+        }  
+    };
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>    { 
+        &quot;error&quot;:  
+        {  
+            &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+            &quot;code&quot;:&quot;00000&quot;  
+        }  
+    };
+</pre></div>
+
+
+<h3>31、工单申请记录数据分析统计接口</h3>
+<p>根据以下条件查询工单条数</p>
+<div class="codehilite"><pre>适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/taskAnalyse    
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的门锁ID</td>
+</tr>
+<tr>
+<td>stationManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属省级区域</td>
+</tr>
+<tr>
+<td>stationManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属市级区域</td>
+</tr>
+<tr>
+<td>stationManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属地级区域</td>
+</tr>
+<tr>
+<td>queryStartTime</td>
+<td>String</td>
+<td>No</td>
+<td>开始查询时间</td>
+</tr>
+<tr>
+<td>queryEndTime</td>
+<td>String</td>
+<td>No</td>
+<td>结束查询时间</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>    {
+            &quot;success&quot;:
+            [
+                {
+                    “date”:20160627
+                    “num”:10
+                },
+                {
+                    “date”:20160628
+                    “num”:11
+                },
+                {
+                    “date”:20160629
+                    “num”:12
+                }
+            ]
+
+    }
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>    { 
+        &quot;error&quot;:  
+        {  
+            &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+            &quot;code&quot;:&quot;00000&quot;  
+        }  
+    }
+</pre></div>
+
+
+<h3>32、各地市门锁工单操作记录统计接口</h3>
+<div class="codehilite"><pre>适用群体：Web端+APP端
+URL：https://www.smartlock.top/v0/taskCalculate  
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken="...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>stationManagementProvince</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属省级区域</td>
+</tr>
+<tr>
+<td>stationManagementCity</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属市级区域</td>
+</tr>
+<tr>
+<td>stationManagementArea</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的基站所属地级区域</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>No</td>
+<td>申请开门的门锁ID</td>
+</tr>
+<tr>
+<td>queryStartTime</td>
+<td>String</td>
+<td>No</td>
+<td>申请时间的开始查询时间</td>
+</tr>
+<tr>
+<td>queryEndTime</td>
+<td>String</td>
+<td>No</td>
+<td>申请时间的结束查询时间</td>
+</tr>
+<tr>
+<td>taskType</td>
+<td>String</td>
+<td>No</td>
+<td>开门和关门次数  open/close</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>    {
+            &quot;success&quot;:
+            [
+                {
+                    “date”:20160627
+                    “num”:10
+                },
+                {
+                    “date”:20160628
+                    “num”:11
+                },
+                {
+                    “date”:20160629
+                    “num”:12
+                }
+            ]
+
+    }
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>    { 
+        &quot;error&quot;:  
+        {  
+            &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+            &quot;code&quot;:&quot;00000&quot;  
+        }  
+    }
+</pre></div>
+
+
+<h2>五、锁具管理</h2>
+<h3>33、添加锁具</h3>
+<p>功能说明： 用户添加锁具 ，锁具所属基站ID必须已经录入数据库</p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/addLock                
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;LockID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>lockID</td>
+<td>String</td>
+<td>Yes</td>
+<td>唯一的锁具标识</td>
+</tr>
+<tr>
+<td>ownedStationID</td>
+<td>String</td>
+<td>No</td>
+<td>锁具所属基站ID</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;锁具添加成功&quot;,
+        &quot;code&quot;:&quot;33000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;锁具已存在&quot;,
+        &quot;code&quot;:&quot;33001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>34、删除锁具</h3>
+<p>功能说明： 用户删除指定的锁具 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/deleteLock                             
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;deleteList=[LockID1,LockID2]...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>deleteList</td>
+<td>String</td>
+<td>Yes</td>
+<td>锁具ID列表</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;锁具删除成功&quot;,
+        &quot;code&quot;:&quot;34000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>35、编辑锁具</h3>
+<p>功能说明： 用户编辑指定的锁具 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/updateLock                         
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;LockID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td align="left">accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td align="left">originalLockID</td>
+<td>String</td>
+<td>Yes</td>
+<td>唯一的锁具标识</td>
+</tr>
+<tr>
+<td align="left">LockID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的锁具标识</td>
+</tr>
+<tr>
+<td align="left">ownedStationID</td>
+<td>String</td>
+<td>No</td>
+<td>锁具所属基站ID</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;msg&quot;: &quot;锁具信息编辑成功&quot;,
+        &quot;code&quot;:&quot;35000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;锁具ID已存在&quot;,
+        &quot;code&quot;:&quot;35001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>36、查询锁具</h3>
+<p>功能说明： 用户查询指定的锁具 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/queryLock                          
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;LockID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>LockID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的锁具标识</td>
+</tr>
+<tr>
+<td>ownedStationID</td>
+<td>String</td>
+<td>No</td>
+<td>锁具所属基站ID</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        [
+            {
+                锁具信息
+            ｝,
+
+
+            ...
+            {
+                锁具信息
+            ｝               
+        ]
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有查询记录&quot;,
+        &quot;code&quot;:&quot;36001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+
+
+<h3>37、锁具信息Excel下载请求接口</h3>
+<p>功能说明： 用户添加锁具 </p>
+<div class="codehilite"><pre>适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadLock               
+请求方式：POST
+</pre></div>
+
+
+<p>请求参数：operatorName=""&amp;accessToken=""&amp;LockID=""...   application/x-www-form-urlencoded</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>operatorName</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者用户账号-用户名</td>
+</tr>
+<tr>
+<td>accessToken</td>
+<td>String</td>
+<td>Yes</td>
+<td>操作者API动态令牌</td>
+</tr>
+<tr>
+<td>LockID</td>
+<td>String</td>
+<td>No</td>
+<td>唯一的锁具标识</td>
+</tr>
+<tr>
+<td>ownedStationID</td>
+<td>String</td>
+<td>No</td>
+<td>锁具所属基站ID</td>
+</tr>
+</tbody>
+</table>
+<p>服务器返回参数：</p>
+<div class="codehilite"><pre>{
+    &quot;success&quot;:
+    {
+        &quot;url&quot;: &quot;锁具信息下载URL&quot;,
+        &quot;code&quot;:&quot;37000&quot;
+    ｝
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;没有数据记录&quot;,
+        &quot;code&quot;:&quot;37001&quot;
+    }
+}
+</pre></div>
+
+
+<p>Or</p>
+<div class="codehilite"><pre>{
+    &quot;error&quot;:
+    {
+        &quot;msg&quot;: &quot;用户名不存在或动态令牌已过期&quot;,  
+        &quot;code&quot;:&quot;00000&quot;  
+    }
+}
+</pre></div>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
