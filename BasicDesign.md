@@ -216,7 +216,8 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 		{
 			//基本信息-ID
 			"lockID" : "434968874",  //锁具ID
-			"ownedStationID":"4338968874"    //锁具所属基站的ID
+			"ownedStationID":"4338968874",    //锁具所属基站的ID
+			"lockType":"机柜锁"   //机柜锁、门锁
 		}
 	}
 

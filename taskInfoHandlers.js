@@ -1,7 +1,19 @@
 ﻿var querystring = require("querystring"); //post原始数据转JSON对象处理模块
 var dbClient = require("./Mongo");  //数据库模块
 
-
+//---------------------开始--判断updateStr是否为空，为空不要更新数据--开始--------------------//
+function isOwnEmpty(obj)
+{
+    for(var name in obj)
+    {
+        if(obj.hasOwnProperty(name))
+        {
+            return false;
+        }
+    }
+    return true;
+};
+//---------------------开始--判断updateStr是否为空，为空不要更新数据--开始--------------------//
 //---------------------开始--时间戳转日期--开始--------------------//
 function add0(m){return m<10?'0'+m:m }
 function formatToDate(timeStamp)
@@ -132,7 +144,7 @@ function taskRequest(response, postData)
 
 								postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 								postJSON.applicationStatus = "pending";
-								postJSON.approveCode = "42 01 73 63 74 74 01 06";
+								postJSON.approveCode = "4201736374740106";
 
 
 								//将时间类型转换为整型
@@ -168,7 +180,38 @@ function taskRequest(response, postData)
 								postJSON.workDescription = " ";
 								postJSON.finishTime = " ";
 						
-		
+								if(postJSON.hasOwnProperty("applyType") && postJSON.applyType == "app")
+								{
+											
+									delete postJSON.accessToken;
+									delete postJSON.operatorName;
+									postJSON.taskStatus = "正常";
+									postJSON.taskDescription = "工单等待审批";
+									//插入请求数据
+									dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+											//console.log(result);
+											if( result.hasOwnProperty("errmsg") )
+											{
+												var info = 	{ "error":  
+													{  
+														"msg": "任务申请工单ID已存在!",  
+														"code":"17001"  
+													}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}else{
+												var info = 	{ "success":  
+												{  
+													"msg": "任务申请工单申请成功!",  
+													"code":"17000"  
+												}  };
+												response.write( JSON.stringify(info) );
+												response.end();
+											}
+									});										
+									return;
+								}
+
 								var whereStr = {"keyID":postJSON.applicantKeyID};
 								//验证电子钥匙的信息：查询电子钥匙ID是否存在--电子钥匙还需要做地域检查
 								dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
@@ -195,7 +238,7 @@ function taskRequest(response, postData)
 											}
 											
 											//市级区域判定
-											if(postJSON.keyManagementCity != "ALL" &&
+											if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" &&
 											postJSON.keyManagementCity != postJSON.stationManagementCity)
 											{
 												var info = 	{ "error":  
@@ -209,7 +252,7 @@ function taskRequest(response, postData)
 											}
 											
 											//地级区域判定
-											if(postJSON.keyManagementArea != "ALL" &&
+											if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" && postJSON.keyManagementArea != "ALL" &&
 											postJSON.keyManagementArea != postJSON.stationManagementArea)
 											{
 												var info = 	{ "error":  
@@ -538,7 +581,17 @@ function taskAuthenticate(response, postData)
 					postJSON.approveTime = parseInt(postJSON.approveTime);
 				}
 				var updateStr = {$set: postJSON };
-
+				isOwnEmpty(postJSON)
+				{
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有指定修改任何属性!",  
+							"code":"00014"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;					
+				}
 
 
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
@@ -705,6 +758,17 @@ function taskCommit(response, postData)
 				//originalName
 				var whereStr = {taskID:postJSON.originalTaskID};
 				var updateStr = {$set: postJSON };
+				isOwnEmpty(postJSON)
+				{
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有指定修改任何属性!",  
+							"code":"00014"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;					
+				}
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					var info = 	{ "success":  
 					{  
@@ -907,6 +971,17 @@ function taskChange(response, postData)
 					delete postJSON.operatorName;
 					delete postJSON.accessToken;
 					var updateStr = {$set: postJSON };
+					isOwnEmpty(postJSON)
+					{
+						var info = 	{ "error":  
+							{  
+								"msg": "你没有指定修改任何属性!",  
+								"code":"00014"  
+							}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+						return;					
+					}
 					dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 						var info = 	{ "success":  
 						{  
@@ -983,7 +1058,7 @@ function appTaskRecord(response, postData)
 							updateStr = {$set:{approveCode:postJSON.approveCode}};
 						}
 
-						dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr);	
+						dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);	
 
 					}catch(e)
 					{
@@ -999,17 +1074,19 @@ function appTaskRecord(response, postData)
 						if(postJSON.operationResult ==  "上锁成功！" )
 						{
 							updateStr = {$set:{doorStatus:"closed"}};
+							dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
+								//console.log(result);	
+							});	
 						}
 
 						if(postJSON.operationResult ==  "开锁成功" )
 						{
 							updateStr = {$set:{doorStatus:"open"}};
+							dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
+								//console.log(result);	
+							});	
 						}
 
-
-						dbClient.updateFunc( mongoClient, DB_CONN_STR, "stationInfo",  whereStr , updateStr , function(result){
-								//console.log(result);	
-						});	
 					}catch(e)
 					{
 						console.log(e);

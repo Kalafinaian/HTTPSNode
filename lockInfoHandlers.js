@@ -1,6 +1,21 @@
 var querystring = require("querystring"); //post原始数据转JSON对象处理模块
 var dbClient = require("./Mongo");  //数据库模块
 
+
+//---------------------开始--判断updateStr是否为空，为空不要更新数据--开始--------------------//
+function isOwnEmpty(obj)
+{
+    for(var name in obj)
+    {
+        if(obj.hasOwnProperty(name))
+        {
+            return false;
+        }
+    }
+    return true;
+};
+//---------------------开始--判断updateStr是否为空，为空不要更新数据--开始--------------------//
+
 //---------------------开始--时间戳转日期--开始--------------------//
 function add0(m){return m<10?'0'+m:m }
 function formatToDate(timeStamp)
@@ -310,6 +325,17 @@ function updateLock(response, postData)
 				delete postJSON.operatorName;
 				delete postJSON.originalLockID;
 				var updateStr = {$set: postJSON };
+				isOwnEmpty(postJSON)
+				{
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有指定修改任何属性!",  
+							"code":"00014"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;					
+				}
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					if( result.hasOwnProperty("errmsg") )
 					{

@@ -1,3 +1,3 @@
-nohup node /usr/share/NodeJS/Node.js/uploadFileNew.js  > /usr/share/NodeJS/NodeLogs/$(date +%Y-%m-%d_%H-%M)ExcelNew.log  2>&1&
+nohup node /usr/share/NodeJS/Node.js/uploadFileNew.js  &
 
 ps -u root | grep node
