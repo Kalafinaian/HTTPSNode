@@ -1,6 +1,8 @@
 var httpsModule = require("https");
 var fs = require('fs');
 var url = require("url");
+var querystring = require("querystring"); //post原始数据转JSON对象处理模块
+var dbClient = require("./Mongo");  //数据库模块
 
 //---------------------开始--时间戳转日期--开始--------------------//
 function add0(m){return m<10?'0'+m:m }
@@ -57,7 +59,7 @@ function start(route,handle){
 				var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 				var collectionName = "operateInfo";
 				postJSON.apiName = pathname;
-				delete accessToken;
+				delete postJSON.accessToken;
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){});	
 
