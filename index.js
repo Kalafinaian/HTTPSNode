@@ -18,6 +18,7 @@ handle["/v0/queryUser"] = userInfoHandlers.selectUser;
 handle["/v0/deleteUser"] = userInfoHandlers.deleteUser;
 handle["/v0/updateUser"] = userInfoHandlers.updateUser;
 handle["/v0/downloadUser"] = userInfoHandlers.downloadUser;
+handle["/v0/personalConfig"] = userInfoHandlers.personalConfig;
 
 
 

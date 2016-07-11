@@ -180,14 +180,20 @@ function login(response, postData)
 							json.success.permissions.deleteKeyAction = result[0].deleteKeyAction;
 							json.success.permissions.queryKeyAction = result[0].queryKeyAction;
 							json.success.permissions.updateKeyAction = result[0].updateKeyAction;
-							json.success.permissions.doorAuthorization = result[0].doorAuthorization;
 
 							json.success.permissions.addLockAction = result[0].addLockAction;
 							json.success.permissions.deleteLockAction = result[0].deleteLockAction;
 							json.success.permissions.queryLockAction = result[0].queryLockAction;
 							json.success.permissions.updateLockAction = result[0].updateLockAction;
 							json.success.permissions.doorAuthorization = result[0].doorAuthorization;
-							
+
+							json.success.permissions.personelLimit = result[0].personelLimit;
+							json.success.permissions.zoneLimit = result[0].zoneLimit;
+							json.success.permissions.authOfflineTime = result[0].authOfflineTime;
+							json.success.permissions.phoneLimit = result[0].phoneLimit;
+							json.success.permissions.phoneMEILimit = result[0].phoneMEILimit;
+							json.success.permissions.offlineRefreshTime = result[0].offlineRefreshTime;
+
 							json.success.tokenInfo.accessToken = result[0].accessToken;
 							json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
 							json.success.tokenInfo.tokenEndTime = result[0].tokenEndTime;
@@ -534,6 +540,104 @@ function deleteUser(response, postData)
 //---------------------结束--用户删除函数--结束--------------------//
 
 
+//---------------------开始--用户配置函数--开始--------------------//
+function personalConfig(response, postData)
+{
+	try
+		{
+		console.log( "Request handler 'personalConfig' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "userInfo";
+
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			//console.log(result);
+
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				if( result[0].hasOwnProperty('updateStaffAction') == false || result[0].updateStaffAction != "true" )
+				{	
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有配置员工的权限!",  
+							"code":"00007"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
+
+				//originalName
+				var whereStr = {username:postJSON.originalName};
+				delete postJSON.originalName; //删除字段
+				delete postJSON.accessToken;
+				delete postJSON.operatorName;
+				var updateStr = {$set: postJSON };
+				isOwnEmpty(postJSON)
+				{
+					var info = 	{ "error":  
+						{  
+							"msg": "你没有指定配置任何属性!",  
+							"code":"00014"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;					
+				}
+				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+					if(result.hasOwnProperty("errmsg") )
+					{
+						var info = 	{ "error":  
+						{  
+							"msg": "用户名或手机号重复!",  
+							"code":"040001"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}else{
+						var info = 	{ "success":  
+							{  
+								"msg": "用户信息配置成功!",  
+								"code":"04000"  
+							}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}
+				});	
+			}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期!",  
+						"code":"00000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();	
+			}
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--用户配置函数--结束--------------------//
+
 
 //---------------------开始--用户更新函数--开始--------------------//
 function updateUser(response, postData)
@@ -723,6 +827,13 @@ function selectUser(response, postData)
 							mjson.permissions.queryLockAction = result[i].queryLockAction;
 							mjson.permissions.updateLockAction = result[i].updateLockAction;
 							mjson.permissions.doorAuthorization = result[i].doorAuthorization;
+
+							mjson.permissions.personelLimit = result[0].personelLimit;
+							mjson.permissions.zoneLimit = result[0].zoneLimit;
+							mjson.permissions.authOfflineTime = result[0].authOfflineTime;
+							mjson.permissions.phoneLimit = result[0].phoneLimit;
+							mjson.permissions.phoneMEILimit = result[0].phoneMEILimit;
+							mjson.permissions.offlineRefreshTime = result[0].offlineRefreshTime;
 							
 							mjson.tokenInfo.accessToken = result[i].accessToken;
 							mjson.tokenInfo.tokenStartTime  = result[i].tokenStartTime ;
@@ -902,4 +1013,6 @@ exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
 exports.selectUser = selectUser;
 exports.downloadUser = downloadUser;
+exports.personalConfig = personalConfig;
+
 //---------------------结束--模块导出接口声明--结束--------------------//

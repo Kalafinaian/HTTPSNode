@@ -79,6 +79,14 @@ Code说明:前两位是API序号，后三位是状态序号。
 
 				//作业管理--是否具有开门授权的权限  
 				"doorAuthorization" : "true", 	
+
+				personelLimit=no, //是否按个人限制钥匙
+				zoneLimit=no, //是否按区域限制钥匙
+				authOfflineTime=1440, //默认钥匙离线授权最长时间
+				phoneLimit=no, //是否限制手机号
+				phoneMEILimit=no, //是否限制手机MEI
+				offlineRefreshTime=1440, //默认离线刷新时间
+
 			}
 
 
