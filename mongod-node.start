@@ -10,6 +10,8 @@
 # Please note that you must run 'chmod +x /etc/rc.d/rc.local' to ensure
 # that this script will be executed during boot.
 
+rm /usr/share/NodeJS/Node.js/nohup.out
+
 /usr/share/NodeJS/Node.js/node.start
 
 /usr/share/NodeJS/Node.js/upload.start

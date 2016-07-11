@@ -59,6 +59,8 @@ function start(route,handle){
 				var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 				var collectionName = "operateInfo";
 				postJSON.apiName = pathname;
+				postJSON.operateTime = formatToDetailDate(Date.now());
+				postJSON.operateStamp = parseInt(Date.now()/1000);
 				delete postJSON.accessToken;
 				//插入请求数据
 				dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){});	
