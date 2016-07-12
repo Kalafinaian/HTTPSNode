@@ -1,0 +1,1 @@
+db.companyInfo.insert({"companyID": "000000010000001","companyName":"中国铁塔", "companyType":"铁塔", "adress":"成都成华区铁塔大厦","contactName":"张三", "phone":"130123456789"})
