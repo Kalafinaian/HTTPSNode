@@ -53,8 +53,15 @@ var timeStamp = Date.now();
 insertStr.backupTime = formatToDetailDate(timeStamp);
 insertStr.backupTimeStamp = parseInt(timeStamp/1000);
 
-//插入数据
-dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  insertStr , function(result){});	
+
+cmdStr = 'ip addr | grep \"192.168.1.1..\" -o'
+exec(cmdStr, function callback(error, stdout, stderr) {
+	console.log(stdout);
+	insertStr.backHostIP = stdout.substring(0,stdout.length-1);
+	//插入数据
+	dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  insertStr , function(result){});	
+});
+
 
 
 //第三步：预留数据恢复脚本
