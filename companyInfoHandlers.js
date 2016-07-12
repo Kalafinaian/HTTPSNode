@@ -101,8 +101,8 @@ function addCompany(response, postData)
 		console.log(postJSON);
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
-		//验证公司名和动态令牌
-		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		//验证用户名和动态令牌
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 				//console.log(result);
 				if(result.length>0)
 				{
@@ -113,7 +113,7 @@ function addCompany(response, postData)
 						delete postJSON.accessToken;
 						delete postJSON.operatorName;
 
-						var operatorInfo = result[0];
+						//var operatorInfo = result[0];
 
 						//插入请求数据
 						dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
@@ -154,7 +154,7 @@ function addCompany(response, postData)
 				}else{
 					var info = 	{ "error":  
 						{  
-							"msg": "公司名不存在或动态令牌已过期",  
+							"msg": "用户名不存在或动态令牌已过期",  
 							"code":"00000"  
 						}  };
 					response.write( JSON.stringify(info) );
@@ -193,9 +193,9 @@ function deleteCompany(response, postData)
 		//判断操作者和动态令牌是否存在
 		if( judgeCompanyToken(postJSON,response)==false ){  return;  };
 
-		//验证公司名和动态令牌
+		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 			//console.log(result);
 			if(result.length>0)
 			{
@@ -215,12 +215,12 @@ function deleteCompany(response, postData)
 				// 	return;
 				// }
 
-				var whereStr = {username:postJSON.username};
+				var whereStr = {companyID:postJSON.companyID};
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 					//console.log(result);
 					if(result.length>0)
 					{
-						var whereStr = {username:postJSON.username};
+						var whereStr = {companyID:postJSON.companyID};
 						dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 							//console.log("删除信息"+result);
 							var info = 	{ "success":  
@@ -245,7 +245,7 @@ function deleteCompany(response, postData)
 			}else{
 					var info = 	{ "error":  
 					{  
-						"msg": "公司名不存在或动态令牌已过期!",  
+						"msg": "用户名不存在或动态令牌已过期!",  
 						"code":"00000"  
 					}  };
 					response.write( JSON.stringify(info) );
@@ -283,9 +283,9 @@ function updateCompany(response, postData)
 		//判断操作者和动态令牌是否存在
 		if( judgeCompanyToken(postJSON,response)==false ){  return;  };
 
-		//验证公司名和动态令牌
+		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 			//console.log(result);
 
 			if(result.length>0)
@@ -306,7 +306,7 @@ function updateCompany(response, postData)
 				// }
 
 				//originalCompany
-				var whereStr = {username:postJSON.originalCompanyID};
+				var whereStr = {companyID:postJSON.originalCompanyID};
 				delete postJSON.originalCompanyID; //删除字段
 				delete postJSON.accessToken;
 				delete postJSON.operatorName;
@@ -345,7 +345,7 @@ function updateCompany(response, postData)
 			}else{
 					var info = 	{ "error":  
 					{  
-						"msg": "公司名不存在或动态令牌已过期!",  
+						"msg": "用户名不存在或动态令牌已过期!",  
 						"code":"00000"  
 					}  };
 					response.write( JSON.stringify(info) );
@@ -384,10 +384,10 @@ function selectCompany(response, postData)
 		if( judgeCompanyToken(postJSON,response)==false ){  return;  };
 
 		console.log(postJSON);
-		//验证公司名和动态令牌
+		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
-		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 			//console.log(result);
 			if(result.length>0)
 			{
@@ -418,7 +418,7 @@ function selectCompany(response, postData)
 						response.write( JSON.stringify(json) );
 						response.end();
 					}else{
-						var info = 	{ "companyInfo":  
+						var info = 	{ "error":  
 						{  
 							"msg": "没有查询记录!",  
 							"code":"05001"  
@@ -431,7 +431,7 @@ function selectCompany(response, postData)
 			}else{
 				var info = 	{ "error":  
 					{  
-						"msg": "公司名不存在或动态令牌已过期",  
+						"msg": "用户名不存在或动态令牌已过期",  
 						"code":"00000"  
 					}  };
 				response.write( JSON.stringify(info) );
@@ -469,10 +469,10 @@ function downloadCompany(response, postData)
 		if( judgeCompanyToken(postJSON,response)==false ){  return;  };
 
 		console.log(postJSON);
-		//验证公司名和动态令牌
+		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 		console.log(whereStr);
-		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
 			//console.log(result);
 			if(result.length>0)
 			{
@@ -557,7 +557,7 @@ function downloadCompany(response, postData)
 			}else{
 				var info = 	{ "error":  
 					{  
-						"msg": "公司名不存在或动态令牌已过期",  
+						"msg": "用户名不存在或动态令牌已过期",  
 						"code":"00000"  
 					}  };
 				response.write( JSON.stringify(info) );

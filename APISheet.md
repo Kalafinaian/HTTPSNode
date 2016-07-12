@@ -2414,7 +2414,7 @@ application/x-www-form-urlencoded
 | :------:    | :----:   | :--:   | :----------------------------------------: 	| 
 |operatorName | String   | Yes    | 操作者用户账号-用户名        				|  
 |accessToken  | String   | Yes    | 操作者API动态令牌							| 
-|deleteList	  | String   | Yes    | 被删除的companyID-唯一的公司标识            |
+|companyID	  | String   | Yes    | 被删除的companyID-唯一的公司标识            |
 
 
 服务器返回参数：
