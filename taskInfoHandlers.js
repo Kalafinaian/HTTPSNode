@@ -758,7 +758,8 @@ function taskCommit(response, postData)
 				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 				
 				//originalName
-				var whereStr = {taskID:postJSON.originalTaskID};
+				var whereStr = {taskID:postJSON.taskID};
+				delete postJSON.taskID;
 				var updateStr = {$set: postJSON };
 				// isOwnEmpty(postJSON)
 				// {
@@ -774,7 +775,7 @@ function taskCommit(response, postData)
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					var info = 	{ "success":  
 					{  
-						"msg": "任务申请工单信息提交成功!",  
+						"msg": "任务工单信息提交成功!",  
 						"code":"21000"  
 					}  };
 					response.write( JSON.stringify(info) );

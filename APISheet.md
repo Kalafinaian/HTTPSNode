@@ -1343,6 +1343,7 @@ URL：https://www.smartlock.top/v0/taskCommit
 | :------:    		| :----:   | :--:   |:----------------------------------------:  | 
 |operatorName   	| String   | Yes    | 操作者用户账号-用户名        				 |  
 |accessToken 		| String   | Yes    | 操作者API动态令牌							 | 
+|taskID      		| String   | Yes    | 任务ID          							 | 
 |applicantName   	| String   | Yes    | 申请者姓名      						     |  
 |taskDescription    | String   | Yes    | 任务完成的描述信息                         |
 |taskStatus         | String   | No     | 正常，异常等等                             |
