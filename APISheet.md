@@ -1345,8 +1345,9 @@ URL：https://www.smartlock.top/v0/taskCommit
 |accessToken 		| String   | Yes    | 操作者API动态令牌							 | 
 |applicantName   	| String   | Yes    | 申请者姓名      						     |  
 |taskDescription    | String   | Yes    | 任务完成的描述信息                         |
-|taskStatus         | String   | Yes    | 完成，未完成，等等                         |
-
+|taskStatus         | String   | No     | 正常，异常等等                             |
+|workStatus         | String   | Yes    | 完成，未完成，等等                         |
+|errOfWorkResultFlag| String   | Yes	| 作业结果异常标记（处理，未处理，默认未处理)|
 
 服务器返回参数：
 
