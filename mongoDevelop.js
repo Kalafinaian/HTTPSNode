@@ -7,3 +7,5 @@ var collectionName = "taskInfo";
 var whereTask = {};
 var updateStr = {$set: {approvalPhone:"15520443869"}  };
 dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, collectionName, whereTask, updateStr);	
+
+db.companyInfo.ensureIndex({"companyID":1})

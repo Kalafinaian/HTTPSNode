@@ -63,6 +63,16 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 	35、https://www.smartlock.top/v0/updateLock 			编辑锁具
 	36、https://www.smartlock.top/v0/queryLock 			查询锁具
 	37、https://www.smartlock.top/v0/downloadLock 		锁具信息Excel下载请求接口
+
+###8、公司管理
+	38、添加公司  https://www.smartlock.top/v0/addCompany
+    39、删除公司  https://www.smartlock.top/v0/deleteCompany
+    40、编辑公司   https://www.smartlock.top/v0/updateCompany
+    41、查询公司   https://www.smartlock.top/v0/queryCompany	
+    42、下载公司信息Excel表格   https://www.smartlock.top/v0/downloadCompany	
+
+
+
 		
 总体任务：前期实现基本API，后期实现数据库备份，操作日志记录，大量数据压力测试等工作			
 			
