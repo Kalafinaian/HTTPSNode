@@ -2331,3 +2331,287 @@ Or
 			"code":"00000"  
 		}
 	}
+
+
+##六、公司管理
+
+###38、添加公司
+功能说明：
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/addCompany
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken=""&stationID=""...   application/x-www-form-urlencoded
+
+|   参数名    		|   类型  | 必须 | 说明        								    			|  
+| :------:    		| :----:  | :--: | :-------------------------------------: 	    			| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        							|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌										| 
+|companyID	  		| String  |	Yes  | 公司ID                               					|
+|companyName	  	| String  |	Yes	 | 公司名字                                     			| 
+|companyType		| String  |	No	 | 公司类型                             					| 
+|adress				| String  |	Yes	 | 公司地址                                   				|
+|contactName		| String  |	Yes	 | 联系人姓名                                   			|  
+|phone				| String  |	Yes	 | 联系方式                                 				|
+
+ 
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "公司添加成功",
+			"code":"38000"
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "公司ID已存在",
+			"code":"38001"
+		}
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+
+###39、删除公司
+
+功能说明：删除指定的公司
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/deleteCompany
+请求方式：POST
+```	 
+
+
+请求参数：operatorName=""&accessToken=""&deleteList=[id1,id2,...,idn]...   
+application/x-www-form-urlencoded
+			
+
+
+
+|   参数名    |   类型   |  必须  | 说明        								|  
+| :------:    | :----:   | :--:   | :----------------------------------------: 	| 
+|operatorName | String   | Yes    | 操作者用户账号-用户名        				|  
+|accessToken  | String   | Yes    | 操作者API动态令牌							| 
+|deleteList	  | String   | Yes    | 被删除的companyID-唯一的公司标识            |
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "公司删除成功!",  
+			"code":"39000"  
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "公司名不存在或动态令牌已过期!",  
+			"code":"00000"  
+		}
+	}
+
+
+###40、编辑公司
+
+功能说明：编辑指定的公司
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/updateCompany
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名    		|   类型  | 必须 | 说明        								    |  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|originalCompanyID	| String  |	Yes  | 被编辑的公司ID-唯一的公司标识                |
+|companyID	  		| String  |	Yes  | 公司ID                               					|
+|companyName	  	| String  |	Yes	 | 公司名字                                     			| 
+|companyType		| String  |	No	 | 公司类型                             					| 
+|adress				| String  |	Yes	 | 公司地址                                   				|
+|contactName		| String  |	Yes	 | 联系人姓名                                   			|  
+|phone				| String  |	Yes	 | 联系方式                                 				|
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "公司信息编辑成功!",  
+			"code":"40000"  
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "公司ID已存在!",  
+			"code":"40001"  
+		}
+	}
+Or
+
+	{
+		"error":
+		{
+			"msg": "公司名不存在或动态令牌已过期!",  
+			"code":"00000"  
+		}
+	}
+
+
+
+###41、查询公司
+功能说明：查询指定的公司,address支持模糊查询
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/queryCompany	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名    		|   类型  | 必须 | 说明        								    |  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|companyID	  		| String  |	Yes  | 公司ID                               					|
+|companyName	  	| String  |	Yes	 | 公司名字                                     			| 
+|companyType		| String  |	No	 | 公司类型                             					| 
+|adress				| String  |	Yes	 | 公司地址                                   				|
+|contactName		| String  |	Yes	 | 联系人姓名                                   			|  
+|phone				| String  |	Yes	 | 联系方式                                 				|
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			[
+				{
+					公司信息
+				｝,
+
+
+				...
+				{
+					公司信息
+				｝				
+			]
+		}
+	}
+	
+Or
+
+	{
+		"error":
+		{
+			"msg": "没有查询记录!",  
+			"code":"41001"  
+		}
+	}
+
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+
+###42、下载公司信息Excel表格
+功能说明：根据指定信息生成Excel表格，返回下载链接
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/downloadCompany	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名        	|   类型  | 必须 | 说明        									|  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|companyID	  		| String  |	Yes  | 公司ID                               					|
+|companyName	  	| String  |	Yes	 | 公司名字                                     			| 
+|companyType		| String  |	No	 | 公司类型                             					| 
+|adress				| String  |	Yes	 | 公司地址                                   				|
+|contactName		| String  |	Yes	 | 联系人姓名                                   			|  
+|phone				| String  |	Yes	 | 联系方式                                 				|  
+
+
+服务器返回参数：
+
+	{ 
+		"success":  
+		{  
+			"url": "https://www.smartlock.top/b.xlsx",  
+			"code":"42100"  
+		}  
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "没有数据记录",  
+			"code":"42101"  
+		}
+	}
+
+	
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+

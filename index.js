@@ -7,6 +7,7 @@ var stationInfoHandlers = require("./stationInfoHandlers");  //基站信息请�
 var keyInfoHandlers = require("./keyInfoHandlers");  //电子钥匙信息请求处理模块
 var lockInfoHandlers = require("./lockInfoHandlers");  //锁具信息请求处理模块
 var taskInfoHandlers = require("./taskInfoHandlers");  //工单任务信息请求处理模块
+var companyInfoHandlers = require("./companyInfoHandlers");  //公司信息请求处理模块
 
 
 //---------------------开始--对象handle：存储处理函数--开始--------------------//
@@ -20,6 +21,13 @@ handle["/v0/updateUser"] = userInfoHandlers.updateUser;
 handle["/v0/downloadUser"] = userInfoHandlers.downloadUser;
 handle["/v0/personalConfig"] = userInfoHandlers.personalConfig;
 
+
+
+handle["/v0/addCompany"] = companyInfoHandlers.addCompany;
+handle["/v0/queryCompany"] = companyInfoHandlers.selectCompany;
+handle["/v0/deleteCompany"] = companyInfoHandlers.deleteCompany;
+handle["/v0/updateCompany"] = companyInfoHandlers.updateCompany;
+handle["/v0/downloadCompany"] = companyInfoHandlers.downloadCompany;
 
 
 
