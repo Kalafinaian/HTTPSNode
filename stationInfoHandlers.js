@@ -643,7 +643,7 @@ function selectStation(response, postData)
 						{
 							case 0:
 							{
-								int count = result.length;
+								var count = result.length;
 								if(result.length>100)
 								{
 									result = result.slice(0,100);
