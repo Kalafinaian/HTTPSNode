@@ -648,7 +648,7 @@ function selectStation(response, postData)
 								{
 									result = result.slice(0,100);
 								}
-								json.description = "总共查询到"+count+"条数据,限制返回"+result.length+"条";
+								//json.description = "总共查询到"+count+"条数据,限制返回"+result.length+"条";
 								json.success = result;
 								break;
 							}
