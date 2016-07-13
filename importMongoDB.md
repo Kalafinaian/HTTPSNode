@@ -158,7 +158,10 @@ options:
  
 导入数据的实例：
 
-    mongoimport -d csis -c stationInfo --headerline students.csv     
+    mongoimport -d csis -c stationInfo --headerline --type csv  --file students.csv    
+    mongoimport -d csis -c stationInfo --headerline --type csv  --file 基站数据2013自定义.csv 
+    mongoimport -d csis -c stationInfo --headerline --type csv  --file 基站数据2014自定义.csv   
+     
 
 > db.students.remove()        
 > db.students.find()        
