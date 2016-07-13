@@ -1,3 +1,4 @@
+可以外部导入的数据有：基站数据、全国行政数据
 外部数据的导入导出可以直接通过mongoimport和mongoexport导入csv文件实现      
 通过nodejs调用命令行，导入csv文件数据，大大减少了批量导入的工作量      
 Mongodb数据导出工具mongoexport和导入工具mongoimport介绍      
