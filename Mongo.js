@@ -74,6 +74,25 @@ function distinctFunc( mongoClient, DB_CONN_STR, collectionName, field, queryFil
 //---------------------结束--distinct查询函数--结束--------------------//
 
 
+//---------------------开始--批量导入数据，传入JSON数组--开始--------------------//
+var insertMultiData = function(db, collectionName, dataArray , callback) {   
+  int length = dataArray.length;
+  var collection = db.collection(collectionName);    //连接到表 
+  for(var i=0;i<length;i++)
+  {
+  	  collection.insert(data, function(err, result){});
+  }
+  db.close();
+}
+
+function insertMultiFunc( mongoClient, DB_CONN_STR, collectionName, dataArray, callback)
+{
+	mongoClient.connect(DB_CONN_STR, function(err, db) {
+		console.log("连接成功！");
+		insertMultiData(db, collectionName, dataArray , callback);
+	});
+}
+//---------------------结束--批量导入数据，传入JSON数组--结束--------------------//
 
 
 //---------------------开始--数据插入函数--开始--------------------//
