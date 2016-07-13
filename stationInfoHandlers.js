@@ -724,6 +724,80 @@ function selectStation(response, postData)
 //---------------------结束--基站查询函数--结束--------------------//
 
 
+//---------------------开始--全国地址分级查询函数--开始--------------------//
+function selectAreaInfo(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'selectAreaInfo' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "chinaInfo";
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+		
+		console.log(postJSON);
+		//验证锁具名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			//console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+				console.log(postJSON);
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+					function(result){
+					if( result.length>0 )
+					{
+						var json = {success:result};
+
+						response.write( JSON.stringify(json) );
+						response.end();
+					}else{
+						var info = 	{ "error":  
+						{  
+							"msg": "没有查询记录!",  
+							"code":"42001"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}
+				
+				});	
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--全国地址分级查询函数--结束--------------------//
+
 //---------------------开始--Excel表格下载接口--开始--------------------//
 function downloadStation(response, postData)
 {
@@ -1300,5 +1374,6 @@ exports.selectStation = selectStation;
 exports.downloadStation = downloadStation;
 exports.queryStationLog = queryStationLog;
 exports.downloadStationLog = downloadStationLog;
+exports.selectAreaInfo = selectAreaInfo;
 exports.importDataFromExcel = importDataFromExcel;
 //---------------------结束--模块导出接口声明--结束--------------------//

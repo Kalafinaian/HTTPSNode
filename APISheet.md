@@ -2495,7 +2495,7 @@ Or
 
 
 ###41、查询公司
-功能说明：查询指定的公司,address支持模糊查询
+功能说明：查询指定的公司
 
 
 ```
@@ -2605,6 +2605,71 @@ Or
 	}
 
 	
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+##七、地理信息查询
+
+###43、分级查询地理信息
+功能说明：查询指定的行政区域信息
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/queryAreaInfo	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名    		|   类型  | 必须 | 说明        								    |  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|areaID		  		| String  |	Yes  | 地区ID                               					|
+|areaName   	  	| String  |	Yes	 | 地区名字                                     			| 
+|areaLevel  		| String  |	No	 | 地区级别                             					| 
+|areaParentID		| String  |	Yes	 | 地区的上一级地区                                   		|
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			[
+				{
+					地理信息
+				｝,
+
+
+				...
+				{
+					地理信息
+				｝				
+			]
+		}
+	}
+	
+Or
+
+	{
+		"error":
+		{
+			"msg": "没有查询记录!",  
+			"code":"42001"  
+		}
+	}
+
+
 Or
 
 	{
