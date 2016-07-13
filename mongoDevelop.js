@@ -15,9 +15,17 @@ db.chinaInfo.ensureIndex({"areaID":1},{unique: true})
 创建索引
 db.chinaInfo.ensureIndex({age:1} , {background:true})
 
+db.statinInfo.ensureIndex({age:1} , {background:true})
+
 查询索引
 db.chinaInfo.getIndexes()
 
+
+lockID: 1
+db.statinInfo.ensureIndex({stationID: 1}, {unique: true});
+db.statinInfo.ensureIndex({lockID: 1}, {unique: true});
+
+5.强制使用索引
 4. 唯一索引
 只需在ensureIndex 命令中指定”unique:true”即可创建唯一索引。例如，往表t4 中插入2 条记录:
 
