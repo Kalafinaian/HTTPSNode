@@ -638,12 +638,18 @@ function selectStation(response, postData)
 					function(result){
 					if( result.length>0 )
 					{
-						var json;
+						var json = {};
 						switch(consultNum)
 						{
 							case 0:
 							{
-								json = {success:result};
+								var count = result.length;
+								if(result.length>100)
+								{
+									result = result.slice(0,100);
+								}
+								json.description = "总共查询到"+count+"条数据,限制返回"+result.length+"条";
+								json.success = result;
 								break;
 							}
 							case 1:
