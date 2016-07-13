@@ -2,8 +2,11 @@
 外部数据的导入导出可以直接通过mongoimport和mongoexport导入csv文件实现      
 通过nodejs调用命令行，导入csv文件数据，大大减少了批量导入的工作量      
 Mongodb数据导出工具mongoexport和导入工具mongoimport介绍      
+  
+批量插入基站审批人、负责人
       
-      
+     db.stationInfo.update({},{$set:{"chargePerson":"陆金波","approvalPerson": "肖良平"}},{multi:true})    
+
 mongodbnosqlmongoexportmongoimportmongo数据导入导出       
 ##一、导出工具mongoexport      
 Mongodb中的mongoexport工具可以把一个collection导出成JSON格式或CSV格式的文件。可以通过参数指定导出的数据项，也可以根据指定的条件导出数据。mongoexport具体用法如下所示：      
