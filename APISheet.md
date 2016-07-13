@@ -2090,7 +2090,7 @@ URL：https://www.smartlock.top/v0/addLock
 |lockID	  		    | String  |	Yes  | 唯一的锁具标识                           	|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
 |lockType           | String  | Yes  | 锁具类型                                     |
-
+|approveCode        | String  | Yes  | 锁具密码                                     |
 
 服务器返回参数：
 
@@ -2185,6 +2185,7 @@ URL：https://www.smartlock.top/v0/updateLock
 |LockID	  		    | String  |	No   | 唯一的锁具标识                           	|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
 |lockType           | String  | Yes  | 锁具类型                                     |
+|approveCode        | String  | Yes  | 锁具密码                                     |
 
 
 服务器返回参数：
