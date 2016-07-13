@@ -752,6 +752,23 @@ function selectAreaInfo(response, postData)
 
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
+				try{
+					if(postJSON.hasOwnProperty("areaID"))
+					{
+						postJSON.areaID = parseInt(postJSON.areaID);
+					}
+					if(postJSON.hasOwnProperty("areaParentID"))
+					{
+						postJSON.areaParentID = parseInt(postJSON.areaParentID);
+					}
+					if(postJSON.hasOwnProperty("areaLevel"))
+					{
+						postJSON.areaLevel = parseInt(postJSON.areaLevel);
+					}
+				}catch(e){
+					console.log("type error");
+				}
+
 				console.log(postJSON);
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
 					function(result){

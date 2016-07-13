@@ -76,9 +76,9 @@ function distinctFunc( mongoClient, DB_CONN_STR, collectionName, field, queryFil
 
 //---------------------开始--批量导入数据，传入JSON数组--开始--------------------//
 var insertMultiData = function(db, collectionName, dataArray , callback) {   
-  int length = dataArray.length;
+  var mlength = dataArray.length;
   var collection = db.collection(collectionName);    //连接到表 
-  for(var i=0;i<length;i++)
+  for(var i=0;i<mlength;i++)
   {
   	  collection.insert(data, function(err, result){});
   }
