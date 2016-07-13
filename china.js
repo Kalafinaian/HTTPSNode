@@ -4,7 +4,12 @@ var mongoClient = require('mongodb').MongoClient;
 var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 var collectionName = "chinaInfo";
 var insertJSON = {};
+//第一步：node调用shell完成备份
+var exec = require('child_process').exec; 
+var cmdStr = 'sleep 0.01';
 
+
+//mongodb不支持批量异步插入，会发生访问冲突，需要延时解决之
 insertJSON={areaID:110000, areaName:"北京市", areaLevel:1, areaParentID:0};
 dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  insertJSON , function(result){});
 insertJSON={areaID:110100, areaName:"市辖区", areaLevel:2, areaParentID:110000};

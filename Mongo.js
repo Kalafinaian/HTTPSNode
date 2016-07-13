@@ -35,6 +35,7 @@ var countData = function(db, collectionName, queryFilter,callback) {
 	      return;
 	    }	 
 	    callback(result);
+	    db.close();
   });
 }
 
@@ -42,10 +43,7 @@ function countFunc( mongoClient, DB_CONN_STR, collectionName,queryFilter,callbac
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
 		console.log("连接成功！");
-		countData(db, collectionName, queryFilter, function(result){
-			 callback(result);
-			 db.close();
-		})
+		countData(db, collectionName, queryFilter,  callback);
 	});
 }
 //---------------------结束--count查询函数--结束--------------------//
@@ -62,6 +60,7 @@ var distincData = function(db, collectionName, field, queryFilter,callback) {
 	      return;
 	    }	 
 	    callback(result);
+	    db.close();
   });
 }
 
@@ -69,10 +68,7 @@ function distinctFunc( mongoClient, DB_CONN_STR, collectionName, field, queryFil
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
 		console.log("连接成功！");
-		distincData(db, collectionName, field, queryFilter, function(result){
-			 callback(result);
-			 db.close();
-		})
+		distincData(db, collectionName, field, queryFilter, callback);
 	});
 }
 //---------------------结束--distinct查询函数--结束--------------------//
@@ -91,6 +87,7 @@ var insertData = function(db, collectionName, data , callback) {
 	      return;
 	    }	 
 	    callback(result);
+      	db.close();
   });
 }
 
@@ -98,10 +95,7 @@ function insertFunc( mongoClient, DB_CONN_STR, collectionName, data, callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
 		console.log("连接成功！");
-		insertData(db, collectionName, data , function(result){
-			 callback(result);
-			 db.close();
-		})
+		insertData(db, collectionName, data , callback);
 	});
 }
 //---------------------结束--数据插入函数--结束--------------------//
@@ -124,6 +118,7 @@ var selectData = function(db, collectionName, whereStr , callback) {
 	      return;
 	    }     
 	    callback(result);
+	    db.close();
   });
 }
 
@@ -131,10 +126,7 @@ function selectFunc( mongoClient,  DB_CONN_STR, collectionName,  whereStr,  call
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
 		  console.log("连接成功！");
-		  selectData(db, collectionName,  whereStr , function(result){
-		  	 callback(result);
-		  	 db.close();
-		  });
+		  selectData(db, collectionName,  whereStr,callback);
 	});
 }
 //---------------------结束--数据查询函数--结束--------------------//
@@ -155,6 +147,7 @@ var updateData = function(db, collectionName, whereStr ,updateStr, callback){
 	      return;
     }	 
     callback(result);
+    db.close();
   });
 }
 
@@ -162,10 +155,7 @@ function updateFunc( mongoClient,DB_CONN_STR,collectionName, whereStr ,updateStr
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
 	  console.log("连接成功！");
-	  updateData(db, collectionName, whereStr ,updateStr, function(result){
-		  	 callback(result);
-		  	 db.close();
-	  });
+	  updateData(db, collectionName, whereStr ,updateStr, callback);
 	});
 }
 //---------------------结束--数据修改函数--结束--------------------//
@@ -185,6 +175,7 @@ var delData = function(db, collectionName, whereStr , callback) {
 		return;
     }     
     callback(result);
+    db.close();
   });
 }
 
@@ -192,10 +183,7 @@ function deleteFunc( mongoClient,DB_CONN_STR,collectionName, whereStr, callback 
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
 	  console.log("连接成功！");
-	  delData(db, collectionName, whereStr , function(result){
-		  	 callback(result);
-		  	 db.close();
-	  });
+	  delData(db, collectionName, whereStr,callback);
 	});
 }
 //---------------------结束--数据删除函数--结束--------------------//
@@ -215,6 +203,7 @@ var invokeProcData = function(db, callback) {
       return;
     }			 
     callback(result);
+    db.close();
   });
 }
 
@@ -223,10 +212,7 @@ function invokeProcFunc(mongoClient,DB_CONN_STR,callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
 	  console.log("连接成功！");
-	  invokeProcData(db, function(result){
-		  	 callback(result);
-		  	 db.close();
-	  });
+	  invokeProcData(db,  callback);
 	});
 
 }
