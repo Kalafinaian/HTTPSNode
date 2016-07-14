@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>智能锁控系统管理登录</title>
+    <link href="../assets/css/login_new.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery.SuperSlide.js"></script>
+    <script type="text/javascript" src="../assets/js/Validform_v5.3.2_min.js"></script>
+    <style type="text/css">
+        #code
+        {
+            font-family:Arial;
+            font-style:italic;
+            font-weight:bold;
+            border:0;
+            letter-spacing:2px;
+            color:blue;
+            z-index: auto;
+            height:38px;
+            margin-left: -10px;
+            width: 60px;
+        }
+    </style>
+    <script type="text/javascript">
+        var form ;
+        var code ; //在全局定义验证码
+            jQuery(function($){
+                $("body").bind("keyup",showSweet);
+                function  showSweet(e){
+                    if(e.keyCode==13){//判断是否单击Enter键进行登陆
+                        login();
+                    }
+                }
+            });
+        //产生验证码
+        function createCode(){
+            code = "";
+            var codeLength = 4;//验证码的长度
+            var checkCode = document.getElementById("code");
+            var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+                    'S','T','U','V','W','X','Y','Z');//随机数
+            for(var i = 0; i < codeLength; i++) {//循环操作
+                var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）
+                code += random[index];//根据索引取得随机数加到code上
+            }
+            checkCode.value = code;//把code值赋给验证码
+        }
+        //校验验证码
+        function validate(){
+            var inputCode = document.getElementById("authCode").value.toUpperCase(); //取得输入的验证码并转化为大写
+            if(inputCode.length <= 0) { //若输入的验证码长度为0
+                alert("请输入验证码！"); //则弹出请输入验证码
+                document.getElementById("authCode").focus();
+                return false;
+            }
+            else if(inputCode != code ) { //若输入的验证码与产生的验证码不一致时
+                alert("验证码输入错误！"); //则弹出验证码输入错误
+                createCode();//刷新验证码
+                document.getElementById("authCode").value = "";//清空文本框
+                document.getElementById("authCode").focus();
+                return false;
+            }
+            else { //输入正确时
+                return true;
+            }
+        }
+        function login(){
+            var username;
+            var password;
+            var loginNo;
+            var phone;
+            var paraDate;
+            loginNo = document.getElementById("loginNo").value;
+            if(loginNo==null||loginNo==""){
+                window.alert("登陆名不能为空！");
+                document.getElementById("loginNo").focus();
+                return;
+            }
+            password = document.getElementById("password").value;
+            if(password==null||password==""){
+                window.alert("密码不能为空！");
+                document.getElementById("password").focus();
+                return;
+            }
+//            if( isChineseChar(loginNo)){
+//                paraDate = "username="+loginNo+"&password="+password;
+//            }else
+
+            paraDate = "username="+loginNo+"&password="+password;
+//            if(isPhoneNo(loginNo)){
+//                paraDate = "phone="+loginNo+"&password="+password;
+//            }else {
+//                window.alert("输入用户名不合法，请重新输入姓名或者手机号码！");
+//                form.resetForm();
+//                document.getElementById("loginNo").focus();
+//                return;
+//            }
+            //校验验证码是否正确
+            if(!validate()){
+                return;
+            }
+            $.ajax({
+                async: false,
+                url: "https://www.smartlock.top/v0/login",
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                data: paraDate,
+                timeout: 8000,
+                success: function (result) {
+                    //将返回数据转化为json格式数据
+                    var infoJson =JSON.parse(result);
+                    //判断登录是否成功
+                    if (infoJson.error){
+                        var errInfo = infoJson.error;
+                        if(errInfo.code=="01002"){
+                            alert("用户名或密码错误!");
+                            createCode();
+                            form.resetForm();
+                            document.getElementById("loginNo").focus();
+                        }else{
+                            alert("登陆失败！");
+                            createCode();
+                            form.resetForm();
+                            document.getElementById("loginNo").focus();
+                        }
+                        return;
+                    }else if (infoJson.success){
+//                        alert("登陆成功！");
+                        var sucInfo =  infoJson.success;
+                        var currentTime = new Date();
+                        currentTime = currentTime.getTime();
+                        //判断token是否过期
+                        if(sucInfo.tokenInfo.tokenEndTime*1000>currentTime){
+                            alert("登陆成功！");
+                            //将用户名是密码放入本地供以后使用
+                            localStorage.setItem("originalPassword",password);
+                            processSucInfo(sucInfo);
+                            window.location.href = "main.html";
+                        }else {
+                            alert("登陆失效，请重新登录！");
+                            createCode();
+                            form.resetForm();
+                            document.getElementById("loginNo").focus();
+                        }
+                    }else {
+                        alert("未知错误，请联系管理员！");
+                        createCode();
+                        document.getElementById("loginNo").focus();
+                        form.resetForm();
+
+                    }
+                },
+                error: function () {
+                    alert("有误.....")
+                }
+            });
+        }
+        //对登录成功返回信息进行处理
+        function processSucInfo(sucInfo){
+            var userInfo = sucInfo.userInfo;
+            var regionInfo = sucInfo.regionInfo;
+            var permissions =sucInfo.permissions;
+            var accessToken = sucInfo.tokenInfo.accessToken;
+            var tokenEndTime = sucInfo.tokenInfo.tokenEndTime;
+            localStorage.setItem("userInfo",JSON.stringify(userInfo));
+            localStorage.setItem("regionInfo",JSON.stringify(regionInfo));
+            localStorage.setItem("permissions",JSON.stringify(permissions));
+            localStorage.setItem("accessToken",accessToken);
+            localStorage.setItem("tokenEndTime",tokenEndTime);
+        }
+        //检查是否含有中文（
+        function isChineseChar(str){
+            var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+            return reg.test(str);
+        }
+        //检查是否是11位标准手机号码
+        function isPhoneNo(str){
+            var reg=/^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            return reg.test(str);
+        }
+        $(function(){
+
+            $(".i-text").focus(function(){
+                $(this).addClass('h-light');
+            });
+            form = $(".registerform").Validform({
+                tiptype:function(msg,o,cssctl){
+                    var objtip=$(".error-box");
+                    cssctl(objtip,o.type);
+                    objtip.text(msg);
+                },
+                ajaxPost:false,
+            });
+        });
+
+
+
+
+    </script>
+
+
+</head>
+
+<body onload="createCode()">
+
+
+<div class="header" style="margin-bottom: 0px; margin-top: 10px">
+    <h1 class="headerLogo"><a title="后台管理系统" target="_blank" href="#"><img alt="logo" src="../assets/images/chinaTower.png"></a></h1>
+</div>
+
+<div class="banner" style="margin-bottom: -5px" >
+
+    <div class="login-aside">
+        <div id="o-box-up"></div>
+        <div id="o-box-down"  style="table-layout:fixed;">
+            <div class="error-box"></div>
+
+            <form class="registerform" onkeydown="if(event.keyCode==13)return false;" >
+                <div class="fm-item">
+                    <label for="loginNo" class="form-label">管理系统登录：</label>
+                    <input type="text" value="登录名" id="loginNo" class="gray intxt i-text" tip="登录名" altercss="gray" datatype="s"  nullmsg="请填写登录名!" >
+                    <div class="ui-form-explain"></div>
+                </div>
+
+                <div class="fm-item">
+                    <label for="password" class="form-label">登陆密码：</label>
+                    <input type="password" value="" maxlength="100" id="password" class="i-text" datatype="*6-16" nullmsg="请填写密码！" >
+                    <div class="ui-form-explain"></div>
+                </div>
+
+                <div class="fm-item pos-r">
+                    <label for="authCode" class="form-label">验证码</label>
+                    <input type="text" value="验证码"  id="authCode" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" class="gray intxt i-text yzm " tip="验证码" altercss="gray" datatype="s" nullmsg="请输入验证码！" >
+                    <div class="ui-form-explain"><input type = "button" id="code" onclick="createCode()" class="yzm-img" /></div>
+                </div>
+
+                <div class="fm-item">
+                    <label class="form-label"></label>
+                    <input type="button" value="" tabindex="4" id="send-btn" class="btn-login" onclick="login()">
+                    <div class="ui-form-explain"></div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div >
+    <div class="bd">
+        <ul>
+            <li style="background:url(../assets/images/theme-pic4.jpg) #CCE1F3 center 0 no-repeat;"><a target="_blank" href="#"></a></li>
+            <li style="background:url(../assets/images/theme-pic4.jpg) #BCE0FF center 0 no-repeat;"><a target="_blank" href="#"></a></li>
+        </ul>
+    </div>
+
+    <div class="hd"><ul></ul></div>
+</div>
+<script type="text/javascript">jQuery(".banner").slide({ titCell:".hd ul", mainCell:".bd ul", effect:"fold",  autoPlay:true, autoPage:true, trigger:"click" });</script>
+
+
+<div class="banner-shadow"></div>
+
+<div class="footer">
+    <p>©2016 中国铁塔股份有限公司     Copyright 2014-2016 ChinaTower Corporation, All Rights Reserved</p>
+</div>
+</body>
+</html>

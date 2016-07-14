@@ -1,0 +1,147 @@
+@CHARSET "UTF-8";
+/*
+ *  @Description: diaLog css
+ *  @author: JianFeng Fan
+ *  @Update: 2016-05-09
+ */
+.item{
+    margin: 10px 0 10px;
+    text-align: center;
+}
+.model-bg{
+    position: fixed;
+    top:0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.3);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000);
+    display: none;
+    z-index: 100;
+}
+.item label{
+    width: 110px;
+    font-size: 13px;
+    line-height: 30px;
+    display: inline-block;
+    text-align: left;
+    AutoSize:true;
+}
+.sgBtn{
+    width: 135px;
+    height: 35px;
+    line-height: 35px;
+    margin-left: 10px;
+    margin-top: 10px;
+    text-align: center;
+    background-color: #0095D9;
+    color: #FFFFFF;
+    float: left;
+    border-radius: 5px;
+}
+.popBox{
+    position: fixed;
+    display: none;
+    left: 50%;
+    top: 30%;
+    background-color: #ffffff;
+    z-index: 2147000001;
+    width: 500px;
+    height: auto;
+    margin-left: -285px;
+    margin-top: -150px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    font-weight: bold;
+    color: #535e66;
+}
+.popBox .ttBox{
+    height: 30px;
+    line-height: 30px;
+    padding: 14px 30px;
+    border-bottom: solid 1px #B0C4DE;
+}
+.popBox .ttBox .tt{
+    bottom: 10px;
+    font-size: 16px;
+    display: block;
+    float: left;
+    height: 30px; position: relative;}
+/*.popBox .txtBox input{*/
+    /*width: 150px;*/
+    /*height: 30px;*/
+    /*border: solid 1px #B0C4DE;*/
+    /*font-size: 10px;*/
+    /*margin-top: 6px;*/
+/*}*/
+.popBox .ttBox .clsBtn{
+    display: block;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    /*top: 22px;*/
+    right: 30px;
+    background: url(../images/icons_dialog.png) -48px -96px no-repeat;
+}
+.popBox .txtBox{
+    margin: 20px 50px;
+    height: auto;
+    overflow: auto;
+}
+.popBox .txtBox .bigIcon{
+    float: left;
+    margin-right: 20px;
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/icons_dialog.png);
+    background-repeat: no-repeat; background-position: 48px 0;}
+.popBox .btnArea{
+    border-top: solid 1px #B0C4DE;
+}
+.popBox .btnGroup{
+    float: right;
+}
+.popBox .btnGroup .sgBtn{
+    margin-top: 14px;
+    margin-right: 10px;
+}
+.popBox .sgBtn{
+    display: block;
+    cursor: pointer;
+    float: left;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #FFFFFF;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    margin-bottom: 10px;
+}
+.popBox .sgBtn.ok{
+    background-color: #0095d9;
+    color: #FFFFFF;}
+.popBox .sgBtn.reject{
+    background-color: red;
+    color: #FFFFFF;}
+.popBox .sgBtn.cancel{
+    background-color: #546a79;
+    color: #FFFFFF;
+}
+.popBox .txtBox input{
+    width: 185px;
+    height: 30px;
+    border: solid 1px #B0C4DE;
+    font-size: 12px;
+    margin-top: 6px;
+}
+.popBox .txtBox textarea{
+    width: 185px;
+    height: 30px;
+    border: solid 1px #B0C4DE;
+    font-size: 13px;
+    margin-top: 6px;
+}

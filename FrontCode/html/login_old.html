@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ><head>
+    <title>智能锁控管理平台</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="../assets/js/login.js"></script>
+    <link href="../assets/css/login.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #code
+        {
+            font-family:Arial;
+            font-style:italic;
+            font-weight:bold;
+            border:0;
+            letter-spacing:2px;
+            color:blue;
+            z-index: auto;
+            height:42px;
+            margin-left: 5px;
+        }
+        .web_login #authCodeArea .inputstyle  {
+            width:120px;
+            height:38px;
+            padding-left:5px;
+            line-height:30px;
+            border:1px solid #D7D7D7;
+            background:#fff;
+            color:#333;border-radius:2px;
+            /*font-family:Verdana, Tahoma, Arial;*/
+            font-size:16px;
+            ime-mode:normal;
+        }
+    </style>
+    <script type="text/javascript">
+        var code ; //在全局定义验证码
+        jQuery(function($){
+            $("body").bind("keyup",showSweet);
+            function  showSweet(e){
+                if(e.keyCode==13){//判断是否单击Enter键进行登陆
+                    login();
+                }
+            }
+        });
+        //产生验证码
+        function createCode(){
+            code = "";
+            var codeLength = 4;//验证码的长度
+            var checkCode = document.getElementById("code");
+            var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+                    'S','T','U','V','W','X','Y','Z');//随机数
+            for(var i = 0; i < codeLength; i++) {//循环操作
+                var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）
+                code += random[index];//根据索引取得随机数加到code上
+            }
+            checkCode.value = code;//把code值赋给验证码
+        }
+        //校验验证码
+        function validate(){
+            var inputCode = document.getElementById("authCode").value.toUpperCase(); //取得输入的验证码并转化为大写
+            if(inputCode.length <= 0) { //若输入的验证码长度为0
+                alert("请输入验证码！"); //则弹出请输入验证码
+                document.getElementById("authCode").focus();
+                return false;
+            }
+            else if(inputCode != code ) { //若输入的验证码与产生的验证码不一致时
+                alert("验证码输入错误！"); //则弹出验证码输入错误
+                createCode();//刷新验证码
+                document.getElementById("authCode").value = "";//清空文本框
+                document.getElementById("authCode").focus();
+                return false;
+            }
+            else { //输入正确时
+                return true;
+            }
+        }
+        function login(){
+            var username;
+            var password;
+            var loginNo;
+            var phone;
+            var paraDate;
+            loginNo = document.getElementById("loginNo").value;
+            if(loginNo==null||loginNo==""){
+                window.alert("登陆名不能为空！");
+                document.getElementById("loginNo").focus();
+                return;
+            }
+            password = document.getElementById("password").value;
+            if(password==null||password==""){
+                window.alert("密码不能为空！");
+                document.getElementById("password").focus();
+                return;
+            }
+            if( isChineseChar(loginNo)){
+                paraDate = "username="+loginNo+"&password="+password;
+            }else if(isPhoneNo(loginNo)){
+                paraDate = "phone="+loginNo+"&password="+password;
+            }else {
+                window.alert("输入用户名不合法，请重新输入姓名或者手机号码！");
+                document.getElementById("loginNo").value="";
+                document.getElementById("password").value="";
+                document.getElementById("loginNo").focus();
+                return;
+            }
+
+            paraDate=paraDate+"&platform=web";
+//            alert(paraDate);
+            //校验验证码是否正确
+            if(!validate()){
+                return;
+            }
+            $.ajax({
+                async: false,
+                url: "https://www.smartlock.top/v0/login",
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                data: paraDate,
+                timeout: 8000,
+                success: function (result) {
+                    //将返回数据转化为json格式数据
+                    var infoJson =JSON.parse(result);
+                    //判断登录是否成功
+                    if (infoJson.error){
+                        var errInfo = infoJson.error;
+
+                        alert(errInfo.msg);
+                        createCode();
+                        document.getElementById("loginNo").value="";
+                        document.getElementById("password").value="";
+                        document.getElementById("authCode").value="";
+                        document.getElementById("loginNo").focus();
+
+
+//                        if(errInfo.code=="01002"){
+//                            alert("用户名或密码错误!");
+//                            createCode();
+//                            document.getElementById("loginNo").value="";
+//                            document.getElementById("password").value="";
+//                            document.getElementById("authCode").value="";
+//                            document.getElementById("loginNo").focus();
+//                        }else{
+//                            alert("登陆失败！");
+//                            createCode();
+//                            document.getElementById("loginNo").value="";
+//                            document.getElementById("password").value="";
+//                            document.getElementById("authCode").value="";
+//                            document.getElementById("loginNo").focus();
+//                        }
+                        return;
+                    }else if (infoJson.success){
+//                        alert("登陆成功！");
+                        var sucInfo =  infoJson.success;
+                        var currentTime = new Date();
+                        currentTime = currentTime.getTime();
+                        //判断token是否过期
+                        if(sucInfo.tokenInfo.tokenEndTime*1000>currentTime){
+                            alert("登陆成功！");
+                            //将用户名是密码放入本地供以后使用
+                            localStorage.setItem("originalPassword",password);
+                            processSucInfo(sucInfo);
+                            window.location.href = "main.html";
+                        }else {
+                            alert("登陆失效，请重新登录！");
+                            createCode();
+                            document.getElementById("loginNo").value="";
+                            document.getElementById("password").value="";
+                            document.getElementById("authCode").value="";
+                            document.getElementById("loginNo").focus();
+                        }
+                    }else {
+                        alert("未知错误，请联系管理员！");
+                        createCode();
+                        document.getElementById("loginNo").value="";
+                        document.getElementById("password").value="";
+                        document.getElementById("authCode").value="";
+                        document.getElementById("loginNo").focus();
+                    }
+                },
+                error: function () {
+                    alert("有误.....")
+                }
+            });
+        }
+        //对登录成功返回信息进行处理
+        function processSucInfo(sucInfo){
+            var userInfo = sucInfo.userInfo;
+            var regionInfo = sucInfo.regionInfo;
+            var permissions =sucInfo.permissions;
+            var accessToken = sucInfo.tokenInfo.accessToken;
+            var tokenEndTime = sucInfo.tokenInfo.tokenEndTime;
+            localStorage.setItem("userInfo",JSON.stringify(userInfo));
+            localStorage.setItem("regionInfo",JSON.stringify(regionInfo));
+            localStorage.setItem("permissions",JSON.stringify(permissions));
+            localStorage.setItem("accessToken",accessToken);
+            localStorage.setItem("tokenEndTime",tokenEndTime);
+//            alert(localStorage.getItem("userInfo"));
+//            alert(localStorage.getItem("regionInfo"));
+//            alert(localStorage.getItem("permissions"));
+//            alert(localStorage.getItem("accessToken"));
+//            alert(localStorage.getItem("tokenEndTime"));
+        }
+        //检查是否含有中文（
+        function isChineseChar(str){
+            var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+            return reg.test(str);
+        }
+        //检查是否是11位标准手机号码
+        function isPhoneNo(str){
+            var reg=/^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            return reg.test(str);
+        }
+    </script>
+</head>
+<body onload="createCode()">
+<h1>智能锁控管理平台</h1>
+
+<div class="login" style="margin-top:50px;">
+
+    <div class="header">
+        <div class="switch" id="switch" >
+            <a class="switch_btn_focus" id="switch_qlogin"  tabindex="14">快速登录</a>
+
+        </div>
+    </div>
+
+
+    <div class="web_qr_login" id="web_qr_login" style="display: block; height: 290px;">
+
+        <!--登录-->
+        <div class="web_login" id="web_login">
+
+
+            <div class="login-box">
+
+
+                <div class="login_form">
+                    <!--<form  name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post">-->
+                    <input type="hidden" name="did" value="0"/>
+                    <input type="hidden" name="to" value="log"/>
+                    <div class="uinArea" id="uinArea">
+                        <label class="input-tips" for="loginNo">帐号：</label>
+                        <div class="inputOuter" id="uArea">
+                            <input type="text" id="loginNo" name="loginNo" class="inputstyle"/>
+                            <!--<input type="text" id="username1" name="username1" class="inputstyle"/>-->
+                        </div>
+                    </div>
+                    <div class="pwdArea" id="pwdArea">
+                        <label class="input-tips" for="password">密码：</label>
+                        <div class="inputOuter" id="pArea">
+
+                            <input type="password" id="password" name="password" class="inputstyle"/>
+                        </div>
+                    </div>
+                    <div class="pwdArea" >
+                        <label class="input-tips" for="password">验证码：</label>
+                        <div class="inputOuter" id="authCodeArea">
+                            <input type="text" id="authCode"  class="inputstyle" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"/>
+                            <input type = "button" id="code" onclick="createCode()"/>
+                        </div>
+                    </div>
+                    <div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" onclick="login()" style="width:150px;" class="button_blue"/></div>
+                    <!--</form>-->
+                </div>
+
+            </div>
+
+        </div>
+        <!--登录end-->
+    </div>
+
+</div>
+
+</body></html>

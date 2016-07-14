@@ -1,0 +1,467 @@
+﻿﻿<html>
+    <head>
+
+        <title>Bootstrap 实例</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../assets/js/jquery-1.8.0.min.js"></script>
+        <script src="../assets/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+
+        <script>
+            function mypost() {
+                var operatorName="向宇";
+                var accessToken="i2oasp7jrsgfzuxr";
+                var username=document.getElementById("username").value;
+                var phone=document.getElementById("phone").value;
+
+
+                var userType=null;
+                var userType_obj = document.getElementsByName("userType");
+                for(var i=0; i<userType_obj.length; i ++){
+                    if(userType_obj[i].checked){
+                        userType=userType_obj[i].value;
+                    }
+                }
+
+                var companyGroup=document.getElementById("companyGroup").value;
+                var company=document.getElementById("company").value;
+                var userDescription=document.getElementById("userDescription").value;
+                var managementProvince="";
+                var managementCity="";
+                var managementArea="";
+                var addStationAction="";
+                var deleteStationAction="";
+                var queryStationAction="";
+                var updateStationAction="";
+                var addStaffAction="";
+                var deleteStaffAction="";
+                var queryStaffAction="";
+                var updateStaffAction="";
+                var addKeyAction="";
+                var deleteKeyAction="";
+                var queryKeyAction="";
+                var updateKeyAction="";
+                var doorAuthorization="";
+
+                if(username==null||username=="")
+                {
+                    alert("用户名不能为空！");
+                    $("form").submit(function()
+                    {
+                        return false;
+                    });
+                    return;
+                }
+
+
+                if(phone==null||phone=="")
+                {
+                    alert("电话不能为空！");
+                    $("form").submit(function()
+                    {
+                        return false;
+                    });
+                    return;
+                }
+                    if(userType==null||userType=="")
+                    {
+
+                           alert("用户类型不能为空！");
+                        $("form").submit(function()
+                        {
+                            return false;
+                        });
+                        return;
+
+                    }
+
+                    var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&username="+username+"&phone="+phone+"&userType="+userType;
+
+                qsData=qsData+"&managementProvince="+managementProvince;
+                qsData=qsData+"&managementCity="+managementCity;
+                qsData=qsData+"&managementArea="+managementArea;
+                qsData=qsData+"&addStationAction="+addStationAction;
+                qsData=qsData+"&deleteStationAction="+deleteStationAction;
+                qsData=qsData+"&queryStationAction="+queryStationAction;
+                qsData=qsData+"&updateStationAction="+updateStationAction;
+                qsData=qsData+"&addStaffAction="+addStaffAction;
+                qsData=qsData+"&deleteStaffAction="+deleteStaffAction;
+                qsData=qsData+"&queryStaffAction="+queryStaffAction;
+                qsData=qsData+"&updateStaffAction="+updateStaffAction;
+                qsData=qsData+"&addKeyAction="+addKeyAction;
+                qsData=qsData+"&deleteKeyAction="+deleteKeyAction;
+                qsData=qsData+"&queryKeyAction="+queryKeyAction;
+                qsData=qsData+"&updateKeyAction="+updateKeyAction;
+                qsData=qsData+"&doorAuthorization="+doorAuthorization;
+
+                 console.log(qsData)
+
+                    $.ajax({
+                        async: false,
+                        url: "https://www.smartlock.top/v0/addUser",
+                        type: "POST",
+                        contentType: "application/x-www-form-urlencoded",
+                        data: qsData,
+                        timeout: 8000,
+                        beforeSend: function () {
+
+                        },
+                        success: function (result) {
+
+                            var obj = eval("(" + result + ")");
+                            console.log(result);
+                            if (obj.success != null) {
+
+                                alert("添加成功！");
+                                alert(result);
+                                alert(obj.success.msg);
+
+                                $("#show_response").html('<h1>' + result + '</h1>');
+                        }
+                        else
+                        {
+
+                            alert("添加失败！");
+                            alert(result);
+                            alert(obj.error.msg);
+
+                            $("#show_response").html('<h1>' + result + '</h1>');
+
+                        }
+                            $("form").submit(function()
+                            {
+                                return false;
+                            });
+
+                        },
+                        error: function (result) {
+
+
+                            console.log(result);
+                            alert("无法连接到服务器！");
+
+
+                            var the_content=$("#show_response");
+                            the_content.empty();
+                            the_content.html('<h1>'+不能连接到服务器+'</h1>');
+
+                            $("form").submit(function()
+                            {
+                                return false;
+                            });
+                        }
+                    });
+
+            }
+
+        </script>
+    </head>
+
+    <body>
+         <div class="container">
+                 <div class="lead">
+                    <h1 align="center">增加用户测试</h1>
+                 </div>
+             <form role="form-h" class="form-horizontal" >
+                 <div class="form-group">
+                        <label  class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="username" placeholder="必填">
+                        </div>
+                </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">电话</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="phone" placeholder="必填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">用户类型</label>
+                     <div class="col-sm-7">
+                         <label  class="col-sm-2 control-label"><input  name="userType" type="radio" value="1" />管理员 </label>
+                         <label  class="col-sm-2 control-label"><input  name="userType" type="radio" value="2" />审批员 </label>
+                         <label  class="col-sm-2 control-label"><input  name="userType" type="radio" value="0" />工程师 </label>
+                     </div>
+
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">公司类型</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="companyGroup" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">所属公司</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="company" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">自定义的信息</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="userDescription" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">用户组</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="userGroup" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-7 checkbox">
+                        <label>
+                            <input type="checkbox">请记住我
+                        </label>
+                    </div>
+                 </div>
+
+                 <div class="form-group">
+                     <div class="col-sm-offset-2 col-sm-7">
+                     <button class="btn btn-default" onclick="mypost()">提交</button>
+                     </div>
+                 </div>
+             </form>
+
+             <div id="show_response">
+                 <h1>的说法的萨芬的说法</h1>
+             </div>
+         </div>
+
+    </body>
+﻿<html>
+    <head>
+
+        <title>Bootstrap 实例</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../assets/js/jquery-1.8.0.min.js"></script>
+        <script src="../assets/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+
+        <script>
+            function mypost() {
+                var operatorName="向宇";
+                var accessToken="i2oasp7jrsgfzuxr";
+                var username=document.getElementById("username").value;
+                var phone=document.getElementById("phone").value;
+
+
+                var userType=null;
+                var userType_obj = document.getElementsByName("userType");
+                for(var i=0; i<userType_obj.length; i ++){
+                    if(userType_obj[i].checked){
+                        userType=userType_obj[i].value;
+                    }
+                }
+
+                var companyGroup=document.getElementById("companyGroup").value;
+                var company=document.getElementById("company").value;
+                var userDescription=document.getElementById("userDescription").value;
+                var managementProvince="";
+                var managementCity="";
+                var managementArea="";
+                var addStationAction="";
+                var deleteStationAction="";
+                var queryStationAction="";
+                var updateStationAction="";
+                var addStaffAction="";
+                var deleteStaffAction="";
+                var queryStaffAction="";
+                var updateStaffAction="";
+                var addKeyAction="";
+                var deleteKeyAction="";
+                var queryKeyAction="";
+                var updateKeyAction="";
+                var doorAuthorization="";
+
+                if(username==null||username=="")
+                {
+                    alert("用户名不能为空！");
+                    $("form").submit(function()
+                    {
+                        return false;
+                    });
+                    return;
+                }
+
+
+                if(phone==null||phone=="")
+                {
+                    alert("电话不能为空！");
+                    $("form").submit(function()
+                    {
+                        return false;
+                    });
+                    return;
+                }
+                    if(userType==null||userType=="")
+                    {
+
+                           alert("用户类型不能为空！");
+                        $("form").submit(function()
+                        {
+                            return false;
+                        });
+                        return;
+
+                    }
+
+                    var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&username="+username+"&phone="+phone+"&userType="+userType;
+
+                qsData=qsData+"&managementProvince="+managementProvince;
+                qsData=qsData+"&managementCity="+managementCity;
+                qsData=qsData+"&managementArea="+managementArea;
+                qsData=qsData+"&addStationAction="+addStationAction;
+                qsData=qsData+"&deleteStationAction="+deleteStationAction;
+                qsData=qsData+"&queryStationAction="+queryStationAction;
+                qsData=qsData+"&updateStationAction="+updateStationAction;
+                qsData=qsData+"&addStaffAction="+addStaffAction;
+                qsData=qsData+"&deleteStaffAction="+deleteStaffAction;
+                qsData=qsData+"&queryStaffAction="+queryStaffAction;
+                qsData=qsData+"&updateStaffAction="+updateStaffAction;
+                qsData=qsData+"&addKeyAction="+addKeyAction;
+                qsData=qsData+"&deleteKeyAction="+deleteKeyAction;
+                qsData=qsData+"&queryKeyAction="+queryKeyAction;
+                qsData=qsData+"&updateKeyAction="+updateKeyAction;
+                qsData=qsData+"&doorAuthorization="+doorAuthorization;
+
+                 console.log(qsData)
+
+                    $.ajax({
+                        async: false,
+                        url: "https://www.smartlock.top/v0/addUser",
+                        type: "POST",
+                        contentType: "application/x-www-form-urlencoded",
+                        data: qsData,
+                        timeout: 8000,
+                        beforeSend: function () {
+
+                        },
+                        success: function (result) {
+
+                            var obj = eval("(" + result + ")");
+                            console.log(result);
+                            if (obj.success != null) {
+
+                                alert("添加成功！");
+                                alert(result);
+                                alert(obj.success.msg);
+
+                                $("#show_response").html('<h1>' + result + '</h1>');
+                        }
+                        else
+                        {
+
+                            alert("添加失败！");
+                            alert(result);
+                            alert(obj.error.msg);
+
+                            $("#show_response").html('<h1>' + result + '</h1>');
+
+                        }
+                            $("form").submit(function()
+                            {
+                                return false;
+                            });
+
+                        },
+                        error: function (result) {
+
+
+                            console.log(result);
+                            alert("无法连接到服务器！");
+
+
+                            var the_content=$("#show_response");
+                            the_content.html('<h1>不能连接到服务器</h1>');
+
+
+                            $("form").submit(function()
+                            {
+                                return false;
+                            });
+
+
+                        }
+                    });
+
+                return false;
+            }
+
+        </script>
+    </head>
+
+    <body>
+         <div class="container">
+                 <div class="lead">
+                    <h1 align="center">增加用户测试</h1>
+                 </div>
+             <form role="form-h" class="form-horizontal" >
+                 <div class="form-group">
+                        <label  class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="username" placeholder="必填">
+                        </div>
+                </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">电话</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="phone" placeholder="必填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">用户类型</label>
+                     <div class="col-sm-7">
+                         <label  class="col-sm-2 control-label"><input  name="userType" type="radio" value="1" />管理员 </label>
+                         <label  class="col-sm-2 control-label"><input  name="userType" type="radio" value="2" />审批员 </label>
+                         <label  class="col-sm-2 control-label"><input  name="userType" type="radio" value="0" />工程师 </label>
+                     </div>
+
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">公司类型</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="companyGroup" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">所属公司</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="company" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">自定义的信息</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="userDescription" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label  class="col-sm-2 control-label">用户组</label>
+                     <div class="col-sm-7">
+                         <input type="text" class="form-control" id="userGroup" placeholder="选填">
+                     </div>
+                 </div>
+                 <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-7 checkbox">
+                        <label>
+                            <input type="checkbox">请记住我
+                        </label>
+                    </div>
+                 </div>
+
+                 <div class="form-group">
+                     <div class="col-sm-offset-2 col-sm-7">
+                     <button class="btn btn-default" onclick="mypost()">提交</button>
+                     </div>
+                 </div>
+             </form>
+
+             <div id="show_response">
+                 <h1>的说法的萨芬的说法</h1>
+             </div>
+         </div>
+
+    </body>
+>>>>>>> 143f31a1fe6208ab6586f0fe80d4b39b97af6b5a
+</html>

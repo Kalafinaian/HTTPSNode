@@ -1,0 +1,686 @@
+﻿﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能锁管理平台</title>
+	<!--CSS-->
+	<!-- Reset Stylesheet -->
+	<link rel="stylesheet" href="../assets/css/reset.css" type="text/css" media="screen" />
+	<!-- Main Stylesheet -->
+	<link rel="stylesheet" href="../assets/css/style.css" type="text/css" media="screen" />
+	<!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
+	<link rel="stylesheet" href="../assets/css/invalid.css" type="text/css" media="screen" />
+	<!-- Colour Schemes
+    Default colour scheme is green. Uncomment prefered stylesheet to use it.
+    <link rel="stylesheet" href="../assets/css/blue.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../assets/css/red.css" type="text/css" media="screen" />
+     -->
+	<!-- Internet Explorer Fixes Stylesheet -->
+	<!--[if lte IE 7]>
+	<link rel="stylesheet" href="../assets/css/ie.css" type="text/css" media="screen" />
+	<![endif]-->
+	<!--Javascripts-->
+	<!-- jQuery -->
+	<script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
+	<!-- jQuery Configuration -->
+	<script type="text/javascript" src="../assets/js/simpla.jquery.configuration.js"></script>
+	<!-- Facebox jQuery Plugin -->
+	<script type="text/javascript" src="../assets/js/facebox.js"></script>
+	<!-- jQuery WYSIWYG Plugin -->
+	<script type="text/javascript" src="../assets/js/jquery.wysiwyg.js"></script>
+	<!-- jQuery Datepicker Plugin -->
+	<script type="text/javascript" src="../assets/js/jquery.datePicker.js"></script>
+	<script type="text/javascript" src="../assets/js/jquery.date.js"></script>
+	<!--[if IE]><script type="text/javascript" src="../assets/js/jquery.bgiframe.js"></script><![endif]-->
+	<!-- Internet Explorer .png-fix -->
+	<!--[if IE 6]>
+	<script type="text/javascript" src="../assets/js/DD_belatedPNG_0.0.7a.js"></script>
+	<script type="text/javascript">
+		DD_belatedPNG.fix('.png_bg, img, li');
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<![endif]-->
+	<script type="text/javascript">
+
+		var userInfo=JSON.parse(localStorage.getItem("userInfo"));  //从localStorage提取用户信息
+		var regionInfo=JSON.parse(localStorage.getItem("regionInfo")); //从localStorage提取用户的地域信息
+		var permissions=JSON.parse(localStorage.getItem("permissions")); //从localStorage提取用户权限信息
+		var accessToken=localStorage.getItem("accessToken"); //从localStorage提取accessToken
+		var tokenEndTime=localStorage.getItem("tokenEndTime"); //从localStorage提取token结束时间
+		//检查是否有登录状态
+		function  checkUserValidity() //检查用户登录状态是否合法
+		{
+			if(userInfo==null||accessToken==null) //访问的信息不存在，则返回空
+			{
+				alert("你还没有登录!");
+				window.location.href = "login.html";
+			}
+			else {
+
+				if (new Date().getTime()> tokenEndTime * 1000 ) //token过期，则返回登录页面
+				{
+					alert("登录授权时间超出!");
+					window.location.href = "login.html";
+
+				}
+				else
+				{
+
+
+//					alert(tokenEndTime * 1000+" "+new Date().getTime()+"已经登录成功了！"+userInfo);
+
+
+					var userType=userInfo.userType;
+					switch(userType[2])
+					{
+						case "3": //用户为工程师，用户不能登录前端页面
+							alert("工程师不能登录前端!");
+							window.location.href = "login.html";
+							break;
+
+						case "2": //审批员只显示作业管理
+							$("#jizhanguanli").css('display','none');
+							$("#dianziyaoshiguanli").css('display','none');
+							$("#yuangongguanli").css('display','none');
+							break;
+
+						case "1": //管理员分五种情况
+							switch(userType[0])
+							{
+								case "1": //铁塔公司的管理员可以管理所有公司的员工
+
+									break;
+								case "2": //运营商管理员可以管理除了铁塔公司外的所有员工
+									$("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
+									break;
+								case "3": //施工公司管理员只能管理自己属于的施工公司
+									$("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
+									$("#yysyg").css('display','none'); //隐藏运营商公司员工管理界面
+									$("#dwgsyg").css('display','none'); //隐藏代维公司员工管理界面
+									$("#csyg").css('display','none'); //隐藏厂商公司员工管理界面
+									break;
+								case "4": //代维公司管理员只能管理自己属于的代维公司
+									$("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
+									$("#yysyg").css('display','none'); //隐藏运营商公司员工管理界面
+									$("#sggsyg").css('display','none'); //隐藏施工公司员工管理界面
+									$("#csyg").css('display','none'); //隐藏厂商公司员工管理界面
+									break;
+								case "5": //厂商公司管理员只能管理自己属于的厂商公司
+									$("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
+									$("#yysyg").css('display','none'); //隐藏运营商公司员工管理界面
+									$("#sggsyg").css('display','none'); //隐藏施工公司员工管理界面
+									$("#dwgsyg").css('display','none'); //隐藏代维公司员工管理界面
+									break;
+							}
+
+							switch(userType[1])
+							{
+								case "1":
+									$("#userType202").css('display','none');
+									$("#userType203").css('display','none');
+									$("#userType211").css('display','none');
+									break;
+								case "2":
+									$("#userType202").css('display','none');
+									$("#userType203").css('display','none');
+
+									$("#userType211").css('display','none');
+									$("#userType212").css('display','none');
+									$("#userType213").css('display','none');
+
+									$("#userType221").css('display','none');
+									break;
+							}
+
+							break;
+
+					}
+
+					showUserInformation(); //侧边栏显示当前用户公司 管理区域 职位 用户名
+
+				}
+
+
+			}
+		}
+
+		function showUserInformation() //侧边栏显示当前用户公司 管理区域 职位 用户名
+		{
+			var userType=userInfo.userType;
+
+			switch(userType)
+			{
+				case "101":
+					document.getElementById("loginuser").innerHTML="<br>铁塔公司省级管理员<br>"+userInfo.username;
+					break;
+				case "111":
+					document.getElementById("loginuser").innerHTML="<br>铁塔公司市级管理员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
+					break;
+				case "121":
+					document.getElementById("loginuser").innerHTML="<br>铁塔公司区县管理员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
+					break;
+				case "201":
+					document.getElementById("loginuser").innerHTML="<br>运营商省级管理员<br>"+userInfo.username;
+					break;
+				case "211":
+					document.getElementById("loginuser").innerHTML="<br>运营商市级管理员<br>"+regionInfo.managementCity+" <br>"+userInfo.username;
+					break;
+				case "221":
+					document.getElementById("loginuser").innerHTML="<br>运营商区县管理员<br>"+regionInfo.managementCity+" "+regionInfo.managementArea+" <br>"+userInfo.username;
+					break;
+				case "301":
+					document.getElementById("loginuser").innerHTML="<br>施工公司管理员<br>"+userInfo.username;
+					break;
+				case "401":
+					document.getElementById("loginuser").innerHTML="<br>代维公司管理员<br>"+userInfo.username;
+					break;
+				case "501":
+					document.getElementById("loginuser").innerHTML="<br>厂商管理员<br>"+userInfo.username;
+					break;
+
+			}
+
+		}
+
+		function otherfun()
+		{
+			//动态的显示登录人员名字
+			document.getElementById("username").innerHTML=userInfo.username;
+			document.getElementById("username1").innerHTML="欢迎回来"+" "+userInfo.username;
+
+		}
+		//退出登录状态
+		function  logout(){
+			window.confirm("确定要退出登录状态？")
+			localStorage.clear();//清理登陆状态信息
+			window.location.href="login.html";
+		}
+
+
+
+		setInterval("myInterval()",10000);//1000为1秒钟，定时检查目前的token是否合法
+		function myInterval()
+		{
+			query="operatorName="+userInfo.username+"&accessToken="+accessToken+"&username="+userInfo.username;
+
+			$.ajax({
+				async: false,
+				url: "https://www.smartlock.top/v0/queryUser",
+				type: "POST",
+				contentType: "application/x-www-form-urlencoded",
+				data: query,
+				timeout: 8000,
+				beforeSend: function ()
+				{
+
+				},
+				success: function (result) {
+
+					//将返回数据转化为json格式数据
+					var infoJson =JSON.parse(result);
+
+					//判断查询是否成功
+					if (infoJson.error){ //当前用户不存在或者当前用户token过期
+						var errInfo = infoJson.error;
+						alert(errInfo.msg);
+						window.location.href="login.html";
+
+						return;
+					}else if (infoJson.success)
+					{
+//
+						console.log(accessToken)
+
+					}else
+					{
+						alert("未知错误，请联系管理员！")
+					}
+
+				},
+				error: function (result) {
+					console.log(result);
+					alert("无法连接到服务器！");
+
+				}
+			});
+		}
+
+	</script>
+</head>
+
+<body onload=checkUserValidity() ><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+
+	<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+
+		<h1 id="sidebar-title"><a href="#">SimpleAdmin</a></h1>
+
+		<!-- Logo (221px wide) -->
+		<a href="#"><img id="logo" src="../assets/images/logo.png" alt="Simpla Admin logo" /></a>
+
+		<!-- Sidebar Profile links -->
+		<div id="profile-links">
+			你好 <a href="#" title="Edit your profile" id="loginuser" class="username" > </a><br />
+			<br />
+			<a href="#" title="View the Site">修改资料</a> | <a href="#" title="Sign Out" onclick="logout()">退出</a>
+		</div>
+
+		<ul id="main-nav">  <!-- Accordion Menu -->
+
+			<li>
+				<a href="#" class="nav-top-item no-submenu"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
+					首页
+				</a>
+			</li>
+
+			<div id="jizhanguanli">
+			<li>
+				<a href="#" class="nav-top-item current"> <!-- Add the class "current" to current menu item -->
+					基站管理
+				</a>
+				<ul>
+					<li><a href="#">列表</a></li>
+					<li><a class="current" href="#">管理文章</a></li> <!-- Add class "current" to sub menu items also -->
+					<li><a href="#">新增基站</a></li>
+					<li><a href="#">基站日志管理</a></li>
+				</ul>
+			</li>
+			</div>
+
+
+			<li>
+				<a href="#" class="nav-top-item">
+					作业管理
+				</a>
+				<ul>
+					<li><a href="#">工单列表</a></li>
+					<li><a href="#">异常工单</a></li>
+				</ul>
+			</li>
+
+
+
+			<div id="dianziyaoshiguanli">
+			<li>
+				<a href="#" class="nav-top-item">
+					电子钥匙管理
+				</a>
+				<ul>
+					<li><a href="#">钥匙列表</a></li>
+					<li><a href="#">电子钥匙录入</a></li>
+					<li><a href="#">钥匙日志</a></li>
+				</ul>
+			</li>
+			</div>
+
+			<div id="yuangongguanli">
+			<li>
+				<a href="#" class="nav-top-item">
+					员工管理
+				</a>
+				<ul>
+					<div id="ttyg"> <li><a href="tower_manager_main.html">铁塔公司员工管理</a></li> </div>
+					<div id="yysyg"> <li><a href="service_manager_main.html">运营商员工管理</a></li> </div>
+					<div id="sggsyg"> <li><a href="construction_manager_main.html">施工公司员工管理</a></li> </div>
+					<div id="dwgsyg"> <li><a href="agent_manager_main.html">代维公司员工管理</a></li> </div>
+					<div id="csyg"> <li><a href="manufacturer_manager_main.html">厂商商员工管理</a></li> </div>
+				</ul>
+			</li>
+			</div>
+
+			<!--<li>-->
+			<!--<a href="#" class="nav-top-item">-->
+			<!--设置-->
+			<!--</a>-->
+			<!--<ul>-->
+			<!--<li><a href="#">角色添加</a></li>-->
+			<!--<li><a href="#">用户管理</a></li>-->
+			<!--<li><a href="#">个人资料</a></li>-->
+			<!--<li><a href="#">用户权限</a></li>-->
+			<!--</ul>-->
+			<!--</li>      -->
+
+		</ul> <!-- End #main-nav -->
+
+
+
+	</div></div> <!-- End #sidebar -->
+
+	<div id="main-content"> <!-- Main Content Section with everything -->
+
+
+
+		<!-- Page Head -->
+		<h2 id="username1"> </h2>
+		<p id="page-intro">What would you like to do?</p>
+
+
+		<div class="clear"></div> <!-- End .clear -->
+
+		<div class="content-box"><!-- Start Content Box -->
+
+			<div class="content-box-header">
+
+				<h3>内容模块</h3>
+
+				<ul class="content-box-tabs">
+					<li><a href="#tab1" class="default-tab">表格</a></li> <!-- href must be unique and match the id of target div -->
+					<li><a href="#tab2">表单</a></li>
+				</ul>
+
+				<div class="clear"></div>
+
+			</div> <!-- End .content-box-header -->
+
+			<div class="content-box-content">
+
+				<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->
+
+
+
+					<table>
+
+						<thead>
+						<tr>
+							<th><input class="check-all" type="checkbox" /></th>
+							<th>Column 1</th>
+							<th>Column 2</th>
+							<th>Column 3</th>
+							<th>Column 4</th>
+							<th>Column 5</th>
+						</tr>
+
+						</thead>
+
+						<tfoot>
+						<tr>
+							<td colspan="6">
+								<div class="bulk-actions align-left">
+									<select name="dropdown">
+										<option value="option1">Choose an action...</option>
+										<option value="option2">Edit</option>
+										<option value="option3">Delete</option>
+									</select>
+									<a class="button" href="#">Apply to selected</a>
+								</div>
+
+								<div class="pagination">
+									<a href="#" title="First Page">第一页</a><a href="#" title="Previous Page">上一页</a>
+									<a href="#" class="number" title="1">1</a>
+									<a href="#" class="number" title="2">2</a>
+									<a href="#" class="number current" title="3">3</a>
+									<a href="#" class="number" title="4">4</a>
+									<a href="#" title="Next Page">下一页</a><a href="#" title="Last Page">最后一页</a>
+								</div> <!-- End .pagination -->
+								<div class="clear"></div>
+							</td>
+						</tr>
+						</tfoot>
+
+						<tbody>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Lorem ipsum dolor</td>
+							<td><a href="#" title="title">Sit amet</a></td>
+							<td>Consectetur adipiscing</td>
+							<td>Donec tortor diam</td>
+							<td>
+								<!-- Icons -->
+								<a href="#" title="Edit"><img src="../assets/images/icons/pencil.png" alt="Edit" /></a>
+								<a href="#" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>
+								<a href="#" title="Edit Meta"><img src="../assets/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+							</td>
+						</tr>
+						</tbody>
+
+					</table>
+
+				</div> <!-- End #tab1 -->
+
+				<div class="tab-content" id="tab2">
+
+					<form action="" method="post">
+
+						<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+
+							<p>
+								<label>Small form input</label>
+								<input class="text-input small-input" type="text" id="small-input" name="small-input" /> <span class="input-notification success png_bg">Successful message</span> <!-- Classes for input-notification: success, error, information, attention -->
+								<br /><small>A small description of the field</small>
+							</p>
+
+							<p>
+								<label>Medium form input</label>
+								<input class="text-input medium-input datepicker" type="text" id="medium-input" name="medium-input" /> <span class="input-notification error png_bg">Error message</span>
+							</p>
+
+							<p>
+								<label>Large form input</label>
+								<input class="text-input large-input" type="text" id="large-input" name="large-input" />
+							</p>
+
+							<p>
+								<label>Checkboxes</label>
+								<input type="checkbox" name="checkbox1" /> This is a checkbox <input type="checkbox" name="checkbox2" /> And this is another checkbox
+							</p>
+
+							<p>
+								<label>Radio buttons</label>
+								<input type="radio" name="radio1" /> This is a radio button<br />
+								<input type="radio" name="radio2" /> This is another radio button
+							</p>
+
+							<p>
+								<label>This is a drop down list</label>
+								<select name="dropdown" class="small-input">
+									<option value="option1">Option 1</option>
+									<option value="option2">Option 2</option>
+									<option value="option3">Option 3</option>
+									<option value="option4">Option 4</option>
+								</select>
+							</p>
+
+							<p>
+								<label>Textarea with WYSIWYG</label>
+								<textarea class="text-input textarea wysiwyg" id="textarea" name="textfield" cols="79" rows="15"></textarea>
+							</p>
+
+							<p>
+								<input class="button" type="submit" value="Submit" />
+							</p>
+
+						</fieldset>
+
+						<div class="clear"></div><!-- End .clear -->
+
+					</form>
+
+				</div> <!-- End #tab2 -->
+
+			</div> <!-- End .content-box-content -->
+
+		</div> <!-- End .content-box -->
+
+		<div class="content-box column-left">
+
+			<div class="content-box-header">
+
+				<h3>左边框</h3>
+
+			</div> <!-- End .content-box-header -->
+
+			<div class="content-box-content">
+
+				<div class="tab-content default-tab">
+
+					<h4>Maecenas dignissim</h4>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in porta lectus. Maecenas dignissim enim quis ipsum mattis aliquet. Maecenas id velit et elit gravida bibendum. Duis nec rutrum lorem. Donec egestas metus a risus euismod ultricies. Maecenas lacinia orci at neque commodo commodo.
+					</p>
+
+				</div> <!-- End #tab3 -->
+
+			</div> <!-- End .content-box-content -->
+
+		</div> <!-- End .content-box -->
+
+		<div class="content-box column-right closed-box">
+
+			<div class="content-box-header"> <!-- Add the class "closed" to the Content box header to have it closed by default -->
+
+				<h3>右边框</h3>
+
+			</div> <!-- End .content-box-header -->
+
+			<div class="content-box-content">
+
+				<div class="tab-content default-tab">
+
+					<h4>This box is closed by default</h4>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in porta lectus. Maecenas dignissim enim quis ipsum mattis aliquet. Maecenas id velit et elit gravida bibendum. Duis nec rutrum lorem. Donec egestas metus a risus euismod ultricies. Maecenas lacinia orci at neque commodo commodo.
+					</p>
+
+				</div> <!-- End #tab3 -->
+
+			</div> <!-- End .content-box-content -->
+
+		</div> <!-- End .content-box -->
+		<div class="clear"></div>
+
+
+		<!-- Start Notifications -->
+
+
+		<!-- End Notifications -->
+
+		<div id="footer">
+			<small> <!-- Remove this notice or replace it with whatever you want -->
+				<font color="#67a81a">&#169; Copyright 2016 四川九鼎科技有限公司 | Powered by  UESTC CSIS</font> | <a href="#">Top</a>
+			</small>
+		</div><!-- End #footer -->
+
+	</div> <!-- End #main-content -->
+
+</div></body>
+
+</html>
+
