@@ -1,4 +1,5 @@
 ###项目结构说明
+     API文档请查看APISheet.md和BasicDesign.md文件
 ####1. 配置文件
      router.js  路由配置文件
      server.js  HTTPS服务配置文件
@@ -13,6 +14,8 @@
      stationInfoHandlers.js  基站管理模块
      taskInfoHandlers.js  任务管理模块
      userInfoHandlers.js  用户管理模块
+     lockInfoHandlers.js  锁具管理模块
+     companyInfoHandlers.js  公司管理模块
      
 ####4. 后台调试脚本     
      mongod.start  mongod后台启动脚本
