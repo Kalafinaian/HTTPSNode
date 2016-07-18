@@ -1059,9 +1059,10 @@ function appTaskRecord(response, postData)
 						if(postJSON.operationResult ==  "修改密码成功" )
 						{
 							updateStr = {$set:{approveCode:postJSON.approveCode}};
+							dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);
 						}
 
-						dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);	
+							
 
 					}catch(e)
 					{

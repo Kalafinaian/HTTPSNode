@@ -341,7 +341,7 @@ function updateLock(response, postData)
 				// 	return;					
 				// }
 				try{
-					var mmUpdateStr = {approveCode:postJSON.approveCode};
+					var mmUpdateStr = {$set:{approveCode:postJSON.approveCode}};
 					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"taskInfo",whereStr,mmUpdateStr);
 					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"stationInfo",whereStr,mmUpdateStr);
 				}catch(e)
