@@ -336,6 +336,14 @@ function updateLock(response, postData)
 				// 	response.end();
 				// 	return;					
 				// }
+				try{
+					var mmUpdateStr = {approveCode:postJSON.approveCode};
+					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,collectionName, whereStr ,mmUpdateStr);	
+				}catch(e)
+				{
+					console.log("更新锁信息失败");
+				}
+
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					if( result.hasOwnProperty("errmsg") )
 					{
