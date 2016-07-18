@@ -137,6 +137,7 @@ function taskRequest(response, postData)
 								postJSON.approvalPhone = result[0].approvalPhone;
 								postJSON.stationID = result[0].stationID;
 								postJSON.lockID = result[0].lockID;
+								postJSON.approveCode = result[0].approveCode;
 								postJSON.stationAddress = result[0].address;
 								postJSON.stationManagementProvince = result[0].managementProvince;
 								postJSON.stationManagementCity = result[0].managementCity;
