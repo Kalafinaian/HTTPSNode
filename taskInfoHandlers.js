@@ -144,10 +144,9 @@ function taskRequest(response, postData)
 
 								postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 								postJSON.applicationStatus = "pending";
-								postJSON.approveCode = "4201736374740106";
+								//postJSON.approveCode = "4201736374740106";
 								postJSON.errOfWorkResultFlag = "未处理";
 								postJSON.errOfPendingOrderFlag = "未处理";
-
 
 								//将时间类型转换为整型
 								re = /^1\d{9}$/;
