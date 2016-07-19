@@ -95,6 +95,18 @@ function onRequest(request,response)
 
 			});
 		}
+	}catch(e)
+	{
+			response.write('<html>');
+			response.write('<head>');
+			response.write(
+			'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/'
+			+pathname
+			+'.html?result=failure\">');
+			response.write('</head>');
+			response.write('</html>');
+			response.end();
+			return;		
 	}
 }
 

@@ -1,0 +1,3 @@
+nohup node /usr/share/NodeJS/Node.js/uploadFileForAll.js &
+
+ps -u root | grep node
