@@ -600,6 +600,10 @@ function selectStation(response, postData)
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
 		
 		console.log(postJSON);
+		if(postJSON.hasOwnProperty("stationID"))
+		{
+			postJSON.stationID = parseInt(postJSON.stationID);
+		}
 		//验证用户名和动态令牌
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 

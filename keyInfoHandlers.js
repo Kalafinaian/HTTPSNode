@@ -1057,9 +1057,16 @@ function addAll(response, postData)
 		}else{
 			collectionName = postJSON.collectionName;
 		}
+
+		//一些数据类型必须统一起来，尤其是整型
+		if(postJSON.hasOwnProperty("stationID"))
+		{
+			postJSON.stationID = parseInt(postJSON.stationID);
+		}
+
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
-	    if( judgeKeyID(postJSON,response)==false ){  return;  };
+
 		console.log(postJSON);
 		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
 
@@ -1131,7 +1138,7 @@ function deleteAll(response, postData)
 {
 	try
 	{
-		console.log( "Request handler 'deleteKey' was called." );
+		console.log( "Request handler 'deleteAll' was called." );
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
@@ -1146,7 +1153,7 @@ function deleteAll(response, postData)
 
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
-	    if( !postJSON.hasOwnProperty("deleteList") )
+	    if( !postJSON.hasOwnProperty("delIdList") )
 	    {
 			var info = 	{ "error":  
 			{  
