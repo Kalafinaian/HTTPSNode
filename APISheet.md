@@ -2701,10 +2701,10 @@ URL：https://www.smartlock.top/v0/queryAreaInfo
 | :------:    		| :----:  | :--: | :----------------------------------------: 	| 
 |operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-|areaID		  		| String  |	Yes  | 地区ID                               					|
-|areaName   	  	| String  |	Yes	 | 地区名字                                     			| 
-|areaLevel  		| String  |	No	 | 地区级别                             					| 
-|areaParentID		| String  |	Yes	 | 地区的上一级地区                                   		|
+|collectionName		| String  |	Yes  | 数据表名称                               	|
+
+
+具体查询条件参考数据库表单设计查询，本查询限制记录100条   
 
 
 服务器返回参数：
@@ -2714,13 +2714,13 @@ URL：https://www.smartlock.top/v0/queryAreaInfo
 		{
 			[
 				{
-					地理信息
+					信息
 				｝,
 
 
 				...
 				{
-					地理信息
+					信息
 				｝				
 			]
 		}
@@ -2732,7 +2732,7 @@ Or
 		"error":
 		{
 			"msg": "没有查询记录!",  
-			"code":"42001"  
+			"code":"44001"  
 		}
 	}
 
