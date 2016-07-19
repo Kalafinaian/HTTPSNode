@@ -951,8 +951,94 @@ function downloadKeyLog(response, postData)
 //---------------------结束--电子钥匙日志Excel表格下载接口--结束--------------------//
 
 
+//---------------------开始--查询所有数据表函数--开始--------------------//
+function selectAll(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'selectAll' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';
+		var collectionName;	
+		//指定数据表的名称
+		if(!collectionName.hasOwnProperty())
+		{
+			collectionName = "userInfo";
+		}else{
+			collectionName = postJSON.collectionName;
+		}
+
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+		
+		console.log(postJSON);
+		//验证电子钥匙名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			//console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+				console.log(postJSON);
+				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+					function(result){
+					if( result.length>0 )
+					{
+						if(result.length>100)
+						{
+							result = result.slice(0,100);
+						}
+						var json = {success:result};
+						response.write( JSON.stringify(json) );
+						response.end();
+					}else{
+						var info = 	{ "error":  
+						{  
+							"msg": "没有查询记录!",  
+							"code":"15001"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}
+				
+				});	
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"00000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--查询所有数据表函数--结束--------------------//
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.addKey = addKey;
+exports.selectAll = selectAll;
 exports.updateKey = updateKey;
 exports.deleteKey = deleteKey;
 exports.selectKey = selectKey;

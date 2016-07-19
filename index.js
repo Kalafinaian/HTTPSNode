@@ -53,6 +53,8 @@ handle["/v0/queryKeyLog"] = keyInfoHandlers.queryKeyLog;
 handle["/v0/downloadKeyLog"] = keyInfoHandlers.downloadKeyLog;
 
 
+//查询所有数据表的接口，通过指定数据表单实现
+handle["/v0/queryAll"] = keyInfoHandlers.selectAll;
 
 
 handle["/v0/addLock"] = lockInfoHandlers.addLock;

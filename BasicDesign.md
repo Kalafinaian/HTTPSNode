@@ -71,7 +71,11 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
     41、查询公司   https://www.smartlock.top/v0/queryCompany	
     42、下载公司信息Excel表格   https://www.smartlock.top/v0/downloadCompany	
 
+###9、地理信息
+    43、分级查询地理信息  https://www.smartlock.top/v0/queryAreaInfo	
 
+###10、一般查询接口
+    43、查询所有数据  https://www.smartlock.top/v0/queryAll
 
 		
 总体任务：前期实现基本API，后期实现数据库备份，操作日志记录，大量数据压力测试等工作			
