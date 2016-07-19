@@ -276,7 +276,7 @@ function importDataFromCSV( importFileName, importCollectionName , response )
 		{
 
 			var exec = require('child_process').exec; 
-			var cmdStr = 'mongoimport -d csis -c " + importCollectionName + " --headerline --type csv  --file ';
+			var cmdStr = 'mongoimport -d csis -c ' + importCollectionName + ' --headerline --type csv  --file ';
 			var fileName = "/usr/share/NodeJS/Node.js/upload/"+importFileName;
 			cmdStr = cmdStr + fileName;
 			exec(cmdStr, function callback(error, stdout, stderr) {
