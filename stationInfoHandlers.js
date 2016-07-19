@@ -1400,8 +1400,67 @@ function downloadStationLog(response, postData)
 //---------------------结束--基站日志Excel表格下载接口--结束--------------------//
 
 
+
+//---------------------开始--从csv表格导入数据接口--开始--------------------//
+function importFromCSVForAll(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'importFromCSVForAll' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "userInfo";
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+		console.log(postJSON);
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			//console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+
+				var excelImport = require('./node-excel.js');
+			    excelImport.importDataFromCSV(postJSON.filename,postJSON.collectionName,response);
+
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"48000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--从csv表格导入数据接口--结束--------------------//
+
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.addStation = addStation;
+exports.importFromCSVForAll = importFromCSVForAll;
 exports.updateStation = updateStation;
 exports.deleteStation = deleteStation;
 exports.selectStation = selectStation;

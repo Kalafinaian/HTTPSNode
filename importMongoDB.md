@@ -168,8 +168,15 @@ options:
  	iconv -f gbk -t UTF-8 基站数据2013自定义.csv > 基站数据2013自定义-utf8.csv
  	iconv -f gbk -t UTF-8 基站数据2014自定义.csv > 基站数据2014自定义-utf8.csv
 
+ 	iconv -f gbk -t UTF-8 锁具数据批量导入模版.csv > 锁具数据批量导入模版-utf8.csv
+
+	mongoimport -d csis -c lockInfo --headerline --type csv  --file 锁具数据批量导入模版-utf8.csv 
     mongoimport -d csis -c stationInfo --headerline --type csv  --file 基站数据2013自定义-utf8.csv 
     mongoimport -d csis -c stationInfo --headerline --type csv  --file 基站数据2014自定义-utf8.csv  
+
+
+    iconv -f gbk -t UTF-8 锁具数据批量导入模版.csv > 锁具数据批量导入模版-utf8.csv
+	mongoimport -d csis -c lockInfo --headerline --type csv  --file 锁具数据批量导入模版-utf8.csv 
 
 > db.students.remove()        
 > db.students.find()        

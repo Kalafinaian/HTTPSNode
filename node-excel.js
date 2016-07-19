@@ -242,8 +242,78 @@ function importKeyFromExcel( importFileName, response )
 
 
 
+function importDataFromCSV( importFileName, importCollectionName , response )
+{
+	if( importFileName.indexOf(".csv") < 0 /*!= (importFileName.length-4)*/ )
+	{
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,文件类型错误",  
+					"code":"48007"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
+				return;	    
+	}
+
+	// 判断文件是否存在
+	fs.exists( "/usr/share/NodeJS/Node.js/upload/"+importFileName , function( exists ){
+	    if(exists == false )
+	    {
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,指定文件不存在",  
+					"code":"48006"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
+				return;	    	
+	    }
+
+		try 
+		{
+
+			var exec = require('child_process').exec; 
+			var cmdStr = 'mongoimport -d csis -c " + importCollectionName + " --headerline --type csv  --file ';
+			var fileName = "/usr/share/NodeJS/Node.js/upload/"+importFileName;
+			cmdStr = cmdStr + fileName;
+			exec(cmdStr, function callback(error, stdout, stderr) {
+				console.log(stdout);
+				var Info = 	{ "success":  
+				{  
+					"msg": "数据已经导入，请查看导入结果", 
+					"description":error+stdout+stderr, 
+					"code":"48007"  
+				}  };
+				response.write( JSON.stringify(Info) );
+				response.end();
+			});
+
+
+		} catch(e)
+		{ 
+				var failedInfo = 	{ "error":  
+				{  
+					"msg": "数据导入失败,文件内部错误",  
+					"code":"48008"  
+				}  };
+				
+				response.write( JSON.stringify(failedInfo) );
+				response.end();
+		}
+
+	});
+
+
+
+	
+}
+
 
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.importStationFromExcel = importStationFromExcel;
 exports.importKeyFromExcel = importKeyFromExcel;
+exports.importDataFromCSV = importDataFromCSV;
 //---------------------结束--模块导出接口声明--结束--------------------//
