@@ -12,6 +12,20 @@ function onRequest(request,response)
 	var pathname = url.parse(request.url).pathname;
 	console.log("Request for " + pathname + " started.");
 
+	if( pathname.indexOf('/v1') < 0 )
+	{
+		var info = 	{ "error":  
+		{  
+			"msg": "请输入/v1/+当前html名字，作为上传POST路径!",  
+			"code":"00003"  
+		}  };
+		response.write( JSON.stringify(info) );
+		response.end();
+		return;
+	}
+
+	pathname = pathname.replace("/v1/","");
+	
     try
     {
 		if( request.method.toLowerCase() == 'post' )
