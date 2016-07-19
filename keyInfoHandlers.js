@@ -1037,6 +1037,280 @@ function selectAll(response, postData)
 }
 //---------------------结束--查询所有数据表函数--结束--------------------//
 
+
+
+
+//---------------------开始--添加所有数据的函数--开始--------------------//
+function addAll(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'addAll' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		//指定数据表的名称
+		if(!postJSON.hasOwnProperty("collectionName"))
+		{
+			collectionName = "userInfo";
+		}else{
+			collectionName = postJSON.collectionName;
+		}
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+	    if( judgeKeyID(postJSON,response)==false ){  return;  };
+		console.log(postJSON);
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+
+		console.log(whereStr);
+		//验证用户名和动态令牌
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+				//console.log(result);
+				if(result.length>0)
+				{
+					//动态令牌有效性判断
+					if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+	
+								
+					delete postJSON.accessToken;
+					delete postJSON.operatorName;
+					delete postJSON.collectionName;
+					//插入请求数据
+					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+							if( result.hasOwnProperty("errmsg") )
+							{
+								var info = 	{ "error":  
+									{  
+										"msg": "信息已存在!",  
+										"code":"44001"  
+									}  };
+								response.write( JSON.stringify(info) );
+								response.end();
+							}else{
+								var info = 	{ "success":  
+								{  
+									"msg": "信息添加成功!",  
+									"code":"44000"  
+								}  };
+								response.write( JSON.stringify(info) );
+								response.end();
+							}
+					
+					});	
+				}else{
+					var info = 	{ "error":  
+						{  
+							"msg": "用户名不存在或动态令牌已过期",  
+							"code":"00000"  
+						}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}	
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+	}
+
+}
+//---------------------结束--添加所有数据的函数--结束--------------------//
+
+
+
+
+//---------------------开始--删除所有数据的函数--开始--------------------//
+function deleteAll(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'deleteKey' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		//指定数据表的名称
+		if(!postJSON.hasOwnProperty("collectionName"))
+		{
+			collectionName = "userInfo";
+		}else{
+			collectionName = postJSON.collectionName;
+		}
+
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+	    if( !postJSON.hasOwnProperty("deleteList") )
+	    {
+			var info = 	{ "error":  
+			{  
+				"msg": "请输入要删除的ID数组数据!",  
+				"code":"45001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();
+			return;
+	    }
+
+		//验证电子钥匙名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			//console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				var keyStr = postJSON.delIdList.toString();
+				keyStr = keyStr.replace("[","");
+				keyStr = keyStr.replace("]","");
+				console.log(keyStr);
+
+				var keyList = keyStr.split(",");
+
+				for(var i=0;i<keyList.length;i++)
+				{
+					console.log(keyList[i]);
+					console.log("删除的id： "+keyList[i]);
+					var whereStr = {_id:keyList[i].toString()};
+					dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+						console.log("删除信息"+result);
+					});	
+				}
+				var info = 	{ "success":  
+				{  
+					"msg": "信息删除成功!",  
+					"code":"45000"  
+				}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+			}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期!",  
+						"code":"00000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();	
+			}
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--删除所有数据的函数--结束--------------------//
+
+
+
+//---------------------开始--修改所有数据的函数--开始--------------------//
+function updateAll(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'updateAll' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		//指定数据表的名称
+		if(!postJSON.hasOwnProperty("collectionName"))
+		{
+			collectionName = "userInfo";
+		}else{
+			collectionName = postJSON.collectionName;
+		}
+
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+	    //if( judgeKeyID(postJSON,response)==false ){  return;  };
+		//验证电子钥匙名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
+			//console.log(result);
+
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				//originalName
+				var whereStr = {_id:postJSON.originalID};
+				delete postJSON.accessToken;
+				delete postJSON.operatorName;
+				delete postJSON.originalID;
+				delete postJSON.collectionName;
+
+				// isOwnEmpty(postJSON)
+				// {
+				// 	var info = 	{ "error":  
+				// 		{  
+				// 			"msg": "你没有指定修改任何属性!",  
+				// 			"code":"00014"  
+				// 		}  };
+				// 	response.write( JSON.stringify(info) );
+				// 	response.end();
+				// 	return;					
+				// }
+				var updateStr = {$set: postJSON };
+				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+					if( result.hasOwnProperty("errmsg") )
+					{
+						var info = 	{ "error":  
+							{  
+								"msg": "信息重复!",  
+								"code":"46001"  
+							}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}else{
+						var info = 	{ "success":  
+						{  
+							"msg": "信息编辑成功!",  
+							"code":"46000"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();
+					}
+				});	
+			}else{
+					var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期!",  
+						"code":"00000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();	
+			}
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--修改所有数据的函数--结束--------------------//
+
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.addKey = addKey;
 exports.selectAll = selectAll;
@@ -1046,4 +1320,7 @@ exports.selectKey = selectKey;
 exports.downloadKey = downloadKey;
 exports.queryKeyLog = queryKeyLog;
 exports.downloadKeyLog = downloadKeyLog;
+exports.updateAll = updateAll;
+exports.addAll = addAll;
+exports.deleteAll = deleteAll;
 //---------------------结束--模块导出接口声明--结束--------------------//

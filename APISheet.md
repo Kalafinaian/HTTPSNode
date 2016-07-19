@@ -2683,9 +2683,9 @@ Or
 
 
 
-##八、一般查询接口
+##八、统一增删查改接口（只能按条件删除，不能批量删除）
 
-###44、非常规，以一般格式返回所有数据
+###44、统一查询接口
 功能说明：查询指定表单的的数据信息，默认返回当前用户信息
 
 
@@ -2750,6 +2750,204 @@ Or
 		}
 	}
 
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+###45、统一增加接口
+功能说明：查询指定表单的的数据信息，默认返回当前用户信息
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/addAll
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名    		|   类型  | 必须 | 说明        								    |  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|collectionName		| String  |	Yes  | 数据表名称                               	|
+
+
+数据表有：   
+appTaskInfo   
+backupInfo   
+chinaInfo   
+chinaInfo.db.chinaInfo   
+companyInfo   
+keyInfo   
+lockInfo   
+operateInfo     
+stationInfo   
+taskInfo   
+userGroup   
+userInfo   
+
+具体查询条件参考数据库表单设计查询，本查询限制记录100条   
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "信息添加成功",
+			"code":"45000"
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "信息已存在",
+			"code":"45001"
+		}
+	}
+
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+
+###46、统一修改接口
+功能说明：查询指定表单的的数据信息，默认返回当前用户信息
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/updateAll
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名    		|   类型  | 必须 | 说明        								    |  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|collectionName		| String  |	Yes  | 数据表名称                               	|
+|originalID         | String  | Yes  | 记录ID-----_id字段                           |
+
+数据表有：   
+appTaskInfo   
+backupInfo   
+chinaInfo   
+chinaInfo.db.chinaInfo   
+companyInfo   
+keyInfo   
+lockInfo   
+operateInfo     
+stationInfo   
+taskInfo   
+userGroup   
+userInfo   
+
+具体查询条件参考数据库表单设计查询，本查询限制记录100条   
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "信息编辑成功",
+			"code":"46000"
+		｝
+	}
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "信息已存在",
+			"code":"14001"
+		}
+	}
+
+
+
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
+
+
+
+###47、统一删除接口
+功能说明：查询指定表单的的数据信息，默认返回当前用户信息
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/deleteAll
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名    		|   类型  | 必须 | 说明        								    |  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+|collectionName		| String  |	Yes  | 数据表名称                               	|
+|delIdList          | String  | Yes  | 删除ID数组                                   |
+
+
+
+数据表有：   
+appTaskInfo   
+backupInfo   
+chinaInfo   
+chinaInfo.db.chinaInfo   
+companyInfo   
+keyInfo   
+lockInfo   
+operateInfo     
+stationInfo   
+taskInfo   
+userGroup   
+userInfo   
+
+具体查询条件参考数据库表单设计查询，本查询限制记录100条   
+
+
+服务器返回参数：
+
+	{
+		"success":
+		{
+			"msg": "电子钥匙删除成功",
+			"code":"13000"
+		｝
+	}
 
 Or
 

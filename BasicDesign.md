@@ -74,8 +74,11 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
 ###9、地理信息
     43、分级查询地理信息  https://www.smartlock.top/v0/queryAreaInfo	
 
-###10、一般查询接口
-    43、查询所有数据  https://www.smartlock.top/v0/queryAll
+###10、统一操作接口
+    43、查询数据  https://www.smartlock.top/v0/queryAll
+    44、增加数据  https://www.smartlock.top/v0/addAll
+    45、修改数据  https://www.smartlock.top/v0/updateAll
+    46、删除数据  https://www.smartlock.top/v0/deleteAll
 
 		
 总体任务：前期实现基本API，后期实现数据库备份，操作日志记录，大量数据压力测试等工作			
