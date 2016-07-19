@@ -11,16 +11,12 @@ function onRequest(request,response)
 	var postData = "";
 	var pathname = url.parse(request.url).pathname;
 	console.log("Request for " + pathname + " started.");
-	//response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
-	//var exec = require('child_process').exec; 
-	// var cmdStr = 'rm *.xlsx';
-	// exec(cmdStr);
 
     try
     {
-		if( pathname == '/uploadStationFile' && request.method.toLowerCase() == 'post' )
+		if( request.method.toLowerCase() == 'post' )
 		{
-			console.log("uploadStationFile start upload");
+			console.log(pathname + " start upload");
 
 			//创建上传表单
 			var form = new formidable.IncomingForm();
@@ -44,7 +40,7 @@ function onRequest(request,response)
 				{
 					//移动的文件目录
 					//var newPath = form.uploadDir + files.file.name;
-					var newPath = form.uploadDir + '基站数据批量导入.csv';
+					var newPath = form.uploadDir + pathname + '.csv';
 					fs.renameSync(files.file.path, newPath);
 
 					var exec = require('child_process').exec; 
@@ -62,7 +58,9 @@ function onRequest(request,response)
 					response.write('<html>');
 					response.write('<head>');
 					response.write(
-					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=success\">');
+					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/'+
+					pathname+
+					'.html?result=success\">');
 					response.write('</head>');
 					response.write('</html>');
 					response.end();
@@ -72,7 +70,9 @@ function onRequest(request,response)
 					response.write('<html>');
 					response.write('<head>');
 					response.write(
-					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=failure\">');
+					'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/'
+					+pathname
+					+'.html?result=failure\">');
 					response.write('</head>');
 					response.write('</html>');
 					response.end();
@@ -80,106 +80,8 @@ function onRequest(request,response)
 				}
 
 			});
-		}else if( pathname == '/uploadKeyFile' && request.method.toLowerCase() == 'post' ){
-				console.log("uploadKeyFile start upload");
-
-				//创建上传表单
-				var form = new formidable.IncomingForm();
-				//设置编辑
-				form.encoding = 'utf-8';
-				//设置上传目录
-				form.uploadDir = "/usr/share/NodeJS/Node.js/upload/";
-				form.keepExtensions = true;
-				//文件大小
-				form.maxFieldsSize = 1024 * 1024 * 1024;
-				form.parse(request, function (err, fields, files) {
-					if(err) {
-						response.write(err);
-						//response.end();
-						return;
-					}
-
-					console.log(files);
-
-					// cmdStr = 'mv '+ files.file.name + ' 电子钥匙数据批量导入.xlsx';
-					// exec(cmdStr);
-					try
-					{
-						//移动的文件目录
-						//var newPath = form.uploadDir + files.file.name;
-						var newPath = form.uploadDir + '电子钥匙数据批量导入.xlsx';
-						fs.renameSync(files.file.path, newPath);
-
-						// cmdStr = 'mv '+ files.file.name + ' 电子钥匙数据批量导入.xlsx';
-						// exec(cmdStr);
-						response.write('<html>');
-						response.write('<head>');
-						response.write(
-						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=success\">');
-						response.write('</head>');
-						response.write('</html>');
-						response.end();
-						return;
-					}catch(e)
-					{
-						response.write('<html>');
-						response.write('<head>');
-						response.write(
-						'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=failure\">');
-						response.write('</head>');
-						response.write('</html>');
-						response.end();
-						return;
-					}
-				});
-
-		}else{
-
-			if( pathname == '/uploadStationFile' )
-			{
-				response.write('<html>');
-				response.write('<head>');
-				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=failure\">');
-				response.write('</head>');
-				response.write('</html>');
-				response.end();   
-			}else{
-				response.write('<html>');
-				response.write('<head>');
-				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=failure\">');
-				response.write('</head>');
-				response.write('</html>');
-				response.end();   	
-			}
-
 		}
-
-    }catch(e)
-    {
-			if( pathname == '/uploadStationFile' )
-			{
-				response.write('<html>');
-				response.write('<head>');
-				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/stationUpload.html?result=failure\">');
-				response.write('</head>');
-				response.write('</html>');
-				response.end();   
-			}else{
-				response.write('<html>');
-				response.write('<head>');
-				response.write(
-				'<meta http-equiv=\"refresh\" content=\"0; url=https://www.smartlock.top/my_smartlock/html/keyUpload.html?result=failure\">');
-				response.write('</head>');
-				response.write('</html>');
-				response.end();   	
-			}
-    }
-
-
-
+	}
 }
 
 var options = {
@@ -189,8 +91,8 @@ var options = {
 
 var https = httpsModule.createServer(options, onRequest);
 
-https.listen(8080, function(err){  
-    console.log("https listening on port: 8080");
+https.listen(8070, function(err){  
+    console.log("https listening on port: 8070");
 });
 console.log("server has started");
 
