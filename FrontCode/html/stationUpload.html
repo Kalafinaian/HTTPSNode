@@ -1376,24 +1376,112 @@
             {
 
                 return true;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
 
         }
+
+        function validCSV()
+        {
+            // 获取上传文件名
+//			 alert("进去函数体内")
+            var excel_files = document.getElementById("file").files;
+//            alert(document.getElementById("excel_file").files.length)
+//            alert(document.getElementById("excel_file").files[1].name)
+//            alert(excel_files.length);
+            var flag=1;
+            var upload_files="";
+            if(excel_files.length<1)
+            {
+                alert("尚未选择文件!");
+                flag=0;
+
+            }
+
+            for(var i=0;i<excel_files.length;i++)
+            {
+                var excel_name=excel_files[i].name;
+                // 获取该文件名的后缀名
+                var extend = excel_name.substring(excel_name.lastIndexOf(".") + 1);
+//				 alert(i+" "+extend);
+
+                if(extend!="csv"&&extend!="csv")
+                {
+                    alert("文件的后缀名不符合要求!文件名为"+excel_name);
+                    falg=0;
+                    break;
+                }
+
+                var file_name= excel_name.substring(excel_name.lastIndexOf("/") + 1);
+                upload_files=upload_files+","+file_name;
+            }
+
+
+            if(flag==0)
+            {
+                return false;
+            }
+            else
+            {
+
+                return true;
+            }
+
+        }
+        function synCSV()
+        {
+
+//            var excel_file = document.getElementById("excel_file").value;
+//            if(excel_file==null||excel_file=="")
+//            {
+//                alert("您尚未上传基站数据文件！");
+//                return ;
+//            }
+
+            var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=stationInfo&filename=stationUpload.csv";
+
+            alert(qsData);
+            //发起请求
+            $.ajax({
+                    async: false,
+                    url: "https://www.smartlock.top/v0/importFromCSVForAll",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: qsData,
+                    timeout: 8000,
+                    beforeSend: function ()
+                    {
+
+                    },
+                    success: function (result) {
+
+                        //将返回数据转化为json格式数据
+                        var infoJson =JSON.parse(result);
+
+                        //判断查询是否成功
+                        if (infoJson.error){
+                            var errInfo = infoJson.error;
+                            alert(errInfo.msg);
+
+
+                        }else if (infoJson.success)
+                        {
+                            var sucInfo =  infoJson.success;
+                            alert(sucInfo.msg);
+
+
+                        }else {
+                            alert("未知错误，请联系管理员！");
+                        }
+                        //window.location.href="https://www.smartlock.top/my_smartlock/html/stationUpload.html";
+                        return true;
+                    },
+                    error: function (result) {
+                        alert("无法连接到服务器！");
+                    }
+                });
+        }
+
+
 
         function synExcel()
         {
@@ -1847,7 +1935,7 @@
 
                         <fieldset id="uploadExcelFieldSet" > <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
                             <br>
-                            <form action="/uploadStationFile" enctype="multipart/form-data" method="post" onsubmit="return validExcel()">
+                            <form action="https://www.smartlock.top/v1/stationUpload" enctype="multipart/form-data" method="post" onsubmit="return validCSV()">
                                 <p>
                                     <input type="file" id="file" name="file" ><br>
 
@@ -1855,7 +1943,7 @@
                                 <p>
                                     <input class="button" type="submit" value="上传文件">
 
-                                    <input class="button" type="button" value="同步数据" onclick="synExcel()">
+                                    <input class="button" type="button" value="同步数据" onclick="synCSV()">
                                 </p>
 
 
