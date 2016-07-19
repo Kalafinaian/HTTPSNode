@@ -14,6 +14,8 @@
 
 /usr/share/NodeJS/Node.js/upload.start
 
+/usr/share/NodeJS/Node.js/uploadForAll.start
+
 /usr/share/NodeJS/Node.js/mongod.start
 
 /usr/share/NodeJS/Node.js/uploadNew.start
