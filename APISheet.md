@@ -2691,7 +2691,7 @@ Or
 
 ```
 适用群体：Web端
-URL：https://www.smartlock.top/v0/queryAreaInfo	
+URL：https://www.smartlock.top/v0/queryAll
 请求方式：POST
 ```	
 
@@ -2703,6 +2703,20 @@ URL：https://www.smartlock.top/v0/queryAreaInfo
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
 |collectionName		| String  |	Yes  | 数据表名称                               	|
 
+
+数据表有：   
+appTaskInfo   
+backupInfo   
+chinaInfo   
+chinaInfo.db.chinaInfo   
+companyInfo   
+keyInfo   
+lockInfo   
+operateInfo     
+stationInfo   
+taskInfo   
+userGroup   
+userInfo   
 
 具体查询条件参考数据库表单设计查询，本查询限制记录100条   
 

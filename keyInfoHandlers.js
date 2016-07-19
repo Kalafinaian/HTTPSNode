@@ -963,7 +963,7 @@ function selectAll(response, postData)
 		var DB_CONN_STR = 'mongodb://localhost:27017/csis';
 		var collectionName;	
 		//指定数据表的名称
-		if(!collectionName.hasOwnProperty())
+		if(!postJSON.hasOwnProperty("collectionName"))
 		{
 			collectionName = "userInfo";
 		}else{
@@ -987,6 +987,7 @@ function selectAll(response, postData)
 
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
+				delete postJSON.collectionName;
 				console.log(postJSON);
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
 					function(result){
