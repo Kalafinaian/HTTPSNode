@@ -137,6 +137,10 @@ function addLock(response, postData)
 								
 					delete postJSON.accessToken;
 					delete postJSON.operatorName;
+					if(!postJSON.hasOwnProperty("approveCode"))
+					{
+						postJSON.approveCode = "4201736374740106";
+					}
 					//插入请求数据
 					dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
 							if( result.hasOwnProperty("errmsg") )
@@ -337,8 +341,9 @@ function updateLock(response, postData)
 				// 	return;					
 				// }
 				try{
-					var mmUpdateStr = {approveCode:postJSON.approveCode};
-					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,collectionName, whereStr ,mmUpdateStr);	
+					var mmUpdateStr = {$set:{approveCode:postJSON.approveCode}};
+					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"taskInfo",whereStr,mmUpdateStr);
+					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"stationInfo",whereStr,mmUpdateStr);
 				}catch(e)
 				{
 					console.log("更新锁信息失败");

@@ -2182,10 +2182,10 @@ URL：https://www.smartlock.top/v0/updateLock
 |operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
 |originalLockID	    | String  |	Yes  | 唯一的锁具标识                           	|
-|LockID	  		    | String  |	No   | 唯一的锁具标识                           	|
+|lockID	  		    | String  |	No   | 唯一的锁具标识                           	|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
-|lockType           | String  | Yes  | 锁具类型                                     |
-|approveCode        | String  | Yes  | 锁具密码                                     |
+|lockType           | String  | No   | 锁具类型                                     |
+|approveCode        | String  | No   | 锁具密码                                     |
 
 
 服务器返回参数：

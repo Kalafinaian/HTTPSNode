@@ -137,6 +137,7 @@ function taskRequest(response, postData)
 								postJSON.approvalPhone = result[0].approvalPhone;
 								postJSON.stationID = result[0].stationID;
 								postJSON.lockID = result[0].lockID;
+								postJSON.approveCode = result[0].approveCode;
 								postJSON.stationAddress = result[0].address;
 								postJSON.stationManagementProvince = result[0].managementProvince;
 								postJSON.stationManagementCity = result[0].managementCity;
@@ -144,10 +145,9 @@ function taskRequest(response, postData)
 
 								postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 								postJSON.applicationStatus = "pending";
-								postJSON.approveCode = "4201736374740106";
+								//postJSON.approveCode = "4201736374740106";
 								postJSON.errOfWorkResultFlag = "未处理";
 								postJSON.errOfPendingOrderFlag = "未处理";
-
 
 								//将时间类型转换为整型
 								re = /^1\d{9}$/;
@@ -1059,9 +1059,10 @@ function appTaskRecord(response, postData)
 						if(postJSON.operationResult ==  "修改密码成功" )
 						{
 							updateStr = {$set:{approveCode:postJSON.approveCode}};
+							dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);
 						}
 
-						dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);	
+							
 
 					}catch(e)
 					{
