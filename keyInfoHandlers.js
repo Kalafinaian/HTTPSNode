@@ -1150,7 +1150,7 @@ function deleteAll(response, postData)
 		}else{
 			collectionName = postJSON.collectionName;
 		}
-
+		var objectid = require('objectid')
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
 	    if( !postJSON.hasOwnProperty("delIdList") )
@@ -1185,7 +1185,8 @@ function deleteAll(response, postData)
 				{
 					console.log(keyList[i]);
 					console.log("删除的id： "+keyList[i]);
-					var whereStr = {_id:keyList[i].toString()};
+					//删除数据时转换为objectid类型
+					var whereStr = {_id:objectid(keyList[i].toString())};
 					dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
 						console.log("删除信息"+result);
 					});	
@@ -1240,7 +1241,7 @@ function updateAll(response, postData)
 		}else{
 			collectionName = postJSON.collectionName;
 		}
-
+		var objectid = require('objectid')
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
 	    //if( judgeKeyID(postJSON,response)==false ){  return;  };
@@ -1254,8 +1255,8 @@ function updateAll(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
-				//originalName
-				var whereStr = {_id:postJSON.originalID};
+				//originalName--首先转换为objectID
+				var whereStr = {_id:objectid(postJSON.originalID)};
 				delete postJSON.accessToken;
 				delete postJSON.operatorName;
 				delete postJSON.originalID;
