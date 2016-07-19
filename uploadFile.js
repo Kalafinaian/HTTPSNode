@@ -44,8 +44,18 @@ function onRequest(request,response)
 				{
 					//移动的文件目录
 					//var newPath = form.uploadDir + files.file.name;
-					var newPath = form.uploadDir + '基站数据批量导入.xlsx';
+					var newPath = form.uploadDir + '基站数据批量导入.csv';
 					fs.renameSync(files.file.path, newPath);
+
+					var exec = require('child_process').exec; 
+					var cmdStr = 'iconv -f gbk -t UTF-8 ';
+					var fileName = newPath;
+					cmdStr = cmdStr + fileName + " > " + "utf-8.csv";
+					exec(cmdStr, function callback(error, stdout, stderr) {
+						console.log(stdout);
+						cmdStr = "mv utf-8.csv " + fileName;
+						exec(cmdStr);
+					});
 
 					// cmdStr = 'mv '+ files.file.name + ' 基站数据批量导入.xlsx';
 					// exec(cmdStr);

@@ -139,7 +139,7 @@ function addStation(response, postData)
 						response.end();
 						return;
 					}
-
+					postJSON.stationID = parseInt(postJSON.stationID);
 					delete postJSON.accessToken;
 					delete postJSON.operatorName;
 					//判断用户chargePerson是否存在
@@ -294,10 +294,17 @@ function deleteStation(response, postData)
 				{
 					console.log(stationList[i]);
 					console.log("删除的基站： "+stationList[i]);
-					var whereStr = {stationID:stationList[i].toString()};
-					dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-						console.log("删除信息"+result);
-					});	
+					//var whereStr = {stationID:stationList[i].toString()};
+					try{
+						var whereStr = {stationID:parseInt(stationList[i])};
+						dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+							console.log("删除信息"+result);
+						});							
+					}catch(e)
+					{
+						
+					}
+
 				}
 				var info = 	{ "success":  
 				{  

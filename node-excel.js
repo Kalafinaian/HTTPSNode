@@ -5,7 +5,7 @@ function trimStr(str){return str.replace(/\s+/g,"");}
 
 function importStationFromExcel( importFileName, response )
 {
-	if( importFileName.indexOf(".xlsx") != (importFileName.length-5) )
+	if( importFileName.indexOf(".csv") < 0 /*!= (importFileName.length-4)*/ )
 	{
 				var failedInfo = 	{ "error":  
 				{  
@@ -35,64 +35,82 @@ function importStationFromExcel( importFileName, response )
 
 		try 
 		{
-			var excelObj  = xlsx.parse( "/usr/share/NodeJS/Node.js/upload/"+importFileName );
-			console.log(excelObj );
+			// var excelObj  = xlsx.parse( "/usr/share/NodeJS/Node.js/upload/"+importFileName );
+			// console.log(excelObj );
 
-			var sheetData = excelObj[0].data; 
-			var rowCount = sheetData.length;
+			// var sheetData = excelObj[0].data; 
+			// var rowCount = sheetData.length;
 
-			console.log("数据长度： " + rowCount);
+			// console.log("数据长度： " + rowCount);
 
-			var firstRowData = sheetData[0]; 
-			//excel格式判断
-			if( firstRowData[0].toString() != '基站ID' || firstRowData[1].toString() != '基站地址' || firstRowData[2].toString() != '锁ID' ||
-			firstRowData[3].toString() != '基站负责人' || firstRowData[4].toString() != '基站所属省份' || firstRowData[5].toString() != '基站所属市级区域'  || 
-			firstRowData[6].toString() != '基站所属地级区域' || firstRowData[7].toString() != '基站审批人' )
-			{
-					var failedInfo = 	{ "error":  
-					{  
-						"msg": "数据导入失败,基站数据格式错误",  
-						"code":"28002"  
-					}  };
+			// var firstRowData = sheetData[0]; 
+			// //excel格式判断
+			// if( firstRowData[0].toString() != '基站ID' || firstRowData[1].toString() != '基站地址' || firstRowData[2].toString() != '锁ID' ||
+			// firstRowData[3].toString() != '基站负责人' || firstRowData[4].toString() != '基站所属省份' || firstRowData[5].toString() != '基站所属市级区域'  || 
+			// firstRowData[6].toString() != '基站所属地级区域' || firstRowData[7].toString() != '基站审批人' )
+			// {
+			// 		var failedInfo = 	{ "error":  
+			// 		{  
+			// 			"msg": "数据导入失败,基站数据格式错误",  
+			// 			"code":"28002"  
+			// 		}  };
 					
-					response.write( JSON.stringify(failedInfo) );
-					response.end();
-					return;
-			}
+			// 		response.write( JSON.stringify(failedInfo) );
+			// 		response.end();
+			// 		return;
+			// }
 
-			var mongoClient = require('mongodb').MongoClient;
-			var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-			var collectionName = "stationInfo";
+			// var mongoClient = require('mongodb').MongoClient;
+			// var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+			// var collectionName = "stationInfo";
 
-			//逐条插入数据到数据库
-			for (var i = 1; i < rowCount; i++) 
-			{
-				var rowData = sheetData[i]; 
-				var columnCount = rowData.length;
-				var field = {};
-				console.log( rowData)
-				field.stationID  = trimStr( rowData[0].toString() );
-				field.address  = trimStr( rowData[1].toString() );
-				field.lockID  = trimStr( rowData[2].toString() );
-				field.chargePerson  = trimStr( rowData[3].toString() );
-				field.managementProvince  = trimStr( rowData[4].toString() );
-				field.managementCity  = trimStr( rowData[5].toString() );
-				field.managementArea  = trimStr( rowData[6].toString() );
-				field.approvalPerson  = trimStr( rowData[7].toString() );
-				field.doorStatus = "closed";
-				dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
-										console.log("基站数据导入结果 "+result);	
-				});
-			}
+			// //逐条插入数据到数据库
+			// for (var i = 1; i < rowCount; i++) 
+			// {
+			// 	var rowData = sheetData[i]; 
+			// 	var columnCount = rowData.length;
+			// 	var field = {};
+			// 	console.log( rowData)
+			// 	field.stationID  = trimStr( rowData[0].toString() );
+			// 	field.address  = trimStr( rowData[1].toString() );
+			// 	field.lockID  = trimStr( rowData[2].toString() );
+			// 	field.chargePerson  = trimStr( rowData[3].toString() );
+			// 	field.managementProvince  = trimStr( rowData[4].toString() );
+			// 	field.managementCity  = trimStr( rowData[5].toString() );
+			// 	field.managementArea  = trimStr( rowData[6].toString() );
+			// 	field.approvalPerson  = trimStr( rowData[7].toString() );
+			// 	field.doorStatus = "closed";
+			// 	dbClient.insertFunc(mongoClient, DB_CONN_STR, collectionName,field,function(result){
+			// 							console.log("基站数据导入结果 "+result);	
+			// 	});
+			// }
 
-			var successInfo = 	{ "success":  
-			{  
-				"msg": "数据导入成功,重复数据和包含系统之外的工作人员条目已剔除",  
-				"code":"28000"  
-			}  };
+			// var successInfo = 	{ "success":  
+			// {  
+			// 	"msg": "数据导入成功,重复数据和包含系统之外的工作人员条目已剔除",  
+			// 	"code":"28000"  
+			// }  };
 			
-			response.write( JSON.stringify(successInfo) );
-			response.end();
+			// response.write( JSON.stringify(successInfo) );
+			// response.end();
+			//第一步：node调用shell完成备份
+			var exec = require('child_process').exec; 
+			var cmdStr = 'mongoimport -d csis -c stationInfo --headerline --type csv  --file ';
+			var fileName = "/usr/share/NodeJS/Node.js/upload/"+importFileName;
+			cmdStr = cmdStr + fileName;
+			exec(cmdStr, function callback(error, stdout, stderr) {
+				console.log(stdout);
+				var Info = 	{ "success":  
+				{  
+					"msg": "数据已经导入，请查看导入结果", 
+					"description":error+stdout+stderr, 
+					"code":"28007"  
+				}  };
+				response.write( JSON.stringify(Info) );
+				response.end();
+			});
+
+
 		} catch(e)
 		{ 
 				var failedInfo = 	{ "error":  
