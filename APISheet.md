@@ -1763,7 +1763,20 @@ URL：https://www.smartlock.top/v0/importDataFromExcel
 |operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
 |filename		  	| String  |	No   | 文件名                         				|
-|importDestination	| String  |	No   | 导入目标：0--基站，1--电子钥匙	            |
+|importDestination	| String  |	No   | 导入目标：0--基站，1--电子钥匙       	    |
+
+
+importDestination:  
+stationInfo  ----    0 
+keyInfo  -----    1 
+appTaskInfo  ------   appTaskInfo
+backupInfo   ------   backupInfo
+chinaInfo   ------    chinaInfo
+companyInfo   ------  companyInfo
+lockInfo   ------   lockInfo
+operateInfo  ------     operateInfo
+taskInfo   ------   taskInfo
+userInfo   ------   userInfo
 
 
 服务器返回参数：
