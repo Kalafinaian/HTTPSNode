@@ -162,6 +162,7 @@ function login(response, postData)
 							json.success.userInfo.userType = result[0].userType;
 							json.success.userInfo.companyCode = result[0].companyCode;
 							json.success.userInfo.personID = "12345678";
+							json.success.userInfo.companyID = result[0].companyID;
 
 
 							json.success.regionInfo.managementProvince = result[0].managementProvince;
