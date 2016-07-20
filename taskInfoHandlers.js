@@ -145,6 +145,7 @@ function taskRequest(response, postData)
 								postJSON.keyLockID = result[0].keyLockID;
 								postJSON.bKey = result[0].bKey;
 								postJSON.nKey = result[0].nKey;
+								postJSON.personID = "12345678";
 
 								postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 								postJSON.applicationStatus = "pending";
