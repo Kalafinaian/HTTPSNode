@@ -1858,8 +1858,12 @@ URL：https://www.smartlock.top/v0/appTaskRecord
 |keyManagementProvince		| String  | No   | 申请开门的电子钥匙省级区域                   |
 |keyManagementCity			| String  | No   | 申请开门的电子钥匙市级区域                   |
 |keyManagementArea			| String  | No   | 申请开门的电子钥匙地级区域                   |
-
-
+|keyLockID		            | String  | No   | 通过钥匙开门锁芯ID                   |
+|personID					| String  | No   | 人员编号                   |
+|keyDoorType				| String  | No   | 电子钥匙开门类型                   |
+   
+   
+   
 
 服务器返回参数：
 

@@ -142,6 +142,9 @@ function taskRequest(response, postData)
 								postJSON.stationManagementProvince = result[0].managementProvince;
 								postJSON.stationManagementCity = result[0].managementCity;
 								postJSON.stationManagementArea = result[0].managementArea;
+								postJSON.keyLockID = result[0].keyLockID;
+								postJSON.bKey = result[0].bKey;
+								postJSON.nKey = result[0].nKey;
 
 								postJSON.taskID = parseInt(Date.now()).toString().substring(3);
 								postJSON.applicationStatus = "pending";
