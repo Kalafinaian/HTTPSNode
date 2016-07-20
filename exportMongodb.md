@@ -2,11 +2,14 @@ mongoexport  --csv -f username,realname,phone,userType,companyGroup,company,user
 
 
 
-mongoexport   --type=csv -f username,realname,phone,userType,companyGroup,company,userDescription,userGroup,companyCode,managementProvince,managementCity,managementArea,addStationAction,deleteStationAction,queryStaffAction,updateStationAction,addStaffAction,deleteStaffAction,queryStaffAction,updateStaffAction,addKeyAction,deleteKeyAction,queryKeyAction,updateKeyAction,doorAuthorization,password,accessToken,tokenStartTime,tokenEndTime,addLockAction,deleteLockAction,queryLockAction,updateLockAction -d csis -c userInfo -o  ./用户信息.csv
+mongoexport   --type=csv -f username,realname,phone,userType,companyGroup,company,userDescription,userGroup,companyCode,managementProvince,managementCity,managementArea,addStationAction,deleteStationAction,queryStationAction,updateStationAction,addStaffAction,deleteStaffAction,queryStaffAction,updateStaffAction,addKeyAction,deleteKeyAction,queryKeyAction,updateKeyAction,doorAuthorization,password,accessToken,tokenStartTime,tokenEndTime,addLockAction,deleteLockAction,queryLockAction,updateLockAction -d csis -c userInfo -o  ./用户信息.csv
 
 
 
- "phone" : "13318217100",
+         "_id" : ObjectId("5722c4a2b808375f48d8b535"),
+        "username" : "胡斐",
+        "realname" : "胡斐",
+        "phone" : "13318217100",
         "userType" : "501",
         "companyGroup" : "厂商公司",
         "company" : "成都市雪山公司",
@@ -37,3 +40,4 @@ mongoexport   --type=csv -f username,realname,phone,userType,companyGroup,compan
         "deleteLockAction" : "true",
         "queryLockAction" : "true",
         "updateLockAction" : "true"
+
