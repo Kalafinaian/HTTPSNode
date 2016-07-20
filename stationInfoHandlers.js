@@ -1431,6 +1431,7 @@ function importFromCSVForAll(response, postData)
 
 				var excelImport = require('./node-excel.js');
 			    excelImport.importDataFromCSV(postJSON.filename,postJSON.collectionName,response);
+			    console.log("import started");
 
 			}else{
 				var info = 	{ "error":  

@@ -279,6 +279,9 @@ function importDataFromCSV( importFileName, importCollectionName , response )
 			var cmdStr = 'mongoimport -d csis -c ' + importCollectionName + ' --headerline --type csv  --file ';
 			var fileName = "/usr/share/NodeJS/Node.js/upload/"+importFileName;
 			cmdStr = cmdStr + fileName;
+			//console.log(importCollectionName+" import get in");
+			//console.log(cmdStr+" ");
+
 			exec(cmdStr, function callback(error, stdout, stderr) {
 				console.log(stdout);
 				var Info = 	{ "success":  
