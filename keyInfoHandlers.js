@@ -1193,11 +1193,29 @@ function deleteAll(response, postData)
 				{
 					console.log(keyList[i]);
 					console.log("删除的id： "+keyList[i]);
+					var isError = false;
 					//删除数据时转换为objectid类型
-					var whereStr = {_id:objectid(keyList[i].toString())};
-					dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-						console.log("删除信息"+result);
-					});	
+					try{
+						var whereStr = {_id:objectid(keyList[i].toString())};
+						dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+							console.log("删除信息"+result);
+						});	
+					}catch(e){
+						var info = 	{ "error":  
+						{  
+							"msg": "传入非法ID!",  
+							"code":"45002"  
+						}  };
+						response.write( JSON.stringify(info) );
+						response.end();	
+						isError = true;		
+						return;			
+					}
+					if(isError==true)
+					{
+						return;
+					}
+
 				}
 				var info = 	{ "success":  
 				{  
