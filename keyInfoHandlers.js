@@ -1282,44 +1282,56 @@ function updateAll(response, postData)
 				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
 				//originalName--首先转换为objectID
-				var whereStr = {_id:objectid(postJSON.originalID)};
-				delete postJSON.accessToken;
-				delete postJSON.operatorName;
-				delete postJSON.originalID;
-				delete postJSON.collectionName;
+				try{
+					var whereStr = {_id:objectid(postJSON.originalID)};
+					delete postJSON.accessToken;
+					delete postJSON.operatorName;
+					delete postJSON.originalID;
+					delete postJSON.collectionName;
 
-				// isOwnEmpty(postJSON)
-				// {
-				// 	var info = 	{ "error":  
-				// 		{  
-				// 			"msg": "你没有指定修改任何属性!",  
-				// 			"code":"00014"  
-				// 		}  };
-				// 	response.write( JSON.stringify(info) );
-				// 	response.end();
-				// 	return;					
-				// }
-				var updateStr = {$set: postJSON };
-				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
-					if( result.hasOwnProperty("errmsg") )
-					{
-						var info = 	{ "error":  
+					// isOwnEmpty(postJSON)
+					// {
+					// 	var info = 	{ "error":  
+					// 		{  
+					// 			"msg": "你没有指定修改任何属性!",  
+					// 			"code":"00014"  
+					// 		}  };
+					// 	response.write( JSON.stringify(info) );
+					// 	response.end();
+					// 	return;					
+					// }
+					var updateStr = {$set: postJSON };
+					dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
+						if( result.hasOwnProperty("errmsg") )
+						{
+							var info = 	{ "error":  
+								{  
+									"msg": "信息重复!",  
+									"code":"46001"  
+								}  };
+							response.write( JSON.stringify(info) );
+							response.end();
+						}else{
+							var info = 	{ "success":  
 							{  
-								"msg": "信息重复!",  
-								"code":"46001"  
+								"msg": "信息编辑成功!",  
+								"code":"46000"  
 							}  };
-						response.write( JSON.stringify(info) );
-						response.end();
-					}else{
-						var info = 	{ "success":  
-						{  
-							"msg": "信息编辑成功!",  
-							"code":"46000"  
-						}  };
-						response.write( JSON.stringify(info) );
-						response.end();
-					}
-				});	
+							response.write( JSON.stringify(info) );
+							response.end();
+						}
+					});	
+				}catch(e)
+				{
+					var info = 	{ "error":  
+					{  
+						"msg": "传入非法ID!",  
+						"code":"46002"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();	
+					return;
+				}
 			}else{
 					var info = 	{ "error":  
 					{  
