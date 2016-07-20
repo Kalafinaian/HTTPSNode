@@ -962,6 +962,7 @@ function selectAll(response, postData)
 		var mongoClient = require('mongodb').MongoClient;
 		var DB_CONN_STR = 'mongodb://localhost:27017/csis';
 		var collectionName;	
+		var objectid = require('objectid')
 		//指定数据表的名称
 		if(!postJSON.hasOwnProperty("collectionName"))
 		{
@@ -969,6 +970,17 @@ function selectAll(response, postData)
 		}else{
 			collectionName = postJSON.collectionName;
 		}
+
+		try{
+			if(postJSON.hasOwnProperty("_id"))
+			{
+				postJSON._id = objectid(postJSON._id);
+			}	
+		}catch(e)
+		{
+
+		}
+
 
 
 		//一些数据类型必须统一起来，尤其是整型--按照stationID查询时，需要先转换为整型
