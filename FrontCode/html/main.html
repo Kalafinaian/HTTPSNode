@@ -472,52 +472,6 @@
 
 
 
-//			setInterval("myInterval()",10000);//1000为1秒钟，定时检查目前的token是否合法
-//			function myInterval()
-//			{
-//				var query="operatorName="+userInfo.username+"&accessToken="+accessToken+"&username="+userInfo.username;
-//				$.ajax({
-//					async: false,
-//					url: "https://www.smartlock.top/v0/queryUser",
-//					type: "POST",
-//					contentType: "application/x-www-form-urlencoded",
-//					data: query,
-//					timeout: 8000,
-//					beforeSend: function ()
-//					{
-//
-//					},
-//					success: function (result) {
-//						//将返回数据转化为json格式数据
-//						var infoJson =JSON.parse(result);
-//						//判断查询是否成功
-//						if (infoJson.error){ //当前用户不存在或者当前用户token过期
-//							var errInfo = infoJson.error;
-//							alert(errInfo.msg);
-//							window.location.href="login.html";
-//
-//							return;
-//						}else if (infoJson.success)
-//						{
-////
-////							console.log(accessToken)
-//
-//						}else
-//						{
-//							alert("未知错误，请联系管理员！")
-//						}
-//
-//					},
-//					error: function (result) {
-////						console.log(result);
-//						alert("无法连接到服务器！");
-//
-//					}
-//				});
-//			}
-
-
-
 
 
 
@@ -662,6 +616,44 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				<li>
 					<a href="main.html" class="nav-top-item no-submenu current"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
 						首页
@@ -702,12 +694,22 @@
 						基站管理
 					</a>
 					<ul>
-						<li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+						<li><a  href="stationManageTree.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+						<li><a  href="stationManage.html">基站列表(旧)</a></li> <!-- Add class "current" to sub menu items also -->
 						<li><a  href="stationManageLog.html">基站日志管理</a></li>
 						<li><a  href="stationUpload.html">基站日志管理</a></li>
 					</ul>
 				</li>
 
+				<li id="suojuguanli">
+					<a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
+						锁具管理
+					</a>
+					<ul>
+						<li><a  href="lockManageTree.html">锁具管理</a></li> <!-- Add class "current" to sub menu items also -->
+						<li><a  href="lockUpload.html">锁具批量上传</a></li>
+					</ul>
+				</li>
 
 				<li>
 					<a href="#" class="nav-top-item">
@@ -725,9 +727,20 @@
 						电子钥匙管理
 					</a>
 					<ul>
-						<li><a href="keyManage.html">钥匙列表</a></li>
+						<li><a href="keyManageTree.html">钥匙列表</a></li>
+						<li><a href="keyManage.html">钥匙列表(旧)</a></li>
 						<li><a href="keyManageLog.html">钥匙日志</a></li>
 						<li><a href="keyUpload.html">钥匙批量上传</a></li>
+					</ul>
+				</li>
+
+				<li id="shouquanguanli">
+					<a href="#" class="nav-top-item">
+						授权管理
+					</a>
+					<ul>
+						<li><a href="authManageTree.html">锁具授权</a></li>
+						<li><a href="authAlter.html">授权修改</a></li>
 					</ul>
 				</li>
 				<!--</div>-->
@@ -738,6 +751,8 @@
 						员工管理
 					</a>
 					<ul>
+						<li><a href="userManageTree.html">员工管理</a></li>
+						<li><a href="userUpload.html">员工批量导入</a></li>
 						<div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>
 						<div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>
 						<div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>

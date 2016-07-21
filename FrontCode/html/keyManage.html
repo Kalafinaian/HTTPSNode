@@ -387,9 +387,9 @@
                     {
                         "data":"managementArea",
                     },
-                    {
-                        "data":"gridID",
-                    },
+//                    {
+//                        "data":"gridID",
+//                    },
                    {
                         "data":"_id",
                         "render": function(data, type, full, meta) {
@@ -1222,49 +1222,6 @@
                 return qsData+qsDataActive;
             }
         }
-//        setInterval("myInterval()",10000);//1000为1秒钟，定时检查目前的token是否合法
-//        function myInterval()
-//        {
-//            var query="operatorName="+userInfo.username+"&accessToken="+accessToken+"&username="+userInfo.username;
-//            $.ajax({
-//                async: false,
-//                url: "https://www.smartlock.top/v0/queryUser",
-//                type: "POST",
-//                contentType: "application/x-www-form-urlencoded",
-//                data: query,
-//                timeout: 8000,
-//                beforeSend: function ()
-//                {
-//
-//                },
-//                success: function (result) {
-//                    //将返回数据转化为json格式数据
-//                    var infoJson =JSON.parse(result);
-//                    //判断查询是否成功
-//                    if (infoJson.error){ //当前用户不存在或者当前用户token过期
-//                        var errInfo = infoJson.error;
-//                        alert(errInfo.msg);
-//                        window.location.href="login.html";
-//
-//                        return;
-//                    }else if (infoJson.success)
-//                    {
-////
-////							console.log(accessToken)
-//
-//                    }else
-//                    {
-//                        alert("未知错误，请联系管理员！")
-//                    }
-//
-//                },
-//                error: function (result) {
-////						console.log(result);
-//                    alert("无法连接到服务器！");
-//
-//                }
-//            });
-//        }
 
 
         function showUserInformation() //侧边栏显示当前用户公司 管理区域 职位 用户名
@@ -1581,7 +1538,8 @@
                     电子钥匙管理
                 </a>
                 <ul>
-                    <li><a class="current" href="keyManage.html">钥匙列表</a></li>
+                    <li><a href="keyManageTree.html">钥匙列表</a></li>
+                    <li><a class="current" href="keyManage.html">钥匙列表(旧)</a></li>
                     <li><a href="keyManageLog.html">钥匙日志</a></li>
                     <li><a href="keyUpload.html">钥匙批量上传</a></li>
                 </ul>
@@ -1752,7 +1710,7 @@
                                 <th>所属省级区域</th>
                                 <th>所属市级区域</th>
                                 <th>所属区级区域</th>
-                                <th>所属网格编号</th>
+                                <!--<th>所属网格编号</th>-->
                                 <th>操作</th>
                             </tr>
                             </thead>

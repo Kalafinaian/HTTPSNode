@@ -1368,6 +1368,12 @@
             }
 
 
+
+
+
+
+
+
             if(flag==0)
             {
                 return false;
@@ -1537,49 +1543,6 @@
                 });
         }
 
-//        setInterval("myInterval()",10000);//1000为1秒钟，定时检查目前的token是否合法
-//        function myInterval()
-//        {
-//            var query="operatorName="+userInfo.username+"&accessToken="+accessToken+"&username="+userInfo.username;
-//            $.ajax({
-//                async: false,
-//                url: "https://www.smartlock.top/v0/queryUser",
-//                type: "POST",
-//                contentType: "application/x-www-form-urlencoded",
-//                data: query,
-//                timeout: 8000,
-//                beforeSend: function ()
-//                {
-//
-//                },
-//                success: function (result) {
-//                    //将返回数据转化为json格式数据
-//                    var infoJson =JSON.parse(result);
-//                    //判断查询是否成功
-//                    if (infoJson.error){ //当前用户不存在或者当前用户token过期
-//                        var errInfo = infoJson.error;
-//                        alert(errInfo.msg);
-//                        window.location.href="login.html";
-//
-//                        return;
-//                    }else if (infoJson.success)
-//                    {
-////
-////							console.log(accessToken)
-//
-//                    }else
-//                    {
-//                        alert("未知错误，请联系管理员！")
-//                    }
-//
-//                },
-//                error: function (result) {
-////						console.log(result);
-//                    alert("无法连接到服务器！");
-//
-//                }
-//            });
-//        }
 
 
         function showUserInformation() //侧边栏显示当前用户公司 管理区域 职位 用户名
@@ -1758,9 +1721,10 @@
                     基站管理
                 </a>
                 <ul>
-                    <li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  href="stationManageTree.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  href="stationManage.html">基站列表(旧)</a></li> <!-- Add class "current" to sub menu items also -->
                     <li><a  href="stationManageLog.html">基站日志管理</a></li>
-                    <li><a  class="current" href="stationUpload.html">基站批量上传</a></li>
+                    <li><a  class="current" href="stationUpload.html">基站批量导入</a></li>
                 </ul>
             </li>
 
@@ -1930,7 +1894,7 @@
 
                         <strong><font color="red">*</font> 请您务必仔细阅读下面两条要求！</strong>
                         <br><br><strong><font color="red">*</font> (1) 请上传前下载基站标准excel模板，数据必须按照模板格式导入！</strong>
-                        <input class="button" type="button" value="下载模板" onclick="window.location.href='https://www.smartlock.top/my_smartlock/assets/基站数据导入模版.xlsx'" />
+                        <input class="button" type="button" value="下载模板" onclick="window.location.href='../assets/importFromCSVForAll'" />
                         <br><br><strong><font color="red">*</font> (2) 选择文件后先点击上传文件，再点击同步数据，才能能将数据导入数据库中！</strong>
 
                         <fieldset id="uploadExcelFieldSet" > <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
