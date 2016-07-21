@@ -312,22 +312,28 @@ function updateLock(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
-				if( result[0].hasOwnProperty('updateLockAction') == false || result[0].updateLockAction != "true" )
-				{	
-					var info = 	{ "error":  
-						{  
-							"msg": "你没有修改锁具的权限!",  
-							"code":"00013"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-					return;
-				}
+				// if( result[0].hasOwnProperty('updateLockAction') == false || result[0].updateLockAction != "true" )
+				// {	
+				// 	var info = 	{ "error":  
+				// 		{  
+				// 			"msg": "你没有修改锁具的权限!",  
+				// 			"code":"00013"  
+				// 		}  };
+				// 	response.write( JSON.stringify(info) );
+				// 	response.end();
+				// 	return;
+				// }
 				//originalName
 				var whereStr = {lockID:postJSON.originalLockID};
+				if(postJSON.hasOwnProperty("originalKeyLockID"))
+				{
+					delete whereStr.originalLockID;
+					whereStr.keyLockID = postJSON.originalKeyLockID;
+				}
 				delete postJSON.accessToken;
 				delete postJSON.operatorName;
 				delete postJSON.originalLockID;
+				delete postJSON.originalKeyLockID;
 				var updateStr = {$set: postJSON };
 				// isOwnEmpty(postJSON)
 				// {
@@ -341,7 +347,7 @@ function updateLock(response, postData)
 				// 	return;					
 				// }
 				try{
-					var mmUpdateStr = {$set:{approveCode:postJSON.approveCode}};
+					var mmUpdateStr = {$set:postJSON};
 					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"taskInfo",whereStr,mmUpdateStr);
 					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"stationInfo",whereStr,mmUpdateStr);
 				}catch(e)

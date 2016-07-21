@@ -2186,12 +2186,14 @@ URL：https://www.smartlock.top/v0/updateLock
 |:------:   	    | :----:  | :--: | :----------------------------------------: 	| 
 |operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
 |accessToken 		| String  | Yes  | 操作者API动态令牌							| 
-|originalLockID	    | String  |	Yes  | 唯一的锁具标识                           	|
+|originalLockID	    | String  |	Yes  | 唯一的锁具标，和originalKeyLockID二选一      |
+|originalKeyLockID	| String  |	Yes  | 唯一的电子钥匙开门锁芯标识                   |
 |lockID	  		    | String  |	No   | 唯一的锁具标识                           	|
 |ownedStationID		| String  |	No	 | 锁具所属基站ID                               |
 |lockType           | String  | No   | 锁具类型                                     |
 |approveCode        | String  | No   | 锁具密码                                     |
-
+|bKey               | String  | No   | 加密的秘钥Bkey                               |
+|nKey               | String  | No   | 钥匙开锁的锁密码NKEY                         |
 
 服务器返回参数：
 
