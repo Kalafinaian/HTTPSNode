@@ -1262,52 +1262,6 @@
 			}
 
 
-//			setInterval("myInterval()",10000); //1000为1秒钟，定时检查目前的token是否合法
-//			function myInterval()
-//			{
-//				var query="operatorName="+userInfo.username+"&accessToken="+accessToken+"&username="+userInfo.username;
-//
-//				$.ajax({
-//					async: false,
-//					url: "https://www.smartlock.top/v0/queryUser",
-//					type: "POST",
-//					contentType: "application/x-www-form-urlencoded",
-//					data: query,
-//					timeout: 8000,
-//					beforeSend: function ()
-//					{
-//
-//					},
-//					success: function (result) {
-//
-//						//将返回数据转化为json格式数据
-//						var infoJson =JSON.parse(result);
-//
-//						//判断查询是否成功
-//						if (infoJson.error){ //当前用户不存在或者当前用户token过期
-//							var errInfo = infoJson.error;
-//							alert(errInfo.msg);
-//							window.location.href="login.html";
-//
-//							return;
-//						}else if (infoJson.success)
-//						{
-////
-//							console.log(accessToken)
-//
-//						}else
-//						{
-//							alert("未知错误，请联系管理员！")
-//						}
-//
-//					},
-//					error: function (result) {
-//						console.log(result);
-//						alert("无法连接到服务器！");
-//
-//					}
-//				});
-//			}
 
 		</script>
 	</head>

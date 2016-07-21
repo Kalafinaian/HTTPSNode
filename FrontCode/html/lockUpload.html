@@ -24,12 +24,19 @@
             color: #333;
             width: 15% !important;
         }
-        #createKeyFieldSet strong{
-            width: 100px;
+        #createStationFieldSet strong{
+            width: 120px;
             line-height: 30px;
             display: inline-block;
             text-align: left;
         }
+
+
+
+
+
+
+
     </style>
     <!--CSS-->
     <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
@@ -37,52 +44,49 @@
     <link rel="stylesheet" href="../assets/css/reset.css" type="text/css" media="screen" />
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="../assets/css/style.css" type="text/css" media="screen" />
-    <!-- dialog Stylesheet -->
-    <link href="../assets/css/dialog.css" rel="stylesheet" type="text/css"/>
     <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
     <link rel="stylesheet" href="../assets/css/invalid.css" type="text/css" media="screen" />
-    <!-- SweetAlert-->
-    <script type="text/javascript" src="../assets/js/sweet-alert.min.js"></script>
-    <link rel="stylesheet" href="../assets/css/sweet-alert.css"/>
     <!-- Colour Schemes  -->
     <!--Default colour scheme is green. Uncomment prefered stylesheet to use it.-->
-    <link rel="stylesheet" href="../assets/css/blue.css" type="text/css" media="screen" />
+    <!--<link rel="stylesheet" href="../assets/css/blue.css" type="text/css" media="screen" />-->
     <!--<link rel="stylesheet" href="../assets/css/red.css" type="text/ css" media="screen" />-->
     <!-- Internet Explorer Fixes Stylesheet -->
     <!--[if lte IE 7]>
     <link rel="stylesheet" href="../assets/css/ie.css" type="text/css" media="screen" />
     <![endif]-->
-    <!--Javascripts-->
     <!--JqueryDateTable-->
     <link rel="stylesheet" href="../assets/css/jquery.dataTables.min.css"/>
     <script type="text/javascript" src="../assets/js/jquery.dataTables.min.js"></script>
+    <!-- SweetAlert-->
+    <script type="text/javascript" src="../assets/js/sweet-alert.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/sweet-alert.css"/>
     <!-- jQuery -->
     <!-- jQuery Configuration -->
     <script type="text/javascript" src="../assets/js/simpla.jquery.configuration.js"></script>
-    <!-- jQuery Datepicker Plugin -->
-    <script type="text/javascript" src="../assets/js/citySelect.js"></script>
-    <script type="text/javascript" src="../assets/js/pccs.js"></script>
+
+    <!-- jQuery Date Plugin -->
+
+
     <!--[if IE]><script type="text/javascript" src="../assets/js/jquery.bgiframe.js"></script><![endif]-->
     <!-- Internet Explorer .png-fix -->
     <!--[if IE 6]>
     <script type="text/javascript" src="../assets/js/DD_belatedPNG_0.0.7a.js"></script>
+
     <script type="text/javascript">
         DD_belatedPNG.fix('.png_bg, img, li');
     </script>
     <![endif]-->
     <!--编辑框开始-->
+    <!-- dialog Stylesheet -->
+    <link href="../assets/css/dialog.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
-        //显示条目编辑框
         $(document).ready(function() {
-            $(".model").click(function(event) {
-                $(".model-bg[title=editKeyInfo],.popBox[title=editKeyInfo]").show();
+            $("#cancel_editStationInfo").click(function(event) {
+                $(".popBox[title=editOneStationInfo] input").val("");
+                $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
             });
-            $("#cancel_editKeyInfo").click(function(event) {
-                $(".popBox[title=editKeyInfo] input").val("");
-                $(".model-bg[title=editKeyInfo],.popBox[title=editKeyInfo]").hide();
-            });
-            $(".clsBtn[title=editKeyInfo]").click(function(event) {
-                $(".model-bg[title=editKeyInfo],.popBox[title=editKeyInfo]").hide();
+            $(".clsBtn[title=editOneStationInfo]").click(function(event) {
+                $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
             });
         });
         //个人资料编辑框控制
@@ -335,8 +339,8 @@
                             var sucInfo =  infoJson.success;
                             var msg = sucInfo.msg;
                             alert(msg);
-                            $(".popBox[title=editPersonInfo] input").val("");
-                            $(".model-bg[title=editPersonInfo],.popBox[title=editPersonInfo]").hide();
+                            $(".edit-panel[title=editPersonInfo] input").val("");
+                            $(".model-bg[title=editPersonInfo],.edit-panel[title=editPersonInfo]").hide();
                             if(sucInfo.code=="04000"){
                                 window.location.href="login.html";
                             }
@@ -358,13 +362,14 @@
         var table;
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var tokenEndTime=localStorage.getItem("tokenEndTime");
-        var originalKeyID = "";
+        var originalStationID = "";
+
         /**
          * datables初始化
          */
         $(document).ready(function() {
-            //初始化展示框
-            table = $('#keyInfo').DataTable( {
+            //新建基站
+            table = $('#stationInfo').DataTable( {
                 "searching": false,
                 "bStateSave": false,
                 "aoColumns": [
@@ -377,25 +382,47 @@
                         }
                     },
                     {
-                        "data": "keyID",
+                        "data": "stationID",
                         "sClass" : "center"
                     },
-                    { "data": "managementProvince" },
+                    { "data": "address" },
                     {
-                        "data": "managementCity"
+                        "data": "doorStatus" ,
+                        "render": function(data, type, full, meta) {
+                            if (data =="closed" ) {
+                                data = "<font color='red'>关闭状态</font>";
+                            } else {
+                                data = "<font color='#67a81a'>开启状态</font>";
+                            }
+                            return data;
+                        }
+                    }
+                    ,
+                    {
+                        "data":"lockID",
+                    },
+                    { "data": "chargePerson" },
+//                    { "data": "chargePhone" },
+//                    { "data": "chargeCompany" },
+                    {
+                        "data":"managementProvince",
+                        "bVisible" : false
                     },
                     {
+                        "data":"managementCity",
+                        "bVisible" : false
+                    },{
                         "data":"managementArea",
+                        "bVisible" : false
                     },
+                    {"data":"approvalPerson",},
+//                    {"data":"approvalPhone",},
                     {
-                        "data":"gridID",
-                    },
-                   {
                         "data":"_id",
                         "render": function(data, type, full, meta) {
                             return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
                                     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="keyEdit" title="keyEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+                                    '<a href="#" id="stationEdit" title="stationEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
 
                         }
                     }
@@ -424,25 +451,24 @@
                         "sSortDescending": ": 以降序排列此列"
                     }
                 },
-//               initComplete: initComplete
             })
         } );
+
         /**
          * 按钮点击功能
          */
         $(document).ready(function(){
             $("input#allcheck").click(function(){
                 if(this.checked){
-                    $("#keyInfo tbody tr").each(function(){
+                    $("#stationInfo tbody tr").each(function(){
                         if(!$(this).hasClass("checked")){
                             $(this).click();
                         }
                     })
                 }else {
-                    $('#keyInfo tbody tr').click();
+                    $('#example tbody tr').click();
                 }
             });
-
             /**
              * 导出xls功能
              */
@@ -452,7 +478,7 @@
                 //发起请求
                 $.ajax({
                     async: false,
-                    url: "https://www.smartlock.top/v0/downloadKey",
+                    url: "https://www.smartlock.top/v0/downloadStation",
                     type: "POST",
                     contentType: "application/x-www-form-urlencoded",
                     data: qsData,
@@ -469,22 +495,24 @@
                         //判断查询是否成功
                         if (infoJson.error){
                             var errInfo = infoJson.error;
-                            reset();
                             alert(errInfo.msg);
                             if(errInfo.code=="00000"){
                                 window.location.href="login.html";
                             };
+                            reset();
                             return;
                         }else if (infoJson.success)
                         {
                             alert("后台已经生成数据，请进行下载！");
-                            reset();
                             var sucInfo =  infoJson.success;
                             var downloadUrl = sucInfo.url;
+                            reset();
                             window.open(downloadUrl);
                         }else {
                             alert("未知错误，请联系管理员！")
                         }
+
+
                     },
                     error: function (result) {
 //                        console.log(result);
@@ -492,11 +520,28 @@
                     }
                 });
             });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             /**
              * 点击删除按钮
              */
-            $(".button[id=delete]").click(function(){
-
+            $(".button[id=delete]").click(function()
+            {
                 var bool=window.confirm('你确认要删除选中数据？');
                 if(bool==false)
                 {
@@ -506,15 +551,14 @@
                 var theArray = [];
                 var a = table.rows('.selected').data();
                 for(var i=0;i< a.length;i++){
-                    var keyID = a[i].keyID;
-                    theArray.push(keyID)
+                    var stationID = a[i].stationID;
+                    theArray.push(stationID)
                 };
 //                console.log(theArray.toString());
                 if(theArray.length<1){
                     alert("请至少选择一个进行操作！")
 
                 }else {
-
                     alert("所选中的数据为："+theArray.toString())
 
                     //获取参数
@@ -524,7 +568,7 @@
                     //发起请求
                     $.ajax({
                         async: false,
-                        url: "https://www.smartlock.top/v0/deleteKey",
+                        url: "https://www.smartlock.top/v0/deleteStation",
                         type: "POST",
                         contentType: "application/x-www-form-urlencoded",
                         data: qsData,
@@ -552,12 +596,16 @@
                                 var msg = sucInfo.msg;
                                 alert(msg);
 
+//                                table.dataTable().fnDraw(true);
+
+//                                window.location.reload();
 //                                table.row('.selected').remove().draw( false );
+
                             }else {
                                 alert("未知错误，请联系管理员！")
                             }
+                            window.location.href='lockManageTree.html';
 
-                            window.location.href='https://www.smartlock.top/my_smartlock/html/keyManage.html';
                         },
                         error: function (result) {
 //                            console.log(result);
@@ -571,7 +619,7 @@
             /**
              * 多选选中和取消选中,同时选中第一个单元格单选框,并联动全选单选框
              */
-            $('#keyInfo tbody').on('click', 'tr', function(event) {
+            $('#stationInfo tbody').on('click', 'tr', function(event) {
                 var allChecked = $('input[name=allChecked]')[0]; //关联全选单选框
                 $($(this).children()[0]).children().each(function() {
                     if (this.type == "checkbox" && (!$(event.target).is(":checkbox") && $(":checkbox", this).trigger("click"))) {
@@ -594,6 +642,19 @@
                 });
                 $(this).toggleClass('selected'); //放在最后处理，以便给checkbox做检测
             });
+
+
+
+
+
+
+
+
+
+
+
+
+
             /**
              * 单选框被选中时将它的value放入隐藏域
              */
@@ -624,86 +685,95 @@
                     }
                 }
             };
-
             /**
              * 单行点击编辑按钮
              */
-            $('#keyInfo').on('click', '.model', function () {
+            $('#stationInfo').on('click', '.model', function () {
                 //为原始ID进行赋值
-                originalKeyID=this.parentNode.parentNode.childNodes.item([1]).innerText;
+                originalStationID=this.parentNode.parentNode.childNodes.item([1]).innerText;
                 //获取点击行显示的字段
-                var keyID = this.parentNode.parentNode.childNodes.item([1]).innerText;
-                var managementProvince = this.parentNode.parentNode.childNodes.item([2]).innerText;
-                var managementCity = this.parentNode.parentNode.childNodes.item([3]).innerText;
-                var managementArea = this.parentNode.parentNode.childNodes.item([4]).innerText;
-                var gridID=this.parentNode.parentNode.childNodes.item([5]).innerText;
+                var stationID = this.parentNode.parentNode.childNodes.item([1]).innerText;
+                var address = this.parentNode.parentNode.childNodes.item([2]).innerText;
+                var doorStatus = this.parentNode.parentNode.childNodes.item([3]).innerText;
+                var lockID = this.parentNode.parentNode.childNodes.item([4]).innerText;
+                var chargePerson = this.parentNode.parentNode.childNodes.item([5]).innerText;
+//                var chargePhone = this.parentNode.parentNode.childNodes.item([6]).innerText;
+                var approvalPerson = this.parentNode.parentNode.childNodes.item([6]).innerText;
+//                var approvalPhone = this.parentNode.parentNode.childNodes.item([9]).innerText;
                 //将获取的字段填入编辑框中
-                $("#edit_keyID").val(keyID);
-                $("#edit_managementProvince").val(managementProvince);
-                $("#edit_managementCity").val(managementCity);
-                $("#edit_managementArea").val(managementArea);
-                $("#edit_gridID").val(gridID);
+                $("#edit_stationID").val(stationID);
+                $("#edit_address").val(address);
+                $("#edit_doorStatus").val(doorStatus);
+                $("#edit_lockID").val(lockID);
+                $("#edit_chargePerson").val(chargePerson);
+                $("#edit_approvalPerson").val(approvalPerson);
                 //显示编辑窗口
-                $(".model-bg[title=editKeyInfo],.popBox[title=editKeyInfo]").show();
+                $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").show();
             } );
             /**
              * 单击编辑窗口提交按钮
              */
-            $('#submit_editKeyInfo').click(function(event){
+            $('#submit_editStationInfo').click(function(event){
+                alert("进入提交动作！");
                 //获取公共字段
                 var operatorName=userInfo.username;
-                var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&originalKeyID="+originalKeyID;
-                var updateKeyInfo = "";
+                var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&originalStationID="+originalStationID;
+                var updateStationInfo = "";
                 //收集编辑框字段
-                var keyID=$("#edit_keyID").val();
-                var managementProvince = $("#edit_managementProvince").val();
-                var managementCity = $("#edit_managementCity").val();
-                var managementArea = $("#edit_managementArea").val();
-                var gridID = $("#edit_gridID").val();
+                var stationID=$("#edit_stationID").val();
+                var address = $("#edit_address").val();
+                var doorStatus = $("#edit_doorStatus").val();
+                var lockID = $("#edit_lockID").val();
+                var chargePerson = $("#edit_chargePerson").val();
+                var approvalPerson = $("#edit_approvalPerson").val();
                 //对字段进行判空
-                if(keyID==""||keyID==null){
-                    alert("电子钥匙编号不能为空，请重新填写！")
-                    $("#edit_keyID").focus();
+                if(stationID==""||stationID==null){
+                    alert("基站编号不能为空，请重新填写！")
+                    $("#edit_stationID").focus();
                     return;
                 }else{
-                    updateKeyInfo="&keyID="+keyID;
+                    updateStationInfo="&stationID="+stationID;
                 }
-                if(managementProvince==""||managementProvince==null){
-                    alert("所属省级地域不得为空，请重新填写！")
-                    $("#edit_managementProvince").focus()
+                if(address==""||address==null){
+                    alert("基站地址不能为空，请重新填写！")
+                    $("#edit_address").focus()
                     return;
                 }else{
-                    updateKeyInfo +="&managementProvince="+managementProvince;
+                    updateStationInfo +="&address="+address;
                 }
-                if(managementCity==""||managementCity==null){
-                    alert("所属市级地域不得为空，请重新填写！")
-                    $("#edit_managementCity").focus()
+                if(doorStatus==""||doorStatus==null){
+                        //没有要求，不做判断
+                }else{
+                    updateStationInfo +="&doorStatus="+doorStatus;
+                }
+                if(lockID==""||lockID==null){
+                    alert("门锁ID不能为空，请重新填写！")
+                    $("#edit_lockID").focus()
                     return;
                 }else{
-                    updateKeyInfo +="&managementCity="+managementCity;
+                    updateStationInfo +="&lockID="+lockID;
                 }
-                if(managementArea==""||managementArea==null){
-                    alert("所属区级地域不得为空，请重新填写！")
-                    $("#edit_managementArea").focus()
+                if(chargePerson==""||chargePerson==null){
+                    alert("负责人不能为空，请重新填写！")
+                    $("#edit_chargePerson").focus()
                     return;
                 }else{
-                    updateKeyInfo +="&managementArea="+managementArea;
+                    updateStationInfo +="&chargePerson="+chargePerson;
                 }
-                if(gridID==""||gridID==null){
-                    alert("所属网格编号不得为空，请重新填写！")
-                    $("#edit_gridID").focus()
+                if(approvalPerson==""||approvalPerson==null){
+                    alert("作业审批人不能为空，请重新填写！")
+                    $("#edit_approvalPerson").focus()
                     return;
                 }else{
-                    updateKeyInfo +="&gridID="+gridID;
+                    updateStationInfo +="&approvalPerson="+approvalPerson;
                 }
-
-                qsData=qsData+updateKeyInfo;
-                alert("编辑的提交数据为："+qsData);
+                qsData=qsData+updateStationInfo;
+//                alert("编辑的提交数据为："+qsData);
 //                console.log("编辑的提交数据为："+qsData);
                 //发起请求
                 $.ajax({
                     async: false,
-                    url: "https://www.smartlock.top/v0/updateKey",
+                    url: "https://www.smartlock.top/v0/updateStation",
                     type: "POST",
                     contentType: "application/x-www-form-urlencoded",
                     data: qsData,
@@ -730,9 +800,9 @@
                             var sucInfo =  infoJson.success;
                             var msg = sucInfo.msg;
                             alert(msg);
-                            $(".popBox[title=editKeyInfo] input").val("");
-                            $(".model-bg[title=editKeyInfo],.popBox[title=editKeyInfo]").hide();
-                            queryKey();
+                            $(".popBox[title=editOneStationInfo] input").val("");
+                            $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
+                            queryStation();
                         }else {
                             alert("未知错误，请联系管理员！")
                         }
@@ -749,7 +819,7 @@
             /**
              * 单行删除按钮点击事件响应
              */
-            $('#keyInfo tbody').on( 'click', '#deleteOne', function () {
+            $('#stationInfo tbody').on( 'click', '#deleteOne', function () {
                         var bool=window.confirm('你确认要删除选中数据？');
                         if(bool==false)
                         {
@@ -759,8 +829,6 @@
                         var theArray = [];
                         var a = this.parentNode.parentNode.childNodes.item([1]).innerHTML;
                         theArray.push(a);
-
-
                         //获取参数
                         var operatorName=userInfo.username;
                         var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&deleteList="+theArray;
@@ -768,7 +836,7 @@
                         //发起请求
                         $.ajax({
                             async: false,
-                            url: "https://www.smartlock.top/v0/deleteKey",
+                            url: "https://www.smartlock.top/v0/deleteStation",
                             type: "POST",
                             contentType: "application/x-www-form-urlencoded",
                             data: qsData,
@@ -777,7 +845,8 @@
                             {
 
                             },
-                            success: function (result) {
+                            success: function (result)
+                            {
 
                                 //将返回数据转化为json格式数据
                                 var infoJson =JSON.parse(result);
@@ -796,22 +865,25 @@
                                     var msg = sucInfo.msg;
                                     alert(msg);
 
-//                                    table.row('.selected').remove().draw( false );
+
+
                                 }else {
                                     alert("未知错误，请联系管理员！")
                                 }
 
-                                window.location.href="https://www.smartlock.top/my_smartlock/html/keyManage.html";
+
+
+                                window.location.href="lockManageTree.html";
 
                             },
                             error: function (result) {
-
-
 //                                            console.log(result);
                                 alert("无法连接到服务器！");
                             }
                         });
 
+
+//          alert(a.toString());
                     }
             );
         });
@@ -837,41 +909,6 @@
                 {
                     alert("登录授权时间超出!");
                     window.location.href = "login.html";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 }
                 else
@@ -954,23 +991,20 @@
                             }
 
 
-
-
-
                             break;
                     }
 
 						showUserInformation(); //侧边栏显示当前用户公司 管理区域 职位 用户名
+
 //                        setup(); //初始化选择省市县框
                 }
                 //动态的显示登录人员名字
-//                document.getElementById("username").innerHTML=userInfo.username;
                 document.getElementById("username1").innerHTML="欢迎回来"+" "+userInfo.username;
 
             }
             //获取数据并加载
-            queryKey();
-//            setup(); //初始化选择省市县框
+            queryStation();
+
 
             var result=GetQueryString("result"); //获取地址栏中的username参数
             if(result=="success")
@@ -979,6 +1013,15 @@
             }
 
         };
+
+
+        function GetQueryString(key)
+        {
+            var lot = location.search;
+            var reg = new RegExp(".*" + key + "\\s*=([^=&#]*)(?=&|#|).*","g");
+            return decodeURIComponent(lot.replace(reg, "$1"));
+        }
+
         //退出登录状态
         function  logout(){
             if(window.confirm("确定要退出登录状态？")){
@@ -986,97 +1029,155 @@
                 window.location.href="login.html";
             }
         }
-        /**
-         * 点击重置按钮
-         */
-        function reset(){
-            $("#keyID").val("");
-            $("#managementProvince").val("");
-            $("#managementCity").val("");
-            $("#managementArea").val("");
-            $("#gridID").val("");
-        }
-        //录入钥匙
-        function createKey(){
+        //新建基站
+        function createStation(){
             //获取固定参数
             var operatorName=userInfo.username;
             var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
-            var keyInfo = "";
+            var stationInfo = "";
             //获取页面字段
-            var keyID = $("#new_keyID").val();
+            var stationID = $("#new_stationID").val();
+            var address = $("#new_address").val();
+            var doorStatus = $("#new_doorStatus").val();
+            var lockID = $("#new_lockID").val();
+            var chargePerson = $("#new_chargePerson").val();
+            var chargePhone = $("#new_chargePhone").val();
+            var chargeCompany = $("#new_chargeCompany").val();
             var managementProvince = $("#province").val();
             var managementCity = $("#city").val();
             var managementArea = $("#county").val();
-            var gridID=$("#new_gridID").val();
-
-
-
+            var approvalPerson = $("#new_approvalPerson").val();
+            var approvalPhone = $("#new_approvalPhone").val();
             //对页面字段进行判空处理
-            if (keyID==""||keyID==null){
-                alert("电子钥匙编号不能为空，请重新填写！");
-                $("#new_keyID").focus();
-                $("#createKey").submit(function()
+            if (stationID==""||stationID==null){
+                alert("基站编号不能为空，请重新填写！");
+                $("#new_stationID").focus();
+                $("#createStation").submit(function()
                 {
                     return false;
                 });
                 return;
             }else{
-                keyInfo = "&keyID="+keyID;
+                stationInfo = "&stationID="+stationID;
+            };
+            if(address==""||address==null){
+                alert("基站地址不能为空，请重新填写！");
+                $("#new_address").focus();
+                $("#createStation").submit(function()
+                {
+                    return false;
+                });
+                return;
+            }else {
+                stationInfo=stationInfo+"&address="+address;
+            };
+            if(lockID==""||lockID==null){
+                alert("基站门锁ID不能为空，请重新填写！");
+                $("#new_lockID").focus();
+                $("#createStation").submit(function()
+                {
+                    return false;
+                });
+                return;
+            }else {
+                stationInfo=stationInfo+"&lockID="+lockID;
+            };
+            if(chargePerson==""||chargePerson==null){
+                alert("基站负责人不能为空，请重新填写！");
+                $("#new_chargePerson").focus();
+                $("#createStation").submit(function()
+                {
+                    return false;
+                });
+                return;
+            }else {
+                stationInfo=stationInfo+"&chargePerson="+chargePerson;
+            };
+            if(chargePhone==""||chargePhone==null){
+                alert("负责人联系电话不能为空，请重新填写！");
+                $("#new_chargePhone").focus();
+                $("#createStation").submit(function()
+                {
+                    return false;
+                });
+                return;
+            }else {
+                stationInfo=stationInfo+"&chargePhone="+chargePhone;
+            };
+            if(chargeCompany==""||chargeCompany==null){
+                alert("负责人公司不能为空，请重新填写！");
+                $("#new_chargeCompany").focus();
+                $("#createStation").submit(function()
+                {
+                    return false;
+                });
+                return;
+            }else {
+                stationInfo=stationInfo+"&chargeCompany="+chargeCompany;
             };
             if(managementProvince==""||managementProvince==null||managementProvince=="省份"){
                 alert("所属省级地域不能为空，请重新填写！");
                 $("#province").focus();
-                $("#createKey").submit(function()
+                $("#createStation").submit(function()
                 {
                     return false;
                 });
                 return;
             }else {
-                keyInfo=keyInfo+"&managementProvince="+managementProvince;
+                stationInfo=stationInfo+"&managementProvince="+managementProvince;
             };
             if(managementCity==""||managementCity==null||managementCity=="地级市"){
                 alert("所属市级地域不能为空，请重新填写！");
                 $("#county").focus();
-                $("#createKey").submit(function()
+                $("#createStation").submit(function()
                 {
                     return false;
                 });
                 return;
             }else {
-                keyInfo=keyInfo+"&managementCity="+managementCity;
+                stationInfo=stationInfo+"&managementCity="+managementCity;
             };
             if(managementArea==""||managementArea==null||managementArea=="市、县级市、县"){
                 alert("所属区级地域不能为空，请重新填写！");
                 $("#county").focus();
-                $("#createKey").submit(function()
+                $("#createStation").submit(function()
                 {
                     return false;
                 });
                 return;
             }else {
-                keyInfo=keyInfo+"&managementArea="+managementArea;
+                stationInfo=stationInfo+"&managementArea="+managementArea;
             };
-
-            if(gridID==""||gridID==null)
-            {
-                alert("所属网格不能为空，请重新填写！");
-                $("#new_gridID").focus();
-                $("#createKey").submit(function()
+            if(approvalPerson==""||approvalPerson==null){
+                alert("基站作业审批人不能为空，请重新填写！");
+                $("#new_approvalPerson").focus();
+                $("#createStation").submit(function()
                 {
                     return false;
                 });
                 return;
             }else {
-                keyInfo=keyInfo+"&gridID="+gridID;
+                stationInfo=stationInfo+"&approvalPerson="+approvalPerson;
             };
-
+            if(approvalPhone==""||approvalPhone==null){
+                alert("作业审批人电话不能为空，请重新填写！");
+                $("#new_approvalPhone").focus();
+                $("#createStation").submit(function()
+                {
+                    return false;
+                });
+                return;
+            }else {
+                stationInfo=stationInfo+"&approvalPhone="+approvalPhone;
+            };
+            //判空结束
             //组合新建基站字段
-            qsData = qsData+keyInfo;
-//            console.log("新建基站信息为："+keyInfo);
+            qsData = qsData+stationInfo;
+//            console.log("新建基站信息为："+stationInfo);
             //发起请求
             $.ajax({
                 async: false,
-                url: "https://www.smartlock.top/v0/addKey",
+                url: "https://www.smartlock.top/v0/addStation",
                 type: "POST",
                 contentType: "application/x-www-form-urlencoded",
                 data: qsData,
@@ -1094,7 +1195,7 @@
                     if (infoJson.error){
                         var errInfo = infoJson.error;
                         alert(errInfo.msg);
-                        $("#createKey").submit(function()
+                        $("#createStation").submit(function()
                         {
                             return false;
                         });
@@ -1106,8 +1207,8 @@
                         var sucInfo =  infoJson.success;
                         var msg = sucInfo.msg;
                         alert(msg);
-                        clear_createKey();
-                        $("#createKey").submit(function()
+                        clear_createStation();
+                        $("#createStation").submit(function()
                         {
                             return false;
                         });
@@ -1118,7 +1219,7 @@
                 error: function (result) {
 //                    console.log(result);
                     alert("无法连接到服务器！");
-                    $("#createKey").submit(function()
+                    $("#createStation").submit(function()
                     {
                         return false;
                     });
@@ -1126,18 +1227,37 @@
 
             });
         };
+
+
+        /**
+         * 点击重置按钮
+         */
+        function reset(){
+            $("#stationID").val("");
+            $("#address").val("");
+            $("#doorStatus").val("");
+            $("#chargePerson").val("");
+            $("#approvalPerson").val("");
+        }
         //清空基站录入表单
-        function clear_createKey(){
-            $("#new_keyID").val("");
+        function clear_createStation(){
+            $("#new_stationID").val("");
+            $("#new_address").val("");
+            $("#new_doorStatus").val("");
+            $("#new_lockID").val("");
+            $("#new_chargePerson").val("");
+            $("#new_chargePhone").val("");
+            $("#new_chargeCompany").val("");
+            $("#new_approvalPerson").val("");
+            $("#new_approvalPhone").val("");
         }
         //获取基站列表
-        function queryKey(){
+        function queryStation(){
             var qsData = collectQueryInfo();
-//            console.log(qsData);
             //发起请求
             $.ajax({
                 async: false,
-                url: "https://www.smartlock.top/v0/queryKey",
+                url: "https://www.smartlock.top/v0/queryStation",
                 type: "POST",
                 contentType: "application/x-www-form-urlencoded",
                 data: qsData,
@@ -1155,19 +1275,20 @@
                     if (infoJson.error){
                         var errInfo = infoJson.error;
                         alert(errInfo.msg);
-                        reset();
-                        $('#keyInfo').dataTable().fnClearTable();//清除表格内原有的数据
+                        $('#stationInfo').dataTable().fnClearTable();//清除表格内原有的数据
                         if(errInfo.code=="00000"){
                             window.location.href="login.html";
                         };
+                        reset();
                         return;
                     }else if (infoJson.success)
                     {
                         var sucInfo =  infoJson.success;
-//                        console.log(sucInfo);
+                        var firstStationInfo =sucInfo[0];
+                        var stationID = firstStationInfo.stationID;
+                        $('#stationInfo').dataTable().fnClearTable();//清除表格内原有的数据
+                        $('#stationInfo').dataTable().fnAddData(sucInfo,true);
                         reset();
-                        $('#keyInfo').dataTable().fnClearTable();//清除表格内原有的数据
-                        $('#keyInfo').dataTable().fnAddData(sucInfo,true);
                     }else {
                         alert("未知错误，请联系管理员！")
                     }
@@ -1175,7 +1296,6 @@
 
                 },
                 error: function (result) {
-//                    console.log(result);
                     alert("无法连接到服务器！");
                 }
             });
@@ -1186,41 +1306,132 @@
             var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
             //获取查询参数
             var qsDataActive = "";
-            var keyID = $("#keyID").val();
-            var managementProvince = $("#managementProvince").val();
-            var managementCity = $("#managementCity").val();
-            var managementArea = $("#managementArea").val();
-            var gridID=$("#gridID").val();
-
-
-
-
-
-
-
-
-
-
-            if(keyID!=""&&keyID!=null){
-                qsDataActive = "&keyID="+keyID
+            var stationID = $("#stationID").val();
+            var address = $("#address").val();
+            var doorStatus = $("#doorStatus").val();
+            var chargePerson = $("#chargePerson").val();
+            var approvalPerson = $("#approvalPerson").val();
+            if(stationID!=""&&stationID!=null){
+                qsDataActive = "&stationID="+stationID
             }
-            if(managementProvince!=""&&managementProvince!=null){
-                qsDataActive = qsDataActive+"&managementProvince="+managementProvince
+            if(address!=""&&address!=null){
+                qsDataActive = qsDataActive+"&address="+address
             }
-            if(managementCity!=""&&managementCity!=null){
-                qsDataActive = qsDataActive+"&managementCity="+managementCity
+            if(doorStatus!=""&&doorStatus!=null){
+                qsDataActive = qsDataActive+"&doorStatus="+doorStatus
             }
-            if(managementArea!=""&&managementArea!=null){
-                qsDataActive = qsDataActive+"&managementArea="+managementArea
+            if(chargePerson!=""&&chargePerson!=null){
+                qsDataActive = qsDataActive+"&chargePerson="+chargePerson
             }
-            if(gridID!=""&&gridID!=null){
-                qsDataActive = qsDataActive+"&gridID="+gridID
+            if(approvalPerson!=""&&approvalPerson!=null){
+                qsDataActive = qsDataActive+"&approvalPerson="+approvalPerson
             }
             if (qsDataActive==""&&qsDataActive==null){
                 return qsData
             }else{
                 return qsData+qsDataActive;
             }
+        }
+
+        function validCSV()
+        {
+            // 获取上传文件名
+//			 alert("进去函数体内")
+            var excel_files = document.getElementById("file").files;
+//            alert(document.getElementById("excel_file").files.length)
+//            alert(document.getElementById("excel_file").files[1].name)
+//            alert(excel_files.length);
+            var flag=1;
+            var upload_files="";
+            if(excel_files.length<1)
+            {
+                alert("尚未选择文件!");
+                flag=0;
+
+            }
+
+            for(var i=0;i<excel_files.length;i++)
+            {
+                var excel_name=excel_files[i].name;
+                // 获取该文件名的后缀名
+                var extend = excel_name.substring(excel_name.lastIndexOf(".") + 1);
+//				 alert(i+" "+extend);
+
+                if(extend!="csv"&&extend!="csv")
+                {
+                    alert("文件的后缀名不符合要求!文件名为"+excel_name);
+                    falg=0;
+                    break;
+                }
+
+                var file_name= excel_name.substring(excel_name.lastIndexOf("/") + 1);
+                upload_files=upload_files+","+file_name;
+            }
+
+
+            if(flag==0)
+            {
+                return false;
+            }
+            else
+            {
+
+                return true;
+            }
+
+        }
+        function synExcel()
+        {
+
+//            var excel_file = document.getElementById("excel_file").value;
+//            if(excel_file==null||excel_file=="")
+//            {
+//                alert("您尚未上传基站数据文件！");
+//                return ;
+//            }
+
+            var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=lockInfo&filename=lockUpload.csv";
+
+            alert(qsData);
+            //发起请求
+            $.ajax({
+                    async: false,
+                    url: "https://www.smartlock.top/v0/importFromCSVForAll",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: qsData,
+                    timeout: 8000,
+                    beforeSend: function ()
+                    {
+
+                    },
+                    success: function (result) {
+
+                        //将返回数据转化为json格式数据
+                        var infoJson =JSON.parse(result);
+
+                        //判断查询是否成功
+                        if (infoJson.error){
+                            var errInfo = infoJson.error;
+                            alert(errInfo.msg);
+
+
+                        }else if (infoJson.success)
+                        {
+                            var sucInfo =  infoJson.success;
+                            alert(sucInfo.msg);
+
+
+                        }else {
+                            alert("未知错误，请联系管理员！");
+                        }
+                        window.location.href="lockUpload.html";
+                        return true;
+                    },
+                    error: function (result) {
+                        alert("无法连接到服务器！");
+                    }
+                });
         }
 
 
@@ -1341,130 +1552,9 @@
             }
 
         }
-
-
-        function validCSV()
-        {
-            // 获取上传文件名
-//			 alert("进去函数体内")
-            var excel_files = document.getElementById("file").files;
-//            alert(document.getElementById("excel_file").files.length)
-//            alert(document.getElementById("excel_file").files[1].name)
-//            alert(excel_files.length);
-            var flag=1;
-            var upload_files="";
-            if(excel_files.length<1)
-            {
-                alert("尚未选择文件!");
-                flag=0;
-
-            }
-            for(var i=0;i<excel_files.length;i++)
-            {
-                var excel_name=excel_files[i].name;
-                // 获取该文件名的后缀名
-                var extend = excel_name.substring(excel_name.lastIndexOf(".") + 1);
-//				 alert(i+" "+extend);
-
-                if(extend!="csv"&&extend!="csv")
-                {
-                    alert("文件的后缀名不符合要求!文件名为"+excel_name);
-                    falg=0;
-                    break;
-                }
-                var file_name= excel_name.substring(excel_name.lastIndexOf("/") + 1);
-                upload_files=upload_files+","+file_name;
-            }
-            if(flag==0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-
-
-
-
-
-        function synExcel()
-        {
-
-//            var excel_file = document.getElementById("excel_file").value;
-//            if(excel_file==null||excel_file=="")
-//            {
-//                alert("您尚未上传基站数据文件！");
-//                return ;
-//            }
-
-            var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=keyInfo&filename=keyUpload.csv";
-
-            alert(qsData);
-            //发起请求
-            $.ajax({
-                async: false,
-                url: "https://www.smartlock.top/v0/importFromCSVForAll",
-                type: "POST",
-                contentType: "application/x-www-form-urlencoded",
-                data: qsData,
-                timeout: 8000,
-                beforeSend: function ()
-                {
-
-                },
-                success: function (result) {
-
-                    //将返回数据转化为json格式数据
-                    var infoJson =JSON.parse(result);
-
-                    //判断查询是否成功
-                    if (infoJson.error){
-                        var errInfo = infoJson.error;
-                        alert(errInfo.msg);
-
-
-                    }else if (infoJson.success)
-                    {
-                        var sucInfo =  infoJson.success;
-                        alert(sucInfo.msg);
-
-                    }else {
-                        alert("未知错误，请联系管理员！")
-                    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    window.location.href="https://www.smartlock.top/my_smartlock/html/keyUpload.html";
-                    return true;
-
-                },
-                error: function (result) {
-                    alert("无法连接到服务器！");
-                }
-            });
-
-        }
-        function GetQueryString(key)
-        {
-            var lot = location.search;
-            var reg = new RegExp(".*" + key + "\\s*=([^=&#]*)(?=&|#|).*","g");
-            return decodeURIComponent(lot.replace(reg, "$1"));
-        }
     </script>
 </head>
+
 <body onload=checkUserValidity()>
 <div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
 
@@ -1488,17 +1578,6 @@
                     首页
                 </a>
             </li>
-
-
-
-
-
-
-
-
-
-
-
 
             <li id="gongsiguanli">
                 <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
@@ -1532,45 +1611,42 @@
                     基站管理
                 </a>
                 <ul>
+                    <li><a  href="stationManageTree.html">基站管理</a></li> <!-- Add class "current" to sub menu items also -->
                     <li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
                     <li><a  href="stationManageLog.html">基站日志管理</a></li>
-                    <li><a  href="stationUpload.html">基站日志管理</a></li>
+                    <li><a  href="stationUpload.html">基站批量上传</a></li>
                 </ul>
             </li>
 
-
-
-
-
-
-
-
-
+            <li id="suojuguanli">
+                <a href="#" class="nav-top-item current"> <!-- Add the class "current" to current menu item -->
+                    锁具管理
+                </a>
+                <ul>
+                    <li><a  href="lockManageTree.html">锁具管理</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  class="current" href="lockUpload.html">锁具批量上传</a></li>
+                </ul>
+            </li>
 
             <li>
                 <a href="#" class="nav-top-item">
                     作业管理
                 </a>
                 <ul>
-                    <li><a  href="taskManage.html">工单列表</a></li>
+                    <li><a   href="taskManage.html">工单列表</a></li>
                     <li><a  href="abnormalTaskManage.html">异常工单</a></li>
                 </ul>
             </li>
-
-
             <li id="dianziyaoshiguanli">
-                <a href="#" class="nav-top-item current">
+                <a href="#" class="nav-top-item">
                     电子钥匙管理
                 </a>
                 <ul>
                     <li><a href="keyManage.html">钥匙列表</a></li>
                     <li><a href="keyManageLog.html">钥匙日志</a></li>
-                    <li><a class="current"href="keyUpload.html">钥匙批量上传</a></li>
+                    <li><a  href="stationUpload.html">基站日志管理</a></li>
                 </ul>
             </li>
-
-
-
             <li id="yuangongguanli">
                 <a href="#" class="nav-top-item ">
                     员工管理
@@ -1585,7 +1661,6 @@
                     <div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>
                 </ul>
             </li>
-
             <li id="tongjiguanli">
                 <a href="#" class="nav-top-item">
                     统计管理
@@ -1595,70 +1670,26 @@
                 </ul>
             </li>
 
+
         </ul> <!-- End #main-nav -->
 
     </div></div> <!-- End #sidebar -->
 
+
     <div id="main-content"> <!-- Main Content Section with everything -->
-
-
-
         <!-- Page Head -->
         <h2 id="username1"> </h2>
         <p id="page-intro">What would you like to do?</p>
         <div class="clear"></div> <!-- End .clear -->
-
         <div class="content-box"><!-- Start Content Box -->
-
             <div class="content-box-header">
-
                 <!--<h3>内容模块</h3>-->
-
                 <ul class="content-box-tabs">
-                    <li><a href="#uploadExcel" class="default-tab">电子钥匙批量导入</a></li>
+                    <li><a href="#uploadExcel" class="default-tab">批量导入</a></li>
                 </ul>
-
                 <div class="clear"></div>
-
             </div> <!-- End .content-box-header -->
             <!--弹出编辑框开始-->
-            <div class="dialog">
-                <div class="model-bg" title="editKeyInfo"></div>
-                <div class="popBox" title="editKeyInfo">
-                    <div class="ttBox">
-                        <a class="clsBtn" title="editKeyInfo"></a>
-                        <span class="tt">修改个人信息</span>
-                    </div>
-                    <div class="txtBox">
-                        <div class="item">
-                            <label for="edit_keyID">电子钥匙编号：</label>
-                            <input type="text" id="edit_keyID">
-                        </div>
-                        <div class="item">
-                            <label for="edit_managementProvince">所属省级区域：</label>
-                            <input type="text" id="edit_managementProvince">
-                        </div>
-                        <div class="item">
-                            <label for="edit_managementCity">所属市级区域：</label>
-                            <input type="text" id="edit_managementCity">
-                        </div>
-                        <div class="item">
-                            <label for="edit_managementArea">所属区级区域：</label>
-                            <input type="text" id="edit_managementArea">
-                        </div>
-                        <div class="item">
-                            <label for="edit_gridID">所属网格编号：</label>
-                            <input type="text" id="edit_gridID">
-                        </div>
-                    </div>
-                    <div class="btnArea">
-                        <div class="btnGroup">
-                            <a class="sgBtn ok" id="submit_editKeyInfo">确定</a>
-                            <a class="sgBtn cancel" id="cancel_editKeyInfo">取消</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="dialog">
                 <div class="model-bg" title="editPersonInfo"></div>
                 <div class="popBox" title="editPersonInfo">
@@ -1704,44 +1735,95 @@
                     </div>
                 </div>
             </div>
+            <div class="dialog" title="editOneStationInfo">
+                <div class="model-bg" title="editOneStationInfo"></div>
+                <div class="popBox" title="editOneStationInfo">
+                    <div class="ttBox">
+                        <a class="clsBtn" title="editOneStationInfo"></a>
+                        <span class="tt">修改基站信息</span>
+                    </div>
+                    <div class="txtBox">
+                        <div class="item">
+                            <label for="edit_stationID">基站编号：</label>
+                            <input type="text" id="edit_stationID">
+                        </div>
+                        <div class="item">
+                            <label for="edit_address">基站地址：</label>
+                            <input type="text" id="edit_address">
+                        </div>
+                        <div class="item">
+                            <label for="edit_doorStatus">门锁状态：</label>
+                            <select id="edit_doorStatus" class="edit_select">
+                                <option value="">请选择门锁状态</option>
+                                <option value="open">开启状态</option>
+                                <option value="closed">关闭状态</option>
+                            </select>
+
+                            <!--<input type="text" id="edit_doorStatus">-->
+                        </div>
+                        <div class="item">
+                            <label for="edit_lockID">门锁ID：</label>
+                            <input type="text" id="edit_lockID">
+                        </div>
+                        <div class="item">
+                            <label for="edit_chargePerson">负责人：</label>
+                            <input type="text" id="edit_chargePerson">
+                        </div>
+                        <div class="item">
+                            <label for="edit_approvalPerson">作业审批人：</label>
+                            <input type="text" id="edit_approvalPerson">
+                        </div>
+                    </div>
+                    <div class="btnArea">
+                        <div class="btnGroup">
+                            <a class="sgBtn ok" id="submit_editStationInfo">确定</a>
+                            <a class="sgBtn cancel" id="cancel_editStationInfo">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
             <!--弹出编辑框结束-->
-            <div class="content-box-content" width="1000px">
-
-
+            <div class="content-box-content">
                 <div class="tab-content default-tab" id="uploadExcel">
 
 
-                    <strong><font color="red">*</font> 请您务必仔细阅读下面两条要求！</strong>
-                    <br><br><strong><font color="red">*</font> (1) 请上传前下载基站标准CSV模板，数据必须按照模板格式导入！</strong>
-                    <input class="button" type="button" value="下载模板" onclick="window.location.href='../assets/importFromCSVForAll'" />
-                    <br><br><strong><font color="red">*</font> (2) 选择文件后先点击上传文件，再点击同步数据，才能能将数据导入数据库中！</strong>
+                        <strong><font color="red">*</font> 请您务必仔细阅读下面两条要求！</strong>
+                        <br><br><strong><font color="red">*</font> (1) 请上传前下载基站标准csv模板，数据必须按照模板格式导入！</strong>
+                        <input class="button" type="button" value="下载模板" onclick="window.location.href='../assets/锁具数据批量导入.csv'" />
+                        <br><br><strong><font color="red">*</font> (2) 选择文件后先点击上传文件，再点击同步数据，才能能将数据导入数据库中！</strong>
 
-                    <fieldset id="uploadExcelFieldSet" > <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
-                        <br>
-                        <form action="https://www.smartlock.top/v1/keyUpload" enctype="multipart/form-data" method="post" onsubmit="return validCSV()">
+                        <fieldset id="uploadExcelFieldSet" > <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+                            <br>
+                            <form action="https://www.smartlock.top/v1/lockUpload" enctype="multipart/form-data" method="post" onsubmit="return validCSV()">
+                                <p>
+                                    <input type="file" id="file" name="file" ><br>
+
+                                </p>
+                                <p>
+                                    <input class="button" type="submit" value="上传文件">
+
+                                    <input class="button" type="button" value="同步数据" onclick="synExcel()">
+                                </p>
+
+
+
+                            </form>
+
                             <p>
-                                <input type="file" id="file" name="file" ><br>
 
                             </p>
-                            <p>
-                                <input class="button" type="submit" value="上传文件">
 
-                                <input class="button" type="button" value="同步数据" onclick="synExcel()">
-                            </p>
-
-
-
-                        </form>
-
-                        <p>
-
-                        </p>
-
-                    </fieldset>
+                        </fieldset>
 
 
 
                 </div> <!-- End #stationLog -->
+
 
 
             </div> <!-- End .content-box-content -->
@@ -1760,3 +1842,4 @@
 </body>
 
 </html>
+ 

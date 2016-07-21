@@ -396,8 +396,7 @@
                             }
                             return data;
                         }
-                    }
-                    ,
+                    },
                     {
                         "data":"lockID",
                     },
@@ -887,8 +886,20 @@
         });
 
 
+
     </script>
     <script type="text/javascript">
+
+
+
+
+
+
+
+
+
+
+
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var regionInfo=JSON.parse(localStorage.getItem("regionInfo"));
         var permissions=JSON.parse(localStorage.getItem("permissions"));
@@ -998,7 +1009,6 @@
                 }
                 //动态的显示登录人员名字
                 document.getElementById("username1").innerHTML="欢迎回来"+" "+userInfo.username;
-
             }
             //获取数据并加载
             queryStation();
@@ -1168,11 +1178,17 @@
             }else {
                 stationInfo=stationInfo+"&approvalPhone="+approvalPhone;
             };
+
+
+
             //判空结束
             //组合新建基站字段
             qsData = qsData+stationInfo;
 //            console.log("新建基站信息为："+stationInfo);
             //发起请求
+
+
+
             $.ajax({
                 async: false,
                 url: "https://www.smartlock.top/v0/addStation",
@@ -1282,8 +1298,8 @@
                     }else if (infoJson.success)
                     {
                         var sucInfo =  infoJson.success;
-                        var firstStationInfo =sucInfo[0];
-                        var stationID = firstStationInfo.stationID;
+                        var firstZoneInfo =sucInfo[0];
+                        var stationID = firstZoneInfo.stationID;
                         $('#stationInfo').dataTable().fnClearTable();//清除表格内原有的数据
                         $('#stationInfo').dataTable().fnAddData(sucInfo,true);
                         reset();
@@ -1325,9 +1341,9 @@
                 qsDataActive = qsDataActive+"&approvalPerson="+approvalPerson
             }
             if (qsDataActive==""&&qsDataActive==null){
-                return qsData
+                return qsData+"&managementProvince=四川省";
             }else{
-                return qsData+qsDataActive;
+                return qsData+qsDataActive+"&managementProvince=四川省";
             }
         }
         function validExcel()
@@ -1447,49 +1463,6 @@
                 });
         }
 
-//        setInterval("myInterval()",10000);//1000为1秒钟，定时检查目前的token是否合法
-//        function myInterval()
-//        {
-//            var query="operatorName="+userInfo.username+"&accessToken="+accessToken+"&username="+userInfo.username;
-//            $.ajax({
-//                async: false,
-//                url: "https://www.smartlock.top/v0/queryUser",
-//                type: "POST",
-//                contentType: "application/x-www-form-urlencoded",
-//                data: query,
-//                timeout: 8000,
-//                beforeSend: function ()
-//                {
-//
-//                },
-//                success: function (result) {
-//                    //将返回数据转化为json格式数据
-//                    var infoJson =JSON.parse(result);
-//                    //判断查询是否成功
-//                    if (infoJson.error){ //当前用户不存在或者当前用户token过期
-//                        var errInfo = infoJson.error;
-//                        alert(errInfo.msg);
-//                        window.location.href="login.html";
-//
-//                        return;
-//                    }else if (infoJson.success)
-//                    {
-////
-////							console.log(accessToken)
-//
-//                    }else
-//                    {
-//                        alert("未知错误，请联系管理员！")
-//                    }
-//
-//                },
-//                error: function (result) {
-////						console.log(result);
-//                    alert("无法连接到服务器！");
-//
-//                }
-//            });
-//        }
 
 
         function showUserInformation() //侧边栏显示当前用户公司 管理区域 职位 用户名
@@ -1675,9 +1648,10 @@
                     基站管理
                 </a>
                 <ul>
-                    <li><a  class="current" href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  href="stationManageTree.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  class="current" href="stationManage.html">基站列表(旧)</a></li> <!-- Add class "current" to sub menu items also -->
                     <li><a  href="stationManageLog.html">基站日志管理</a></li>
-                    <li><a  href="stationUpload.html">基站批量上传</a></li>
+                    <li><a  href="stationUpload.html">基站批量导入</a></li>
                 </ul>
             </li>
 

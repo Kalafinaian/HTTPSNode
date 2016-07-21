@@ -70,6 +70,7 @@
     <link rel="stylesheet" href="../assets/css/zTreeStyle.css" type="text/css">
     <script type="text/javascript" src="../assets/js/jquery.ztree.core.js"></script>
 
+
     <!--[if IE]><script type="text/javascript" src="../assets/js/jquery.bgiframe.js"></script><![endif]-->
     <!-- Internet Explorer .png-fix -->
     <!--[if IE 6]>
@@ -96,10 +97,72 @@
     <script type="text/javascript">
 
 
+        function Map()
+        {
+            this.keys = new Array();
+            this.data = new Array();
 
+            this.getKeys=function()
+            {
+                return this.keys;
+            };
+            this.getData=function()
+            {
+                return this.data;
+            }
+            //添加键值对
+            this.set = function (key, value) {
+                if (this.keys.indexOf(key) == -1)
+                {   //如键不存在则身【键】数组添加键名
+                    this.keys.push(key);
+                    this.data.push(value);
+                }
+                else
+                {
+                    var index=this.keys.indexOf(key);
+                    this.data[index]=value;
+                }
 
+            };
+            //获取键对应的值
+            this.get = function (key)
+            {
+                if (this.keys.indexOf(key) == -1)
+                {
+                    return null;
+                }
+                else
+                {
+                    var index=this.keys.indexOf(key);
+                    return this.data[index];
+                }
 
+            };
+            //去除键值，(去除键数据中的键名及对应的值)
+            this.remove = function (key)
+            {
+                if (this.keys.indexOf(key) == -1)
+                {
+                    return;
+                }
+                else
+                {
+                    var index=this.keys.indexOf(key);
+                    this.keys.remove(key);
+                    this.data.remove(this.data[index]);
 
+                }
+
+            };
+            //判断键值元素是否为空
+            this.isEmpty = function () {
+                return this.keys.length == 0;
+            };
+            //获取键值元素大小
+            this.size = function () {
+                return this.keys.length;
+            };
+        }
         var setting = {
             data: {
                 key: {
@@ -131,165 +194,188 @@
             { id:33, pId:3, name:"叶子节点3 - 3", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"}
         ];
 
-
-        function getZoneJSon()
+        function getZoneStationJSon()
         {
-            var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&areaParentID=510000";
-
-
-            var sucInfo="";
-            //发起请求
-            $.ajax({
-                async: false,
-                url: "https://www.smartlock.top/v0/queryAreaInfo",
-                type: "POST",
-                contentType: "application/x-www-form-urlencoded",
-                data: qsData,
-                timeout: 8000,
-                beforeSend: function ()
-                {
-
-                },
-                success: function (result) {
-
-                    //将返回数据转化为json格式数据
-                    var infoJson =JSON.parse(result);
-                    //判断查询是否成功
-                    if (infoJson.error){
-                        var errInfo = infoJson.error;
-                        alert(errInfo.msg);
-                        if(errInfo.code=="00000"){
-                            window.location.href="login.html";
-                        }
-                    }else if (infoJson.success)
-                    {
-                        sucInfo =  infoJson.success;
-
-
-                    }else {
-                        alert("未知错误，请联系管理员！")
-                    }
-                },
-                error: function (result) {
-                    console.log(result);
-                    alert("无法连接到服务器！");
-                }
-            });
-
-
-
-
-
-
-            var i;
-            var zoneJson = [];
-            var j=0;
-            zoneJson[j]={
-                        id:1,
-                        pId:0,
-                        name:"四川省",
-                        node_areaID:510000,
-                        iconSkin:"pIcon01",
-                        parent_areaID:0,
-                        node_areaLevel:1,
-                        open:true
-                    }
-            j=j+1;
-
-
-
-
-
-
-            for(i=0;i<sucInfo.length;i++)
+            if(userInfo.userType!=="000")
             {
-                var areaName=sucInfo[i].areaName;
-                var areaID=sucInfo[i].areaID;
-                var areaLevel=sucInfo[i].areaLevel;
-                var pid=j+1;
+                var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=userInfo&companyID="+userInfo.companyID;
+                var sucInfo="";
+                //发起请求
+                $.ajax({
+                    async: false,
+                    url: "https://www.smartlock.top/v0/queryAll",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: qsData,
+                    timeout: 8000,
+                    beforeSend: function ()
+                    {
+
+                    },
+                    success: function (result) {
+
+                        //将返回数据转化为json格式数据
+                        var infoJson =JSON.parse(result);
+                        //判断查询是否成功
+                        if (infoJson.error){
+                            var errInfo = infoJson.error;
+                            alert(errInfo.msg);
+                            if(errInfo.code=="00000"){
+                                window.location.href="login.html";
+                            }
+                        }else if (infoJson.success)
+                        {
+                            sucInfo =  infoJson.success;
 
 
+                        }else {
+                            alert("未知错误，请联系管理员！")
+                        }
+                    },
+                    error: function (result) {
+                        console.log(result);
+                        alert("无法连接到服务器！");
+                    }
+                });
+
+                var i;
+                var zoneJson = [];
+                var j=0;
                 zoneJson[j]={
-                            id:pid,
-                            pId:1,
-                            name:areaName,
-                            node_areaID:areaID,
-                            parent_areaID:510000,
-                            node_areaLevel:areaLevel,
+                            id:1,
+                            pId:0,
+                            name:userInfo.company,
+                            node_id:userInfo.companyID,
                             iconSkin:"pIcon01",
+                            node_level:1,
                             open:true
                         }
-
-
-
-
-
                 j=j+1;
-                qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&areaParentID="+areaID;
-                var county;
-                $.ajax({
-                        async: false,
-                        url: "https://www.smartlock.top/v0/queryAreaInfo",
-                        type: "POST",
-                        contentType: "application/x-www-form-urlencoded",
-                        data: qsData,
-                        timeout: 8000,
-                        beforeSend: function ()
-                        {
 
-                        },
-                        success: function (result) {
+                for(i=0;i<sucInfo.length;i++)
+                {
+                    var user_name=sucInfo[i].realname;
+                    var user_id=sucInfo[i]._id;
+                    var node_id=j+1;
 
-                            //将返回数据转化为json格式数据
-                            var infoJson =JSON.parse(result);
-                            //判断查询是否成功
-                            if (infoJson.error){
-                                var errInfo = infoJson.error;
-                                alert(errInfo.msg);
-                                if(errInfo.code=="00000"){
-                                    window.location.href="login.html";
-                                }
-                            }else if (infoJson.success)
-                            {
-                                county =  infoJson.success;
-
-                            }else {
-                                alert("未知错误，请联系管理员！")
-                            }
-                        },
-                        error: function (result) {
-                            console.log(result);
-                            alert("无法连接到服务器！");
+                    zoneJson[j]={
+                            id:node_id,
+                            pId:1,
+                            name:user_name,
+                            node_id:user_id,
+                            iconSkin:"icon01",
+                            node_level:2,
+                            open:true
                         }
+                    j=j+1;
+
+                }
+    //            json=zoneJson;
+
+
+                return zoneJson;
+            }
+            else
+            {
+                var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=userInfo";
+                var sucInfo="";
+                //发起请求
+                $.ajax({
+                    async: false,
+                    url: "https://www.smartlock.top/v0/queryAll",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: qsData,
+                    timeout: 8000,
+                    beforeSend: function ()
+                    {
+
+                    },
+                    success: function (result) {
+
+                        //将返回数据转化为json格式数据
+                        var infoJson =JSON.parse(result);
+                        //判断查询是否成功
+                        if (infoJson.error){
+                            var errInfo = infoJson.error;
+                            alert(errInfo.msg);
+                            if(errInfo.code=="00000"){
+                                window.location.href="login.html";
+                            }
+                        }else if (infoJson.success)
+                        {
+                            sucInfo =  infoJson.success;
+
+
+                        }else {
+                            alert("未知错误，请联系管理员！")
+                        }
+                    },
+                    error: function (result) {
+                        console.log(result);
+                        alert("无法连接到服务器！");
+                    }
                 });
 
 
-                for(ii=0;ii<county.length;ii++) {
-                    var countyName = county[ii].areaName;
-                    var countyID = county[ii].areaID;
-                    var areaLevel=county[ii].areaLevel;
-                    zoneJson[j] = {
-                        id: j+1,
-                        pId: pid,
-                        name: countyName,
-                        node_areaID: countyID,
-                        parent_areaID:areaID,
-                        node_areaLevel:areaLevel,
-                        iconSkin: "icon01",
-                        open: true
+
+
+                var i;
+                var zoneJson = [];
+                var j=0;
+
+                var companyMap=new Map();
+                for(i=0;i<sucInfo.length;i++)
+                {
+                    var companyID=sucInfo[i].companyID;
+                    var company=sucInfo[i].company;
+                    companyMap.set(companyID,company);
+
+                }
+
+                var company2Id=new Map();
+                for(i=0;i<companyMap.size();i++)
+                {
+                    zoneJson[j]=
+                    {
+                        id:j+1,
+                        pId:0,
+                        name:companyMap.getData()[i],
+                        node_id:companyMap.getKeys()[i],
+                        iconSkin:"pIcon01",
+                        node_level:1,
+                        open:true
                     }
-                    j = j + 1;
+                    company2Id.set(companyMap.getKeys()[i],j+1);
+                    j=j+1;
+                }
+
+                for(i=0;i<sucInfo.length;i++)
+                {
+                    var companyID=sucInfo[i].companyID;
+                    var company=sucInfo[i].company;
+                    var user_name=sucInfo[i].realname;
+                    var user_id=sucInfo[i]._id;
+                    var node_id=j+1;
+                    var pid=company2Id.get(companyID);
+
+                    zoneJson[j]={
+                        id:node_id,
+                        pId:pid,
+                        name:user_name,
+                        node_id:user_id,
+                        iconSkin:"icon01",
+                        node_level:2,
+                        open:true
+                    }
+                    j=j+1;
+                    companyMap.set(companyID,company);
+
                 }
 
 
-
+                return zoneJson;
             }
-
-
-
-
-//            return JSON.stringify(zoneJson);
-            return zoneJson;
         }
 
 
@@ -299,22 +385,21 @@
             showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
             return (treeNode.click != false);
         }
-        function onClick(event, treeId, treeNode, clickFlag) {
-//            showLog("[ " + getTime() + " onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag === 1 ? "普通选中" : (clickFlag === 0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
+        function onClick(event, treeId, treeNode, clickFlag)
+        {
+            showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
 
-            console.log()
-            if (treeNode.node_areaLevel == 3) {
-                var areaParentID = treeNode.node_areaID;
-                queryZone(areaParentID, 2);
-            }
-            else
+
+
+            if (treeNode.node_level == 2)
             {
-                var areaParentID = treeNode.node_areaID;
-                queryZone(areaParentID, 1);
+                queryUser("",treeNode.node_id);
             }
+            else if (treeNode.node_level == 1)
+            {
 
-
-
+                queryUser(treeNode.node_id,"");
+            }
 
 
         }
@@ -540,7 +625,7 @@
         };
 
         $(document).ready(function(){
-            var zonejson=getZoneJSon();
+            var zonejson=getZoneStationJSon();
             $.fn.zTree.init($("#treeDemo"), setting, zonejson);
         });
 
@@ -828,66 +913,59 @@
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var tokenEndTime=localStorage.getItem("tokenEndTime");
         var originalStationID = "";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /**
          * datables初始化
          */
         $(document).ready(function() {
             //新建基站
-            table = $('#zoneInfo').DataTable( {
+            table = $('#userInfo').DataTable( {
                 "searching": false,
                 "bStateSave": false,
                 "aoColumns": [
-//                    {
-//                        "data":"_id",
-//                        "orderable": false,
-//                        "render": function(data, type, full, meta) {
-//                            return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
-//
-//                        }
-//                    },
                     {
-                        "data": "areaID",
+                        "data":"_id",
+                        "orderable": false,
                         "render": function(data, type, full, meta) {
-                            return "510000"
+                            return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
+
                         }
                     },
                     {
-                        "data": "areaID",
-                        "render": function(data, type, full, meta) {
-                            return "四川省"
-                        }
-                    },
-                    {
-                        "data": "areaID",
+                        "data": "username",
                         "sClass" : "center"
                     },
-                    { "data": "areaName" },
+                    { "data": "realname" },
+                    { "data": "phone" },
+                    { "data": "company" },
+                    { "data": "userGroup" },
+//                    { "data": "managementProvince" },
+//                    { "data": "managementCity" },
+//                    { "data": "managementArea" },
                     {
-                        "data": "areaLevel" ,
+                        "data":"_id",
                         "render": function(data, type, full, meta) {
-                            if (data ==1 ) {
-                                data = "省";
-                            }
-                            else if(data ==2)
-                            {
-                                data = "市";
-                            }
-                            else if(data ==3)
-                            {
-                                data = "区县";
-                            }
-                            return data;
+                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
+                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+
                         }
-                    },
-//                    {
-//                        "data":"_id",
-//                        "render": function(data, type, full, meta) {
-//                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-//                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-//                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-//
-//                        }
-//                    }
+                    }
                 ],
                 language: {
                     "sProcessing": "处理中...",
@@ -918,32 +996,12 @@
 
 
         /**
-         * 单选框取消选中时将它的value移除隐藏域
-         */
-        function cancelValue(para) {
-            //取消选中checkbox要做的操作
-            var userIds = $("input[name=allChecked]");
-            var array = userIds.val().split(",");
-            userIds.val("");
-            for (var i = 0; i < array.length; i++) {
-                if (array[i] === $(para).val()) {
-                    continue;
-                }
-                if (userIds.val() === "") {
-                    userIds.val(array[i]);
-                } else {
-                    userIds.val(userIds.val() + "," + array[i]);
-                }
-            }
-        };
-
-        /**
          * 按钮点击功能
          */
         $(document).ready(function(){
             $("input#allcheck").click(function(){
                 if(this.checked){
-                    $("#stationInfo tbody tr").each(function(){
+                    $("#userInfo tbody tr").each(function(){
                         if(!$(this).hasClass("checked")){
                             $(this).click();
                         }
@@ -982,14 +1040,14 @@
                             if(errInfo.code=="00000"){
                                 window.location.href="login.html";
                             };
-                            reset();
+//                            reset();
                             return;
                         }else if (infoJson.success)
                         {
                             alert("后台已经生成数据，请进行下载！");
                             var sucInfo =  infoJson.success;
                             var downloadUrl = sucInfo.url;
-                            reset();
+//                            reset();
                             window.open(downloadUrl);
                         }else {
                             alert("未知错误，请联系管理员！")
@@ -1033,8 +1091,8 @@
                 var theArray = [];
                 var a = table.rows('.selected').data();
                 for(var i=0;i< a.length;i++){
-                    var stationID = a[i].stationID;
-                    theArray.push(stationID)
+                    var _id = a[i]._id;
+                    theArray.push(_id)
                 };
 //                console.log(theArray.toString());
                 if(theArray.length<1){
@@ -1045,12 +1103,12 @@
 
                     //获取参数
                     var operatorName=userInfo.username;
-                    var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&deleteList="+theArray;
+                    var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName=userInfo&delIdList="+theArray;
 //                    console.log("删除请求字段为："+qsData);
                     //发起请求
                     $.ajax({
                         async: false,
-                        url: "https://www.smartlock.top/v0/deleteStation",
+                        url: "https://www.smartlock.top/v0/deleteAll",
                         type: "POST",
                         contentType: "application/x-www-form-urlencoded",
                         data: qsData,
@@ -1086,7 +1144,7 @@
                             }else {
                                 alert("未知错误，请联系管理员！")
                             }
-                            window.location.href='https://www.smartlock.top/my_smartlock/html/stationManage.html';
+                            window.location.href='userManageTree.html';
 
                         },
                         error: function (result) {
@@ -1101,7 +1159,7 @@
             /**
              * 多选选中和取消选中,同时选中第一个单元格单选框,并联动全选单选框
              */
-            $('#stationInfo tbody').on('click', 'tr', function(event) {
+            $('#userInfo tbody').on('click', 'tr', function(event) {
                 var allChecked = $('input[name=allChecked]')[0]; //关联全选单选框
                 $($(this).children()[0]).children().each(function() {
                     if (this.type == "checkbox" && (!$(event.target).is(":checkbox") && $(":checkbox", this).trigger("click"))) {
@@ -1127,10 +1185,50 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+            /**
+             * 单选框被选中时将它的value放入隐藏域
+             */
+            function addValue(para) {
+                var userIds = $("input[name=id]");
+                if (userIds.val() === "") {
+                    userIds.val($(para).val());
+                } else {
+                    userIds.val(userIds.val() + "," + $(para).val());
+                }
+            };
+            /**
+             * 单选框取消选中时将它的value移除隐藏域
+             */
+            function cancelValue(para) {
+                //取消选中checkbox要做的操作
+                var userIds = $("input[name=allChecked]");
+                var array = userIds.val().split(",");
+                userIds.val("");
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] === $(para).val()) {
+                        continue;
+                    }
+                    if (userIds.val() === "") {
+                        userIds.val(array[i]);
+                    } else {
+                        userIds.val(userIds.val() + "," + array[i]);
+                    }
+                }
+            };
             /**
              * 单行点击编辑按钮
              */
-            $('#stationInfo').on('click', '.model', function () {
+            $('#userInfo').on('click', '.model', function () {
                 //为原始ID进行赋值
                 originalStationID=this.parentNode.parentNode.childNodes.item([1]).innerText;
                 //获取点击行显示的字段
@@ -1244,7 +1342,7 @@
                             alert(msg);
                             $(".popBox[title=editOneStationInfo] input").val("");
                             $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
-                            queryStation();
+                            queryUser();
                         }else {
                             alert("未知错误，请联系管理员！")
                         }
@@ -1261,24 +1359,30 @@
             /**
              * 单行删除按钮点击事件响应
              */
-            $('#stationInfo tbody').on( 'click', '#deleteOne', function () {
+            $('#userInfo tbody').on( 'click', '#deleteOne', function () {
                         var bool=window.confirm('你确认要删除选中数据？');
+
+
                         if(bool==false)
                         {
                             return;
                         }
 
                         var theArray = [];
-                        var a = this.parentNode.parentNode.childNodes.item([1]).innerHTML;
+                        var id_html= this.parentNode.parentNode.childNodes.item([0]).innerHTML;
+//                        var regExp=new RegExp(/value="*(.*?)"/g); // g表示全局匹配
+//                        var a=id_html.match(regExp)[0];
+                        var a= $(id_html).val();
+
                         theArray.push(a);
                         //获取参数
                         var operatorName=userInfo.username;
-                        var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&deleteList="+theArray;
+                        var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName=userInfo&deleteList="+theArray;
 //                                    console.log("删除请求字段为："+qsData);
                         //发起请求
                         $.ajax({
                             async: false,
-                            url: "https://www.smartlock.top/v0/deleteStation",
+                            url: "https://www.smartlock.top/v0/deleteAll",
                             type: "POST",
                             contentType: "application/x-www-form-urlencoded",
                             data: qsData,
@@ -1315,7 +1419,7 @@
 
 
 
-                                window.location.href="https://www.smartlock.top/my_smartlock/html/stationManage.html";
+                                window.location.href="userManageTree.html";
 
                             },
                             error: function (result) {
@@ -1443,10 +1547,8 @@
                 document.getElementById("username1").innerHTML="欢迎回来"+" "+userInfo.username;
 
             }
-
-            queryZone(510000,1)
             //获取数据并加载
-//            queryStation();
+            queryUser(userInfo.companyID,"");
 //            setup(); //初始化选择省市县框
 
             var result=GetQueryString("result"); //获取地址栏中的username参数
@@ -1455,8 +1557,8 @@
                 alert("文件上传成功！");
             }
 
-            var zonejson=getZoneJSon();
-            console.log(zonejson)
+//            var zonejson=getZoneJSon();
+//            console.log(zonejson)
 
         };
 
@@ -1609,20 +1711,35 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
         //获取基站列表
-        function queryZone(areaParentID,flag) {
-            if (flag == 1) {
-                var qsData = "operatorName=" + userInfo.username + "&accessToken=" + accessToken + "&areaParentID=" + areaParentID;
+        function queryUser(companyID,_id)
+        {
+            //获取查询参数
+            var qsDataActive = "";
+            if(companyID!=""&& companyID!=null){
+                qsDataActive = "&companyID="+companyID
             }
-            else
-            {
-                var qsData = "operatorName=" + userInfo.username + "&accessToken=" + accessToken + "&areaID=" + areaParentID;
+            if(_id!=""&& _id!=null){
+                qsDataActive = qsDataActive+"&_id="+_id
             }
 
+
+
+            var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=userInfo"+qsDataActive;
             //发起请求
             $.ajax({
                 async: false,
-                url: "https://www.smartlock.top/v0/queryAreaInfo",
+                url: "https://www.smartlock.top/v0/queryAll",
                 type: "POST",
                 contentType: "application/x-www-form-urlencoded",
                 data: qsData,
@@ -1640,20 +1757,20 @@
                     if (infoJson.error){
                         var errInfo = infoJson.error;
                         alert(errInfo.msg);
-                        $('#zoneInfo').dataTable().fnClearTable();//清除表格内原有的数据
+                        $('#userInfo').dataTable().fnClearTable();//清除表格内原有的数据
                         if(errInfo.code=="00000"){
-                            window.location.href="login.html";
+//                            window.location.href="login.html";
                         };
-                        reset();
+//                        reset();
                         return;
                     }else if (infoJson.success)
                     {
                         var sucInfo =  infoJson.success;
-                        var firstStationInfo =sucInfo[0];
-                        var areaID = firstStationInfo.areaID;
-                        $('#zoneInfo').dataTable().fnClearTable();//清除表格内原有的数据
-                        $('#zoneInfo').dataTable().fnAddData(sucInfo,true);
-                        reset();
+                        var firstuserInfo =sucInfo[0];
+                        var areaID = firstuserInfo.areaID;
+                        $('#userInfo').dataTable().fnClearTable();//清除表格内原有的数据
+                        $('#userInfo').dataTable().fnAddData(sucInfo,true);
+//                        reset();
                     }else {
                         alert("未知错误，请联系管理员！")
                     }
@@ -1665,8 +1782,6 @@
                 }
             });
         };
-
-
 
     </script>
 </head>
@@ -1722,11 +1837,11 @@
 
 
             <li id="diquguanli">
-                <a href="#" class="nav-top-item current"> <!-- Add the class "current" to current menu item -->
+                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
                     地区管理
                 </a>
                 <ul>
-                    <li><a class="current" href="zoneManage.html">地区管理</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a href="zoneManage.html">地区管理</a></li> <!-- Add class "current" to sub menu items also -->
                 </ul>
             </li>
 
@@ -1736,6 +1851,7 @@
                     基站管理
                 </a>
                 <ul>
+                    <li><a  class="current" href="stationManageTree.html">基站管理</a></li> <!-- Add class "current" to sub menu items also -->
                     <li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
                     <li><a  href="stationManageLog.html">基站日志管理</a></li>
                     <li><a  href="stationUpload.html">基站批量上传</a></li>
@@ -1747,7 +1863,7 @@
                     作业管理
                 </a>
                 <ul>
-                    <li><a   href="taskManage.html">工单列表</a></li>
+                    <li><a  href="taskManage.html">工单列表</a></li>
                     <li><a  href="abnormalTaskManage.html">异常工单</a></li>
                 </ul>
             </li>
@@ -1763,10 +1879,12 @@
                 </ul>
             </li>
             <li id="yuangongguanli">
-                <a href="#" class="nav-top-item ">
+                <a href="#" class="nav-top-item current">
                     员工管理
                 </a>
                 <ul>
+                    <li><a class="current" href="userManageTree.html">员工管理</a></li>
+                    <li><a href="userUpload.html">员工批量导入</a></li>
                     <div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>
                     <div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>
                     <div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>
@@ -1921,31 +2039,35 @@
 
                             <!--</ul>-->
 
-
-
-
-                            <div class="queryCondition" id="queryZone">
+                            <div class="queryCondition" id="queryUser">
                                 <div class="screen-top">
-                                    <!--<input class="button" id="query" type="submit" value="新增" onclick="queryZone()" />-->
-                                    <!--<input class="button" id="reset" type="reset" value="重置" />-->
+                                    <!--<span>基站负责人<input id="chargePerson" type="text"/></span>-->
+                                    <!--<span>作业审批人<input id="approvalPerson" type="text"  /></span>-->
+                                    <input class="button" id="query" type="submit" value="增加" />
+                                    <input class="button" id="reset" type="reset" value="修改" />
                                     <!--<input class="button" id="exportxls" type="button" value="导出xls" />-->
-                                    <!--<input class="button" id="delete" type="button" value="删除"/>-->
+                                    <input class="button" id="delete" type="button" value="删除"/>
                                     <!--<input class="button" id="createSation" type="button" value="新建基站"/>-->
                                 </div>
                             </div>
-
                             <div>
-                                <table class="display" id="zoneInfo" cellspacing="0" width="100%">
+                                <table class="display" id="userInfo" cellspacing="0" width="100%">
                                     <thead>
-                                        <tr>
-                                            <!--<th><input type="checkbox" id="allcheck" name="allChecked" /></th>-->
-                                            <th>省份编号</th>
-                                            <th>省份名称</th>
-                                            <th>地区编号</th>
-                                            <th>地区名称</th>
-                                            <th>地区层次</th>
-                                            <!--<th>操作</th>-->
-                                        </tr>
+                                    <tr>
+                                        <th><input type="checkbox" id="allcheck" name="allChecked" /></th>
+                                        <th>用户名</th>
+                                        <th>真实名</th>
+                                        <th>手机号</th>
+                                        <th>公司</th>
+                                        <!--<th>负责人电话</th>-->
+                                        <!--<th>负责人公司</th>-->
+                                        <th>职衔</th>
+                                        <!--<th>所属省份</th>-->
+                                        <!--<th>所属市区</th>-->
+                                        <!--<th>所属区县</th>-->
+                                        <!--<th>作业审批人电话</th>-->
+                                        <th>操作</th>
+                                    </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
