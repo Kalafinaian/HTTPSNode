@@ -3,6 +3,33 @@ var mongoClient = require('mongodb').MongoClient;
 var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
 var collectionName = "taskInfo";
 
+dbClient.selectFunc( mongoClient,DB_CONN_STR,"userInfo", {} ,function(result){
+    for(var i=0;i<result.length;i++)
+    {
+
+        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {companyID:result[i].companyID},
+            {$set:{companyID:result[i].companyID.toString()}});    
+
+        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {userType:result[i].userType},
+            {$set:{userType:result[i].userType.toString()}});       
+
+
+        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {password:result[i].password},
+            {$set:{password:result[i].password.toString()}});   
+
+
+        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {companyCode:result[i].companyCode},
+            {$set:{companyCode:result[i].companyCode.toString()}});    
+
+        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {phone:result[i].phone},
+            {$set:{phone:''+result[i].phone}});         
+    }
+});
+
+admin realname改成"超级管理员"  company改成"超级管理员组" userGroup改成"超级管理员"
+
+db.userInfo.update({username:"admin"},{$set:{realname:"超级管理员",company:"超级管理员",userGroup:"超级管理员"}})
+
 //更新工单状态
 var whereTask = {};
 var updateStr = {$set: {approvalPhone:"15520443869"}  };

@@ -7,7 +7,7 @@ db.userInfo.find({userType:{$type:Type Number}}).forEach(function(x){
 db.userInfo.find({'userType' : { $type : 16 }}).forEach(function(x) {x.userType = String(x.userType);db.userInfo.save(x); }) 
 
 
-db.userInfo.find().forEach(function(x) {x.companyID = x.companyID.toString();db.userInfo.save(x); }) 
+db.userInfo.find().forEach(function(x) {x.companyID = String(x.companyID);db.userInfo.save(x); }) 
 
 db.userInfo.find().forEach(function(x) {x.companyCode = String(x.companyCode);db.userInfo.save(x); }) 
 
