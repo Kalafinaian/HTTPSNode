@@ -614,17 +614,17 @@ function selectStation(response, postData)
 			{
 				//动态令牌有效性判断
 				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
-				if( result[0].hasOwnProperty('queryStationAction') == false || result[0].queryStationAction != "true" )
-				{	
-					var info = 	{ "error":  
-						{  
-							"msg": "你没有查询基站的权限!",  
-							"code":"00004"  
-						}  };
-					response.write( JSON.stringify(info) );
-					response.end();
-					return;
-				}
+				// if( result[0].hasOwnProperty('queryStationAction') == false || result[0].queryStationAction != "true" )
+				// {	
+				// 	var info = 	{ "error":  
+				// 		{  
+				// 			"msg": "你没有查询基站的权限!",  
+				// 			"code":"00004"  
+				// 		}  };
+				// 	response.write( JSON.stringify(info) );
+				// 	response.end();
+				// 	return;
+				// }
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				var consultNum = 0;

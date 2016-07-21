@@ -1,4 +1,2 @@
-keyID,keyName,managementProvince,managementCity,managementArea,zoneAuth,stationAuth
-20011,钥匙1,四川省,成都市,成华区,,
-20012,钥匙2,四川省,成都市,成华区,,
-20013,钥匙3,四川省,成都市,武侯区,,
+keyID,keyName,keyOriginID,keyCompany,managementProvince,managementCity,managementArea,zoneAuth,stationAuth
+200000100216,钥匙0,A0126,A锁公司,ALL,ALL,ALL,,
