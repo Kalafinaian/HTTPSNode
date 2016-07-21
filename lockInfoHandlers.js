@@ -324,10 +324,10 @@ function updateLock(response, postData)
 				// 	return;
 				// }
 				//originalName
-				var whereStr = {lockID:postJSON.originalLockID};
+				whereStr = {lockID:postJSON.originalLockID};
 				if(postJSON.hasOwnProperty("originalKeyLockID"))
 				{
-					delete whereStr.originalLockID;
+					delete whereStr.lockID;
 					whereStr.keyLockID = postJSON.originalKeyLockID;
 				}
 				delete postJSON.accessToken;
@@ -348,6 +348,9 @@ function updateLock(response, postData)
 				// }
 				try{
 					var mmUpdateStr = {$set:postJSON};
+					//postJSON.nKey postJSON.bKey  postJSON.approveCode
+					console.log(whereStr);
+					console.log(postJSON);
 					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"taskInfo",whereStr,mmUpdateStr);
 					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"stationInfo",whereStr,mmUpdateStr);
 				}catch(e)
