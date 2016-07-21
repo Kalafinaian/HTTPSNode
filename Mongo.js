@@ -4,11 +4,11 @@ var updateMultiData = function(db, collectionName, whereStr ,updateStr){
   collection.update( whereStr, updateStr, {w: 1, multi:true}, function(err, result) {    //更新数据
     if(err)
     {
-	      console.log(err);
+	      //console.log(err);
 	      db.close();
 	      return;
     }	
-    console.log(result); 
+    //console.log(result); 
     db.close();
     return;
   });
@@ -17,7 +17,7 @@ var updateMultiData = function(db, collectionName, whereStr ,updateStr){
 function updateMultiFunc( mongoClient,DB_CONN_STR,collectionName, whereStr ,updateStr)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-	  console.log("连接成功！");
+	  //console.log("连接成功！");
 	  updateMultiData(db, collectionName, whereStr ,updateStr, {multi:true});
 	});
 }
@@ -42,7 +42,7 @@ var countData = function(db, collectionName, queryFilter,callback) {
 function countFunc( mongoClient, DB_CONN_STR, collectionName,queryFilter,callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-		console.log("连接成功！");
+		//console.log("连接成功！");
 		countData(db, collectionName, queryFilter,  callback);
 	});
 }
@@ -67,7 +67,7 @@ var distincData = function(db, collectionName, field, queryFilter,callback) {
 function distinctFunc( mongoClient, DB_CONN_STR, collectionName, field, queryFilter,callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-		console.log("连接成功！");
+		//console.log("连接成功！");
 		distincData(db, collectionName, field, queryFilter, callback);
 	});
 }
@@ -88,7 +88,7 @@ var insertMultiData = function(db, collectionName, dataArray , callback) {
 function insertMultiFunc( mongoClient, DB_CONN_STR, collectionName, dataArray, callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-		console.log("连接成功！");
+		//console.log("连接成功！");
 		insertMultiData(db, collectionName, dataArray , callback);
 	});
 }
@@ -113,7 +113,7 @@ var insertData = function(db, collectionName, data , callback) {
 function insertFunc( mongoClient, DB_CONN_STR, collectionName, data, callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-		console.log("连接成功！");
+		//console.log("连接成功！");
 		insertData(db, collectionName, data , callback);
 	});
 }
@@ -144,7 +144,7 @@ var selectData = function(db, collectionName, whereStr , callback) {
 function selectFunc( mongoClient,  DB_CONN_STR, collectionName,  whereStr,  callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-		  console.log("连接成功！");
+		  //console.log("连接成功！");
 		  selectData(db, collectionName,  whereStr,callback);
 	});
 }
@@ -173,7 +173,7 @@ var updateData = function(db, collectionName, whereStr ,updateStr, callback){
 function updateFunc( mongoClient,DB_CONN_STR,collectionName, whereStr ,updateStr , callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-	  console.log("连接成功！");
+	  //console.log("连接成功！");
 	  updateData(db, collectionName, whereStr ,updateStr, callback);
 	});
 }
@@ -201,7 +201,7 @@ var delData = function(db, collectionName, whereStr , callback) {
 function deleteFunc( mongoClient,DB_CONN_STR,collectionName, whereStr, callback )
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-	  console.log("连接成功！");
+	  //console.log("连接成功！");
 	  delData(db, collectionName, whereStr,callback);
 	});
 }
@@ -230,7 +230,7 @@ var invokeProcData = function(db, callback) {
 function invokeProcFunc(mongoClient,DB_CONN_STR,callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-	  console.log("连接成功！");
+	  //console.log("连接成功！");
 	  invokeProcData(db,  callback);
 	});
 
