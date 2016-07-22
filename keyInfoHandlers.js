@@ -984,10 +984,10 @@ function selectAll(response, postData)
 
 
 		//一些数据类型必须统一起来，尤其是整型--按照stationID查询时，需要先转换为整型
-		if(postJSON.hasOwnProperty("stationID"))
-		{
-			postJSON.stationID = parseInt(postJSON.stationID);
-		}
+		// if(postJSON.hasOwnProperty("stationID"))
+		// {
+		// 	postJSON.stationID = parseInt(postJSON.stationID);
+		// }
 
 
 		//判断操作者和动态令牌是否存在
