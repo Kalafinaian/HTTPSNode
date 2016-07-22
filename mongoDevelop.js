@@ -30,6 +30,11 @@ admin realname改成"超级管理员"  company改成"超级管理员组" userGro
 
 db.userInfo.update({username:"admin"},{$set:{realname:"超级管理员",company:"超级管理员",userGroup:"超级管理员"}})
 
+//根据API查看操作记录
+db.operateInfo.find({"apiName" : "/v0/taskRequest"}).pretty()
+db.operateInfo.find({"apiName" : "/v0/updateLock"}).pretty()
+
+
 //更新工单状态
 var whereTask = {};
 var updateStr = {$set: {approvalPhone:"15520443869"}  };

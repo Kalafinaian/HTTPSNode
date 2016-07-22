@@ -1055,23 +1055,23 @@ function appTaskRecord(response, postData)
 						postJSON.taskCommitTime = parseInt(postJSON.taskCommitTime);
 					}
 
-					try
-					{
-						//修改工单开门码，对工单列表修改所有的工单开门码
-						var whereStr = {lockID:postJSON.lockID};
-						var updateStr = {};
-						if(postJSON.operationResult ==  "修改密码成功" )
-						{
-							updateStr = {$set:{approveCode:postJSON.approveCode}};
-							dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);
-						}
+					// try
+					// {
+					// 	//修改工单开门码，对工单列表修改所有的工单开门码
+					// 	var whereStr = {lockID:postJSON.lockID};
+					// 	var updateStr = {};
+					// 	if(postJSON.operationResult ==  "修改密码成功" )
+					// 	{
+					// 		updateStr = {$set:{approveCode:postJSON.approveCode}};
+					// 		dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "stationInfo", whereStr, updateStr);
+					// 	}
 
 							
 
-					}catch(e)
-					{
-						console.log(e);
-					}
+					// }catch(e)
+					// {
+					// 	console.log(e);
+					// }
 
 
 					try

@@ -347,6 +347,7 @@ function updateLock(response, postData)
 				// 	return;					
 				// }
 				try{
+					postJSON.apiName = "更新密码";
 					var mmUpdateStr = {$set:postJSON};
 					//postJSON.nKey postJSON.bKey  postJSON.approveCode
 					console.log(whereStr);
