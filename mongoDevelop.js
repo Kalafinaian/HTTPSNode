@@ -30,6 +30,46 @@ admin realname改成"超级管理员"  company改成"超级管理员组" userGro
 
 db.userInfo.update({username:"admin"},{$set:{realname:"超级管理员",company:"超级管理员",userGroup:"超级管理员"}})
 
+db.userInfo.insert({username:"root"},{$set:{realname:"超级管理员",company:"超级管理员",userGroup:"超级管理员"}})
+
+db.userInfo.insert(
+{
+        "username" : "root",
+        "password" : "123456",
+        "phone" : "15008431502",
+        "userType" : "000",
+        "companyGroup" : "厂商",
+        "company" : "超级管理员",
+        "companyCode" : "000",
+        "userDescription" : "中国移动员工",
+        "userGroup" : "超级管理员",
+        "managementProvince" : "四川省",
+        "managementCity" : "成都市",
+        "managementArea" : "高新西区",
+        "addStationAction" : "true",
+        "deleteStationAction" : "true",
+        "queryStationAction" : "true",
+        "updateStationAction" : "true",
+        "addStaffAction" : "true",
+        "deleteStaffAction" : "true",
+        "queryStaffAction" : "true",
+        "updateStaffAction" : "true",
+        "addKeyAction" : "true",
+        "deleteKeyAction" : "true",
+        "queryKeyAction" : "true",
+        "updateKeyAction" : "true",
+        "doorAuthorization" : "true",
+        "accessToken" : "p2dv2bnqhjfez5mi",
+        "tokenStartTime" : "1469156870",
+        "tokenEndTime" : "1469243270",
+        "addLockAction" : "true",
+        "deleteLockAction" : "true",
+        "queryLockAction" : "true",
+        "updateLockAction" : "true",
+        "companyID" : "undefined",
+        "realname" : "超级管理员"
+})
+
 //根据API查看操作记录
 db.operateInfo.find({"apiName" : "/v0/taskRequest"}).pretty()
 db.operateInfo.find({"apiName" : "/v0/updateLock"}).pretty()
