@@ -1194,6 +1194,20 @@ function deleteAll(response, postData)
 				//动态令牌有效性判断
 				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
 
+				if(postJSON.delAll == "yes")
+				{
+					dbClient.deleteFunc( mongoClient, DB_CONN_STR, collectionName,  {} , function(result){
+							console.log("删除信息"+result);
+						});	
+					var info = 	{ "success":  
+					{  
+						"msg": "表单已经清空!",  
+						"code":"45000"  
+					}  };
+					response.write( JSON.stringify(info) );
+					response.end();
+					return;
+				}
 				var keyStr = postJSON.delIdList.toString();
 				keyStr = keyStr.replace("[","");
 				keyStr = keyStr.replace("]","");
