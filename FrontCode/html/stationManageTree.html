@@ -1163,9 +1163,10 @@
 
                     //获取参数
                     var operatorName=userInfo.username;
-                    var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionNaem=stationInfo&delIdList="+theArray;
+                    var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName=stationInfo&delIdList="+theArray;
 //                    console.log("删除请求字段为："+qsData);
                     //发起请求
+					alert(qsData);
                     $.ajax({
                         async: false,
                         url: "https://www.smartlock.top/v0/deleteAll",
@@ -1436,6 +1437,7 @@
                         var operatorName=userInfo.username;
                         var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName=stationInfo&delIdList="+theArray;
 //                                    console.log("删除请求字段为："+qsData);
+						alert(qsData);
                         //发起请求
                         $.ajax({
                             async: false,
