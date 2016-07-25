@@ -218,96 +218,123 @@ function taskRequest(response, postData)
 									return;
 								}
 
-								var whereStr = {"keyID":postJSON.applicantKeyID};
-								//验证电子钥匙的信息：查询电子钥匙ID是否存在--电子钥匙还需要做地域检查
-								dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
-									if(result.length>0)
-									{
-											//电子钥匙管理区域和基站管理区域包含关系判断待完成
-											//区域不包含则返回工单申请失败消息
-											postJSON.keyManagementProvince = result[0].managementProvince;
-											postJSON.keyManagementCity = result[0].managementCity;
-											postJSON.keyManagementArea = result[0].managementArea;
-											
-											//省级区域判定
-											if(postJSON.keyManagementProvince != "ALL" &&
-											postJSON.keyManagementProvince != postJSON.stationManagementProvince)
-											{
-												var info = 	{ "error":  
+								delete postJSON.accessToken;
+								delete postJSON.operatorName;
+								postJSON.taskStatus = "正常";
+								postJSON.taskDescription = "工单等待审批";
+								//插入请求数据
+								dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+										//console.log(result);
+										if( result.hasOwnProperty("errmsg") )
+										{
+											var info = 	{ "error":  
 												{  
-													"msg": "电子钥匙管理的省级区域没有包含基站所属省级区域!",  
-													"code":"17004"  
+													"msg": "任务申请工单ID已存在!",  
+													"code":"17001"  
 												}  };
-												response.write( JSON.stringify(info) );
-												response.end();
-												return;
-											}
-											
-											//市级区域判定
-											if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" &&
-											postJSON.keyManagementCity != postJSON.stationManagementCity)
-											{
-												var info = 	{ "error":  
-												{  
-													"msg": "电子钥匙管理的市级区域没有包含基站所属市级区域!",  
-													"code":"17005"  
-												}  };
-												response.write( JSON.stringify(info) );
-												response.end();	
-												return;
-											}
-											
-											//地级区域判定
-											if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" && postJSON.keyManagementArea != "ALL" &&
-											postJSON.keyManagementArea != postJSON.stationManagementArea)
-											{
-												var info = 	{ "error":  
-												{  
-													"msg": "电子钥匙管理的地级区域没有包含基站所属地级区域!",  
-													"code":"17006"  
-												}  };
-												response.write( JSON.stringify(info) );
-												response.end();	
-												return;
-											}
-											
-											delete postJSON.accessToken;
-											delete postJSON.operatorName;
-											postJSON.taskStatus = "正常";
-											postJSON.taskDescription = "工单等待审批";
-											//插入请求数据
-											dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
-													//console.log(result);
-													if( result.hasOwnProperty("errmsg") )
-													{
-														var info = 	{ "error":  
-															{  
-																"msg": "任务申请工单ID已存在!",  
-																"code":"17001"  
-															}  };
-														response.write( JSON.stringify(info) );
-														response.end();
-													}else{
-														var info = 	{ "success":  
-														{  
-															"msg": "任务申请工单申请成功!",  
-															"code":"17000"  
-														}  };
-														response.write( JSON.stringify(info) );
-														response.end();
-													}
-											});	
-									}else
-									{
-										var info = 	{ "error":  
-										{  
-											"msg": "您的电子钥匙未录入系统!",  
-											"code":"17003"  
-										}  };
-										response.write( JSON.stringify(info) );
-										response.end();
-									}
+											response.write( JSON.stringify(info) );
+											response.end();
+										}else{
+											var info = 	{ "success":  
+											{  
+												"msg": "任务申请工单申请成功!",  
+												"code":"17000"  
+											}  };
+											response.write( JSON.stringify(info) );
+											response.end();
+										}
 								});	
+
+								// var whereStr = {"keyID":postJSON.applicantKeyID};
+								// //验证电子钥匙的信息：查询电子钥匙ID是否存在--电子钥匙还需要做地域检查
+								// dbClient.selectFunc( mongoClient, DB_CONN_STR, "keyInfo",  whereStr , function(result){
+								// 	if(result.length>0)
+								// 	{
+								// 			//电子钥匙管理区域和基站管理区域包含关系判断待完成
+								// 			//区域不包含则返回工单申请失败消息
+								// 			postJSON.keyManagementProvince = result[0].managementProvince;
+								// 			postJSON.keyManagementCity = result[0].managementCity;
+								// 			postJSON.keyManagementArea = result[0].managementArea;
+											
+											// //省级区域判定
+											// if(postJSON.keyManagementProvince != "ALL" &&
+											// postJSON.keyManagementProvince != postJSON.stationManagementProvince)
+											// {
+											// 	var info = 	{ "error":  
+											// 	{  
+											// 		"msg": "电子钥匙管理的省级区域没有包含基站所属省级区域!",  
+											// 		"code":"17004"  
+											// 	}  };
+											// 	response.write( JSON.stringify(info) );
+											// 	response.end();
+											// 	return;
+											// }
+											
+											// //市级区域判定
+											// if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" &&
+											// postJSON.keyManagementCity != postJSON.stationManagementCity)
+											// {
+											// 	var info = 	{ "error":  
+											// 	{  
+											// 		"msg": "电子钥匙管理的市级区域没有包含基站所属市级区域!",  
+											// 		"code":"17005"  
+											// 	}  };
+											// 	response.write( JSON.stringify(info) );
+											// 	response.end();	
+											// 	return;
+											// }
+											
+											// //地级区域判定
+											// if(postJSON.keyManagementProvince != "ALL" && postJSON.keyManagementCity != "ALL" && postJSON.keyManagementArea != "ALL" &&
+											// postJSON.keyManagementArea != postJSON.stationManagementArea)
+											// {
+											// 	var info = 	{ "error":  
+											// 	{  
+											// 		"msg": "电子钥匙管理的地级区域没有包含基站所属地级区域!",  
+											// 		"code":"17006"  
+											// 	}  };
+											// 	response.write( JSON.stringify(info) );
+											// 	response.end();	
+											// 	return;
+											// }
+											
+											// delete postJSON.accessToken;
+											// delete postJSON.operatorName;
+											// postJSON.taskStatus = "正常";
+											// postJSON.taskDescription = "工单等待审批";
+											// //插入请求数据
+											// dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , function(result){
+											// 		//console.log(result);
+											// 		if( result.hasOwnProperty("errmsg") )
+											// 		{
+											// 			var info = 	{ "error":  
+											// 				{  
+											// 					"msg": "任务申请工单ID已存在!",  
+											// 					"code":"17001"  
+											// 				}  };
+											// 			response.write( JSON.stringify(info) );
+											// 			response.end();
+											// 		}else{
+											// 			var info = 	{ "success":  
+											// 			{  
+											// 				"msg": "任务申请工单申请成功!",  
+											// 				"code":"17000"  
+											// 			}  };
+											// 			response.write( JSON.stringify(info) );
+											// 			response.end();
+											// 		}
+											// });	
+									// }else
+									// {
+									// 	var info = 	{ "error":  
+									// 	{  
+									// 		"msg": "您的电子钥匙未录入系统!",  
+									// 		"code":"17003"  
+									// 	}  };
+									// 	response.write( JSON.stringify(info) );
+									// 	response.end();
+									// }
+								//});	
 							}else
 							{
 									var info = 	{ "error":  
