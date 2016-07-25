@@ -87,7 +87,7 @@ db.chinaInfo.ensureIndex({"areaID":1},{unique: true})
 创建索引
 db.chinaInfo.ensureIndex({age:1} , {background:true})
 
-db.statinInfo.ensureIndex({age:1} , {background:true})
+db.statinInfo.ensureIndex({stationID:1} ,{unique: true})
 
 查询索引
 db.chinaInfo.getIndexes()
