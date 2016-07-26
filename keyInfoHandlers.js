@@ -1020,6 +1020,31 @@ function selectAll(response, postData)
 						var json = {success:result};
 						response.write( JSON.stringify(json) );
 						response.end();
+					}else if(collectionName == "lockInfo")
+					{
+						//没有锁具信息，则自动附加之,首先用户需要按lockID查询
+						if(postJSON.hasOwnProperty("lockID") == false)
+						{
+							var info = 	{ "error":  
+							{  
+								"msg": "没有查询记录!",  
+								"code":"15001"  
+							}  };
+							response.write( JSON.stringify(info) );
+							response.end();	
+							return;						
+						}
+						var insertData =  {lockID:postJSON.lockID,
+							"lockName" : "", "lockState" : "正常", "lockCompany" : "A公司", 
+							"stationID" : "S4674968898", "address" : "", "managementProvince" : "四川省",
+							 "managementCity" : "成都市", "managementArea" : "", "LAT" : 104.112166, 
+							 "LON" : 30.68018, "HEI" : 0, "keyLockID" : "500000002440", 
+							 "bKey" : "0123456789ABCDEFEFCDAB8967452301", "nKey" : "70509E1C1A124577", 
+							 "personID" : "12345678", "approveCode" : "4201736374740106"}
+						var json = {success:insertData};
+						response.write( JSON.stringify(json) );
+						response.end();
+						dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  insertData,function(result){});
 					}else{
 						var info = 	{ "error":  
 						{  
@@ -1029,7 +1054,6 @@ function selectAll(response, postData)
 						response.write( JSON.stringify(info) );
 						response.end();
 					}
-				
 				});	
 			}else{
 				var info = 	{ "error":  
