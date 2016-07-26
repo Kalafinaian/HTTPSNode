@@ -1008,6 +1008,8 @@ function selectAll(response, postData)
 				delete postJSON.operatorName; 
 				delete postJSON.accessToken; 
 				delete postJSON.collectionName;
+				var lockNum = postJSON.lockNum;
+				delete postJSON.lockNum;
 				console.log(postJSON);
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
 					function(result){
@@ -1035,12 +1037,14 @@ function selectAll(response, postData)
 							return;						
 						}
 						var insertData =  {lockID:postJSON.lockID,
-							"lockName" : "", "lockState" : "正常", "lockCompany" : "A公司", 
-							"stationID" : "S4674968898", "address" : "", "managementProvince" : "四川省",
-							 "managementCity" : "成都市", "managementArea" : "", "LAT" : 104.112166, 
-							 "LON" : 30.68018, "HEI" : 0, "keyLockID" : "500000002440", 
+							"lockName" : postJSON.address+"锁具"+lockNum, "lockState" : "正常", "lockCompany" : "A公司", 
+							"stationID" : postJSON.stationID, "address" : postJSON.address, 
+							"managementProvince" : postJSON.managementProvince,
+							"managementCity" : postJSON.managementCity,"lockOriginID":"未知",
+							"managementArea" : postJSON.managementArea, "LAT" : postJSON.LAT, 
+							 "LON" : postJSON.LON, "HEI" : postJSON.HEI, "keyLockID" : "500000002440", 
 							 "bKey" : "0123456789ABCDEFEFCDAB8967452301", "nKey" : "70509E1C1A124577", 
-							 "personID" : "12345678", "approveCode" : "4201736374740106"}
+							 "personID" : "12345678", "approveCode" : "4201736374740106"};
 						var json = {success:insertData};
 						response.write( JSON.stringify(json) );
 						response.end();
