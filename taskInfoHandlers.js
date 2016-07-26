@@ -162,7 +162,28 @@ function taskRequest(response, postData)
 								//postJSON.approveCode = "4201736374740106";
 								postJSON.errOfWorkResultFlag = "未处理";
 								postJSON.errOfPendingOrderFlag = "未处理";
-
+								try
+								{
+									if(result[0].approveCode == null ||
+									result[0].bKey == null ||
+									result[0].keyLockID == null ||
+									result[0].nKey == null	 )
+									{
+										postJSON.keyLockID = "500000004791";
+										postJSON.bKey = "0123456789ABCDEFEFCDAB8967452301";
+										postJSON.nKey = "DF2A7C33F71CD497";
+										postJSON.personID = "12345678";	
+										postJSON.approveCode = "4201010203040506";			
+										dbClient.updateMultiFunc(mongoClient, 
+											DB_CONN_STR, "stationInfo",
+											{stationID:result[0].stationID},
+											{$set:{"approveCode" : "4201010203040506",
+											"keyLockID" : "500000004791",
+											"bKey" : "0123456789ABCDEFEFCDAB8967452301",
+											"nKey" : "DF2A7C33F71CD497",
+											"personID" : "12345678"}} );
+									}
+								}catch(e){console.log(e)};
 								//将时间类型转换为整型
 								re = /^1\d{9}$/;
 								if( !re.test(postJSON.taskStartTime) || !re.test(postJSON.taskEndTime) ) 
