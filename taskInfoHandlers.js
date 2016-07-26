@@ -518,10 +518,16 @@ function taskFetch(response, postData)
 										dbClient.selectFunc( mongoClient, DB_CONN_STR, "appTaskInfo",  whereTask , function(result){
 											if(result.length<=0)
 											{
-												//更新工单状态
-												var whereTask = {taskID:result[i].taskID};
-												var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
-												dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "taskInfo", whereTask, updateStr);
+                                                try{
+                                                    //更新工单状态
+                                                    var whereTask = {taskID:result[i].taskID};
+                                                    var updateStr = {$set:  {taskStatus:result[i].taskStatus, taskDescription:result[i].taskDescription}  };
+                                                    dbClient.updateMultiFunc( mongoClient, DB_CONN_STR, "taskInfo", whereTask, updateStr);                                                   
+                                                }catch(e)
+                                                {
+                                                    
+                                                }
+
 											}
 										});	
 									}
