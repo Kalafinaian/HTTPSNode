@@ -1038,7 +1038,7 @@ function selectAll(response, postData)
 						}
 						var insertData =  {lockID:postJSON.lockID,
 							"lockName" : postJSON.address+"锁具"+lockNum, "lockState" : "正常", "lockCompany" : "A公司", 
-							"stationID" : postJSON.stationID, "address" : postJSON.address, 
+							"stationID" : postJSON.stationID, "address" : ''+postJSON.address, 
 							"managementProvince" : postJSON.managementProvince,
 							"managementCity" : postJSON.managementCity,"lockOriginID":"未知",
 							"managementArea" : postJSON.managementArea, "LAT" : postJSON.LAT, 
