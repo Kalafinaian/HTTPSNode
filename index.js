@@ -62,6 +62,7 @@ handle["/v0/addAll"] = keyInfoHandlers.addAll;
 //删除所有数据表的接口，通过指定数据表单实现
 handle["/v0/deleteAll"] = keyInfoHandlers.deleteAll;
 
+handle["/v0/queryAllSpecial"] = keyInfoHandlers.selectAllSpecial;
 
 handle["/v0/addLock"] = lockInfoHandlers.addLock;
 handle["/v0/queryLock"] = lockInfoHandlers.selectLock;

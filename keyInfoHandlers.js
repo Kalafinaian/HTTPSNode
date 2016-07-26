@@ -1411,6 +1411,56 @@ function updateAll(response, postData)
 //---------------------结束--修改所有数据的函数--结束--------------------//
 
 
+//---------------------开始--查询所有数据表函数--开始--------------------//
+function selectAllSpecial(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'selectAllSpecial' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';
+		var collectionName = "gridInfo";	
+		if(postJSON.hasOwnProperty("collectionName"))
+		{
+			collectionName = postJSON.collectionName;
+		}
+		whereStr = {};
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			//console.log(result);
+			if(result.length>0)
+			{
+				var json = {data:result};
+				response.write( JSON.stringify(json) );
+				response.end();
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "No query Result",  
+						"code":"15001"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--查询所有数据表函数--结束--------------------//
+
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.addKey = addKey;
 exports.selectAll = selectAll;
@@ -1423,4 +1473,5 @@ exports.downloadKeyLog = downloadKeyLog;
 exports.updateAll = updateAll;
 exports.addAll = addAll;
 exports.deleteAll = deleteAll;
+exports.selectAllSpecial = selectAllSpecial;
 //---------------------结束--模块导出接口声明--结束--------------------//
