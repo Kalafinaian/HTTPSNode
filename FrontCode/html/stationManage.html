@@ -3,41 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>智能锁管理平台</title>
-    <style type="text/css">
-        .screen-top{
-            padding:8px 0;
-            background-color:#f6f6f6;
-        }
-        .screen-top span{
-            width: 100px !important;
-            text-align: center !important;
-            font-size:16px;
-            padding-left:15px;
-            margin-bottom: 3px;
-        }
-        .screen-top span input{
-            margin-left: 20px;
-            padding: 6px;
-            font-size: 13px;
-            background: #fff url('../assets/images/bg-form-field.gif') top left repeat-x;
-            border: 1px solid #d5d5d5;
-            color: #333;
-            width: 15% !important;
-        }
-        #createStationFieldSet strong{
-            width: 120px;
-            line-height: 30px;
-            display: inline-block;
-            text-align: left;
-        }
-
-
-
-
-
-
-
-    </style>
     <!--CSS-->
     <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
     <!-- Reset Stylesheet -->
@@ -698,9 +663,9 @@
 //                var chargePhone = this.parentNode.parentNode.childNodes.item([6]).innerText;
                 var approvalPerson = this.parentNode.parentNode.childNodes.item([6]).innerText;
 //                var approvalPhone = this.parentNode.parentNode.childNodes.item([9]).innerText;
+                $("#edit_address").val(address);
                 //将获取的字段填入编辑框中
                 $("#edit_stationID").val(stationID);
-                $("#edit_address").val(address);
                 $("#edit_doorStatus").val(doorStatus);
                 $("#edit_lockID").val(lockID);
                 $("#edit_chargePerson").val(chargePerson);
