@@ -1011,6 +1011,44 @@ function selectAll(response, postData)
 				var lockNum = postJSON.lockNum;
 				delete postJSON.lockNum;
 				console.log(postJSON);
+				if( postJSON.hasOwnProperty('approveStartTime') )
+				{
+					postJSON.approveTime = {$gte:parseInt( postJSON.approveStartTime) };
+					delete postJSON.approveStartTime; 
+				}
+
+				if( postJSON.hasOwnProperty('approveEndTime') )
+				{
+					postJSON.approveTime = {$lte:parseInt( postJSON.approveEndTime) };
+					delete postJSON.approveEndTime; 
+				}
+
+				if( postJSON.hasOwnProperty('approveStartTime') && postJSON.hasOwnProperty('approveEndTime') )
+				{
+					postJSON.approveTime = {$lte:parseInt( postJSON.approveEndTime),
+					$gte:parseInt( postJSON.approveStartTime) };
+					delete postJSON.approveStartTime; 
+					delete postJSON.approveEndTime; 
+				}
+
+				if( postJSON.hasOwnProperty('applyStartTime') )
+				{
+					postJSON.applyTime = {$gte:parseInt( postJSON.applyStartTime) } ;
+					delete postJSON.applyStartTime; 
+				}
+
+				if( postJSON.hasOwnProperty('applyEndTime') )
+				{
+					postJSON.applyTime = {$lte:parseInt( postJSON.applyEndTime) };
+					delete postJSON.applyEndTime; 
+				}
+
+				if( postJSON.hasOwnProperty('applyEndTime') && postJSON.hasOwnProperty('applyStartTime') )
+				{
+					postJSON.applyTime = {$gte:parseInt( postJSON.applyStartTime) , $lte:parseInt( postJSON.applyEndTime) };
+					delete postJSON.applyEndTime; 
+					delete postJSON.applyStartTime; 
+				}
 				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
 					function(result){
 					if( result.length>0 )
