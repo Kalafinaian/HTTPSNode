@@ -1,0 +1,20 @@
+var insertData = {
+	lockID: postJSON.lockID,
+	"lockName": postJSON.address+"锁具"+lockNum,
+	"lockState": "正常",
+	"lockCompany": "A公司",
+	"stationID": postJSON.stationID,
+	"address": postJSON.address,
+	"managementProvince": postJSON.managementProvince,
+	"managementCity": postJSON.managementCity,
+	"lockOriginID": "未知",
+	"managementArea": postJSON.managementArea,
+	"LAT": postJSON.LAT,
+	"LON": postJSON.LON,
+	"HEI": postJSON.HEI,
+	"keyLockID": "500000002440",
+	"bKey": "0123456789ABCDEFEFCDAB8967452301",
+	"nKey": "70509E1C1A124577",
+	"personID": "12345678",
+	"approveCode": "4201736374740106"
+}
