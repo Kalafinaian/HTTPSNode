@@ -4,6 +4,8 @@ mongoexport  --csv -f username,realname,phone,userType,companyGroup,company,user
 
 mongoexport   --type=csv -f username,realname,phone,userType,companyGroup,company,userDescription,userGroup,companyCode,managementProvince,managementCity,managementArea,addStationAction,deleteStationAction,queryStationAction,updateStationAction,addStaffAction,deleteStaffAction,queryStaffAction,updateStaffAction,addKeyAction,deleteKeyAction,queryKeyAction,updateKeyAction,doorAuthorization,password,accessToken,tokenStartTime,tokenEndTime,addLockAction,deleteLockAction,queryLockAction,updateLockAction -d csis -c userInfo -o  ./用户信息.csv
 
+mongoexport -d csis -c lockInfo -o  ./lockInfo.json
+mongoimport -d csis -c lockInfo ./lockInfo.json 
 
 
          "_id" : ObjectId("5722c4a2b808375f48d8b535"),
