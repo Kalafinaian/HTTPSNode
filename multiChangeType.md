@@ -24,3 +24,6 @@ db.userInfo.find().forEach(function(x) {x.phone = x.phone.replace("\"","");db.us
 db.userInfo.find().forEach(function(x) {x.phone = x.phone.replace(")","");db.userInfo.save(x); }) 
 
 db.userInfo.find().forEach(function(x) {x.phone = x.phone.replace(")","");db.userInfo.save(x); }) 
+
+db.organizationInfo.find().forEach(function(x) {x.applyTime = parseInt(x.applyTime);db.organizationInfo.save(x); }) 
+db.organizationInfo.find().forEach(function(x) {x.approveTime = parseInt(x.approveTime);db.organizationInfo.save(x); }) 
