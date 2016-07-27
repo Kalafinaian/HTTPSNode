@@ -59,7 +59,7 @@ exec(cmdStr, function callback(error, stdout, stderr) {
 	console.log(stdout);
 	insertStr.backHostIP = stdout.substring(0,stdout.length-1);
 	//插入数据
-	dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  insertStr , function(result){});	
+	dbClient.insertFunc( mongoClient, DB_CONN_STR, "backupInfo",  insertStr , function(result){});	
 });
 
 

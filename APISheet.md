@@ -3056,4 +3056,40 @@ Or
 	}
 
 
+###49、用户手动备份数据库
+功能说明：用户手动备份数据库
+
+
+```
+适用群体：Web端
+URL：https://www.smartlock.top/v0/userBackup	
+请求方式：POST
+```	
+
+请求参数：operatorName=""&accessToken="...   application/x-www-form-urlencoded
+
+|   参数名        	|   类型  | 必须 | 说明        									|  
+| :------:    		| :----:  | :--: | :----------------------------------------: 	| 
+|operatorName   	| String  | Yes  | 操作者用户账号-用户名        				|  
+|accessToken 		| String  | Yes  | 操作者API动态令牌							| 
+
+
+服务器返回参数：
+
+	{
+	  "success": {
+	    "msg": "数据备份成功",
+	    "code": "47000"
+	  }
+	}
+	
+Or
+
+	{
+		"error":
+		{
+			"msg": "用户名不存在或动态令牌已过期",  
+			"code":"00000"  
+		}
+	}
 

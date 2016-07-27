@@ -41,6 +41,8 @@ handle["/v0/queryStationLog"] = stationInfoHandlers.queryStationLog;
 handle["/v0/downloadStationLog"] = stationInfoHandlers.downloadStationLog;
 handle["/v0/queryAreaInfo"] = stationInfoHandlers.selectAreaInfo;
 handle["/v0/importFromCSVForAll"] = stationInfoHandlers.importFromCSVForAll;
+handle["/v0/userBackup"] = stationInfoHandlers.userBackup;
+
 
 
 

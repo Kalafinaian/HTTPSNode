@@ -1459,6 +1459,101 @@ function importFromCSVForAll(response, postData)
 //---------------------结束--从csv表格导入数据接口--结束--------------------//
 
 
+function formatToDetailDate(timeStamp)
+{
+	//shijianchuo是整数，否则要parseInt转换
+	var time = new Date(timeStamp);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y+'-'+add0(m)+'-'+add0(d) +' '+add0(h)+':'+add0(mm)+':'+add0(s);
+}
+
+
+//---------------------开始--手动备份接口--开始--------------------//
+function userBackup(response, postData)
+{
+	try
+	{
+		console.log( "Request handler 'userBackup' was called." );
+		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
+		var postJSON = querystring.parse(postData);
+		var mongoClient = require('mongodb').MongoClient;
+		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var collectionName = "userInfo";
+		//判断操作者和动态令牌是否存在
+		if( judgeUserToken(postJSON,response)==false ){  return;  };
+
+		console.log(postJSON);
+		//验证用户名和动态令牌
+		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
+		console.log(whereStr);
+		dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
+			//console.log(result);
+			if(result.length>0)
+			{
+				//动态令牌有效性判断
+				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+
+				delete postJSON.operatorName; 
+				delete postJSON.accessToken; 
+
+				//第一步：node调用shell完成备份
+				var exec = require('child_process').exec; 
+
+				var cmdStr = 'mongodump  -h 192.168.1.155 -d csis -o /usr/local/mongoBackup';
+				exec(cmdStr);
+
+				//第二步：node将备份记录写入数据库
+				var insertStr = {dbName:"csis",backupDir:"/usr/local/mongoBackup",backupTime:"",backupTimeStamp:""};
+				var timeStamp = Date.now();
+				insertStr.backupTime = formatToDetailDate(timeStamp);
+				insertStr.backupTimeStamp = parseInt(timeStamp/1000);
+
+
+				cmdStr = 'ip addr | grep \"192.168.1.1..\" -o'
+				exec(cmdStr, function callback(error, stdout, stderr) {
+					console.log(stdout);
+					insertStr.backHostIP = stdout.substring(0,stdout.length-1);
+					//插入数据
+					dbClient.insertFunc( mongoClient, DB_CONN_STR, "backupInfo",  insertStr , function(result){});	
+				});
+				var info = 	{ "success":  
+					{  
+						"msg": "数据备份成功",  
+						"code":"47000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+
+			}else{
+				var info = 	{ "error":  
+					{  
+						"msg": "用户名不存在或动态令牌已过期",  
+						"code":"48000"  
+					}  };
+				response.write( JSON.stringify(info) );
+				response.end();
+				return;
+			}
+		});
+	}catch(e)
+	{
+			var info = 	{ "error":  
+			{  
+				"msg": "请检查参数是否错误，或者联系服务器管理员",  
+				"code":"00001"  
+			}  };
+			response.write( JSON.stringify(info) );
+			response.end();	
+	}
+
+}
+//---------------------结束--手动备份接口--结束--------------------//
+
 //---------------------开始--模块导出接口声明--开始--------------------//
 exports.addStation = addStation;
 exports.importFromCSVForAll = importFromCSVForAll;
@@ -1470,4 +1565,5 @@ exports.queryStationLog = queryStationLog;
 exports.downloadStationLog = downloadStationLog;
 exports.selectAreaInfo = selectAreaInfo;
 exports.importDataFromExcel = importDataFromExcel;
+exports.userBackup = userBackup;
 //---------------------结束--模块导出接口声明--结束--------------------//

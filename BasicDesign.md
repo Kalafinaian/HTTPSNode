@@ -80,6 +80,8 @@ https://www.smartlock.top代表网络协议和访问地址，v0代表API版本�
     45、修改数据  https://www.smartlock.top/v0/updateAll
     46、删除数据  https://www.smartlock.top/v0/deleteAll
 
+    47、备份接口  https://www.smartlock.top/v0/userBackupInfo
+
 		
 总体任务：前期实现基本API，后期实现数据库备份，操作日志记录，大量数据压力测试等工作			
 			
