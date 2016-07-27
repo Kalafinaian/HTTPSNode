@@ -1392,6 +1392,14 @@ function updateAll(response, postData)
 					// 	response.end();
 					// 	return;					
 					// }
+					if(postJSON.hasOwnProperty("applyTime"))
+					{
+						postJSON.applyTime =  parseInt(postJSON.applyTime);
+					}
+					if(postJSON.hasOwnProperty("approveTime"))
+					{
+						postJSON.approveTime =  parseInt(postJSON.approveTime);
+					}
 					var updateStr = {$set: postJSON };
 					dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 						if( result.hasOwnProperty("errmsg") )
