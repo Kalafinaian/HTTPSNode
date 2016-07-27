@@ -811,6 +811,7 @@
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var tokenEndTime=localStorage.getItem("tokenEndTime");
         var originalStationID = "";
+        var originalID="";
         /**
          * datables初始化
          */
@@ -834,15 +835,15 @@
 //                    { "data": "managementProvince" },
 //                    { "data": "managementCity" },
 //                    { "data": "managementArea" },
-                    {
-                        "data":"_id",
-                        "render": function(data, type, full, meta) {
-                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-
-                        }
-                    }
+//                    {
+//                        "data":"_id",
+//                        "render": function(data, type, full, meta) {
+//                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
+//                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+//                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+//
+//                        }
+//                    }
                 ],
                 language: {
                     "sProcessing": "处理中...",
@@ -1219,7 +1220,7 @@
                             alert(msg);
                             $(".popBox[title=editOneStationInfo] input").val("");
                             $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
-                            queryKey();
+                            queryKey("");
                         }else {
                             alert("未知错误，请联系管理员！")
                         }
@@ -1657,6 +1658,220 @@
             });
         };
 
+
+
+
+
+
+
+        /**
+         * updateKey事件设置
+         */
+        $(document).ready(function()
+        {
+//            $(".popBox[title=addOneTask] input").val("");
+//            $(".model-bg[title=addOneTask],.popBox[title=addOneTask]").hide();
+
+            $("#cancel_updateKey").click(function(event)
+            {
+
+                $(".popBox[title=updateKey] input").val("");
+                $(".model-bg[title=updateKey],.popBox[title=updateKey]").hide();
+
+            });
+
+            $(".clsBtn[title=updateKey]").click(function(event)
+            {
+
+                $(".model-bg[title=updateKey],.popBox[title=updateKey]").hide();
+
+            });
+
+
+            /**
+             * 点击修改按钮
+             */
+//        $("#allTaskListAdd").click(function()
+            $(".button[id=update]").click(function()
+            {
+                var theArray = [];
+                var a = table.rows('.selected').data();
+
+                for(var i=0;i< a.length;i++)
+                {
+
+                    var _id = a[i]._id;
+                    theArray.push(_id)
+
+                };
+//                console.log(theArray.toString());
+                if(theArray.length!=1)
+                {
+
+                    alert("只能选择一行记录进行修改!")
+                    return;
+                }else
+                {
+//                    alert("所选中的数据为：" + theArray.toString())
+                    originalID = a[0]._id;
+                    originalUserType = a[0].userType;
+                    originalCompanyID = a[0].companyID;
+
+                    var keyID = a[0].keyID;
+                    var keyName = a[0].keyName;
+                    var keyOriginID = a[0].keyOriginID;
+                    var keyCompany = a[0].keyCompany;
+
+                    //将获取的字段填入编辑框中
+                    $("#update_keyID").val(keyID);
+                    $("#update_keyName").val(keyName);
+                    $("#update_keyOriginID").val(keyOriginID);
+
+                    $("#update_keyCompany").val(keyCompany);
+
+
+
+                    //显示编辑窗口
+                    $(".model-bg[title=updateKey],.popBox[title=updateKey]").show();
+                }
+
+            });
+
+
+
+
+            /**
+             * 单击编辑窗口提交按钮
+             */
+            $('#submit_updateKey').click(function(event)
+            {
+
+//                alert("进入提交动作！");
+                //获取公共字段
+                var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=keyInfo&originalID="+originalID;
+                var updateInfo = "";
+                //收集编辑框字段
+
+
+
+
+
+
+
+
+
+
+
+                var keyName=$("#update_keyName").val();
+                var keyOriginID=$("#update_keyOriginID").val();
+                var keyCompany=$("#update_keyCompany").val();
+
+
+
+
+                if(keyName==""||keyName==null)
+                {
+                    alert("钥匙名不能为空，请重新填写！")
+                    $("#update_keyName").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&keyName="+keyName;
+                }
+
+                if(keyOriginID==""||keyOriginID==null)
+                {
+                    alert("出厂ID不能为空，请重新填写！")
+                    $("#update_keyOriginID").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&keyOriginID="+keyOriginID;
+                }
+
+                if(keyCompany==""||keyCompany==null)
+                {
+                    alert("提供厂商不能为空，请重新填写！")
+                    $("#update_keyCompany").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&keyCompany="+keyCompany;
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+                qsData=qsData+updateInfo;
+//                alert("编辑的提交数据为："+qsData);
+                console.log("编辑的提交数据为："+qsData);
+                //发起请求
+                $.ajax({
+                    async: false,
+                    url: "https://www.smartlock.top/v0/updateAll",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: qsData,
+                    timeout: 8000,
+                    beforeSend: function ()
+                    {
+
+                    },
+                    success: function (result)
+                    {
+
+                        //将返回数据转化为json格式数据
+                        var infoJson =JSON.parse(result);
+
+                        //判断查询是否成功
+                        if (infoJson.error)
+                        {
+
+                            var errInfo = infoJson.error;
+                            alert(errInfo.msg);
+
+                            if(errInfo.code=="00000")
+                            {
+                                window.location.href="login.html";
+                            };
+
+                            return;
+                        }else if (infoJson.success)
+                        {
+                            var sucInfo =  infoJson.success;
+                            var msg = sucInfo.msg;
+                            alert(msg);
+                            $(".popBox[title=updateKey] input").val("");
+                            $(".model-bg[title=updateKey],.popBox[title=updateKey]").hide();
+
+
+
+                            queryKey("");
+
+
+                        }else {
+                            alert("未知错误，请联系管理员！")
+                        }
+
+
+                    },
+                    error: function (result) {
+//                        console.log(result);
+                        alert("无法连接到服务器！");
+                    }
+                });
+
+            });
+
+        });
     </script>
 </head>
 
@@ -1844,6 +2059,48 @@
                     </div>
                 </div>
             </div>
+            <!--修改工单弹出编辑框开始-->
+            <div class="dialog">
+                <div class="model-bg" title="updateKey"></div>
+                <div class="popBox" title="updateKey">
+                    <div class="ttBox">
+                        <a class="clsBtn" title="updateKey"></a>
+                        <span class="tt">申请工单</span>
+                    </div>
+                    <div class="txtBox">
+
+                        <div class="item">
+                            <label for="update_keyID">钥匙ID：</label>
+                            <input type="text" id="update_keyID" class="edit_text" disabled="true">
+                        </div>
+                        <div class="item">
+                            <label for="update_keyName">钥匙名：</label>
+                            <input type="text" id="update_keyName" class="edit_text" >
+                        </div>
+                        <div class="item">
+                            <label for="update_keyOriginID">出厂ID：</label>
+                            <input type="text" id="update_keyOriginID" class="edit_text" >
+                        </div>
+                        <div class="item">
+                            <label for="update_keyCompany">提供厂商：</label>
+                            <input type="text" id="update_keyCompany" class="edit_text" >
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="btnArea">
+                        <div class="btnGroup">
+                            <a class="sgBtn ok" id="submit_updateKey">确定</a>
+                            <a class="sgBtn cancel" id="cancel_updateKey">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--修改工单框结束-->
+
             <div class="dialog" title="editOneStationInfo">
                 <div class="model-bg" title="editOneStationInfo"></div>
                 <div class="popBox" title="editOneStationInfo">
@@ -1919,7 +2176,7 @@
                                     <!--<span>基站负责人<input id="chargePerson" type="text"/></span>-->
                                     <!--<span>作业审批人<input id="approvalPerson" type="text"  /></span>-->
                                     <input class="button" id="query" type="submit" value="增加" />
-                                    <input class="button" id="reset" type="reset" value="修改" />
+                                    <input class="button" id="update" type="button" value="修改" />
                                     <!--<input class="button" id="exportxls" type="button" value="导出xls" />-->
                                     <input class="button" id="delete" type="button" value="删除"/>
                                     <!--<input class="button" id="createSation" type="button" value="新建基站"/>-->
@@ -1943,7 +2200,7 @@
                                         <!--<th>所属市区</th>-->
                                         <!--<th>所属区县</th>-->
                                         <!--<th>作业审批人电话</th>-->
-                                        <th>操作</th>
+                                        <!--<th>操作</th>-->
                                     </tr>
                                     </thead>
                                     <tbody></tbody>

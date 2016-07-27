@@ -690,22 +690,19 @@
 				你好, <a href="#" title="Edit your profile" id="loginuser" class="loginuser" > </a><br />
 				<br />
 				<a href="#" class="mode2" title="View the Site">修改资料</a> | <a href="#" title="Sign Out" onclick="logout()">退出</a>
-			</div>        
+			</div>
+
 			<ul id="main-nav">  <!-- Accordion Menu -->
-
-
-
-
-
+				
 				<li>
-					<a href="main.html" class="nav-top-item no-submenu current"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
+					<a href="main.html" class="nav-top-item no-submenu"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
 						首页
 					</a>
 				</li>
 
 
 				<li id="gongsiguanli">
-					<a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
+					<a href="#" class="nav-top-item current"> <!-- Add the class "current" to current menu item -->
 						公司管理
 					</a>
 					<ul>
@@ -731,26 +728,32 @@
 					</ul>
 				</li>
 
-
-
-
-
 				<!--<div id="jizhanguanli">-->
 				<li id="jizhanguanli">
 					<a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
 						基站管理
 					</a>
 					<ul>
-						<li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+						<li><a  href="stationManageTree.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+						<li><a  href="stationManage.html">基站列表(旧)</a></li> <!-- Add class "current" to sub menu items also -->
 						<li><a  href="stationManageLog.html">基站日志管理</a></li>
-						<li><a  href="stationUpload.html">基站日志管理</a></li>
+						<li><a  href="stationUpload.html">基站批量导入</a></li>
 					</ul>
 				</li>
 
+				<li id="suojuguanli">
+					<a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
+						锁具管理
+					</a>
+					<ul>
+						<li><a  href="lockManageTree.html">锁具管理</a></li> <!-- Add class "current" to sub menu items also -->
+						<li><a  href="lockUpload.html">锁具批量上传</a></li>
+					</ul>
+				</li>
 
 				<li>
 					<a href="#" class="nav-top-item">
-						作业管理
+						工单管理
 					</a>
 					<ul>
 						<li><a  href="taskManage.html">工单列表</a></li>
@@ -761,14 +764,46 @@
 
 				<li id="dianziyaoshiguanli">
 					<a href="#" class="nav-top-item">
-						电子钥匙管理
+						钥匙管理
 					</a>
 					<ul>
-						<li><a href="keyManage.html">钥匙列表</a></li>
+						<li><a href="keyManageTree.html">钥匙列表</a></li>
+						<li><a href="keyManage.html">钥匙列表(旧)</a></li>
 						<li><a href="keyManageLog.html">钥匙日志</a></li>
 						<li><a href="keyUpload.html">钥匙批量上传</a></li>
 					</ul>
 				</li>
+
+				<li id="shouquanguanli">
+					<a href="#" class="nav-top-item">
+						授权管理
+					</a>
+					<ul>
+						<li><a href="authManageTree.html">锁具授权</a></li>
+						<li><a href="authAlterTree.html">授权修改</a></li>
+					</ul>
+				</li>
+
+				<li>
+					<a href="#" class="nav-top-item">
+						机构管理
+					</a>
+					<ul>
+						<li><a href="organizationManage.html">机构管理</a></li>
+
+					</ul>
+				</li>
+
+				<li id="jueseshouquanguanli">
+					<a href="#" class="nav-top-item">
+						角色管理
+					</a>
+					<ul>
+						<li><a href="gridRoleManageTree.html">网络角色</a></li>
+					</ul>
+				</li>
+
+
 				<!--</div>-->
 
 				<!--<div id="yuangongguanli">-->
@@ -777,16 +812,17 @@
 						员工管理
 					</a>
 					<ul>
-						<div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>
-						<div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>
-						<div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>
-						<div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>
-						<div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>
-						<div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>
-						<div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>
+						<li><a href="userManageTree.html">员工管理</a></li>
+						<li><a href="userUpload.html">员工批量导入</a></li>
+						<!--<div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>-->
+						<!--<div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>-->
+						<!--<div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>-->
+						<!--<div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>-->
+						<!--<div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>-->
+						<!--<div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>-->
+						<!--<div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>-->
 					</ul>
 				</li>
-
 
 				<li id="tongjiguanli">
 					<a href="#" class="nav-top-item ">
@@ -797,8 +833,18 @@
 					</ul>
 				</li>
 
+				<li>
+					<a href="#" class="nav-top-item">
+						备份管理
+					</a>
+					<ul>
+						<li><a href="databasebackup.html">数据库备份</a></li>
+					</ul>
+				</li>
+
 				<!--</div>-->
 			</ul> <!-- End #main-nav -->
+
 		</div></div> <!-- End #sidebar -->
 		<div id="main-content"> <!-- Main Content Section with everything -->
 			<!-- Page Head -->

@@ -1059,22 +1059,6 @@
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var tokenEndTime=localStorage.getItem("tokenEndTime");
         var originalStationID = "";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /**
          * datables初始化
          */
@@ -1096,11 +1080,27 @@
                         "data": "lockID",
                         "sClass" : "center"
                     },
-                    { "data": "lockName" },
+                    { "data": "lockName",
+                        "sWidth": "20%",
+                    },
+                    { "data": "lockState",
+                        "render": function(data, type, full, meta) {
+                            if(data=="正常")
+                            {
+                                return "<font color='green'>正常</font>";
+                            }
+                            else
+                            {
+                                return "<font color='red'>"+data+"</font>";
+                            }
+                        }
+                    },
                     { "data": "lockOriginID" },
                     { "data": "lockCompany" },
                     {"data": "stationID"},
-                    { "data": "address" },
+                    { "data": "address",
+                        "sWidth": "20%",
+                    },
 //                    { "data": "managementProvince" },
 //                    { "data": "managementCity" },
 //                    { "data": "managementArea" },
@@ -2075,7 +2075,7 @@
                 </a>
                 <ul>
                     <li><a class="current" href="authManageTree.html">锁具授权</a></li>
-                    <li><a href="authAlter.html">授权修改</a></li>
+                    <li><a href="authAlterTree.html">授权修改</a></li>
                 </ul>
             </li>
             <li id="yuangongguanli">
@@ -2255,6 +2255,7 @@
                                     <tr>
                                         <th><input type="checkbox" id="allcheck" name="allChecked" /></th>
                                         <th>锁具编号</th>
+                                        <th>锁具地址</th>
                                         <th>锁具地址</th>
                                         <th>出厂ID</th>
                                         <th>提供厂商</th>

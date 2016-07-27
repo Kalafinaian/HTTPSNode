@@ -1059,7 +1059,7 @@
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var tokenEndTime=localStorage.getItem("tokenEndTime");
         var originalStationID = "";
-
+        var originalID="";
 
 
 
@@ -1096,26 +1096,42 @@
                         "data": "lockID",
                         "sClass" : "center"
                     },
-                    { "data": "lockName" },
+                    { "data": "lockName" ,
+                        "sWidth": "20%"
+                    },
+                    { "data": "lockState",
+                        "render": function(data, type, full, meta) {
+                            if(data=="正常")
+                            {
+                                return "<font color='green'>正常</font>";
+                            }
+                            else
+                            {
+                                return "<font color='red'>"+data+"</font>";
+                            }
+                        }
+                    },
                     { "data": "lockOriginID" },
                     { "data": "lockCompany" },
                     {"data": "stationID"},
-                    { "data": "address" },
+                    { "data": "address",
+                        "sWidth": "20%",
+                    },
 //                    { "data": "managementProvince" },
 //                    { "data": "managementCity" },
 //                    { "data": "managementArea" },
 //                    { "data": "LAT" },
 //                    { "data": "LON" },
 //                    { "data": "HEI" },
-                    {
-                        "data":"_id",
-                        "render": function(data, type, full, meta) {
-                            return data = '<a href="#" id="deleteOne" title="Delete" value="'+data+'"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-
-                        }
-                    }
+//                    {
+//                        "data":"_id",
+//                        "render": function(data, type, full, meta) {
+//                            return data = '<a href="#" id="deleteOne" title="Delete" value="'+data+'"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
+//                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+//                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+//
+//                        }
+//                    }
                 ],
                 language: {
                     "sProcessing": "处理中...",
@@ -1479,28 +1495,37 @@
                         var infoJson =JSON.parse(result);
 
                         //判断查询是否成功
-                        if (infoJson.error){
+                        if (infoJson.error)
+                        {
+
                             var errInfo = infoJson.error;
                             alert(errInfo.msg);
-                            if(errInfo.code=="00000"){
+
+                            if(errInfo.code=="00000")
+                            {
                                 window.location.href="login.html";
-                            };
+                            }
+
                             return;
                         }else if (infoJson.success)
                         {
+
                             var sucInfo =  infoJson.success;
                             var msg = sucInfo.msg;
                             alert(msg);
                             $(".popBox[title=editOneStationInfo] input").val("");
                             $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
                             queryLock();
-                        }else {
+
+                        }else
+                        {
                             alert("未知错误，请联系管理员！")
                         }
 
 
                     },
-                    error: function (result) {
+                    error: function (result)
+                    {
 //                        console.log(result);
                         alert("无法连接到服务器！");
                     }
@@ -1547,22 +1572,28 @@
                                 var infoJson =JSON.parse(result);
 
                                 //判断查询是否成功
-                                if (infoJson.error){
+                                if (infoJson.error)
+                                {
                                     var errInfo = infoJson.error;
                                     alert(errInfo.msg);
-                                    if(errInfo.code=="00000"){
+
+                                    if(errInfo.code=="00000")
+                                    {
                                         window.location.href="login.html";
                                     };
+
                                     return;
                                 }else if (infoJson.success)
                                 {
+
                                     var sucInfo =  infoJson.success;
                                     var msg = sucInfo.msg;
                                     alert(msg);
 
 
 
-                                }else {
+                                }else
+                                {
                                     alert("未知错误，请联系管理员！")
                                 }
 
@@ -1571,7 +1602,8 @@
                                 window.location.href="lockManageTree.html";
 
                             },
-                            error: function (result) {
+                            error: function (result)
+                            {
 //                                            console.log(result);
                                 alert("无法连接到服务器！");
                             }
@@ -1594,13 +1626,16 @@
         function  checkUserValidity(){
             if(userInfo==null||accessToken==null) //访问的信息不存在，则返回空
             {
+
                 alert("你还没有登录!");
                 window.location.href = "login.html";
+
             }
             else {
 
                 if (new Date().getTime()> tokenEndTime * 1000 )
                 {
+
                     alert("登录授权时间超出!");
                     window.location.href = "login.html";
 
@@ -1701,6 +1736,7 @@
 //            setup(); //初始化选择省市县框
 
             var result=GetQueryString("result"); //获取地址栏中的username参数
+
             if(result=="success")
             {
                 alert("文件上传成功！");
@@ -1714,17 +1750,23 @@
 
         function GetQueryString(key)
         {
+
             var lot = location.search;
             var reg = new RegExp(".*" + key + "\\s*=([^=&#]*)(?=&|#|).*","g");
             return decodeURIComponent(lot.replace(reg, "$1"));
+
         }
 
         //退出登录状态
-        function  logout(){
-            if(window.confirm("确定要退出登录状态？")){
+        function  logout()
+        {
+
+            if(window.confirm("确定要退出登录状态？"))
+            {
                 localStorage.clear();//清理登陆状态信息
                 window.location.href="login.html";
             }
+
         }
 
 
@@ -1875,23 +1917,34 @@
         {
             //获取查询参数
             var qsDataActive = "";
-            if(managementProvince!=""&& managementProvince!=null){
+
+            if(managementProvince!=""&& managementProvince!=null)
+            {
                 qsDataActive = "&managementProvince="+managementProvince
             }
-            if(managementCity!=""&& managementCity!=null){
+
+            if(managementCity!=""&& managementCity!=null)
+            {
                 qsDataActive = qsDataActive+"&managementCity="+managementCity
             }
-            if(managementArea!=""&& managementArea!=null){
+
+            if(managementArea!=""&& managementArea!=null)
+            {
                 qsDataActive = qsDataActive+"&managementArea="+managementArea
             }
-            if(stationID!=""&& stationID!=null){
+
+            if(stationID!=""&& stationID!=null)
+            {
                 qsDataActive = qsDataActive+"&stationID="+stationID
             }
-            if(lockID!=""&& lockID!=null){
+
+            if(lockID!=""&& lockID!=null)
+            {
                 qsDataActive = qsDataActive+"&lockID="+lockID
             }
 
             var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+qsDataActive+"&collectionName=lockInfo";
+
             //发起请求
             $.ajax({
                 async: false,
@@ -1904,17 +1957,20 @@
                 {
 
                 },
-                success: function (result) {
+                success: function (result)
+                {
 
                     //将返回数据转化为json格式数据
                     var infoJson =JSON.parse(result);
 
                     //判断查询是否成功
-                    if (infoJson.error){
+                    if (infoJson.error)
+                    {
                         var errInfo = infoJson.error;
                         alert(errInfo.msg);
                         $('#lockInfo').dataTable().fnClearTable();//清除表格内原有的数据
-                        if(errInfo.code=="00000"){
+                        if(errInfo.code=="00000")
+                        {
                             window.location.href="login.html";
                         };
 //                        reset();
@@ -1927,18 +1983,204 @@
                         $('#lockInfo').dataTable().fnClearTable();//清除表格内原有的数据
                         $('#lockInfo').dataTable().fnAddData(sucInfo,true);
 //                        reset();
-                    }else {
+                    }else
+                    {
                         alert("未知错误，请联系管理员！")
                     }
-
-
                 },
                 error: function (result) {
                     alert("无法连接到服务器！");
                 }
             });
         };
+        /**
+         * updateLock事件设置
+         */
+        $(document).ready(function()
+        {
+//            $(".popBox[title=addOneTask] input").val("");
+//            $(".model-bg[title=addOneTask],.popBox[title=addOneTask]").hide();
 
+            $("#cancel_updateLock").click(function(event)
+            {
+
+                $(".popBox[title=updateLock] input").val("");
+                $(".model-bg[title=updateLock],.popBox[title=updateLock]").hide();
+
+            });
+
+            $(".clsBtn[title=updateLock]").click(function(event)
+            {
+
+                $(".model-bg[title=updateLock],.popBox[title=updateLock]").hide();
+
+            });
+
+
+            /**
+             * 点击修改按钮
+             */
+//        $("#allTaskListAdd").click(function()
+            $(".button[id=update]").click(function()
+            {
+                var theArray = [];
+                var a = table.rows('.selected').data();
+                for(var i=0;i< a.length;i++)
+                {
+                    var _id = a[i]._id;
+                    theArray.push(_id)
+                };
+//                console.log(theArray.toString());
+                if(theArray.length!=1)
+                {
+
+                    alert("只能选择一行记录进行修改!")
+                    return;
+
+                }else
+                {
+//                    alert("所选中的数据为：" + theArray.toString())
+                    originalID = a[0]._id;
+                    originalUserType = a[0].userType;
+                    originalCompanyID = a[0].companyID;
+                    var lockID = a[0].lockID;
+                    var lockName = a[0].lockName;
+                    var lockState = a[0].lockState;
+                    var lockOriginID = a[0].lockOriginID;
+                    var lockCompany = a[0].lockCompany;
+                    var stationID = a[0].stationID;
+                    var address = a[0].address;
+                    //将获取的字段填入编辑框中
+                    $("#update_lockID").val(lockID);
+                    $("#update_lockName").val(lockName);
+                    $("#update_stationID").val(stationID);
+                    $("#update_address").val(address);
+                    if (lockState == "正常")
+                    {
+
+                        $("#update_lockState").get(0).selectedIndex = 0;
+
+                    }
+                    else if (lockState == "异常")
+                    {
+
+                        $("#update_lockState").get(0).selectedIndex = 1;
+
+                    }
+
+                    $("#update_lockOriginID").val(lockOriginID);
+                    $("#update_lockCompany").val(lockCompany);
+
+
+
+
+
+                    //显示编辑窗口
+                    $(".model-bg[title=updateLock],.popBox[title=updateLock]").show();
+                }
+
+            });
+
+            /**
+             * 单击编辑窗口提交按钮
+             */
+            $('#submit_updateLock').click(function(event)
+            {
+
+//                alert("进入提交动作！");
+                //获取公共字段
+                var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=lockInfo&originalID="+originalID;
+                var updateInfo = "";
+                //收集编辑框字段
+
+
+
+
+
+
+                var lockState=$("#update_lockState").val();
+                var lockOriginID=$("#update_lockOriginID").val();
+                var lockCompany=$("#update_lockCompany").val();
+                updateInfo +="&lockState="+lockState;
+
+                if(lockOriginID==""||lockOriginID==null)
+                {
+                    alert("出厂ID不能为空，请重新填写！")
+                    $("#update_lockOriginID").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&lockOriginID="+lockOriginID;
+                }
+
+                if(lockCompany==""||lockCompany==null)
+                {
+                    alert("出厂ID不能为空，请重新填写！")
+                    $("#update_lockCompany").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&lockCompany="+lockCompany;
+                }
+
+
+
+                qsData=qsData+updateInfo;
+//                alert("编辑的提交数据为："+qsData);
+                console.log("编辑的提交数据为："+qsData);
+                //发起请求
+                $.ajax({
+                    async: false,
+                    url: "https://www.smartlock.top/v0/updateAll",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: qsData,
+                    timeout: 8000,
+                    beforeSend: function ()
+                    {
+
+                    },
+                    success: function (result) {
+
+                        //将返回数据转化为json格式数据
+                        var infoJson =JSON.parse(result);
+
+                        //判断查询是否成功
+                        if (infoJson.error){
+                            var errInfo = infoJson.error;
+                            alert(errInfo.msg);
+                            if(errInfo.code=="00000"){
+                                window.location.href="login.html";
+                            };
+                            return;
+                        }else if (infoJson.success)
+                        {
+                            var sucInfo =  infoJson.success;
+                            var msg = sucInfo.msg;
+                            alert(msg);
+                            $(".popBox[title=updateLock] input").val("");
+                            $(".model-bg[title=updateLock],.popBox[title=updateLock]").hide();
+
+
+//                            var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken;
+//                            //获取数据并加载
+                            queryLock("四川省","","","","")
+
+                        }else {
+                            alert("未知错误，请联系管理员！")
+                        }
+
+
+                    },
+                    error: function (result) {
+//                        console.log(result);
+                        alert("无法连接到服务器！");
+                    }
+                });
+
+            });
+
+        });
     </script>
 </head>
 
@@ -2112,6 +2354,23 @@
                 </ul>
                 <div class="clear"></div>
             </div> <!-- End .content-box-header -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <!--弹出编辑框开始-->
             <div class="dialog">
                 <div class="model-bg" title="editPersonInfo"></div>
@@ -2158,6 +2417,69 @@
                     </div>
                 </div>
             </div>
+
+            <!--修改工单弹出编辑框开始-->
+            <div class="dialog">
+                <div class="model-bg" title="updateLock"></div>
+                <div class="popBox" title="updateLock">
+                    <div class="ttBox">
+                        <a class="clsBtn" title="updateLock"></a>
+                        <span class="tt">申请工单</span>
+                    </div>
+                    <div class="txtBox">
+                        <div class="item">
+                            <label for="update_lockID">锁ID：</label>
+                            <input type="text" id="update_lockID" class="edit_text" disabled="true">
+                        </div>
+                        <div class="item">
+                            <label for="update_lockName">锁具地址：</label>
+                            <input type="text" id="update_lockName" class="edit_text" disabled="true">
+                        </div>
+                        <div class="item">
+                            <label for="update_stationID">基站ID：</label>
+                            <input type="text" id="update_stationID" class="edit_text" disabled="true">
+                        </div>
+                        <div class="item">
+                            <label for="update_address">基站地址：</label>
+                            <input type="text" id="update_address" class="edit_text" disabled="true">
+                            <!--<textarea rows="3" cols="20"  id="update_applyDescription" />-->
+                        </div>
+                        <div class="item">
+                            <label for="update_lockState">锁具状态</label>
+                            <select id="update_lockState" class="edit_select" >
+                                <option value="正常" >正常</option>
+                                <option value="异常" >异常</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label for="update_lockOriginID">出厂ID：</label>
+                            <input type="text" id="update_lockOriginID" class="edit_text">
+                            <!--<textarea rows="3" cols="20"  id="update_applyDescription" />-->
+                        </div>
+                        <div class="item">
+                            <label for="update_lockCompany">提供厂商：</label>
+                            <input type="text" id="update_lockCompany" class="edit_text">
+                            <!--<textarea rows="3" cols="20"  id="update_applyDescription" />-->
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                    <div class="btnArea">
+                        <div class="btnGroup">
+                            <a class="sgBtn ok" id="submit_updateLock">确定</a>
+                            <a class="sgBtn cancel" id="cancel_updateLock">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--修改工单框结束-->
+
+
             <div class="dialog" title="editOneStationInfo">
                 <div class="model-bg" title="editOneStationInfo"></div>
                 <div class="popBox" title="editOneStationInfo">
@@ -2207,14 +2529,12 @@
             </div>
             <!--弹出编辑框结束-->
             <div class="content-box-content">
-
                 <div class="tab-content default-tab" id="stationList"> 	<!-- This is the target div. id must match the href of this div's tab -->
                     <div class="content_wrap">
                         <div class="zTreeDemoBackground left">
                             <ul id="treeDemo" class="ztree"></ul>
                         </div>
                         <div class="right">
-
                             <!--<ul class="info">-->
                                 <!--<li class="title"><h2>1、beforeClick / onClick 事件回调函数控制</h2>-->
                                     <!--<ul class="list">-->
@@ -2227,14 +2547,12 @@
                                 <!--</li>-->
 
                             <!--</ul>-->
-
-
                             <div class="queryCondition" id="queryLock">
                                 <div class="screen-top">
                                     <!--<span>基站负责人<input id="chargePerson" type="text"/></span>-->
                                     <!--<span>作业审批人<input id="approvalPerson" type="text"  /></span>-->
                                     <input class="button" id="query" type="submit" value="增加" />
-                                    <input class="button" id="reset" type="reset" value="修改" />
+                                    <input class="button" id="update" type="button" value="修改" />
                                     <!--<input class="button" id="exportxls" type="button" value="导出xls" />-->
                                     <input class="button" id="delete" type="button" value="删除"/>
                                     <!--<input class="button" id="createSation" type="button" value="新建基站"/>-->
@@ -2247,20 +2565,13 @@
                                         <th><input type="checkbox" id="allcheck" name="allChecked" /></th>
                                         <th>锁具编号</th>
                                         <th>锁具地址</th>
+                                        <th>锁具状态</th>
                                         <th>出厂ID</th>
                                         <th>提供厂商</th>
                                         <th>基站编号</th>
                                         <th>基站地址</th>
-                                        <!--<th>负责人电话</th>-->
-                                        <!--<th>负责人公司</th>-->
-                                        <!--<th>所属省级</th>-->
-                                        <!--<th>所属市级</th>-->
-                                        <!--<th>所属区级</th>-->
-                                        <!--<th>经度</th>-->
-                                        <!--<th>纬度</th>-->
-                                        <!--<th>高度</th>-->
-                                        <!--<th>作业审批人电话</th>-->
-                                        <th>操作</th>
+
+                                        <!--<th>操作</th>-->
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -2279,6 +2590,8 @@
 
 
             </div> <!-- End .content-box-content -->
+
+
 
         </div> <!-- End .content-box -->
 

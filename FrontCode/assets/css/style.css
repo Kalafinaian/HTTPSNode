@@ -20,7 +20,8 @@ body {
 
 /********************************      Elements styling      ********************************/
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6
+{
                 font-family: Helvetica, Arial, sans-serif;
                 color: #222;
                 font-weight: bold;
@@ -55,20 +56,24 @@ p {
 
 /********************************      General Classes      ********************************/
 
-.clear {
+.clear
+{
                 clear: both;
                 }
 				
-.align-left {
+.align-left
+{
                 float: left;
                 }
 				
-.align-right {
+.align-right
+{
                 float: right;
                 }
 
 /************ Button ************/
-.button {
+.button
+{
                 margin-left: 20px;
 				font-family: Verdana, Arial, sans-serif;
                 display: inline-block;
@@ -82,7 +87,8 @@ p {
                 height: 30px;
                 }
 
-.uploadbutton {
+.uploadbutton
+{
     BORDER-RIGHT: #86A5C2 1px solid;
     BORDER-TOP: #86A5C2 1px solid;
     FONT-SIZE: 9pt;
@@ -110,25 +116,30 @@ p {
     /*height: 30px;*/
 }
                 
-.button:hover {
+.button:hover
+{
                 text-decoration: underline;
                 }
                 
-.button:active {
+.button:active
+{
                 padding: 5px 7px 3px 7px !important;
                 }
 				
-a.remove-link {
+a.remove-link
+{
 				color: #bb0000;
 				}
 
-a.remove-link:hover {
+a.remove-link:hover
+{
 				color: #000;
 				}
 
 /********************************      Sidebar      ********************************/
 
-#sidebar {
+#sidebar
+{
                 background: url('../images/bg-sidebar.gif') top left no-repeat;
                 width: 230px;
                 height: 100%;
@@ -139,28 +150,34 @@ a.remove-link:hover {
                 font-size: 12px;
                 }
 
-#sidebar #sidebar-wrapper {
+#sidebar #sidebar-wrapper
+{
                 margin: 0 0 0 9px;
                 }
 
 #sidebar a,
-#sidebar a:active {
+#sidebar a:active
+{
                 color:#ccc;
                 }
 
-#sidebar a:hover {
+#sidebar a:hover
+{
                 color:#fff;
                 }
 
-#sidebar #sidebar-title {
+#sidebar #sidebar-title
+{
                 margin: 40px 0 40px 15px;
                 }
 
-#sidebar #logo {
+#sidebar #logo
+{
                 margin: 40px 0 40px 0;
                 }
 
-#sidebar #profile-links {
+#sidebar #profile-links
+{
                 padding: 0 15px 20px 15px;
                 text-align: right;
                 line-height: 1.5em;
@@ -168,20 +185,23 @@ a.remove-link:hover {
 
 /************ Sidebar Accordion Menu ************/
 
-#sidebar #main-nav {
+#sidebar #main-nav
+{
                 width: 206px;
                 padding: 0;
                 margin: 0 0 0 15px;
                 font-family: Helvetica, Arial, sans-serif;
                 }
 
-#sidebar #main-nav li {
+#sidebar #main-nav li
+{
                 list-style: none;
                 padding-bottom: 10px;
                 text-align: right;
                 }
 
-#sidebar #main-nav li a.nav-top-item {
+#sidebar #main-nav li a.nav-top-item
+{
                 background: transparent url('../images/bg-menu-item-green.gif') right center no-repeat; /* Background image for default color scheme - green */
                 padding: 10px 15px;
                 color: #fff;
@@ -191,30 +211,35 @@ a.remove-link:hover {
                 text-decoration: none;
                 }
 
-#sidebar #main-nav li a.current {
+#sidebar #main-nav li a.current
+{
                 background-image: url('../images/bg-menu-item-current.gif') !important;
                 color: #333;
                 font-weight: bold;
                 }
                 
-#sidebar #main-nav li a.current:hover {
+#sidebar #main-nav li a.current:hover
+{
                 color: #333;
                 }
 
-#sidebar #main-nav ul {
+#sidebar #main-nav ul
+{
                 padding: 0;
                 font-size: 12px;
                 margin: 0;
                 }
 
-#sidebar #main-nav ul li {
+#sidebar #main-nav ul li
+{
                 list-style: none;
                 margin: 0;
                 text-align: right;
 				padding: 0;
                 }
 
-#sidebar #main-nav ul li a {
+#sidebar #main-nav ul li a
+{
                 padding: 8px 15px;
                 display: block;
                 color: #aaa;
@@ -224,11 +249,13 @@ a.remove-link:hover {
 
 #sidebar #main-nav ul li a:hover,
 #sidebar #main-nav ul li a.current,
-#sidebar #main-nav ul li a.current:hover {
+#sidebar #main-nav ul li a.current:hover
+{
                 color: #fff;
                 }
 
-#sidebar #main-nav ul li a.current {
+#sidebar #main-nav ul li a.current
+{
                 background: transparent url('../images/menu-current-arrow.gif') right center no-repeat !important;
                 }
 
@@ -236,57 +263,67 @@ a.remove-link:hover {
 /************ Messages ************/
 
 #messages p,
-#messages form {
+#messages form
+{
                 border-top: 1px solid #ddd;
                 padding: 10px 0;
                 }
 
-#messages h4 {
+#messages h4
+{
                 padding: 10px 0;
                 }
 				
-#messages fieldset {
+#messages fieldset
+{
                 margin: 0;
                 }
 				
-#messages textarea {
+#messages textarea
+{
                 margin: 0 0 15px 0;
                 }
 /********************************      Main Content      ********************************/
 
 /************ Layout ************/
 
-#main-content {
+#main-content
+{
                 margin: 0 30px 0 260px;
                 padding: 40px 0 0 0;
                 }
 
-.column-left {
+.column-left
+{
                 width: 48%;
                 float: left;
                 }
                 
-.column-right {
+.column-right
+{
                 width: 48%;
                 float: right;
                 }
                
-#page-intro {
+#page-intro
+{
                 font-size: 17px;
                 padding: 0 0 20px 0;
                 }
 
 				
-#footer {
+#footer
+{
 				border-top: 1px solid #ccc;
-				margin: 40px 0 0 0;
+				margin: 20px 0 0 0;
 				padding: 20px 0;
 				font-size: 12px !important;
                 }
 /************ Lists ************/
 
 /*#main-content ul,*/
-#main-content ol {
+#main-content ol
+{
                 padding: 10px 0;
                 }
 
@@ -302,35 +339,41 @@ a.remove-link:hover {
 
 /* Ordered List */
 
-#main-content ol {
-                padding: 0 0 0 24px;
-                }
+#main-content ol
+{
+    padding: 0 0 0 24px;
+}
 
-#main-content ol li {
+#main-content ol li
+{
                 list-style: decimal;
                 padding: 4px 0;
                 }
 
 /*************** Content Box ***************/
 
-.content-box {
+.content-box
+{
                 border: 1px solid #ccc;
                 margin: 0 0 20px 0;
                 background: #fff;
                 }
 
-.content-box-header {
+.content-box-header
+{
                 background: #e5e5e5 url('../images/bg-content-box.gif') top left repeat-x;
                 margin-top: 1px;
                 height: 40px;
                 }
 
-.content-box-header h3 {
+.content-box-header h3
+{
                 padding: 12px 15px 10px;
                 float: left;
                 }
 
-ul.content-box-tabs {
+ul.content-box-tabs
+{
                 float: left;
                 margin-left: 10px;
                 font-weight: bold;
@@ -339,14 +382,16 @@ ul.content-box-tabs {
 				/*margin: 0 !important;*/
                 }
 
-ul.content-box-tabs li {
+ul.content-box-tabs li
+{
                 float: left;
                 margin: 0;
                 padding: 0 !important;
                 background-image: none !important;
                 }
                 
-ul.content-box-tabs li a {
+ul.content-box-tabs li a
+{
                 color: #333;
                 padding: 8px 10px;
                 display: block;
@@ -354,18 +399,21 @@ ul.content-box-tabs li a {
                 border-bottom: 0;
                 }
 
-ul.content-box-tabs li a:hover {
+ul.content-box-tabs li a:hover
+{
                 color: #57a000;
                 }              
                 
-ul.content-box-tabs li a.current {
+ul.content-box-tabs li a.current
+{
                 background: #fff;
                 border: 1px solid #ccc;
                 border-bottom: 0;
                 margin: 0;
                 }
 
-.content-box-content {
+.content-box-content
+{
                 padding: 20px;
                 font-size: 13px;
                 border-top: 1px solid #ccc;
@@ -373,43 +421,51 @@ ul.content-box-tabs li a.current {
                 
 /************ Table ************/
 
-#main-content table {
-                width: 100%;
-                border-collapse: collapse;
-                }
+#main-content table
+{
+    width: 100%;
+    border-collapse: collapse;
+}
                 
-#main-content table thead th {
-                font-weight: bold;
-                font-size: 15px;
-                border-bottom: 1px solid #ddd;
-                }
+#main-content table thead th
+{
+    font-weight: bold;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+}
                 
-#main-content tbody {
-                border-bottom: 1px solid #ddd;
-                }
+#main-content tbody
+{
+    border-bottom: 1px solid #ddd;
+}
                 
-#main-content tbody tr {
-                background: #fff;
-                }
+#main-content tbody tr
+{
+    background: #fff;
+}
               
-#main-content tbody tr.alt-row {
-                background: #f3f3f3;
-                }
+#main-content tbody tr.alt-row
+{
+    background: #f3f3f3;
+}
                 
 #main-content table td,
-#main-content table th {
-                padding: 10px;
-                line-height: 1.3em;
-                }        
+#main-content table th
+{
+    padding: 10px;
+    line-height: 1.3em;
+}
 				
-#main-content table tfoot td .bulk-actions {
-                padding: 15px 0 5px 0;
-                } 
+#main-content table tfoot td .bulk-actions
+{
+    padding: 15px 0 5px 0;
+}
 				
-#main-content table tfoot td .bulk-actions select {
-                padding: 4px;
-				border: 1px solid #ccc;
-                }      
+#main-content table tfoot td .bulk-actions select
+{
+    padding: 4px;
+    border: 1px solid #ccc;
+}
 				
 /*************** Pagination ***************/
 
@@ -560,7 +616,34 @@ form .add_select{
     padding: 6px;
     font-size: 13px;
 }
+
+/*.query_select{*/
+    /*width: 120px !important;*/
+    /*-moz-border-radius: 6px;*/
+    /*-webkit-border-radius: 6px;*/
+    /*border-radius: 6px;*/
+    /*padding: 6px;*/
+    /*font-size: 13px;*/
+/*}*/
+
 .query_select{
+    width: 15% !important;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 13px;
+}
+
+.edit_text{
+    width: 44.6% !important;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 13px;
+}
+.query_text{
     width: 15% !important;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;

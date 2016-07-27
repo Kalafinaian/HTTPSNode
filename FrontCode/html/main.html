@@ -343,7 +343,7 @@
 
 								break;
 
-							case "2": //审批员只显示作业管理
+							case "2": //审批员只显示工单管理
 								$("#jizhanguanli").css('display','none');
 								$("#dianziyaoshiguanli").css('display','none');
 								$("#yuangongguanli").css('display','none');
@@ -386,7 +386,7 @@
 										$("#dwgsyg").css('display','none');//隐藏代维公司员工管理界面
 										$("#csyg").css('display','none');  //隐藏厂商员工管理界面
 										$("#jizhanguanli").css('display','none'); //不能显示基站管理
-										$("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+										$("#dianziyaoshiguanli").css('display','none'); //不能显示钥匙管理
 										break;
 									case "6": //代维公司员工只能管理自己所属公司员工
 										$("#ttyg").css('display','none'); //隐藏铁塔员工管理界面
@@ -398,7 +398,7 @@
 										$("#sggsyg").css('display','none');  //隐藏施工公司员工管理界面
 										$("#csyg").css('display','none'); //隐藏厂商公司员工管理界面
 										$("#jizhanguanli").css('display','none'); //不能显示基站管理
-										$("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+										$("#dianziyaoshiguanli").css('display','none'); //不能显示钥匙管理
 										break;
 
 									case "7": //厂商公司员工只能管理自己所属公司员工
@@ -411,7 +411,7 @@
 										$("#sggsyg").css('display','none'); //隐藏施工公司员工管理界面
 										$("#dwgsyg").css('display','none'); //隐藏代维公司员工管理界面
 										$("#jizhanguanli").css('display','none'); //不能显示基站管理
-										$("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+										$("#dianziyaoshiguanli").css('display','none'); //不能显示钥匙管理
 
 										break;
 								}
@@ -697,7 +697,7 @@
 						<li><a  href="stationManageTree.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
 						<li><a  href="stationManage.html">基站列表(旧)</a></li> <!-- Add class "current" to sub menu items also -->
 						<li><a  href="stationManageLog.html">基站日志管理</a></li>
-						<li><a  href="stationUpload.html">基站日志管理</a></li>
+						<li><a  href="stationUpload.html">基站批量导入</a></li>
 					</ul>
 				</li>
 
@@ -713,7 +713,7 @@
 
 				<li>
 					<a href="#" class="nav-top-item">
-						作业管理
+						工单管理
 					</a>
 					<ul>
 						<li><a  href="taskManage.html">工单列表</a></li>
@@ -724,7 +724,7 @@
 
 				<li id="dianziyaoshiguanli">
 					<a href="#" class="nav-top-item">
-						电子钥匙管理
+						钥匙管理
 					</a>
 					<ul>
 						<li><a href="keyManageTree.html">钥匙列表</a></li>
@@ -740,9 +740,30 @@
 					</a>
 					<ul>
 						<li><a href="authManageTree.html">锁具授权</a></li>
-						<li><a href="authAlter.html">授权修改</a></li>
+						<li><a href="authAlterTree.html">授权修改</a></li>
 					</ul>
 				</li>
+
+				<li>
+					<a href="#" class="nav-top-item">
+						机构管理
+					</a>
+					<ul>
+						<li><a href="organizationManage.html">机构管理</a></li>
+
+					</ul>
+				</li>
+
+				<li id="jueseshouquanguanli">
+					<a href="#" class="nav-top-item">
+						角色管理
+					</a>
+					<ul>
+						<li><a href="gridRoleManageTree.html">网络角色</a></li>
+					</ul>
+				</li>
+
+
 				<!--</div>-->
 
 				<!--<div id="yuangongguanli">-->
@@ -753,13 +774,13 @@
 					<ul>
 						<li><a href="userManageTree.html">员工管理</a></li>
 						<li><a href="userUpload.html">员工批量导入</a></li>
-						<div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>
-						<div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>
-						<div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>
-						<div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>
-						<div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>
-						<div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>
-						<div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>
+						<!--<div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>-->
+						<!--<div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>-->
+						<!--<div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>-->
+						<!--<div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>-->
+						<!--<div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>-->
+						<!--<div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>-->
+						<!--<div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>-->
 					</ul>
 				</li>
 
@@ -769,6 +790,15 @@
 					</a>
 					<ul>
 						<li><a href="statistic.html">门锁统计</a></li>
+					</ul>
+				</li>
+
+				<li>
+					<a href="#" class="nav-top-item">
+						备份管理
+					</a>
+					<ul>
+						<li><a href="databasebackup.html">数据库备份</a></li>
 					</ul>
 				</li>
 

@@ -76,21 +76,21 @@
     <script type="text/javascript">
         //显示条目编辑框
         $(document).ready(function() {
-            $(".clsBtn[title=oneTaskInfo]").click(function(event) {
-                $(".model-bg[title=oneTaskInfo],.popBox[title=oneTaskInfo]").hide();
+            $(".clsBtn[title=oneOrganizationInfo]").click(function(event) {
+                $(".model-bg[title=oneOrganizationInfo],.popBox[title=oneOrganizationInfo]").hide();
             });
             $(".model").click(function(event) {
-                $(".model-bg[title=oneTaskInfo],.popBox[title=oneTaskInfo]").show();
+                $(".model-bg[title=oneOrganizationInfo],.popBox[title=oneOrganizationInfo]").show();
             });
 
-            $("#cancel_eidtTask").click(function(event) {
-                $(".popBox[title=oneTaskInfo] input").val("");
-                $(".popBox[title=oneTaskInfo] textarea").val("");
-                $(".model-bg[title=oneTaskInfo],.popBox[title=oneTaskInfo]").hide();
-                $("#submit_eidtTask").show();
-                $("#reject_editPerson").show();
-                $(".popBox[title=oneTaskInfo] input").attr("disabled",false);
-                $(".popBox[title=oneTaskInfo] textarea").removeAttr("disabled");
+            $("#cancel_eidtOrganization").click(function(event) {
+                $(".popBox[title=oneOrganizationInfo] input").val("");
+                $(".popBox[title=oneOrganizationInfo] textarea").val("");
+                $(".model-bg[title=oneOrganizationInfo],.popBox[title=oneOrganizationInfo]").hide();
+                $("#submit_editOrganization").show();
+                $("#reject_editOrganization").show();
+                $(".popBox[title=oneOrganizationInfo] input").attr("disabled",false);
+                $(".popBox[title=oneOrganizationInfo] textarea").removeAttr("disabled");
             });
         });
         //个人资料编辑框控制
@@ -308,9 +308,8 @@
     </script>
     <!--编辑框结束-->
     <script type="text/javascript">
-        //全局定义变量
-        var tabContent ="#allTaskListTable";
-        var allTaskListTable ;
+        var tabContent ="#queryApplyTable";  //全局定义变量
+        var queryApplyTable ;
         var table ;
         var pendingTaskListTable ;
         var rejectTaskListTable ;
@@ -319,6 +318,7 @@
         var tokenEndTime=localStorage.getItem("tokenEndTime");
         var originalKeyID = "";
         var originalID = "";
+        var isUpdate=0;
         //设置时间格式
         Date.prototype.format = function(format) {
             var date = {
@@ -359,12 +359,12 @@
          */
         $(document).ready(function() {
             //初始化全部展示框
-            allTaskListTable = $('#allTaskListTable').DataTable( {
+            queryApplyTable = $('#queryApplyTable').DataTable( {
                 "searching": false,
                 "bStateSave": false,
                 "aoColumns": [
                     {
-                        "data":"taskID",
+                        "data":"_id",
                         "orderable": false,
                         "render": function(data, type, full, meta) {
                             return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
@@ -372,70 +372,53 @@
                         }
                     },
                     {
-                        "data": "taskID",
+                        "data": "applyCompanyID",
                         "sClass" : "center"
                     },
-                    { "data": "stationAddress" },
-                    {
-                        "data": "taskStartTime",
-                        "render": function(data, type, full, meta) {
+                    { "data": "applyCompany" },
+                    { "data": "applyPersonID"},
+                    { "data": "applyPerson"},
+                    { "data": "applyTime",
+                       "render": function(data, type, full, meta)
+                       {
                             data = new Date(parseInt(data) * 1000).format('yyyy/MM/dd h:m:s');
                             return data;
-                        }
+                        },
+                        "sWidth":"12%"
                     },
-                    {
-                        "data":"taskEndTime",
-                        "render": function(data, type, full, meta) {
+                    { "data": "applyContent"},
+                    { "data": "approveCompanyID"},
+                    { "data": "approveCompany"},
+                    { "data": "approvePersonID"},
+                    { "data": "approvePerson" },
+                    { "data": "approveTime",
+                        "render": function(data, type, full, meta)
+                        {
                             data = new Date(parseInt(data) * 1000).format('yyyy/MM/dd h:m:s');
                             return data;
-                        }
-                    },
-                    { "data": "applyDescription" },
-                    {
-                        "data": "applicationType",
-                        "render": function(data, type, full, meta) {
-
-                            if(data=="普通")
-                            {
-                                return "<font color='green'>普通</font>";
-                            }
-                            else if(data=="紧急")
-                            {
-                                return "<font color='red'>紧急</font>";
-                            }
-
-                        }
-
-
-                    },
-                    { "data": "applicantName" },
-                    {
-                        "data": function(obj){
-                            return obj.stationManagementProvince + obj.stationManagementCity+obj.stationManagementArea;
-                        }
+                        },
+                        "sWidth":"12%"
                     },
                     {
-                        "data":"applicationStatus",
-                        "render": function(data, type, full, meta) {
+                        "data": "approveResult",
+                        "render": function(data, type, full, meta)
+                        {
 
-                            if(data=="approve")
-                            {
-                                return "<font color='green'>同意</font>";
+                            if (data == "审核中") {
+                                return "<font color='red'>审核中</font>";
                             }
-                            else if(data=="reject")
-                            {
+                            else if (data == "拒绝") {
                                 return "<font color='red'>拒绝</font>";
                             }
-                            else if(data=="pending")
-                            {
-                                return "<font color='red'>待批准</font>";
+                            else if (data == "同意") {
+                                return "<font color='green'>同意</font>";
                             }
-
                         }
-                    },{
+                    },
+                    {
                         "data":null,
                         "render": function(data, type, row, meta) {
-                            if (row.applicationStatus=="pending"){
+                            if (row.approveResult=="审核中"){
                                 return data = '<a href="#" id="editOne" title="edit" class="model_pending" onclick="processTask()">' +
                                         ' <img src="../assets/images/icons/hammer_screwdriver.png" alt="edit" /></a>';
                             }else {
@@ -470,7 +453,7 @@
                 },
 //               initComplete: initComplete
             });
-            table = allTaskListTable;
+            table = queryApplyTable;
             //初始化待处理展示框
             pendingTaskListTable = $('#pendingTaskListTable').DataTable( {
                 "searching": false,
@@ -784,48 +767,93 @@
                 var trInfo = table.row( this.parentNode).data();
 //                window.console.log(trInfo);
                 //获取字段值对弹出框进行内容进行填充
-                $("#edit_applicantName").val(trInfo.applicantName);
-                $("#edit_taskID").val(trInfo.taskID);
-                $("#edit_stationAddress").val(trInfo.stationAddress);
-                $("#edit_applicantCompany").val(trInfo.applicantCompany);
-                $("#edit_applicantPhone").val(trInfo.applicantPhone);
-                $("#edit_applicantKeyID").val(trInfo.applicantKeyID);
-                $("#edit_applicationType").val(trInfo.applicationType);
-                $("#edit_applyDescription").val(trInfo.applyDescription);
-                $("#edit_taskStartTime").val(new Date(parseInt(trInfo.taskStartTime) * 1000).format('yyyy/MM/dd h:m:s'));
-                $("#edit_taskEndTime").val(new Date(parseInt(trInfo.taskEndTime) * 1000).format('yyyy/MM/dd h:m:s'));
-                $("#edit_taskTimes").val(trInfo.taskTimes);
-                $("#edit_reason").val(trInfo.reason);
-                $(".popBox[title=oneTaskInfo] input").attr("disabled",true);
-                $(".popBox[title=oneTaskInfo] textarea").attr("disabled","disabled");
+
+                $("#edit_applyCompanyID").val(trInfo.applyCompanyID);
+                $("#edit_applyCompany").val(trInfo.applyCompany);
+                $("#edit_applyPersonID").val(trInfo.applyPersonID);
+                $("#edit_applyPerson").val(trInfo.applyPerson);
+                $("#edit_applyTime").val( new Date(parseInt(trInfo.applyTime) * 1000).format('yyyy/MM/dd h:m:s') );
+                $("#edit_applyContent").val(trInfo.applyContent);
+                $("#edit_approveCompanyID").val(trInfo.approveCompanyID);
+                $("#edit_approveCompany").val(trInfo.approveCompany);
+                $("#edit_approvePersonID").val(trInfo.approvePersonID);
+                $("#edit_approvePerson").val(trInfo.approvePerson);
+                $("#edit_approveTime").val( new Date(parseInt(trInfo.approveTime) * 1000).format('yyyy/MM/dd h:m:s') );
+                if(trInfo.approveResult=="审核中")
+                {
+                    $("#edit_approveResult").get(0).selectedIndex = 0;
+                }
+                else if(trInfo.approveResult=="拒绝")
+                {
+                    $("#edit_approveResult").get(0).selectedIndex = 1;
+
+                }
+                else if(trInfo.approveResult=="同意")
+                {
+                    $("#edit_approveResult").get(0).selectedIndex = 2;
+
+                }
+
+
+                $(".popBox[title=oneOrganizationInfo] input").attr("disabled",true);
+                $(".popBox[title=oneOrganizationInfo] select").attr("disabled",true);
+                $(".popBox[title=oneOrganizationInfo] textarea").attr("disabled","disabled");
+
                 //显示审批窗口
-                $(".model-bg[title=oneTaskInfo],.popBox[title=oneTaskInfo]").show();
-                $("#submit_eidtTask").hide();
-                $("#reject_editPerson").hide();
+                $(".model-bg[title=oneOrganizationInfo],.popBox[title=oneOrganizationInfo]").show();
+                $("#submit_editOrganization").hide();
+                $("#reject_editOrganization").hide();
             } );
         };
         /**
          * 处理工单
          */
-        function processTask(){
+        function processTask()
+        {
             $(""+tabContent+"").on( 'click', '.model_pending', function () {
-                var trInfo = table.row( this.parentNode).data();
-//                window.console.log(trInfo);
+                var trInfo = table.row(this.parentNode).data();
+                originalID=trInfo._id;
+//
+//
+//  window.console.log(trInfo);
+
                 //获取字段值对弹出框进行内容进行填充
-                $("#edit_applicantName").val(trInfo.applicantName);
-                $("#edit_taskID").val(trInfo.taskID);
-                $("#edit_stationAddress").val(trInfo.stationAddress);
-                $("#edit_applicantCompany").val(trInfo.applicantCompany);
-                $("#edit_applicantPhone").val(trInfo.applicantPhone);
-                $("#edit_applicantKeyID").val(trInfo.applicantKeyID);
-                $("#edit_applicationType").val(trInfo.applicationType);
-                $("#edit_applyDescription").val(trInfo.applyDescription);
-                $("#edit_taskStartTime").val(new Date(parseInt(trInfo.taskStartTime) * 1000).format('yyyy/MM/dd h:m:s'));
-                $("#edit_taskEndTime").val(new Date(parseInt(trInfo.taskEndTime) * 1000).format('yyyy/MM/dd h:m:s'));
-                $("#edit_taskTimes").val(trInfo.taskTimes);
-                $(".popBox[title=oneTaskInfo] input").attr("disabled",true);
+                $("#edit_applyCompanyID").val(trInfo.applyCompanyID);
+                $("#edit_applyCompany").val(trInfo.applyCompany);
+                $("#edit_applyPersonID").val(trInfo.applyPersonID);
+                $("#edit_applyPerson").val(trInfo.applyPerson);
+                $("#edit_applyTime").val( new Date(parseInt(trInfo.applyTime) * 1000).format('yyyy/MM/dd h:m:s') );
+                $("#edit_applyContent").val(trInfo.applyContent);
+                $("#edit_approveCompanyID").val(trInfo.approveCompanyID);
+                $("#edit_approveCompany").val(trInfo.approveCompany);
+                $("#edit_approvePersonID").val(trInfo.approvePersonID);
+                $("#edit_approvePerson").val(trInfo.approvePerson);
+                $("#edit_approveTime").val( new Date(parseInt(trInfo.approveTime) * 1000).format('yyyy/MM/dd h:m:s') );
+                if(trInfo.approveResult=="审核中")
+                {
+                    $("#edit_approveResult").get(0).selectedIndex = 0;
+                }
+                else if(trInfo.approveResult=="拒绝")
+                {
+                    $("#edit_approveResult").get(0).selectedIndex = 1;
+
+                }
+                else if(trInfo.approveResult=="同意")
+                {
+                    $("#edit_approveResult").get(0).selectedIndex = 2;
+
+                }
+//                $("#edit_approveResult").val(trInfo.approveResult);
+//                $("#edit_taskStartTime").val( );
+//                $("#edit_taskEndTime").val();
+//                $("#edit_taskTimes").val(trInfo.taskTimes);
+
+                $("#reject_editOrganization").show();
+
+                $(".popBox[title=oneOrganizationInfo] input").attr("disabled",true);
+                $(".popBox[title=oneOrganizationInfo] select").attr("disabled",true);
                 //显示审批窗口
-                $(".model-bg[title=oneTaskInfo],.popBox[title=oneTaskInfo]").show();
+                $(".model-bg[title=oneOrganizationInfo],.popBox[title=oneOrganizationInfo]").show();
             } );
         };
         /**
@@ -839,11 +867,11 @@
                         var tableName = currentTab+"Table";
                         var qsDate = collectQueryInfo(tableName);
                         //根据tabName初始化table
-                        if(currentTab=="#allTaskList"){
+                        if(currentTab=="#queryApply"){
                             //获取查询参数
 //                            window.console.log("当前tab选项为：全部");
                             tabContent = tableName;
-                            table = allTaskListTable;
+                            table = queryApplyTable;
                         }else if(currentTab=="#pendingTaskList"){
                             //获取查询参数
 //                            window.console.log("当前tab选项为：待处理");
@@ -866,15 +894,15 @@
             /**
              * 全选选中
              */
-            $("input#allTaskListAllCheck").click(function(){
+            $("input#queryApplyAllCheck").click(function(){
                 if(this.checked){
-                    $("#allTaskListTable tbody tr").each(function(){
+                    $("#queryApplyTable tbody tr").each(function(){
                         if(!$(this).hasClass("checked")){
                             $(this).click();
                         }
                     })
                 }else {
-                    $('#allTaskListTable tbody tr').click();
+                    $('#queryApplyTable tbody tr').click();
                 }
             });
             $("input#pendingTaskListAllCheck").click(function(){
@@ -891,7 +919,7 @@
             /**
              * 多选选中和取消选中,同时选中第一个单元格单选框,并联动全选单选框
              */
-            $('#allTaskListTable tbody').on('click', 'tr', function(event) {
+            $('#queryApplyTable tbody').on('click', 'tr', function(event) {
                 var allChecked = $('input[name=allChecked]')[0]; //关联全选单选框
                 $($(this).children()[0]).children().each(function() {
                     if (this.type == "checkbox" && (!$(event.target).is(":checkbox") && $(":checkbox", this).trigger("click"))) {
@@ -970,38 +998,175 @@
             /**
              * 单击编辑窗口同意/拒绝按钮
              */
-            $('.edit_submit').click(function(event){
+            $('.edit_submit').click(function(event)
+            {
+
                 //获取提交类型
                 //获取公共字段
                 var operatorName=userInfo.username;
-                var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
-                if(tabContent=="#allTaskListTable"){
-                    var originQsData ="operatorName="+operatorName+"&accessToken="+accessToken;
-                }else if(tabContent=="#pendingTaskListTable"){
-                    var originQsData ="operatorName="+operatorName+"&accessToken="+accessToken+"&applicationStatus=pending";
-                }
-                var taskAuthenticateStr = "";
+                var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName=organizationInfo&originalID="+originalID;
+                var updateInfo = "";
                 var commitType = this.id;
-                if(commitType=="submit_eidtTask"){
 
-                    //提交“同意”状态
-                    taskAuthenticateStr +="&applicationStatus=approve";
-                }else if(commitType=="reject_editPerson"){
-                    //提交“拒绝”状态
-                    taskAuthenticateStr +="&applicationStatus=reject";
+                var applyCompanyID=$("#edit_applyCompanyID").val();
+                var applyCompany=$("#edit_applyCompany").val();
+                var applyPersonID=$("#edit_applyPersonID").val();
+                var applyPerson=$("#edit_applyPerson").val();
+                var applyTime=$("#edit_applyTime").val();
+                var applyContent=$("#edit_applyContent").val();
+                var approveCompanyID=$("#edit_approveCompanyID").val();
+                var approveCompany=$("#edit_approveCompany").val();
+                var approvePersonID=$("#edit_approvePersonID").val();
+                var approvePerson=$("#edit_approvePerson").val();
+                var approveTime=$("#edit_approveTime").val();
+                var approveResult=$("#edit_approveResult").val();
+
+
+
+
+
+
+                if(applyPersonID==""||applyPersonID==null)
+                {
+
+                    alert("申请人编号不能为空，请重新填写！")
+                    $("#edit_applyPersonID").focus();
+                    return;
+
+                }else
+                {
+                    updateInfo+="&applyPersonID="+applyPersonID;
                 }
+
+
+
+
+
+
+
+
+
+                if(applyPerson==""||applyPerson==null)
+                {
+
+                    alert("申请人不能为空，请重新填写！")
+                    $("#edit_applyPerson").focus();
+                    return;
+
+                }else
+                {
+                    updateInfo+="&applyPerson="+applyPerson;
+                }
+
+
+                if(applyTime==""||applyTime==null)
+                {
+                    alert("申请时间不能为空，请重新填写！")
+                    $("#edit_applyTime").focus();
+                    return;
+                }else
+                {
+                    var applyTimeStamp = Date.parse(new Date(applyTime));
+                    applyTimeStamp = applyTimeStamp / 1000;
+                    updateInfo+="&applyTime="+applyTimeStamp;
+                }
+
+                if(applyContent==""||applyContent==null)
+                {
+                    alert("申请人内容不能为空，请重新填写！")
+                    $("#edit_applyContent").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&applyContent="+applyContent;
+                }
+
+                if(approvePersonID==""||approvePersonID==null)
+                {
+                    alert("审批人编号不能为空，请重新填写！")
+                    $("#edit_approvePersonID").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&approvePersonID="+approvePersonID;
+                }
+
+                if(approvePerson==""||approvePerson==null)
+                {
+                    alert("审批人不能为空，请重新填写！")
+                    $("#edit_approvePerson").focus();
+                    return;
+                }else
+                {
+                    updateInfo+="&approvePerson="+approvePerson;
+                }
+
+
+
+
+
+
+
+
+
+                if(isUpdate==1)
+                {
+                    if(approveTime==""||approveTime==null)
+                    {
+                        alert("审批人时间不能为空，请重新填写！")
+                        $("#edit_approveTime").focus();
+                        return;
+                    }else
+                    {
+                        var approveTimeStamp = Date.parse(new Date(approveTime));
+                        approveTimeStamp = approveTimeStamp / 1000;
+
+                        if(approveTimeStamp<=applyTimeStamp)
+                        {
+                            alert("审批时间不能早于申请时间，请重新填写！")
+                            $("#add_taskEndTime").focus();
+                            return;
+                        }
+                        else {
+                            updateInfo += "&approveTime=" + approveTimeStamp;
+                        }
+                    }
+
+
+                    updateInfo += "&approveResult=" + approveResult;
+                    isUpdate=0;
+                }
+                else {
+                    if (commitType == "submit_editOrganization") {
+                        var approveTime = Date.parse(new Date());
+                        approveTime = approveTime / 1000;
+                        updateInfo += "&approveTime=" + approveTime;
+
+
+                        //提交“同意”状态
+                        updateInfo += "&approveResult=同意";
+
+
+                    } else if (commitType == "reject_editOrganization") {
+                        var approveTime = Date.parse(new Date());
+                        approveTime = approveTime / 1000;
+                        updateInfo += "&approveTime=" + approveTime;
+
+
+                        //提交“拒绝”状态
+                        updateInfo += "&approveResult=拒绝";
+                    }
+                }
+
                 //收集编辑框字段
-                var taskID=$("#edit_taskID").val();
-                taskAuthenticateStr+="&taskID="+taskID;
-                var reason = $("#edit_reason").val();
-                taskAuthenticateStr+="&reason="+reason;
-                qsData=qsData+taskAuthenticateStr;
-                alert("编辑的提交数据为："+qsData);
-//                window.console.log("编辑的提交数据为："+qsData);
+
+                qsData=qsData+updateInfo;
+//                alert("编辑的提交数据为："+qsData);
+                console.log("编辑的提交数据为："+qsData);
                 //发起请求
                 $.ajax({
                     async: false,
-                    url: "https://www.smartlock.top/v0/taskAuthenticate",
+                    url: "https://www.smartlock.top/v0/updateAll",
                     type: "POST",
                     contentType: "application/x-www-form-urlencoded",
                     data: qsData,
@@ -1022,16 +1187,21 @@
                             if(errInfo.code=="00000"){
                                 window.location.href="login.html";
                             };
+
                             return;
                         }else if (infoJson.success)
                         {
                             var sucInfo =  infoJson.success;
                             var msg = sucInfo.msg;
                             alert(msg);
-                            $(".popBox[title=oneTaskInfo] input").val("");
-                            $(".popBox[title=oneTaskInfo] textarea").val("");
-                            $(".model-bg[title=oneTaskInfo],.popBox[title=oneTaskInfo]").hide();
-                            taskFetch(originQsData,tabContent);
+                            $(".popBox[title=oneOrganizationInfo] input").val("");
+                            $(".popBox[title=oneOrganizationInfo] textarea").val("");
+                            $(".model-bg[title=oneOrganizationInfo],.popBox[title=oneOrganizationInfo]").hide();
+
+                            var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=organizationInfo";
+                            //获取数据并加载
+                            taskFetch(qsData,"#queryApplyTable")
+
                         }else {
                             alert("未知错误，请联系管理员！")
                         }
@@ -1100,7 +1270,7 @@
                                     $("#dwgsyg").css('display','none'); //隐藏代维公司员工管理界面
                                     $("#csyg").css('display','none'); //隐藏厂商公司员工管理界面
                                     $("#jizhanguanli").css('display','none'); //不能显示基站管理
-                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示钥匙管理
 
 
                                     break;
@@ -1115,7 +1285,7 @@
                                     $("#staff_location").css('display','none'); //代维公司管理员只能管理自己所属代维公司，所以不需要显示公司地区
                                     $("#authority").css('display','none'); //代维公司管理员只能授予开门权限，其他权限的新增按钮要隐藏
                                     $("#jizhanguanli").css('display','none'); //不能显示基站管理
-                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示钥匙管理
                                     break;
                                 case "5": //厂商公司管理员只能管理自己属于的厂商公司
                                     $("#ttyg").css('display','none'); //隐藏铁塔公司员工管理界面
@@ -1123,7 +1293,7 @@
                                     $("#sggsyg").css('display','none'); //隐藏施工公司员工管理界面
                                     $("#dwgsyg").css('display','none'); //隐藏代维公司员工管理界面
                                     $("#jizhanguanli").css('display','none'); //不能显示基站管理
-                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示电子钥匙管理
+                                    $("#dianziyaoshiguanli").css('display','none'); //不能显示钥匙管理
                                     break;
                             }
 
@@ -1141,10 +1311,10 @@
                 document.getElementById("username1").innerHTML="欢迎回来"+" "+userInfo.username;
 
             }
-            var operatorName=userInfo.username;
-            var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
+
+            var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=organizationInfo";
             //获取数据并加载
-            taskFetch(qsData,"#allTaskListTable")
+            taskFetch(qsData,"#queryApplyTable")
         };
         //退出登录状态
         function  logout(){
@@ -1154,20 +1324,22 @@
             }
         };
         //重置按钮功能
-        function resetNoArgs(){
+        function resetNoArgs()
+        {
             var tableName = tabContent;
             reset(tableName);
         }
-        function reset(tableName){
-            if(tableName=="#allTaskListTable"){
+        function reset(tableName)
+        {
+            if(tableName=="#queryApplyTable"){
                 //对参数进行重置
-                $("#query_taskStartTime_all").val("");
-                $("#query_taskEndTime_all").val("");
-                $("#query_applicantName_all").val("");
+                $("#query_applyStartTime").val("");
+                $("#query_applyEndTime").val("");
+                $("#query_approveResult").val("");
 
-                $("#add_taskStartTime").val("");
-                $("#add_taskEndTime").val("");
-            }else if(tableName=="#pendingTaskListTable"){
+
+            }
+            else if(tableName=="#pendingTaskListTable"){
                 //对参数进行重置
                 $("#query_taskStartTime_pending").val("");
                 $("#query_taskEndTime_pending").val("");
@@ -1232,7 +1404,8 @@
             });
         }
         //查询工单按钮
-        function  queryTask(){
+        function  queryTask()
+        {
             var qsDate = collectQueryInfo(tabContent);
             taskFetch(qsDate,tabContent);
         }
@@ -1246,11 +1419,12 @@
         //获取工单列表
         function taskFetch(qsDataStr,tableName){
             var qsData = qsDataStr;
-//            window.console.log(qsData);
+
+            console.log(qsData);
             //发起请求
             $.ajax({
                 async: false,
-                url: "https://www.smartlock.top/v0/taskFetch",
+                url: "https://www.smartlock.top/v0/queryAll",
                 type: "POST",
                 contentType: "application/x-www-form-urlencoded",
                 data: qsData,
@@ -1267,15 +1441,21 @@
                         var errInfo = infoJson.error;
                         reset(tableName);
                         $(""+tableName+"").dataTable().fnClearTable();//清除表格内原有的数据
-                        if(errInfo.code=="18001"){
+
+                        if(errInfo.code=="18001")
+                        {
                             return;
                         };
+
                         alert(errInfo.msg);
-                        if(errInfo.code=="00000"){
+                        if(errInfo.code=="00000")
+                        {
                             window.location.href="login.html";
                         };
+
                         return;
-                    }else if (infoJson.success)
+                    }
+                    else if (infoJson.success)
                     {
                         var sucInfo =  infoJson.success;
 //                        console.log(sucInfo);
@@ -1286,7 +1466,6 @@
                         alert("未知错误，请联系管理员！")
                     }
 
-
                 },
                 error: function (result) {
 //                    console.log(result);
@@ -1294,43 +1473,51 @@
                 }
             });
         };
+
         //封装参数校验和转换
-        function checkArgs(taskStartTime,taskEndTime,applicantName){
+        function checkArgs(querylStartTime,queryEndTime,approveResult){
             var qsDataActive="";
-            if(taskStartTime!=""&&taskStartTime!=null){
-                var starTimer = new Date(Date.parse(taskStartTime.replace(/-/g, "/")));
+            if(querylStartTime!=""&&querylStartTime!=null){
+                var starTimer = new Date(Date.parse(querylStartTime.replace(/-/g, "/")));
 //                window.console.log("开始时间戳为："+starTimer.getTime());
-                qsDataActive = "&taskStartTime="+starTimer.getTime().toString().substring(0,10)
+                qsDataActive = "&applyStartTime="+starTimer.getTime().toString().substring(0,10)
             };
-            if(taskEndTime!=""&&taskEndTime!=null){
-                var endTimer = new Date(Date.parse(taskEndTime.replace(/-/g, "/")));
+            if(queryEndTime!=""&&queryEndTime!=null){
+                var endTimer = new Date(Date.parse(queryEndTime.replace(/-/g, "/")));
 //                window.console.log("结束时间戳为："+endTimer.getTime());
-                qsDataActive +="&taskEndTime="+endTimer.getTime().toString().substring(0,10)
+                qsDataActive +="&applyEndTime="+endTimer.getTime().toString().substring(0,10)
             };
-            if(applicantName!=""&&applicantName!=null){
-                qsDataActive +="&applicantName="+applicantName;
+            if(approveResult!=""&&approveResult!=null){
+                qsDataActive +="&approveResult="+approveResult;
             }
             return qsDataActive;
         }
+
         //根据页面不同获取查询参数
-        function collectQueryInfo(tabName){
+        function collectQueryInfo(tabName)
+        {
             //获取固定参数
             var operatorName=userInfo.username;
-            var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
+            var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName=organizationInfo";
             var qsDataActive="";
-            var taskStartTime = "";
-            var taskEndTime= "";
-            var applicantName="";
+            var applyStartTime = "";
+            var applyEndTime= "";
+            var approveResult="";
+
             //对动态参数进行判断
-            if(tabName=="#allTaskListTable"){
+            if(tabName=="#queryApplyTable")
+            {
 //                window.console.log("当前tab选项为：全部");
                 //获取查询参数
-                taskStartTime = $("#query_taskStartTime_all").val();
-                taskEndTime = $("#query_taskEndTime_all").val();
-                applicantName = $("#query_applicantName_all").val();
+                applyStartTime = $("#query_applyStartTime").val();
+                applyEndTime = $("#query_applyEndTime").val();
+                approveResult = $("#query_approveResult").val();
+
                 //对参数进行判空和处理
-                qsDataActive = checkArgs(taskStartTime,taskEndTime,applicantName);
-            }else if(tabName=="#pendingTaskListTable"){
+                qsDataActive = checkArgs(applyStartTime,applyEndTime,approveResult);
+
+            }
+            else if(tabName=="#pendingTaskListTable"){
 //                window.console.log("当前tab选项为：待处理");
                 //获取查询参数
                 taskStartTime = $("#query_taskStartTime_pending").val();
@@ -1458,8 +1645,8 @@
             /**
              * 点击增加按钮
              */
-//        $("#allTaskListAdd").click(function()
-            $(".button[id=allTaskListAdd]").click(function()
+//        $("#queryApplyAdd").click(function()
+            $(".button[id=queryApplyAdd]").click(function()
             {
 
                 //显示编辑窗口
@@ -1484,7 +1671,7 @@
 
 
 
-//                alert("进入提交动作！");
+                alert("进入提交动作！");
                 //获取公共字段
                 var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken; //+"&collectionName=taskInfo";
                 var updateInfo = "";
@@ -1644,7 +1831,7 @@
 
                             var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken;
                             //获取数据并加载
-                            taskFetch(qsData,"#allTaskListTable")
+                            taskFetch(qsData,"#queryApplyTable")
 
                         }else
                         {
@@ -1693,8 +1880,8 @@
             /**
              * 点击修改按钮
              */
-//        $("#allTaskListAdd").click(function()
-            $(".button[id=allTaskListUpdate]").click(function()
+//        $("#queryApplyAdd").click(function()
+            $(".button[id=queryApplyUpdate]").click(function()
             {
                 var theArray = [];
                 var a = table.rows('.selected').data();
@@ -1721,68 +1908,59 @@
                     originalID = a[0]._id;
                     originalUserType = a[0].userType;
                     originalCompanyID = a[0].companyID;
+                    isUpdate=1;
 
-                    var stationAddress = a[0].stationAddress;
-                    var applicantName = a[0].applicantName;
-                    var applicantCompany = a[0].applicantCompany;
-                    var applicantPhone = a[0].applicantPhone;
-                    var applicantKeyID = a[0].applicantKeyID;
-                    var applicationType = a[0].applicationType;
-                    var applyDescription = a[0].applyDescription;
-                    var taskStartTime = a[0].taskStartTime;
-                    var taskEndTime = a[0].taskEndTime;
-                    var taskTimes = a[0].taskTimes;
-                    var applyType = a[0].applyType;
+                    $("#edit_applyCompanyID").val(a[0].applyCompanyID);
+                    $("#edit_applyCompany").val(a[0].applyCompany);
+                    $("#edit_applyPersonID").val(a[0].applyPersonID);
+                    $("#edit_applyPerson").val(a[0].applyPerson);
+                    $("#edit_applyTime").val( new Date(parseInt(a[0].applyTime) * 1000).format('yyyy/MM/dd h:m:s') );
+                    $("#edit_applyContent").val(a[0].applyContent);
+                    $("#edit_approveCompanyID").val(a[0].approveCompanyID);
+                    $("#edit_approveCompany").val(a[0].approveCompany);
+                    $("#edit_approvePersonID").val(a[0].approvePersonID);
+                    $("#edit_approvePerson").val(a[0].approvePerson);
+                    $("#edit_approveTime").val( new Date(parseInt(a[0].approveTime) * 1000).format('yyyy/MM/dd h:m:s') );
 
-
-                    //将获取的字段填入编辑框中
-                    $("#update_stationAddress").val(stationAddress);
-                    $("#update_applicantKeyID").val(applicantKeyID);
-                    $("#update_applyDescription").val(applyDescription);
-
-                    $("#update_applicantName").val(applicantName);
-                    $("#update_taskStartTime").val(new Date(parseInt(taskStartTime) * 1000).format('yyyy/MM/dd h:m:s'));
-                    $("#update_taskEndTime").val(new Date(parseInt(taskEndTime) * 1000).format('yyyy/MM/dd h:m:s'));
-
-
-                    if (applicationType == "普通")
+                    if(a[0].approveResult=="审核中")
                     {
-                        $("#update_applicationType").get(0).selectedIndex = 0;
+                        $("#edit_approveResult").get(0).selectedIndex = 0;
                     }
-                    else if (applicationType == "紧急") {
-                        $("#update_applicationType").get(0).selectedIndex = 1;
+                    else if(a[0].approveResult=="拒绝")
+                    {
+                        $("#edit_approveResult").get(0).selectedIndex = 1;
+
+                    }
+                    else if(a[0].approveResult=="同意")
+                    {
+                        $("#edit_approveResult").get(0).selectedIndex = 2;
+
                     }
 
-                    if (taskTimes == 1)
-                    {
-                        $("#update_taskTimes").get(0).selectedIndex = 0;
-                    }
-                    else if (taskTimes == 2) {
-                        $("#update_taskTimes").get(0).selectedIndex = 1;
-                    }
-                    else if (taskTimes == 3) {
-                        $("#update_taskTimes").get(0).selectedIndex = 2;
-                    }
-                    else if (taskTimes == 4) {
-                        $("#update_taskTimes").get(0).selectedIndex = 3;
-                    }
-                    else if (taskTimes == 5) {
-                        $("#update_taskTimes").get(0).selectedIndex = 4;
-                    }
 
-                    if (applyType == "app")
-                    {
-                        $("#update_applyType").get(0).selectedIndex = 0;
-                    }
-                    else if (applyType == "key") {
-                        $("#update_applyType").get(0).selectedIndex = 1;
-                    }
 
 
 
 
                     //显示编辑窗口
-                    $(".model-bg[title=updateOneTask],.popBox[title=updateOneTask]").show();
+                    $("#edit_applyCompanyID").attr("disabled",true);
+                    $("#edit_applyCompany").attr("disabled",true);
+                    $("#edit_applyPersonID").attr("disabled",false);
+                    $("#edit_applyPerson").attr("disabled",false);
+                    $("#edit_applyTime").attr("disabled",false);
+                    $("#edit_applyContent").attr("disabled",false);
+                    $("#edit_approveCompanyID").attr("disabled",true);
+                    $("#edit_approveCompany").attr("disabled",true);
+                    $("#edit_approvePersonID").attr("disabled",false);
+                    $("#edit_approvePerson").attr("disabled",false);
+                    $("#edit_approveTime").attr("disabled",false);
+                    $("#edit_approveResult").attr("disabled",false);
+
+
+                    $("#submit_editOrganization").show();
+                    $("#reject_editOrganization").hide();
+
+                    $(".model-bg[title=oneOrganizationInfo],.popBox[title=oneOrganizationInfo]").show();
                 }
 
             });
@@ -1793,7 +1971,7 @@
             $('#submit_updateOneTask').click(function(event)
             {
 
-//                alert("进入提交动作！");
+                alert("进入提交动作！");
                 //获取公共字段
                 var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=taskInfo&originalID="+originalID;
                 var updateInfo = "";
@@ -1909,7 +2087,7 @@
 
                             var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken;
                             //获取数据并加载
-                            taskFetch(qsData,"#allTaskListTable")
+                            taskFetch(qsData,"#queryApplyTable")
                         }else {
                             alert("未知错误，请联系管理员！")
                         }
@@ -1966,11 +2144,11 @@
             </div>
 
             <li>
-                <a href="#" class="nav-top-item current">
+                <a href="#" class="nav-top-item">
                     工单管理
                 </a>
                 <ul>
-                    <li><a class="current" href="taskManage.html">工单列表</a></li>
+                    <li><a  href="taskManage.html">工单列表</a></li>
                     <li><a  href="abnormalTaskManage.html">异常工单</a></li>
                 </ul>
             </li>
@@ -1978,7 +2156,7 @@
             <div id="dianziyaoshiguanli">
                 <li>
                     <a href="#" class="nav-top-item">
-                        电子钥匙管理
+                        钥匙管理
                     </a>
                     <ul>
                         <li><a href="keyManage.html">钥匙列表</a></li>
@@ -1986,6 +2164,16 @@
                     </ul>
                 </li>
             </div>
+
+            <li>
+                <a href="#" class="nav-top-item current">
+                    机构管理
+                </a>
+                <ul>
+                    <li><a class="current" href="organizationManage.html">机构管理</a></li>
+
+                </ul>
+            </li>
 
             <div id="yuangongguanli">
                 <li>
@@ -2005,113 +2193,106 @@
     </div></div> <!-- End #sidebar -->
 
     <div id="main-content"> <!-- Main Content Section with everything -->
+
         <!-- Page Head -->
         <h2 id="username1"> </h2>
+
         <p id="page-intro">What would you like to do?</p>
         <div class="clear"></div> <!-- End .clear -->
         <div class="content-box"><!-- Start Content Box -->
+
             <div class="content-box-header">
                 <!--<h3>内容模块</h3>-->
                 <ul class="content-box-tabs">
-                    <li><a href="#allTaskList" class="default-tab" >全部</a></li> <!-- href must be unique and match the id of target div -->
-                    <li><a href="#pendingTaskList">待处理</a></li>
-                    <li><a href="#rejectTaskList">拒绝</a></li>
-                    <li><a href="#approvedTaskList">同意</a></li>
+
+                    <li><a href="#queryApply" class="default-tab" >机构审批</a></li> <!-- href must be unique and match the id of target div -->
+
                 </ul>
 
                 <div class="clear"></div>
 
             </div> <!-- End .content-box-header -->
+
+
             <!--弹出编辑框开始-->
             <div class="dialog">
-                <div class="model-bg" title="oneTaskInfo"></div>
-                <div class="popBox" title="oneTaskInfo">
+                <div class="model-bg" title="oneOrganizationInfo"></div>
+                <div class="popBox" title="oneOrganizationInfo">
                     <div class="ttBox">
-                        <a class="clsBtn" title="oneTaskInfo"></a>
+                        <a class="clsBtn" title="oneOrganizationInfo"></a>
                         <span class="tt">工单详情</span>
                     </div>
                     <div class="txtBox">
                         <div class="item">
-                            <label for="edit_applicantName">申请人：</label>
-                            <input type="text" id="edit_applicantName">
+                            <label for="edit_applyCompanyID">申请公司编号：</label>
+                            <input type="text" id="edit_applyCompanyID" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_taskID">工单ID：</label>
-                            <input type="text" id="edit_taskID">
+                            <label for="edit_applyCompany">申请公司名：</label>
+                            <input type="text" id="edit_applyCompany" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_stationAddress">基站地址：</label>
-                            <input type="text" id="edit_stationAddress">
+                            <label for="edit_applyPersonID">申请人编号：</label>
+                            <input type="text" id="edit_applyPersonID" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_applicantCompany">公司名称：</label>
-                            <input type="text" id="edit_applicantCompany">
+                            <label for="edit_applyPerson">申请人：</label>
+                            <input type="text" id="edit_applyPerson" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_applicantPhone">申请人电话：</label>
-                            <input type="text" id="edit_applicantPhone">
+                            <label for="edit_applyTime">申请时间：</label>
+                            <input type="text" id="edit_applyTime" placeholder="请输入开始日期"  class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" >
                         </div>
                         <div class="item">
-                            <label for="edit_applicantKeyID">钥匙ID：</label>
-                            <input type="text" id="edit_applicantKeyID">
+                            <label for="edit_applyContent">申请内容：</label>
+                            <input type="text" id="edit_applyContent" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_applicationType">作业类型：</label>
-                            <input type="text" id="edit_applicationType">
+                            <label for="edit_approveCompanyID">审批公司编号：</label>
+                            <input type="text" id="edit_approveCompanyID" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_applyDescription">作业描述：</label>
-                            <input type="text" id="edit_applyDescription">
+                            <label for="edit_approveCompany">审批公司：</label>
+                            <input type="text" id="edit_approveCompany" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_taskStartTime">作业开始时间：</label>
-                            <input type="text" id="edit_taskStartTime">
+                            <label for="edit_approvePersonID">审批人ID：</label>
+                            <input type="text" id="edit_approvePersonID" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_taskEndTime">作业结束时间：</label>
-                            <input type="text" id="edit_taskEndTime">
+                            <label for="edit_approvePerson">审批人：</label>
+                            <input type="text" id="edit_approvePerson" class="edit_text">
                         </div>
                         <div class="item">
-                            <label for="edit_taskTimes">开门次数：</label>
-                            <input type="text" id="edit_taskTimes">
+                            <label for="edit_approveTime">审批时间：</label>
+                            <input type="text" id="edit_approveTime" placeholder="请输入开始日期"  class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
                         </div>
                         <div class="item">
-                            <label for="edit_reason">审批说明：</label>
-                            <textarea id="edit_reason" rows="2" cols="18" style="resize: none"></textarea>
+                            <label for="edit_approveResult">审批结果：</label>
+
+                            <select id="edit_approveResult" class="edit_select">
+                                <option value="审核中" >审核中</option>
+                                <option value="拒绝" >拒绝</option>
+                                <option value="同意" >同意</option>
+                            </select>
+
+
+
                         </div>
+                        <!--<div class="item">-->
+                            <!--<label for="edit_reason">审批说明：</label>-->
+                            <!--<textarea id="edit_reason" rows="2" cols="18" style="resize: none"></textarea>-->
+                        <!--</div>-->
                     </div>
                     <div class="btnArea">
                         <div class="btnGroup">
-                            <a class="sgBtn ok edit_submit" id="submit_eidtTask">确定</a>
-                            <a class="sgBtn reject edit_submit" id="reject_editPerson">拒绝</a>
-                            <a class="sgBtn cancel " id="cancel_eidtTask">取消</a>
+                            <a class="sgBtn ok edit_submit" id="submit_editOrganization">确定</a>
+                            <a class="sgBtn reject edit_submit" id="reject_editOrganization">拒绝</a>
+                            <a class="sgBtn cancel " id="cancel_eidtOrganization">取消</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <!--新建工单弹出编辑框开始-->
             <div class="dialog">
@@ -2304,142 +2485,55 @@
             </div><!-- End 修改个人资料 -->
             <!--弹出编辑框结束-->
             <div class="content-box-content">
-                <div class="tab-content default-tab" id="allTaskList"> 	<!-- This is the target div. id must match the href of this div's tab -->
-                    <div class="queryCondition" id="allTaskListQueryCondition">
+                <div class="tab-content default-tab" id="queryApply"> 	<!-- This is the target div. id must match the href of this div's tab -->
+                    <div class="queryCondition" id="queryApplyQueryCondition">
                         <div class="screen-top">
-                            <span>开始时间&nbsp;&nbsp;&nbsp;&nbsp;<input id="query_taskStartTime_all" type="text" placeholder="请输入开始日期"  class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></span>
-                            <span>结束时间&nbsp;&nbsp;&nbsp;<input id="query_taskEndTime_all" type="text"  placeholder="请输入结束日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"  /></span>
-                            <span>申请人姓名<input id="query_applicantName_all" type="text" /></span>
+                            <span>申请开始时间&nbsp;&nbsp;&nbsp;&nbsp;<input id="query_applyStartTime" type="text" placeholder="请输入开始日期"  class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></span>
+                            <span>申请结束时间&nbsp;&nbsp;&nbsp;<input id="query_applyEndTime" type="text"  placeholder="请输入结束日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"  /></span>
+                            <span>申请结果
+                                <select id="query_approveResult" class="query_select" >
+                                    <option value="" ></option>
+                                    <option value="审核中" >审核中</option>
+                                    <option value="拒绝" >拒绝</option>
+                                    <option value="同意" >同意</option>
+                                </select>
+                            </span>
                         </div>
                         <div class="screen-top">
-                            <input class="button" id="allTaskListQuery" type="submit" value="查询" onclick="queryTask()" />
-                            <input class="button" id="allTaskListReset" type="reset" value="重置" onclick="resetNoArgs()" />
-                            <input class="button" id="allTaskListAdd" type="button" value="增加" />
-                            <input class="button" id="allTaskListUpdate" type="button" value="修改" />
-                            <input class="button" id="allTaskListExportxls" type="button" value="导出xls" onclick="exportXls()" />
+                            <input class="button" id="queryApplyQuery" type="submit" value="查询" onclick="queryTask()" />
+                            <input class="button" id="queryApplyReset" type="reset" value="重置" onclick="resetNoArgs()" />
+                            <input class="button" id="queryApplyUpdate" type="reset" value="修改"  />
+                            <input class="button" id="queryApplyZoneAuth" type="button" value="地区权限" />
+                            <input class="button" id="queryApplyStationAuth" type="button" value="基站权限" />
+                            <!--<input class="button" id="queryApplyExportxls" type="button" value="导出xls" onclick="exportXls()" />-->
                         </div>
                     </div>
                     <div>
-                        <table class="display" id="allTaskListTable" cellspacing="0" width="100%">
+                        <table class="display" id="queryApplyTable" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th><input type="checkbox" id="allTaskListAllCheck" name="allChecked" /></th>
-                                <th>作业编号</th>
-                                <th>基站地址</th>
-                                <th>工单开始时间</th>
-                                <th>工单结束时间</th>
-                                <th>工单描述</th>
-                                <th>工单类型</th>
-                                <th>工单申请人</th>
-                                <th>所属片区</th>
-                                <th>工单状态</th>
+                                <th><input type="checkbox" id="queryApplyAllCheck" name="allChecked" /></th>
+                                <th>申请公司编号</th>
+                                <th>申请公司名称</th>
+                                <th>申请人编号</th>
+                                <th>申请人名</th>
+                                <th>申请时间</th>
+                                <th>申请内容</th>
+                                <th>审批公司编号</th>
+                                <th>审批公司名称</th>
+                                <th>审批人编号</th>
+                                <th>审批人名称</th>
+                                <th>审批时间</th>
+                                <th>审批结果</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
                     </div>
-                </div> <!-- End #allTaskList -->
-                <div class="tab-content" id="rejectTaskList"> 	<!-- This is the target div. id must match the href of this div's tab -->
-                    <div class="queryCondition" id="rejectQueryCondition">
-                        <div class="screen-top">
-                            <span>开始时间&nbsp;&nbsp;&nbsp;&nbsp;<input id="query_taskStartTime_reject" type="text" placeholder="请输入开始日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></span>
-                            <span>结束时间&nbsp;&nbsp;&nbsp;<input id="query_taskEndTime_reject" type="text" placeholder="请输入结束日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"  /></span>
-                            <span>申请人姓名<input id="query_applicantName_reject" type="text"/></span>
-                        </div>
-                        <div class="screen-top">
-                            <input class="button" id="rejectTaskListQuery" type="submit" value="查询" onclick="queryTask()" />
-                            <input class="button" id="rejectTaskListReset" type="reset" value="重置" onclick="resetNoArgs()" />
-                            <input class="button" id="rejectTaskListExportxls" type="button" value="导出xls" onclick="exportXls()" />
-                        </div>
-                    </div>
-                    <div>
-                        <table class="display" id="rejectTaskListTable" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
-                                <th>作业编号</th>
-                                <th>基站地址</th>
-                                <th>工单开始时间</th>
-                                <th>工单结束时间</th>
-                                <th>工单描述</th>
-                                <th>工单类型</th>
-                                <th>工单申请人</th>
-                                <th>所属片区</th>
-                                <th>工单状态</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div> <!-- End #rejectTaskList -->
-                <div class="tab-content" id="approvedTaskList"> 	<!-- This is the target div. id must match the href of this div's tab -->
-                    <div class="queryCondition" id="approvedQueryTask">
-                        <div class="screen-top">
-                            <span>开始时间&nbsp;&nbsp;&nbsp;&nbsp;<input id="query_taskStartTime_approved" type="text" placeholder="请输入开始日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></span>
-                            <span>结束时间&nbsp;&nbsp;&nbsp;<input id="query_taskEndTime_approved" type="text" placeholder="请输入结束日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"  /></span>
-                            <span>申请人姓名<input id="query_applicantName_approved" type="text"/></span>
-                        </div>
-                        <div class="screen-top">
-                            <input class="button" id="approvedTaskListQuery" type="submit" value="查询" onclick="queryTask()" />
-                            <input class="button" id="approvedTaskListReset" type="reset" value="重置" onclick="resetNoArgs()" />
-                            <input class="button" id="approvedTaskListExportxls" type="button" value="导出xls" onclick="exportXls()" />
-                        </div>
-                    </div>
-                    <div>
-                        <table class="display" id="approvedTaskListTable" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
-                                <th>作业编号</th>
-                                <th>基站地址</th>
-                                <th>工单开始时间</th>
-                                <th>工单结束时间</th>
-                                <th>工单描述</th>
-                                <th>工单类型</th>
-                                <th>工单申请人</th>
-                                <th>所属片区</th>
-                                <th>工单状态</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div> <!-- End #approvedTaskList -->
-                <div class="tab-content" id="pendingTaskList"> 	<!-- This is the target div. id must match the href of this div's tab -->
-                    <div class="queryCondition" id="pendingQuery">
-                        <div class="screen-top">
-                            <span>开始时间&nbsp;&nbsp;&nbsp;&nbsp;<input id="query_taskStartTime_pending" type="text" placeholder="请输入开始日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></span>
-                            <span>结束时间&nbsp;&nbsp;&nbsp;<input id="query_taskEndTime_pending" type="text" placeholder="请输入结束日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"  /></span>
-                            <span>申请人姓名<input id="query_applicantName_pending" type="text"/></span>
-                        </div>
-                        <div class="screen-top">
-                            <input class="button" id="pendingTaskListQuery" type="submit" value="查询" onclick="queryTask()" />
-                            <input class="button" id="pendingTaskListReset" type="reset" value="重置" onclick="resetNoArgs()"/>
-                            <input class="button" id="pendingTaskListExportXls"  type="button" value="导出xls" onclick="exportXls()" />
-                        </div>
-                    </div>
-                    <div>
-                        <table class="display" id="pendingTaskListTable" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
-                                <th><input type="checkbox" id="pendingTaskListAllCheck" name="allChecked" /></th>
-                                <th>作业编号</th>
-                                <th>基站地址</th>
-                                <th>工单开始时间</th>
-                                <th>工单结束时间</th>
-                                <th>工单描述</th>
-                                <th>工单类型</th>
-                                <th>工单申请人</th>
-                                <th>所属片区</th>
-                                <th>工单状态</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div> <!-- End #pendingTaskList -->
+                </div> <!-- End #queryApply -->
+
+
             </div> <!-- End .content-box-content -->
 
         </div> <!-- End .content-box -->

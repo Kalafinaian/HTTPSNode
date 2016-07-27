@@ -25,6 +25,7 @@
             color: #333;
             width: 15% !important;
         }
+
     </style>
     <!--CSS-->
     <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
@@ -61,8 +62,38 @@
         DD_belatedPNG.fix('.png_bg, img, li');
     </script>
     <![endif]-->
-    <!--个人资料修改-Start-->
+    <!--编辑框开始-->
+    <!--主要对本页面的样式进行重新设置-->
+    <style type="text/css">
+        .popBox .txtBox{
+            margin: 20px 50px;
+            height: 400px;
+            overflow: auto;
+        }
+    </style>
+
+
+
+
     <script type="text/javascript">
+        //显示条目编辑框
+        $(document).ready(function() {
+            $(".clsBtn[title=dbbackup]").click(function(event) {
+                $(".model-bg[title=dbbackup],.popBox[title=dbbackup]").hide();
+            });
+            $(".model").click(function(event) {
+                $(".model-bg[title=dbbackup],.popBox[title=dbbackup]").show();
+            });
+            $("#cancel_eidtTask").click(function(event) {
+                $(".popBox[title=dbbackup] input").val("");
+                $(".popBox[title=dbbackup] textarea").val("");
+                $(".model-bg[title=dbbackup],.popBox[title=dbbackup]").hide();
+                $("#submit_eidtTask").show();
+                $("#reject_editPerson").show();
+                $(".popBox[title=dbbackup] input").attr("disabled",false);
+                $(".popBox[title=dbbackup] textarea").removeAttr("disabled");
+            });
+        });
         //个人资料编辑框控制
         $(document).ready(function(){
             $("#cancel_editPerson").click(function(event) {
@@ -73,6 +104,9 @@
                 $(".model-bg[title=editPersonInfo],.popBox[title=editPersonInfo]").hide();
             });
         });
+
+
+
         //个人资料编辑交互方法控制
         $(document).ready(function(){
             /**
@@ -313,8 +347,8 @@
                             var sucInfo =  infoJson.success;
                             var msg = sucInfo.msg;
                             alert(msg);
-                            $(".edit-panel[title=editPersonInfo] input").val("");
-                            $(".model-bg[title=editPersonInfo],.edit-panel[title=editPersonInfo]").hide();
+                            $(".popBox[title=editPersonInfo] input").val("");
+                            $(".model-bg[title=editPersonInfo],.popBox[title=editPersonInfo]").hide();
                             if(sucInfo.code=="04000"){
                                 window.location.href="login.html";
                             }
@@ -330,12 +364,19 @@
             });
         });
     </script>
-    <!--个人资料修改-End-->
+    <!--编辑框结束-->
     <script type="text/javascript">
         //全局定义变量
-        var table;
+        //        var tabContent ="#allTaskListTable";
+        //        var tableName = "#allTaskListTable";
+        //        var allTaskListTable ;
+        var table ;
+        //        var pendingTaskListTable ;
+        //        var rejectTaskListTable ;
+        //        var approvedTaskListTable ;
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var tokenEndTime=localStorage.getItem("tokenEndTime");
+        //        var originalKeyID = "";
         //设置时间格式
         Date.prototype.format = function(format) {
             var date = {
@@ -358,77 +399,52 @@
             }
             return format;
         };
+
+
+
+
+
+
+
+
+
+
+
+
+
         /**
          * datables初始化
          */
         $(document).ready(function() {
-            //初始化展示框
-            table = $('#stationLogInfo').DataTable( {
+            //初始化全部展示框
+            table = $('#backupTable').DataTable( {
                 "searching": false,
                 "bStateSave": false,
                 "aoColumns": [
                     {
-                        "data": "stationID",
+                        "data":"_id",
+                        "orderable": false,
+                        "render": function(data, type, full, meta) {
+                            return data = '<input type="checkbox" id="checkbox" value="'+data+'" title="'+data+'"/>';
+
+                        }
+                    },
+                    {
+                        "data": "_id",
                         "sClass" : "center"
                     },
-                    { "data": "stationAddress" },
+                    { "data": "dbName" },
                     {
-                        "data": "taskID" ,
+                        "data": "backupDir",
+
                     },
                     {
-                        "data":"applicationType",
-                        "render": function(data, type, full, meta) {
-
-                            if(data=="普通")
-                            {
-                                return "<font color='green'>普通</font>";
-                            }
-                            else if(data=="紧急")
-                            {
-                                return "<font color='red'>紧急</font>";
-                            }
-
-                        }
-                    },
-                    {   "data": "taskStartTime",
+                        "data":"backupTimeStamp",
                         "render": function(data, type, full, meta) {
                             data = new Date(parseInt(data) * 1000).format('yyyy/MM/dd h:m:s');
                             return data;
                         }
                     },
-                    { "data": "taskEndTime",
-                        "render": function(data, type, full, meta) {
-                            data = new Date(parseInt(data) * 1000).format('yyyy/MM/dd h:m:s');
-                            return data;
-                        }
-                    },
-                    { "data": "applicantName" },
-                    {
-                        "data":"applyDescription",
-                    },
-                    {
-                        "data":"approvalPerson",
-                    },{
-                        "data":"approvalPhone",
-                    },{
-                        "data":"applicationStatus",
-                        "render": function(data, type, full, meta) {
-
-                            if(data=="approve")
-                            {
-                                return "<font color='green'>同意</font>";
-                            }
-                            else if(data=="reject")
-                            {
-                               return "<font color='red'>拒绝</font>";
-                            }
-                            else if(data=="pending")
-                            {
-                                return "<font color='red'>待批准</font>";
-                            }
-
-                        }
-                    }
                 ],
                 language: {
                     "sProcessing": "处理中...",
@@ -454,64 +470,126 @@
                         "sSortDescending": ": 以降序排列此列"
                     }
                 },
-            })
+//               initComplete: initComplete
+            });
+
+            //初始化待处理展示框
+
+            //初始化拒绝展示框
+
+            //初始化同意展示框
+
         } );
+
         /**
          * 按钮点击功能
          */
         $(document).ready(function(){
+            //Tab页面加载方式
+//            $('.content-box ul.content-box-tabs li a').click(function() {
+//                        var currentTab = $(this).attr('href');
+////                        window.console.log("当前点击的Tab名称为：在页面内的方法！"+currentTab);
+//                        var tableName = currentTab+"Table";
+//                        var qsDate = collectQueryInfo(tableName);
+//                        //根据tabName初始化table
+//                        if(currentTab=="#allTaskList"){
+//                            //获取查询参数
+////                            window.console.log("当前tab选项为：全部");
+//                            tabContent = tableName;
+//                            table = allTaskListTable;
+//                        }else if(currentTab=="#pendingTaskList"){
+//                            //获取查询参数
+////                            window.console.log("当前tab选项为：待处理");
+//                            tabContent = tableName;
+//                            table = pendingTaskListTable;
+//                        }else if(currentTab=="#rejectTaskList"){
+//                            //获取查询参数
+////                            window.console.log("当前tab选项为：拒绝");
+//                            tabContent = tableName;
+//                            table = rejectTaskListTable;
+//                        }else if(currentTab=="#approvedTaskList"){
+//                            //获取查询参数
+////                            window.console.log("当前tab选项为：同意");
+//                            tabContent = tableName;
+//                            table = approvedTaskListTable;
+//                        }
+//                        taskFetch(qsDate,tableName);
+//                    }
+//            );
             /**
-             * 导出xls功能
+             * 全选选中
              */
-            $(".button[id=exportxls]").click(function(){
-                var qsData = collectQueryInfo();
-                //发起请求
-                $.ajax({
-                    async: false,
-                    url: "https://www.smartlock.top/v0/downloadStationLog",
-                    type: "POST",
-                    contentType: "application/x-www-form-urlencoded",
-                    data: qsData,
-                    timeout: 8000,
-                    beforeSend: function ()
-                    {
-
-                    },
-                    success: function (result) {
-
-                        //将返回数据转化为json格式数据
-                        var infoJson =JSON.parse(result);
-
-                        //判断查询是否成功
-                        if (infoJson.error){
-                            var errInfo = infoJson.error;
-                            alert(errInfo.msg);
-                            reset();
-                            if(errInfo.code=="00000"){
-                                window.location.href="login.html";
-                            };
-                            return;
-                        }else if (infoJson.success)
-                        {
-                            alert("后台已经生成数据，请进行下载！");
-                            reset();
-                            var sucInfo =  infoJson.success;
-                            var downloadUrl = sucInfo.url;
-                            window.open(downloadUrl);
-                        }else {
-                            alert("未知错误，请联系管理员！")
+            $("input#backupListAllCheck").click(function(){
+                if(this.checked){
+                    $("#backupTable tbody tr").each(function(){
+                        if(!$(this).hasClass("checked")){
+                            $(this).click();
                         }
+                    })
+                }else {
+                    $('#backupTable tbody tr').click();
+                }
+            });
 
-
-                    },
-                    error: function (result) {
-                        alert("无法连接到服务器！");
+            /**
+             * 多选选中和取消选中,同时选中第一个单元格单选框,并联动全选单选框
+             */
+            $('#backupTable tbody').on('click', 'tr', function(event) {
+                var allChecked = $('input[name=allChecked]')[0]; //关联全选单选框
+                $($(this).children()[0]).children().each(function() {
+                    if (this.type == "checkbox" && (!$(event.target).is(":checkbox") && $(":checkbox", this).trigger("click"))) {
+                        if (!this.checked) {
+                            this.checked = true;
+                            addValue(this);
+                            var selected = table.rows('.selected').data().length; //被选中的行数
+                            //全选单选框的状态处理
+                            var recordsDisplay = table.page.info().recordsDisplay; //搜索条件过滤后的总行数
+                            var iDisplayStart = table.page.info().start; // 起始行数
+                            if (selected === table.page.len() || selected === recordsDisplay || selected === (recordsDisplay - iDisplayStart)) {
+                                allChecked.checked = true;
+                            }
+                        } else {
+                            this.checked = false;
+                            cancelValue(this);
+                            allChecked.checked = false;
+                        }
                     }
                 });
+                $(this).toggleClass('selected'); //放在最后处理，以便给checkbox做检测
             });
+
+            /**
+             * 单选框被选中时将它的value放入隐藏域
+             */
+            function addValue(para) {
+                var userIds = $("input[name=id]");
+                if (userIds.val() === "") {
+                    userIds.val($(para).val());
+                } else {
+                    userIds.val(userIds.val() + "," + $(para).val());
+                }
+            };
+            /**
+             * 单选框取消选中时将它的value移除隐藏域
+             */
+            function cancelValue(para) {
+                //取消选中checkbox要做的操作
+                var userIds = $("input[name=allChecked]");
+                var array = userIds.val().split(",");
+                userIds.val("");
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] === $(para).val()) {
+                        continue;
+                    }
+                    if (userIds.val() === "") {
+                        userIds.val(array[i]);
+                    } else {
+                        userIds.val(userIds.val() + "," + array[i]);
+                    }
+                }
+            };
+
         });
-    </script>
-    <script type="text/javascript">
         var userInfo=JSON.parse(localStorage.getItem("userInfo"));
         var regionInfo=JSON.parse(localStorage.getItem("regionInfo"));
         var permissions=JSON.parse(localStorage.getItem("permissions"));
@@ -545,11 +623,6 @@
                             alert("工程师不能登录前端!");
                             window.location.href = "login.html";
                             break;
-
-
-
-
-
 
                         case "2": //审批员只显示作业管理
                             $("#jizhanguanli").css('display','none');
@@ -624,15 +697,17 @@
                     }
 
 
-						showUserInformation(); //侧边栏显示当前用户公司 管理区域 职位 用户名
+
+
+
+                    showUserInformation(); //侧边栏显示当前用户公司 管理区域 职位 用户名
                 }
                 //动态的显示登录人员名字
 //                document.getElementById("username").innerHTML=userInfo.username;
                 document.getElementById("username1").innerHTML="欢迎回来"+" "+userInfo.username;
 
             }
-            //获取数据并加载
-            queryStationLog();
+            querybackup()
         };
         //退出登录状态
         function  logout(){
@@ -640,23 +715,19 @@
                 localStorage.clear();//清理登陆状态信息
                 window.location.href="login.html";
             }
-        }
-        /**
-         * 点击重置按钮
-         */
-        function reset(){
-            $("#stationID").val("");
-            $("#address").val("");
-            $("#startTime").val("");
-            $("#endTime").val("");
-        }
-        //获取基站日志
-        function queryStationLog(){
-            var qsData = collectQueryInfo();
+        };
+        //重置按钮功能
+
+
+        //备份数据库
+        function  manualbackup(){
+            var operatorName = userInfo.username;
+            var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
+//            window.console.log("备份的条件为："+qsData);
             //发起请求
             $.ajax({
                 async: false,
-                url: "https://www.smartlock.top/v0/queryStationLog",
+                url: "https://www.smartlock.top/v0/userBackup",
                 type: "POST",
                 contentType: "application/x-www-form-urlencoded",
                 data: qsData,
@@ -673,9 +744,8 @@
                     //判断查询是否成功
                     if (infoJson.error){
                         var errInfo = infoJson.error;
+
                         alert(errInfo.msg);
-                        reset();
-                        $('#stationLogInfo').dataTable().fnClearTable();//清除表格内原有的数据
                         if(errInfo.code=="00000"){
                             window.location.href="login.html";
                         };
@@ -683,52 +753,71 @@
                     }else if (infoJson.success)
                     {
                         var sucInfo =  infoJson.success;
-                        reset();
-                        $('#stationLogInfo').dataTable().fnClearTable();//清除表格内原有的数据
-                        $('#stationLogInfo').dataTable().fnAddData(sucInfo,true);
+                        alert(sucInfo.msg);
+
                     }else {
                         alert("未知错误，请联系管理员！")
                     }
-
-
                 },
                 error: function (result) {
+//                    console.log(result);
+                    alert("无法连接到服务器！");
+                }
+            });
+        }
+        //查询工单按钮
+        function  querybackup(){
+            var operatorName=userInfo.username;
+            var collectionName ="backupInfo";
+            var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName="+collectionName;
+//            window.console.log(qsData);
+            //发起请求
+            $.ajax({
+                async: false,
+                url: "https://www.smartlock.top/v0/queryAll",
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                data: qsData,
+                timeout: 8000,
+                beforeSend: function ()
+                {
+                },
+                success: function (result) {
+                    //将返回数据转化为json格式数据
+                    var infoJson =JSON.parse(result);
+
+                    //判断查询是否成功
+                    if (infoJson.error){
+                        var errInfo = infoJson.error;
+
+                        $("#backupTable").dataTable().fnClearTable();//清除表格内原有的数据
+                        if(errInfo.code=="18001"){
+                            return;
+                        };
+                        alert(errInfo.msg);
+                        if(errInfo.code=="00000"){
+                            window.location.href="login.html";
+                        };
+                        return;
+                    }else if (infoJson.success)
+                    {
+                        var sucInfo =  infoJson.success;
+//                        console.log(sucInfo);
+
+                        $("#backupTable").dataTable().fnClearTable();//清除表格内原有的数据
+                        $("#backupTable").dataTable().fnAddData(sucInfo,true);
+                    }else {
+                        alert("未知错误，请联系管理员！")
+                    }
+                },
+                error: function (result) {
+//                    console.log(result);
                     alert("无法连接到服务器！");
                 }
             });
         };
-        function collectQueryInfo(){
-            //获取固定参数
-            var operatorName=userInfo.username;
-            var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
-            //获取查询参数
-            var qsDataActive = "";
-            var stationID = $("#stationID").val();
-            var address = $("#address").val();
-            var starTime = $("#startTime").val()
-            var endTime = $("#endTime").val();
-            if(stationID!=""&&stationID!=null){
-                qsDataActive = "&stationID="+stationID
-            }
-            if(address!=""&&address!=null){
-                qsDataActive = qsDataActive+"&address="+address
-            }
-            if(starTime!=""&&starTime!=null){
-                var starTimer = new Date(Date.parse(starTime.replace(/-/g, "/")));
-//                console.log("开始时间戳为："+starTimer.getTime());
-                qsDataActive = qsDataActive+"&starTime="+starTimer.getTime().toString().substring(0,10)
-            }
-            if(endTime!=""&&endTime!=null){
-                var endTimer = new Date(Date.parse(endTime.replace(/-/g, "/")));
-//                console.log("结束时间戳为："+endTimer.getTime());
-                qsDataActive = qsDataActive+"&endTime="+endTimer.getTime().toString().substring(0,10)
-            }
-            if (qsDataActive==""&&qsDataActive==null){
-                return qsData
-            }else{
-                return qsData+qsDataActive;
-            }
-        }
+
+        //根据页面不同获取查询参数
 
 
 
@@ -850,26 +939,17 @@
             }
 
         }
+
     </script>
 </head>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <body onload=checkUserValidity()>
 <div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
     <div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+
         <!-- Logo (221px wide) -->
         <a href="#"><img id="logo" src="../assets/images/logo.png" alt="Simpla Admin logo" /></a>
+
         <!-- Sidebar Profile links -->
         <div id="profile-links">
             你好, <a href="#" title="Edit your profile" id="loginuser" class="loginuser" > </a><br />
@@ -877,9 +957,6 @@
             <a href="#" class="mode2" title="View the Site">修改资料</a> | <a href="#" title="Sign Out" onclick="logout()">退出</a>
         </div>
         <ul id="main-nav">  <!-- Accordion Menu -->
-
-
-
             <li>
                 <a href="main.html" class="nav-top-item no-submenu"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
                     首页
@@ -904,7 +981,6 @@
                     <li><a href="configurationManage.html">配置管理</a></li> <!-- Add class "current" to sub menu items also -->
                 </ul>
             </li>
-
             <li id="diquguanli">
                 <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
                     地区管理
@@ -913,105 +989,68 @@
                     <li><a href="zoneManage.html">地区管理</a></li> <!-- Add class "current" to sub menu items also -->
                 </ul>
             </li>
-
-            <!--<div id="jizhanguanli">-->
             <li id="jizhanguanli">
-                <a href="#" class="nav-top-item current"> <!-- Add the class "current" to current menu item -->
+                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
                     基站管理
                 </a>
                 <ul>
-                    <li><a  href="stationManageTree.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
-                    <li><a  href="stationManage.html">基站列表(旧)</a></li> <!-- Add class "current" to sub menu items also -->
-                    <li><a  class="current" href="stationManageLog.html">基站日志管理</a></li>
-                    <li><a  href="stationUpload.html">基站批量导入</a></li>
-                </ul>
-            </li>
-
-            <li id="suojuguanli">
-                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
-                    锁具管理
-                </a>
-                <ul>
-                    <li><a  href="lockManageTree.html">锁具管理</a></li> <!-- Add class "current" to sub menu items also -->
-                    <li><a  href="lockUpload.html">锁具批量上传</a></li>
+                    <li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  href="stationManageLog.html">基站日志管理</a></li>
+                    <li><a  href="stationUpload.html">基站日志管理</a></li>
                 </ul>
             </li>
 
             <li>
                 <a href="#" class="nav-top-item">
-                    工单管理
+                    作业管理
                 </a>
                 <ul>
                     <li><a  href="taskManage.html">工单列表</a></li>
                     <li><a  href="abnormalTaskManage.html">异常工单</a></li>
+                    <li><a  href="databasebackup.html">数据库备份</a></li>
                 </ul>
             </li>
 
 
             <li id="dianziyaoshiguanli">
                 <a href="#" class="nav-top-item">
-                    钥匙管理
+                    电子钥匙管理
                 </a>
                 <ul>
-                    <li><a href="keyManageTree.html">钥匙列表</a></li>
-                    <li><a href="keyManage.html">钥匙列表(旧)</a></li>
+                    <li><a href="keyManage.html">钥匙列表</a></li>
                     <li><a href="keyManageLog.html">钥匙日志</a></li>
                     <li><a href="keyUpload.html">钥匙批量上传</a></li>
                 </ul>
             </li>
 
-            <li id="shouquanguanli">
-                <a href="#" class="nav-top-item">
-                    授权管理
+
+
+            <li id="yuangongguanli">
+                <a href="#" class="nav-top-item ">
+                    员工管理
                 </a>
                 <ul>
-                    <li><a href="authManageTree.html">锁具授权</a></li>
-                    <li><a href="authAlterTree.html">授权修改</a></li>
+                    <div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>
+                    <div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>
+                    <div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>
+                    <div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>
+                    <div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>
+                    <div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>
+                    <div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>
                 </ul>
             </li>
 
             <li>
-                <a href="#" class="nav-top-item">
-                    机构管理
+                <a href="#" class="nav-top-item current">
+                    备份管理
                 </a>
                 <ul>
-                    <li><a href="organizationManage.html">机构管理</a></li>
-
-                </ul>
-            </li>
-
-            <li id="jueseshouquanguanli">
-                <a href="#" class="nav-top-item">
-                    角色管理
-                </a>
-                <ul>
-                    <li><a href="gridRoleManageTree.html">网络角色</a></li>
-                </ul>
-            </li>
-
-
-            <!--</div>-->
-
-            <!--<div id="yuangongguanli">-->
-            <li id="yuangongguanli">
-                <a href="#" class="nav-top-item" >
-                    员工管理
-                </a>
-                <ul>
-                    <li><a href="userManageTree.html">员工管理</a></li>
-                    <li><a href="userUpload.html">员工批量导入</a></li>
-                    <!--<div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>-->
-                    <!--<div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>-->
-                    <!--<div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>-->
-                    <!--<div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>-->
-                    <!--<div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>-->
-                    <!--<div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>-->
-                    <!--<div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>-->
+                    <li><a class="current" href="databasebackup.html">数据库备份</a></li>
                 </ul>
             </li>
 
             <li id="tongjiguanli">
-                <a href="#" class="nav-top-item ">
+                <a href="#" class="nav-top-item">
                     统计管理
                 </a>
                 <ul>
@@ -1019,20 +1058,10 @@
                 </ul>
             </li>
 
-            <li>
-                <a href="#" class="nav-top-item">
-                    备份管理
-                </a>
-                <ul>
-                    <li><a href="databasebackup.html">数据库备份</a></li>
-                </ul>
-            </li>
-
-            <!--</div>-->
         </ul> <!-- End #main-nav -->
 
-
     </div></div> <!-- End #sidebar -->
+
     <div id="main-content"> <!-- Main Content Section with everything -->
         <!-- Page Head -->
         <h2 id="username1"> </h2>
@@ -1042,13 +1071,84 @@
         <div class="content-box"><!-- Start Content Box -->
 
             <div class="content-box-header">
+
                 <!--<h3>内容模块</h3>-->
+
                 <ul class="content-box-tabs">
-                    <li><a href="#stationLog" class="default-tab" >基站日志管理</a></li> <!-- href must be unique and match the id of target div -->
+                    <li><a href="#dbbackup" class="default-tab" >数据库自动备份</a></li> <!-- href must be unique and match the id of target div -->
+
                 </ul>
+
                 <div class="clear"></div>
+
             </div> <!-- End .content-box-header -->
             <!--弹出编辑框开始-->
+            <div class="dialog">
+                <div class="model-bg" title="dbbackup"></div>
+                <div class="popBox" title="dbbackup">
+                    <div class="ttBox">
+                        <a class="clsBtn" title="dbbackup"></a>
+                        <span class="tt">工单详情</span>
+                    </div>
+                    <div class="txtBox">
+                        <div class="item">
+                            <label for="edit_applicantName">申请人：</label>
+                            <input type="text" id="edit_applicantName">
+                        </div>
+                        <div class="item">
+                            <label for="edit_taskID">工单ID：</label>
+                            <input type="text" id="edit_taskID">
+                        </div>
+                        <div class="item">
+                            <label for="edit_stationAddress">基站地址：</label>
+                            <input type="text" id="edit_stationAddress">
+                        </div>
+                        <div class="item">
+                            <label for="edit_applicantCompany">公司名称：</label>
+                            <input type="text" id="edit_applicantCompany">
+                        </div>
+                        <div class="item">
+                            <label for="edit_applicantPhone">申请人电话：</label>
+                            <input type="text" id="edit_applicantPhone">
+                        </div>
+                        <div class="item">
+                            <label for="edit_applicantKeyID">钥匙ID：</label>
+                            <input type="text" id="edit_applicantKeyID">
+                        </div>
+                        <div class="item">
+                            <label for="edit_applicationType">作业类型：</label>
+                            <input type="text" id="edit_applicationType">
+                        </div>
+                        <div class="item">
+                            <label for="edit_applyDescription">作业描述：</label>
+                            <input type="text" id="edit_applyDescription">
+                        </div>
+                        <div class="item">
+                            <label for="edit_taskStartTime">作业开始时间：</label>
+                            <input type="text" id="edit_taskStartTime">
+                        </div>
+                        <div class="item">
+                            <label for="edit_taskEndTime">作业结束时间：</label>
+                            <input type="text" id="edit_taskEndTime">
+                        </div>
+                        <div class="item">
+                            <label for="edit_taskTimes">开门次数：</label>
+                            <input type="text" id="edit_taskTimes">
+                        </div>
+                        <div class="item">
+                            <label for="edit_reason">审批说明：</label>
+                            <textarea id="edit_reason" rows="2" cols="18" style="resize: none"></textarea>
+                        </div>
+                    </div>
+                    <div class="btnArea">
+                        <div class="btnGroup">
+                            <a class="sgBtn ok edit_submit" id="submit_eidtTask">确定</a>
+                            <a class="sgBtn reject edit_submit" id="reject_editPerson">拒绝</a>
+                            <a class="sgBtn cancel " id="cancel_eidtTask">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="dialog">
                 <div class="model-bg" title="editPersonInfo"></div>
                 <div class="popBox" title="editPersonInfo">
@@ -1093,51 +1193,47 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><!-- End 修改个人资料 -->
             <!--弹出编辑框结束-->
             <div class="content-box-content">
-                <div class="tab-content default-tab" id="stationLog"> 	<!-- This is the target div. id must match the href of this div's tab -->
-                    <div class="queryCondition" id="queryStationLog">
+                <div class="tab-content default-tab" id="dbbackup"> 	<!-- This is the target div. id must match the href of this div's tab -->
+                    <div class="queryCondition" id="allTaskListQueryCondition">
                         <div class="screen-top">
-                            <span>基站编号<input id="stationID" type="text"/></span>
-                            <span>基站地址<input id="address" type="text" class="mh_date" /></span>
+
                         </div>
                         <div class="screen-top">
-                            <span>起始时间<input placeholder="请输入开始日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" id="startTime"  type="text"/></span>
-                            <span>结束时间<input placeholder="请输入开始日期" class="laydate-icon" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" id="endTime"    type="text"  /></span>
-                            <input class="button" id="query" type="submit" value="查询" onclick="queryStationLog()" />
-                            <input class="button" id="reset" type="reset" value="重置" onclick="reset()" />
-                            <input class="button" id="exportxls" type="button" value="导出xls" />
+                            <input class="button" id="allTaskListQuery" type="submit" value="查询" onclick="querybackup()" />
+
+                            <input class="button" id="allTaskListExportxls" type="button" value="手动备份" onclick="manualbackup()" />
                         </div>
                     </div>
                     <div>
-                        <table class="display" id="stationLogInfo" cellspacing="0" width="100%">
+                        <table class="display" id="backupTable" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>基站编号</th>
-                                <th>基站地址</th>
-                                <th>维护编号</th>
-                                <th>维护类型</th>
-                                <th>维护开始时间</th>
-                                <th>维护结束时间</th>
-                                <th>维护申请人</th>
-                                <th>维护描述</th>
-                                <th>维护审批人</th>
-                                <th>维护审批人电话</th>
-                                <th>维护状态</th>
+                                <th><input type="checkbox" id="backupListAllCheck" name="allChecked" /></th>
+                                <th>ID</th>
+                                <th>数据库名</th>
+                                <th>备份文件名</th>
+                                <th>备份时间</th>
+
                             </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
                     </div>
-                </div> <!-- End #stationList -->
+                </div> <!-- End #allTaskList -->
+
             </div> <!-- End .content-box-content -->
+
         </div> <!-- End .content-box -->
+
         <div id="footer">
             <small> <!-- Remove this notice or replace it with whatever you want -->
                 &#169; Copyright 2016 四川九鼎数码科技有限公司 | Powered by UESTC CSIS</a> | <a href="#top">Top</a>
             </small>
         </div><!-- End #footer -->
+
     </div> <!-- End #main-content -->
 
 </div>

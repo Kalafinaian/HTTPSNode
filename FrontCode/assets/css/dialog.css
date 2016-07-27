@@ -1,14 +1,20 @@
 @CHARSET "UTF-8";
+
 /*
  *  @Description: diaLog css
  *  @author: JianFeng Fan
  *  @Update: 2016-05-09
  */
-.item{
-    margin: 10px 0 10px;
-    text-align: center;
+
+.item
+{
+    margin: 3px 0 3px;
+    text-align: left;
+    overflow: auto;
 }
-.model-bg{
+
+.model-bg
+{
     position: fixed;
     top:0;
     right: 0;
@@ -17,17 +23,21 @@
     background-color: rgba(0,0,0,.3);
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000);
     display: none;
-    z-index: 100;
+    z-index: 1;
 }
-.item label{
+
+.item label
+{
     width: 110px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 30px;
     display: inline-block;
     text-align: left;
     AutoSize:true;
 }
-.sgBtn{
+
+.sgBtn
+{
     width: 135px;
     height: 35px;
     line-height: 35px;
@@ -39,14 +49,16 @@
     float: left;
     border-radius: 5px;
 }
-.popBox{
+
+.popBox
+{
     position: fixed;
     display: none;
     left: 50%;
     top: 30%;
     background-color: #ffffff;
-    z-index: 2147000001;
-    width: 500px;
+    z-index: 1;
+    width: 600px;
     height: auto;
     margin-left: -285px;
     margin-top: -150px;
@@ -56,18 +68,28 @@
     font-weight: bold;
     color: #535e66;
 }
-.popBox .ttBox{
+
+.popBox .ttBox
+{
     height: 30px;
     line-height: 30px;
     padding: 14px 30px;
     border-bottom: solid 1px #B0C4DE;
 }
-.popBox .ttBox .tt{
-    bottom: 10px;
-    font-size: 16px;
+
+.popBox .ttBox .tt
+{
+    font-size: 18px;
     display: block;
     float: left;
     height: 30px; position: relative;}
+
+.popBox .ttBox .checkBox001
+{
+    width: 3px;
+
+}
+
 /*.popBox .txtBox input{*/
     /*width: 150px;*/
     /*height: 30px;*/
@@ -75,39 +97,55 @@
     /*font-size: 10px;*/
     /*margin-top: 6px;*/
 /*}*/
-.popBox .ttBox .clsBtn{
+.popBox .ttBox .clsBtn
+{
     display: block;
     cursor: pointer;
     width: 12px;
     height: 12px;
     position: absolute;
-    /*top: 22px;*/
+    top: 22px;
     right: 30px;
     background: url(../images/icons_dialog.png) -48px -96px no-repeat;
 }
-.popBox .txtBox{
-    margin: 20px 50px;
+
+.popBox .txtBox
+{
+    margin: 10px 30px;
     height: auto;
     overflow: auto;
 }
-.popBox .txtBox .bigIcon{
+
+.popBox .txtBox .bigIcon
+{
     float: left;
     margin-right: 20px;
     width: 48px;
     height: 48px;
     background-image: url(../images/icons_dialog.png);
-    background-repeat: no-repeat; background-position: 48px 0;}
-.popBox .btnArea{
+    background-repeat: no-repeat; background-position: 48px 0;
+}
+
+.popBox .btnArea
+{
     border-top: solid 1px #B0C4DE;
 }
-.popBox .btnGroup{
+
+.popBox .btnGroup
+{
     float: right;
 }
-.popBox .btnGroup .sgBtn{
+
+
+
+.popBox .btnGroup .sgBtn
+{
     margin-top: 14px;
     margin-right: 10px;
 }
-.popBox .sgBtn{
+
+.popBox .sgBtn
+{
     display: block;
     cursor: pointer;
     float: left;
@@ -121,24 +159,36 @@
     -moz-border-radius: 5px;
     margin-bottom: 10px;
 }
-.popBox .sgBtn.ok{
+
+.popBox .sgBtn.ok
+{
     background-color: #0095d9;
-    color: #FFFFFF;}
-.popBox .sgBtn.reject{
+    color: #FFFFFF;
+}
+
+.popBox .sgBtn.reject
+{
     background-color: red;
-    color: #FFFFFF;}
-.popBox .sgBtn.cancel{
+    color: #FFFFFF;
+}
+
+.popBox .sgBtn.cancel
+{
     background-color: #546a79;
     color: #FFFFFF;
 }
-.popBox .txtBox input{
-    width: 185px;
-    height: 30px;
+
+.popBox .txtBox input
+{
+    /*width: 185px;*/
+    /*height: 30px;*/
     border: solid 1px #B0C4DE;
-    font-size: 12px;
+    font-size: 13px;
     margin-top: 6px;
 }
-.popBox .txtBox textarea{
+
+.popBox .txtBox textarea
+{
     width: 185px;
     height: 30px;
     border: solid 1px #B0C4DE;

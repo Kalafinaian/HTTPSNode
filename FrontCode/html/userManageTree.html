@@ -4,18 +4,24 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>智能锁管理平台</title>
     <style type="text/css">
-        .screen-top{
-            padding:8px 0;
+        .screen-top
+        {
+            margin: 20px 0 0 0;
+            padding:20px 0;
             background-color:#f6f6f6;
         }
-        .screen-top span{
+
+        .screen-top span
+        {
             width: 100px !important;
             text-align: center !important;
             font-size:16px;
             padding-left:15px;
             margin-bottom: 3px;
         }
-        .screen-top span input{
+
+        .screen-top span input
+        {
             margin-left: 20px;
             padding: 6px;
             font-size: 13px;
@@ -24,21 +30,91 @@
             color: #333;
             width: 15% !important;
         }
-        #createStationFieldSet strong{
+
+        #createStationFieldSet strong
+        {
             width: 120px;
             line-height: 30px;
             display: inline-block;
             text-align: left;
         }
+        .ztree li span.treeButton.pIcon01_ico_open
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/1_open.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
 
+        .ztree li span.treeButton.pIcon01_ico_close
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/1_close.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
 
+        .ztree li span.treeButton.pIcon02_ico_open, .ztree li span.button.pIcon02_ico_close
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/2.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
 
+        .ztree li span.treeButton.icon01_ico_docu
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/3.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
 
+        .ztree li span.treeButton.icon02_ico_docu
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/4.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
 
+        .ztree li span.treeButton.icon03_ico_docu
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/5.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
+
+        .ztree li span.treeButton.icon04_ico_docu
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/6.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
+
+        .ztree li span.treeButton.icon05_ico_docu
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/7.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
+
+        .ztree li span.treeButton.icon06_ico_docu
+        {
+            margin-right:2px;
+            background: url(../assets/css/img/diy/8.png) no-repeat scroll 0 0 transparent;
+            vertical-align:top;
+            *vertical-align:middle
+        }
 
 
     </style>
     <!--CSS-->
+
+    <!-- jQuery -->
     <script type="text/javascript" src="../assets/js/jquery-1.8.0.min.js"></script>
     <!-- Reset Stylesheet -->
     <link rel="stylesheet" href="../assets/css/reset.css" type="text/css" media="screen" />
@@ -51,6 +127,7 @@
     <!--<link rel="stylesheet" href="../assets/css/blue.css" type="text/css" media="screen" />-->
     <!--<link rel="stylesheet" href="../assets/css/red.css" type="text/ css" media="screen" />-->
     <!-- Internet Explorer Fixes Stylesheet -->
+
     <!--[if lte IE 7]>
     <link rel="stylesheet" href="../assets/css/ie.css" type="text/css" media="screen" />
     <![endif]-->
@@ -60,7 +137,8 @@
     <!-- SweetAlert-->
     <script type="text/javascript" src="../assets/js/sweet-alert.min.js"></script>
     <link rel="stylesheet" href="../assets/css/sweet-alert.css"/>
-    <!-- jQuery -->
+
+
     <!-- jQuery Configuration -->
     <script type="text/javascript" src="../assets/js/simpla.jquery.configuration.js"></script>
     <!--<script type="text/javascript" src="../assets/js/pccs.js"></script>-->
@@ -83,19 +161,19 @@
     <!--编辑框开始-->
     <!-- dialog Stylesheet -->
     <link href="../assets/css/dialog.css" rel="stylesheet" type="text/css"/>
-    <style type="text/css">
-        .ztree li span.treeButton.pIcon01_ico_open{margin-right:2px; background: url(../assets/css/img/diy/1_open.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.pIcon01_ico_close{margin-right:2px; background: url(../assets/css/img/diy/1_close.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.pIcon02_ico_open, .ztree li span.button.pIcon02_ico_close{margin-right:2px; background: url(../assets/css/img/diy/2.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.icon01_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/3.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.icon02_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/4.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.icon03_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/5.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.icon04_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/6.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.icon05_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/7.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-        .ztree li span.treeButton.icon06_ico_docu{margin-right:2px; background: url(../assets/css/img/diy/8.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-    </style>
-    <script type="text/javascript">
 
+
+    <script type="text/javascript">
+        //全局定义变量
+        var table;
+        var originalID = "";
+        var originalUserType = "";
+        var originalCompanyID = "";
+        var userInfo=JSON.parse(localStorage.getItem("userInfo"));
+        var regionInfo=JSON.parse(localStorage.getItem("regionInfo"));
+        var permissions=JSON.parse(localStorage.getItem("permissions"));
+        var accessToken=localStorage.getItem("accessToken");
+        var tokenEndTime=localStorage.getItem("tokenEndTime");
 
         function Map()
         {
@@ -163,6 +241,19 @@
                 return this.keys.length;
             };
         }
+
+        //检查是否含有中文（
+        function isChineseChar(str)
+        {
+            var reg = /^[\u4e00-\u9fa5 ]{2,20}$/;
+            return reg.test(str);
+        }
+        //检查是否是11位标准手机号码
+        function isPhoneNo(str){
+            var reg=/^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            return reg.test(str);
+        }
+
         var setting = {
             data: {
                 key: {
@@ -178,25 +269,25 @@
             }
         };
 
-        var zNodes =[
-            { id:1, pId:0, name:"普通的父节点", zoneid:100, t:"我很普通，随便点我吧", iconSkin:"pIcon01",open:true},
-            { id:11, pId:1, name:"叶子节点 - 1",zoneid:100, t:"我很普通，随便点我吧",iconSkin:"pIcon01"},
-            { id:16, pId:11, name:"叶子节点 - 1",zoneid:100, t:"我很普通，随便点我吧",iconSkin:"icon01"},
-            { id:12, pId:1, name:"叶子节点 - 2", zoneid:100,t:"我很普通，随便点我吧",iconSkin:"icon01"},
-            { id:13, pId:1, name:"叶子节点 - 3", zoneid:100,t:"我很普通，随便点我吧",iconSkin:"icon01"},
-            { id:2, pId:0, name:"NB的父节点", zoneid:100,t:"点我可以，但是不能点我的子节点，有本事点一个你试试看？",iconSkin:"pIcon01", open:true},
-            { id:21, pId:2, name:"叶子节点2 - 1", zoneid:100,t:"你哪个单位的？敢随便点我？小心点儿..",iconSkin:"icon01", click:false},
-            { id:22, pId:2, name:"叶子节点2 - 2", zoneid:100,t:"我有老爸罩着呢，点击我的小心点儿..",iconSkin:"icon01", click:false},
-            { id:23, pId:2, name:"叶子节点2 - 3", zoneid:100,t:"好歹我也是个领导，别普通群众就来点击我..",iconSkin:"icon01", click:false},
-            { id:3, pId:0, name:"郁闷的父节点", zoneid:100,t:"别点我，我好害怕...我的子节点随便点吧...",iconSkin:"pIcon01", open:true, click:false },
-            { id:31, pId:3, name:"叶子节点3 - 1", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"},
-            { id:32, pId:3, name:"叶子节点3 - 2", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"},
-            { id:33, pId:3, name:"叶子节点3 - 3", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"}
-        ];
+//        var zNodes =[
+//            { id:1, pId:0, name:"普通的父节点", zoneid:100, t:"我很普通，随便点我吧", iconSkin:"pIcon01",open:true},
+//            { id:11, pId:1, name:"叶子节点 - 1",zoneid:100, t:"我很普通，随便点我吧",iconSkin:"pIcon01"},
+//            { id:16, pId:11, name:"叶子节点 - 1",zoneid:100, t:"我很普通，随便点我吧",iconSkin:"icon01"},
+//            { id:12, pId:1, name:"叶子节点 - 2", zoneid:100,t:"我很普通，随便点我吧",iconSkin:"icon01"},
+//            { id:13, pId:1, name:"叶子节点 - 3", zoneid:100,t:"我很普通，随便点我吧",iconSkin:"icon01"},
+//            { id:2, pId:0, name:"NB的父节点", zoneid:100,t:"点我可以，但是不能点我的子节点，有本事点一个你试试看？",iconSkin:"pIcon01", open:true},
+//            { id:21, pId:2, name:"叶子节点2 - 1", zoneid:100,t:"你哪个单位的？敢随便点我？小心点儿..",iconSkin:"icon01", click:false},
+//            { id:22, pId:2, name:"叶子节点2 - 2", zoneid:100,t:"我有老爸罩着呢，点击我的小心点儿..",iconSkin:"icon01", click:false},
+//            { id:23, pId:2, name:"叶子节点2 - 3", zoneid:100,t:"好歹我也是个领导，别普通群众就来点击我..",iconSkin:"icon01", click:false},
+//            { id:3, pId:0, name:"郁闷的父节点", zoneid:100,t:"别点我，我好害怕...我的子节点随便点吧...",iconSkin:"pIcon01", open:true, click:false },
+//            { id:31, pId:3, name:"叶子节点3 - 1", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"},
+//            { id:32, pId:3, name:"叶子节点3 - 2", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"},
+//            { id:33, pId:3, name:"叶子节点3 - 3", zoneid:100,t:"唉，随便点我吧",iconSkin:"icon01"}
+//        ];
 
-        function getZoneStationJSon()
+        function getUserJSon()
         {
-            if(userInfo.userType!=="000")
+            if(userInfo.userType.substring(0,1)!=="0")
             {
                 var qsData = "operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=userInfo&companyID="+userInfo.companyID;
                 var sucInfo="";
@@ -419,224 +510,18 @@
         }
 
 
-        //新建基站
-        function createZone(){
-            //获取固定参数
-            var operatorName=userInfo.username;
-            var qsData="operatorName="+operatorName+"&accessToken="+accessToken;
-            var stationInfo = "";
-            //获取页面字段
-            var stationID = $("#new_stationID").val();
-            var address = $("#new_address").val();
-            var doorStatus = $("#new_doorStatus").val();
-            var lockID = $("#new_lockID").val();
-            var chargePerson = $("#new_chargePerson").val();
-            var chargePhone = $("#new_chargePhone").val();
-            var chargeCompany = $("#new_chargeCompany").val();
-            var managementProvince = $("#province").val();
-            var managementCity = $("#city").val();
-            var managementArea = $("#county").val();
-            var approvalPerson = $("#new_approvalPerson").val();
-            var approvalPhone = $("#new_approvalPhone").val();
-            //对页面字段进行判空处理
-            if (stationID==""||stationID==null){
-                alert("基站编号不能为空，请重新填写！");
-                $("#new_stationID").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else{
-                stationInfo = "&stationID="+stationID;
-            };
-            if(address==""||address==null){
-                alert("基站地址不能为空，请重新填写！");
-                $("#new_address").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&address="+address;
-            };
-            if(lockID==""||lockID==null){
-                alert("基站门锁ID不能为空，请重新填写！");
-                $("#new_lockID").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&lockID="+lockID;
-            };
-            if(chargePerson==""||chargePerson==null){
-                alert("基站负责人不能为空，请重新填写！");
-                $("#new_chargePerson").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&chargePerson="+chargePerson;
-            };
-            if(chargePhone==""||chargePhone==null){
-                alert("负责人联系电话不能为空，请重新填写！");
-                $("#new_chargePhone").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&chargePhone="+chargePhone;
-            };
-            if(chargeCompany==""||chargeCompany==null){
-                alert("负责人公司不能为空，请重新填写！");
-                $("#new_chargeCompany").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&chargeCompany="+chargeCompany;
-            };
-            if(managementProvince==""||managementProvince==null||managementProvince=="省份"){
-                alert("所属省级地域不能为空，请重新填写！");
-                $("#province").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&managementProvince="+managementProvince+"省";
-            };
-            if(managementCity==""||managementCity==null||managementCity=="地级市"){
-                alert("所属市级地域不能为空，请重新填写！");
-                $("#county").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&managementCity="+managementCity+"市";
-            };
-            if(managementArea==""||managementArea==null||managementArea=="市、县级市、县"){
-                alert("所属区级地域不能为空，请重新填写！");
-                $("#county").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&managementArea="+managementArea;
-            };
-            if(approvalPerson==""||approvalPerson==null){
-                alert("基站作业审批人不能为空，请重新填写！");
-                $("#new_approvalPerson").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&approvalPerson="+approvalPerson;
-            };
-            if(approvalPhone==""||approvalPhone==null){
-                alert("作业审批人电话不能为空，请重新填写！");
-                $("#new_approvalPhone").focus();
-                $("#createStation").submit(function()
-                {
-                    return false;
-                });
-                return;
-            }else {
-                stationInfo=stationInfo+"&approvalPhone="+approvalPhone;
-            };
-
-
-
-            //判空结束
-            //组合新建基站字段
-            qsData = qsData+stationInfo;
-//            console.log("新建基站信息为："+stationInfo);
-            //发起请求
-
-
-
-            $.ajax({
-                async: false,
-                url: "https://www.smartlock.top/v0/addStation",
-                type: "POST",
-                contentType: "application/x-www-form-urlencoded",
-                data: qsData,
-                timeout: 8000,
-                beforeSend: function ()
-                {
-
-                },
-                success: function (result) {
-
-                    //将返回数据转化为json格式数据
-                    var infoJson =JSON.parse(result);
-
-                    //判断查询是否成功
-                    if (infoJson.error){
-                        var errInfo = infoJson.error;
-                        alert(errInfo.msg);
-                        $("#createStation").submit(function()
-                        {
-                            return false;
-                        });
-                        if(errInfo.code=="00000"){
-                            window.location.href="login.html";
-                        }
-                    }else if (infoJson.success)
-                    {
-                        var sucInfo =  infoJson.success;
-                        var msg = sucInfo.msg;
-                        alert(msg);
-                        clear_createStation();
-                        $("#createStation").submit(function()
-                        {
-                            return false;
-                        });
-                    }else {
-                        alert("未知错误，请联系管理员！")
-                    }
-                },
-                error: function (result) {
-//                    console.log(result);
-                    alert("无法连接到服务器！");
-                    $("#createStation").submit(function()
-                    {
-                        return false;
-                    });
-                }
-
-            });
-        };
 
         $(document).ready(function(){
-            var zonejson=getZoneStationJSon();
+            var zonejson=getUserJSon();
             $.fn.zTree.init($("#treeDemo"), setting, zonejson);
         });
-
-
         $(document).ready(function() {
             $("#cancel_editStationInfo").click(function(event) {
-                $(".popBox[title=editOneStationInfo] input").val("");
-                $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
+                $(".popBox[title=editOneUserInfo] input").val("");
+                $(".model-bg[title=editOneUserInfo],.popBox[title=editOneUserInfo]").hide();
             });
-            $(".clsBtn[title=editOneStationInfo]").click(function(event) {
-                $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
+            $(".clsBtn[title=editOneUserInfo]").click(function(event) {
+                $(".model-bg[title=editOneUserInfo],.popBox[title=editOneUserInfo]").hide();
             });
         });
         //个人资料编辑框控制
@@ -871,7 +756,6 @@
                     timeout: 8000,
                     beforeSend: function ()
                     {
-
                     },
                     success: function (result) {
 
@@ -905,29 +789,6 @@
                 });
             });
         });
-    </script>
-    <!--编辑框结束-->
-    <script type="text/javascript">
-        //全局定义变量
-        var table;
-        var userInfo=JSON.parse(localStorage.getItem("userInfo"));
-        var tokenEndTime=localStorage.getItem("tokenEndTime");
-        var originalStationID = "";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /**
          * datables初始化
@@ -935,7 +796,7 @@
         $(document).ready(function() {
             //新建基站
             table = $('#userInfo').DataTable( {
-                "searching": false,
+                "searching": true,
                 "bStateSave": false,
                 "aoColumns": [
                     {
@@ -951,21 +812,54 @@
                         "sClass" : "center"
                     },
                     { "data": "realname" },
+                    { "data": "userState",
+                        "render": function(data, type, full, meta) {
+                            if(data=="正常")
+                            {
+                                return "<font color='green'>正常</font>";
+                            }
+                            else
+                            {
+                                return "<font color='red'>"+data+"</font>";
+                            }
+                        }
+
+                    },
                     { "data": "phone" },
-                    { "data": "company" },
-                    { "data": "userGroup" },
+                    { "data": "company",
+                        "sWidth":"20%"
+                    },
+                    { "data": "userType",
+                        "render":function(data,type,full,meta)
+                        {
+                            if(data[2]==1)
+                            {
+                                return "管理员";
+                            }
+                            else if(data[2]==2)
+                            {
+                                return "审批员";
+                            }
+                            else if(data[2]==3)
+                            {
+                                return "工程师";
+                            }
+                        }
+
+
+                    },
 //                    { "data": "managementProvince" },
 //                    { "data": "managementCity" },
 //                    { "data": "managementArea" },
-                    {
-                        "data":"_id",
-                        "render": function(data, type, full, meta) {
-                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
-                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
-
-                        }
-                    }
+//                    {
+//                        "data":"_id",
+//                        "render": function(data, type, full, meta) {
+//                            return data = '<a href="#" id="deleteOne" title="Delete"><img src="../assets/images/icons/cross.png" alt="Delete" /></a>' +
+//                                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+//                                    '<a href="#" id="zoneEdit" title="zoneEdit" class="model"><img src="../assets/images/icons/pencil.png" alt="Edit"/></a>';
+//
+//                        }
+//                    }
                 ],
                 language: {
                     "sProcessing": "处理中...",
@@ -1100,7 +994,7 @@
 
                 }else {
                     alert("所选中的数据为："+theArray.toString())
-
+                    originalCompanyID=a[0].companyID;
                     //获取参数
                     var operatorName=userInfo.username;
                     var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&collectionName=userInfo&delIdList="+theArray;
@@ -1144,7 +1038,8 @@
                             }else {
                                 alert("未知错误，请联系管理员！")
                             }
-                            window.location.href='userManageTree.html';
+                            queryUser(originalCompanyID,"");
+
 
                         },
                         error: function (result) {
@@ -1155,7 +1050,87 @@
 
                 };
             });
+            /**
+             * 点击修改按钮
+             */
+            $(".button[id=alter]").click(function()
+            {
+
+                var theArray = [];
+                var a = table.rows('.selected').data();
+                for(var i=0;i< a.length;i++)
+                {
+                    var _id = a[i]._id;
+                    theArray.push(_id)
+                };
+//                console.log(theArray.toString());
+                if(theArray.length!=1)
+                {
+                    alert("只能选择一行记录进行修改!")
+                    return;
+                }else
+                {
+                    alert("所选中的数据为："+theArray.toString())
+                    originalID=a[0]._id;
+                    originalUserType=a[0].userType;
+                    originalCompanyID=a[0].companyID;
+                    var username=a[0].username;
+                    var realname=a[0].realname;
+                    var phone=a[0].phone;
+                    var userType=a[0].userType;
+                    var userState=a[0].userState;
+                    var addStationAction=a[0].addStationAction=="true"; //获取查询对象的新增基站权限
+                    var deleteStationAction=a[0].deleteStationAction=="true"; //获取查询对象的删除基站权限
+                    var queryStationAction=a[0].queryStationAction=="true"; //获取查询对象的查询基站权限
+                    var updateStationAction=a[0].updateStationAction=="true"; //获取查询对象的更新基站权限
+                    var addStaffAction=a[0].addStaffAction=="true"; //获取查询对象的新增员工权限
+                    var deleteStaffAction=a[0].deleteStaffAction=="true"; //获取查询对象的删除员工权限
+                    var queryStaffAction=a[0].queryStaffAction=="true"; //获取查询对象的查询员工权限
+                    var updateStaffAction=a[0].updateStaffAction=="true"; //获取查询对象的更新员工权限
+                    var addKeyAction=a[0].addKeyAction=="true"; //获取查询对象的新增钥匙权限
+                    var deleteKeyAction=a[0].deleteKeyAction=="true"; //获取查询对象的删除钥匙权限
+                    var queryKeyAction=a[0].queryKeyAction=="true"; //获取查询对象的查询钥匙权限
+                    var updateKeyAction=a[0].updateKeyAction=="true"; //获取查询对象的更新钥匙权限
+                    var doorAuthorization=a[0].doorAuthorization=="true"; //获取查询对象的工单审批权限
+                    //将获取的字段填入编辑框中
+                    $("#edit_username").val(username);
+                    $("#edit_realname").val(realname);
+                    $("#edit_phone").val(phone);
+                    if(userType[2]==1)
+                    {
+                        $("#edit_userType").get(0).selectedIndex=0;
+                    }
+                    else if(userType[2]==2)
+                    {
+                        $("#edit_userType").get(0).selectedIndex=1;
+                    }
+                    else if(userType[2]==3)
+                    {
+                        $("#edit_userType").get(0).selectedIndex=2;
+                    }
+                    $("#edit_userState").val(userState);
+                    $("#edit_addStationAction").attr("checked",addStationAction); //编辑页面中显示用户新增基站权限
+                    $("#edit_deleteStationAction").attr("checked",deleteStationAction); //编辑页面中显示用户删除基站权限
+                    $("#edit_queryStationAction").attr("checked",queryStationAction); //编辑页面中显示用户查询基站权限
+                    $("#edit_updateStationAction").attr("checked",updateStationAction); //编辑页面中显示用户更新基站权限
+                    $("#edit_addStaffAction").attr("checked",addStaffAction); //编辑页面中显示用户新增员工权限
+                    $("#edit_deleteStaffAction").attr("checked",deleteStaffAction); //编辑页面中显示用户删除员工权限
+                    $("#edit_queryStaffAction").attr("checked",queryStaffAction); //编辑页面中显示用户查询员工权限
+                    $("#edit_updateStaffAction").attr("checked",updateStaffAction); //编辑页面中显示用户更新员工权限
+                    $("#edit_addKeyAction").attr("checked",addKeyAction); //编辑页面中显示用户新增钥匙权限
+                    $("#edit_deleteKeyAction").attr("checked",deleteKeyAction); //编辑页面中显示用户删除钥匙权限
+                    $("#edit_queryKeyAction").attr("checked",queryKeyAction); //编辑页面中显示用户查询钥匙权限
+                    $("#edit_updateKeyAction").attr("checked",updateKeyAction); //编辑页面中显示用户更新钥匙权限
+                    $("#edit_doorAuthorization").attr("checked",doorAuthorization); //编辑页面中设置工单审批权限
+
+
+                    //显示编辑窗口
+                    $(".model-bg[title=editOneUserInfo],.popBox[title=editOneUserInfo]").show();
+
+                };
+            });
             //带标题的
+
             /**
              * 多选选中和取消选中,同时选中第一个单元格单选框,并联动全选单选框
              */
@@ -1225,12 +1200,16 @@
                     }
                 }
             };
+
+
+
+
             /**
              * 单行点击编辑按钮
              */
             $('#userInfo').on('click', '.model', function () {
                 //为原始ID进行赋值
-                originalStationID=this.parentNode.parentNode.childNodes.item([1]).innerText;
+                originalID=this.parentNode.parentNode.childNodes.item([1]).innerText;
                 //获取点击行显示的字段
                 var stationID = this.parentNode.parentNode.childNodes.item([1]).innerText;
                 var address = this.parentNode.parentNode.childNodes.item([2]).innerText;
@@ -1248,72 +1227,112 @@
                 $("#edit_chargePerson").val(chargePerson);
                 $("#edit_approvalPerson").val(approvalPerson);
                 //显示编辑窗口
-                $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").show();
+                $(".model-bg[title=editOneUserInfo],.popBox[title=editOneUserInfo]").show();
             } );
+
+
             /**
              * 单击编辑窗口提交按钮
              */
-            $('#submit_editStationInfo').click(function(event){
+            $('#submit_editUserInfo').click(function(event)
+            {
                 alert("进入提交动作！");
                 //获取公共字段
-                var operatorName=userInfo.username;
-                var qsData="operatorName="+operatorName+"&accessToken="+accessToken+"&originalStationID="+originalStationID;
-                var updateStationInfo = "";
+                var qsData="operatorName="+userInfo.username+"&accessToken="+accessToken+"&collectionName=userInfo&originalID="+originalID;
+                var updateInfo = "";
                 //收集编辑框字段
-                var stationID=$("#edit_stationID").val();
-                var address = $("#edit_address").val();
-                var doorStatus = $("#edit_doorStatus").val();
-                var lockID = $("#edit_lockID").val();
-                var chargePerson = $("#edit_chargePerson").val();
-                var approvalPerson = $("#edit_approvalPerson").val();
+
+                var username=$("#edit_username").val();
+                var realname = $("#edit_realname").val();
+                var phone = $("#edit_phone").val();
+                var userType = $("#edit_userType").val();
+                var userState = $("#edit_userState").val();
+
+                var addStationAction=document.getElementById("edit_addStationAction").checked; //获取新增基站的选择状态
+                var deleteStationAction=document.getElementById("edit_deleteStationAction").checked; //获取删除基站的选择状态
+                var queryStationAction=document.getElementById("edit_queryStationAction").checked; //获取查询基站的选择状态
+                var updateStationAction=document.getElementById("edit_updateStationAction").checked; //获取更新基站的选择状态
+
+                var addStaffAction=document.getElementById("edit_addStaffAction").checked; //获取新增员工的选择状态
+                var deleteStaffAction=document.getElementById("edit_deleteStaffAction").checked; //获取删除员工的选择状态
+                var queryStaffAction=document.getElementById("edit_queryStaffAction").checked; //获取查询员工的选择状态
+                var updateStaffAction=document.getElementById("edit_updateStaffAction").checked; //获取更新员工的选择状态
+
+                var addKeyAction=document.getElementById("edit_addKeyAction").checked; //获取新增钥匙的选择状态
+                var deleteKeyAction=document.getElementById("edit_deleteKeyAction").checked; //获取删除钥匙的选择状态
+                var queryKeyAction=document.getElementById("edit_queryKeyAction").checked; //获取查询钥匙的选择状态
+                var updateKeyAction=document.getElementById("edit_updateKeyAction").checked; //获取更新钥匙的选择状态
+
+                var doorAuthorization=document.getElementById("edit_doorAuthorization").checked; //获取工单审批权限的选择状态
+
                 //对字段进行判空
-                if(stationID==""||stationID==null){
-                    alert("基站编号不能为空，请重新填写！")
-                    $("#edit_stationID").focus();
+                if(username==""||username==null)
+                {
+                    alert("用户名不能为空，请重新填写！")
+                    $("#edit_username").focus();
                     return;
                 }else{
-                    updateStationInfo="&stationID="+stationID;
+                    updateInfo="&username="+username;
                 }
-                if(address==""||address==null){
-                    alert("基站地址不能为空，请重新填写！")
-                    $("#edit_address").focus()
+
+                if(realname==""||realname==null)
+                {
+                    alert("真实名不能为空，请重新填写！")
+                    $("#edit_realname").focus()
                     return;
-                }else{
-                    updateStationInfo +="&address="+address;
-                }
-                if(doorStatus==""||doorStatus==null){
-                        //没有要求，不做判断
-                }else{
-                    updateStationInfo +="&doorStatus="+doorStatus;
-                }
-                if(lockID==""||lockID==null){
-                    alert("门锁ID不能为空，请重新填写！")
-                    $("#edit_lockID").focus()
+                }else if(!isChineseChar(realname)) //检查真名是否为汉字
+                {
+                    alert("真实名必须为汉字！");
+                    $("#edit_realname").focus()
                     return;
-                }else{
-                    updateStationInfo +="&lockID="+lockID;
                 }
-                if(chargePerson==""||chargePerson==null){
-                    alert("负责人不能为空，请重新填写！")
-                    $("#edit_chargePerson").focus()
+                else
+                {
+                    updateInfo +="&realname="+realname;
+                }
+
+                if(phone==""||phone==null)
+                {
+                    alert("电话不能为空，请重新填写！")
+                    $("#edit_phone").focus()
                     return;
-                }else{
-                    updateStationInfo +="&chargePerson="+chargePerson;
                 }
-                if(approvalPerson==""||approvalPerson==null){
-                    alert("作业审批人不能为空，请重新填写！")
-                    $("#edit_approvalPerson").focus()
+                else if(!isPhoneNo(phone)) //检查电话是合法
+                {
+                    alert("手机号格式有误！");
+                    $("#edit_phone").focus()
                     return;
-                }else{
-                    updateStationInfo +="&approvalPerson="+approvalPerson;
                 }
-                qsData=qsData+updateStationInfo;
+                else
+                {
+                    updateInfo +="&phone="+phone;
+                }
+
+                updateInfo +="&userType="+originalUserType.substring(0,2)+userType;
+                updateInfo +="&userState="+userState;
+                updateInfo=updateInfo+"&addStationAction="+addStationAction;
+                updateInfo=updateInfo+"&deleteStationAction="+deleteStationAction;
+                updateInfo=updateInfo+"&queryStationAction="+queryStationAction;
+                updateInfo=updateInfo+"&updateStationAction="+updateStationAction;
+                updateInfo=updateInfo+"&addStaffAction="+addStaffAction;
+                updateInfo=updateInfo+"&deleteStaffAction="+deleteStaffAction;
+                updateInfo=updateInfo+"&queryStaffAction="+queryStaffAction;
+                updateInfo=updateInfo+"&updateStaffAction="+updateStaffAction;
+                updateInfo=updateInfo+"&addKeyAction="+addKeyAction;
+                updateInfo=updateInfo+"&deleteKeyAction="+deleteKeyAction;
+                updateInfo=updateInfo+"&queryKeyAction="+queryKeyAction;
+                updateInfo=updateInfo+"&updateKeyAction="+updateKeyAction;
+                updateInfo=updateInfo+"&doorAuthorization="+doorAuthorization;
+
+
+
+                qsData=qsData+updateInfo;
 //                alert("编辑的提交数据为："+qsData);
-//                console.log("编辑的提交数据为："+qsData);
+                console.log("编辑的提交数据为："+qsData);
                 //发起请求
                 $.ajax({
                     async: false,
-                    url: "https://www.smartlock.top/v0/updateStation",
+                    url: "https://www.smartlock.top/v0/updateAll",
                     type: "POST",
                     contentType: "application/x-www-form-urlencoded",
                     data: qsData,
@@ -1340,9 +1359,9 @@
                             var sucInfo =  infoJson.success;
                             var msg = sucInfo.msg;
                             alert(msg);
-                            $(".popBox[title=editOneStationInfo] input").val("");
-                            $(".model-bg[title=editOneStationInfo],.popBox[title=editOneStationInfo]").hide();
-                            queryUser();
+                            $(".popBox[title=editOneUserInfo] input").val("");
+                            $(".model-bg[title=editOneUserInfo],.popBox[title=editOneUserInfo]").hide();
+                            queryUser(originalCompanyID,"");
                         }else {
                             alert("未知错误，请联系管理员！")
                         }
@@ -1436,11 +1455,7 @@
 
     </script>
     <script type="text/javascript">
-        var userInfo=JSON.parse(localStorage.getItem("userInfo"));
-        var regionInfo=JSON.parse(localStorage.getItem("regionInfo"));
-        var permissions=JSON.parse(localStorage.getItem("permissions"));
-        var accessToken=localStorage.getItem("accessToken");
-        var tokenEndTime=localStorage.getItem("tokenEndTime");
+
         //检查是否有登录状态
         function  checkUserValidity(){
             if(userInfo==null||accessToken==null) //访问的信息不存在，则返回空
@@ -1587,7 +1602,7 @@
 
             switch(userType)
             {
-                case "000":
+                case "001":
                     document.getElementById("loginuser").innerHTML="<br>超级管理员<br>"+userInfo.username;
                     break;
 
@@ -1781,8 +1796,114 @@
                     alert("无法连接到服务器！");
                 }
             });
+
+
+
+
+
         };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function getUserSeting()
+        {
+            var addStationAction=document.getElementById("edit_addStationAction"); //获取新增基站的checkbox对象
+            var deleteStationAction=document.getElementById("edit_deleteStationAction"); //获取删除基站的checkbox对象
+            var queryStationAction=document.getElementById("edit_queryStationAction"); //获取查询基站的checkbox对象
+            var updateStationAction=document.getElementById("edit_updateStationAction"); //获取更新基站的checkbox对象
+
+            var addStaffAction=document.getElementById("edit_addStaffAction"); //获取新增员工的checkbox对象
+            var deleteStaffAction=document.getElementById("edit_deleteStaffAction"); //获取删除员工的checkbox对象
+            var queryStaffAction=document.getElementById("edit_queryStaffAction"); //获取查询员工的checkbox对象
+            var updateStaffAction=document.getElementById("edit_updateStaffAction"); //获取更新员工的checkbox对象
+
+            var addKeyAction=document.getElementById("edit_addKeyAction"); //获取新增钥匙的checkbox对象
+            var deleteKeyAction=document.getElementById("edit_deleteKeyAction"); //获取删除钥匙的checkbox对象
+            var queryKeyAction=document.getElementById("edit_queryKeyAction"); //获取查询钥匙的checkbox对象
+            var updateKeyAction=document.getElementById("edit_updateKeyAction"); //获取更新钥匙的checkbox对象
+
+            var doorAuthorization=document.getElementById("edit_doorAuthorization"); //获取工单审批权限的checkbox对象
+
+
+            var index = $("#edit_userType").get(0).selectedIndex;
+            if(index==0)
+            {
+                addStationAction.checked=true; //管理员默认拥有新增基站权限
+                deleteStationAction.checked=true; //管理员默认拥有删除基站权限
+                queryStationAction.checked=true; //管理员默认拥有查询基站权限
+                updateStationAction.checked=true; //管理员默认拥有更新基站权限
+
+                addStaffAction.checked=true; //管理员默认拥有新增员工权限
+                deleteStaffAction.checked=true; //管理员默认拥有删除员工权限
+                queryStaffAction.checked=true; //管理员默认拥有查询员工权限
+                updateStaffAction.checked=true; //管理员默认拥有更新员工权限
+
+                addKeyAction.checked=true; //管理员默认拥有新增钥匙权限
+                deleteKeyAction.checked=true; //管理员默认拥有删除钥匙权限
+                queryKeyAction.checked=true; //管理员默认拥有查询钥匙权限
+                updateKeyAction.checked=true; //管理员默认拥有更新钥匙权限
+
+
+                doorAuthorization.checked=true; //管理员默认拥有工单审批权限
+            }
+            else if(index==1)
+            {
+                addStationAction.checked=false; //审批员默认不拥有新增基站权限
+                deleteStationAction.checked=false; //审批员默认不拥有删除基站权限
+                queryStationAction.checked=false; //审批员默认不拥有查询基站权限
+                updateStationAction.checked=false; //审批员默认不拥有更新基站权限
+
+                addStaffAction.checked=false; //审批员默认不拥有新增员工权限
+                deleteStaffAction.checked=false; //审批员默认不拥有删除员工权限
+                queryStaffAction.checked=false; //审批员默认不拥有查询员工权限
+                updateStaffAction.checked=false; //审批员默认不拥有更新员工权限
+
+                addKeyAction.checked=false; //审批员默认不拥有新增钥匙权限
+                deleteKeyAction.checked=false; //审批员默认不拥有删除钥匙权限
+                queryKeyAction.checked=false; //审批员默认不拥有查询钥匙权限
+                updateKeyAction.checked=false; //审批员默认不拥有更新钥匙权限
+
+
+                doorAuthorization.checked=true; //审批员默认拥有工单审批权限
+
+            }
+            else if(index==2)
+            {
+                addStationAction.checked=false; //工程师默认不拥有新增基站权限
+                deleteStationAction.checked=false; //工程师默认不拥有删除基站权限
+                queryStationAction.checked=false; //工程师默认不拥有查询基站权限
+                updateStationAction.checked=false; //工程师默认不拥有更新基站权限
+
+                addStaffAction.checked=false; //工程师默认不拥有新增员工权限
+                deleteStaffAction.checked=false; //工程师默认不拥有删除员工权限
+                queryStaffAction.checked=false; //工程师默认不拥有查询员工权限
+                updateStaffAction.checked=false; //工程师默认不拥有更新员工权限
+
+                addKeyAction.checked=false; //工程师默认不拥有新增钥匙权限
+                deleteKeyAction.checked=false; //工程师默认不拥有删除钥匙权限
+                queryKeyAction.checked=false; //工程师默认不拥有查询钥匙权限
+                updateKeyAction.checked=false; //工程师默认不拥有更新钥匙权限
+
+                doorAuthorization.checked=false; //工程师默认不拥有工单审批权限
+            }
+
+        }
     </script>
 </head>
 
@@ -1802,7 +1923,6 @@
         <!-- Logo (221px wide) -->
         <a href="#"><img id="logo" src="../assets/images/logo.png" alt="Simpla Admin logo" /></a>
 
-
         <!-- Sidebar Profile links -->
         <div id="profile-links">
             你好, <a href="#" title="Edit your profile" id="loginuser" class="loginuser" > </a><br />
@@ -1810,12 +1930,19 @@
             <a href="#" class="mode2" title="View the Site">修改资料</a> | <a href="#" title="Sign Out" onclick="logout()">退出</a>
         </div>
 
-        <ul id="main-nav" class="broadside">  <!-- Accordion Menu -->
+
+
+
+        <ul id="main-nav">  <!-- Accordion Menu -->
+
+
+
             <li>
                 <a href="main.html" class="nav-top-item no-submenu"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
                     首页
                 </a>
             </li>
+
 
             <li id="gongsiguanli">
                 <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
@@ -1825,6 +1952,7 @@
                     <li><a href="companyManage.html">公司查看</a></li> <!-- Add class "current" to sub menu items also -->
                 </ul>
             </li>
+
 
             <li id="peizhiguanli">
                 <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
@@ -1846,21 +1974,34 @@
             </li>
 
 
+            <!--<div id="jizhanguanli">-->
             <li id="jizhanguanli">
                 <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
                     基站管理
                 </a>
                 <ul>
-                    <li><a  class="current" href="stationManageTree.html">基站管理</a></li> <!-- Add class "current" to sub menu items also -->
-                    <li><a  href="stationManage.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  href="stationManageTree.html">基站列表</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  href="stationManage.html">基站列表(旧)</a></li> <!-- Add class "current" to sub menu items also -->
                     <li><a  href="stationManageLog.html">基站日志管理</a></li>
-                    <li><a  href="stationUpload.html">基站批量上传</a></li>
+                    <li><a  href="stationUpload.html">基站批量导入</a></li>
                 </ul>
             </li>
 
+
+            <li id="suojuguanli">
+                <a href="#" class="nav-top-item"> <!-- Add the class "current" to current menu item -->
+                    锁具管理
+                </a>
+                <ul>
+                    <li><a  href="lockManageTree.html">锁具管理</a></li> <!-- Add class "current" to sub menu items also -->
+                    <li><a  href="lockUpload.html">锁具批量上传</a></li>
+                </ul>
+            </li>
+
+
             <li>
                 <a href="#" class="nav-top-item">
-                    作业管理
+                    工单管理
                 </a>
                 <ul>
                     <li><a  href="taskManage.html">工单列表</a></li>
@@ -1868,34 +2009,74 @@
                 </ul>
             </li>
 
+
             <li id="dianziyaoshiguanli">
                 <a href="#" class="nav-top-item">
-                    电子钥匙管理
+                    钥匙管理
                 </a>
                 <ul>
-                    <li><a href="keyManage.html">钥匙列表</a></li>
+                    <li><a href="keyManageTree.html">钥匙列表</a></li>
+                    <li><a href="keyManage.html">钥匙列表(旧)</a></li>
                     <li><a href="keyManageLog.html">钥匙日志</a></li>
-                    <li><a href="stationUpload.html">基站日志管理</a></li>
+                    <li><a href="keyUpload.html">钥匙批量上传</a></li>
                 </ul>
             </li>
+
+
+            <li id="shouquanguanli">
+                <a href="#" class="nav-top-item">
+                    授权管理
+                </a>
+                <ul>
+                    <li><a href="authManageTree.html">锁具授权</a></li>
+                    <li><a href="authAlterTree.html">授权修改</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#" class="nav-top-item">
+                    机构管理
+                </a>
+                <ul>
+                    <li><a href="organizationManage.html">机构管理</a></li>
+
+                </ul>
+            </li>
+
+
+            <li id="jueseshouquanguanli">
+                <a href="#" class="nav-top-item">
+                    角色管理
+                </a>
+                <ul>
+                    <li><a href="gridRoleManageTree.html">网络角色</a></li>
+                </ul>
+            </li>
+
+
+            <!--</div>-->
+
+            <!--<div id="yuangongguanli">-->
             <li id="yuangongguanli">
-                <a href="#" class="nav-top-item current">
+                <a href="#" class="nav-top-item current" >
                     员工管理
                 </a>
                 <ul>
                     <li><a class="current" href="userManageTree.html">员工管理</a></li>
                     <li><a href="userUpload.html">员工批量导入</a></li>
-                    <div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>
-                    <div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>
-                    <div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>
-                    <div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>
-                    <div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>
-                    <div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>
-                    <div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>
+                    <!--<div id="ttyg"> <li><a href="tower_manager.html">铁塔公司员工管理</a></li> </div>-->
+                    <!--<div id="ydyg"> <li><a href="mobile_manager.html">中国移动员工管理</a></li> </div>-->
+                    <!--<div id="ltyg"> <li><a href="unicom_manager.html" >中国联通员工管理</a></li> </div>-->
+                    <!--<div id="dxyg"> <li><a href="telecom_manager.html" >中国电信员工管理</a></li> </div>-->
+                    <!--<div id="sggsyg"> <li><a href="construction_manager.html">施工公司员工管理</a></li> </div>-->
+                    <!--<div id="dwgsyg"> <li><a href="agent_manager.html">代维公司员工管理</a></li> </div>-->
+                    <!--<div id="csyg"> <li><a href="manufacturer_manager.html">厂商商员工管理</a></li> </div>-->
                 </ul>
             </li>
+
             <li id="tongjiguanli">
-                <a href="#" class="nav-top-item">
+                <a href="#" class="nav-top-item ">
                     统计管理
                 </a>
                 <ul>
@@ -1903,151 +2084,189 @@
                 </ul>
             </li>
 
+            <li>
+                <a href="#" class="nav-top-item">
+                    备份管理
+                </a>
+                <ul>
+                    <li><a href="databasebackup.html">数据库备份</a></li>
+                </ul>
+            </li>
 
+            <!--</div>-->
         </ul> <!-- End #main-nav -->
 
     </div></div> <!-- End #sidebar -->
-
-
     <div id="main-content"> <!-- Main Content Section with everything -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Page Head -->
         <h2 id="username1"> </h2>
-
         <div class="clear"></div> <!-- End .clear -->
+        <!--修改个人资料弹出编辑框开始-->
+        <div class="dialog">
+            <div class="model-bg" title="editPersonInfo"></div>
+            <div class="popBox" title="editPersonInfo">
+                <div class="ttBox">
+                    <a class="clsBtn" title="editPersonInfo"></a>
+                    <span class="tt">修改个人信息</span>
+                </div>
+                <div class="txtBox">
+                    <div class="item">
+                        <label for="editPerson_username">用户名：</label>
+                        <input type="text" id="editPerson_username" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_userType">用户类型：</label>
+                        <input type="text" id="editPerson_userType" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_company">用户所属公司：</label>
+                        <input type="text" id="editPerson_company" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_phone">手机号码：</label>
+                        <input type="text" id="editPerson_phone" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_originalPassword">原始密码：</label>
+                        <input type="password" id="editPerson_originalPassword">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_newPassword1">新密码：</label>
+                        <input type="password" id="editPerson_newPassword1">
+                    </div>
+                    <div class="item">
+                        <label for="editPerson_newPassword2">确认新密码：</label>
+                        <input type="password" id="editPerson_newPassword2">
+                    </div>
+                </div>
+                <div class="btnArea">
+                    <div class="btnGroup">
+                        <a class="sgBtn ok" id="submit_editPerson">确定</a>
+                        <a class="sgBtn cancel" id="cancel_editPerson">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--弹出编辑框结束-->
+        <!--编辑员工资料弹出编辑框开始-->
+        <div class="dialog">
+            <div class="model-bg" title="editOneUserInfo"></div>
+            <div class="popBox" title="editOneUserInfo">
+                <div class="ttBox">
+                    <a class="clsBtn" title="editOneUserInfo"></a>
+                    <span class="tt">修改用户信息</span>
+                </div>
+                <div class="txtBox">
+                    <div class="item">
+                        <label for="edit_username">用户名：</label>
+                        <input type="text" id="edit_username" class="edit_text" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="edit_realname">真实名：</label>
+                        <input type="text" id="edit_realname" class="edit_text">
+                    </div>
+                    <div class="item">
+                        <label for="edit_phone">手机号：</label>
+                        <input type="text" id="edit_phone" class="edit_text" disabled="true">
+                    </div>
+                    <div class="item">
+                        <label for="edit_userType">员工类型：</label>
+                        <select id="edit_userType" class="edit_select" onchange="getUserSeting()">
+                            <option value="1" >管理员</option>
+                            <option value="2" >审批员</option>
+                            <option value="3" >工程师</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="edit_userState">用户状态：</label>
+                        <select id="edit_userState" class="edit_select">
+                            <option value="正常">正常</option>
+                            <option value="禁用">禁用</option>
+                        </select>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<input type="radio" name="edit_updateUserType" onclick="getManagerSeting()" /> 管理员-->
+                    <!--<input type="radio" name="edit_updateUserType" onclick="getExaminationSeting()" /> 审批员-->
+                    <!--<input type="radio" name="edit_updateUserType" onclick="getEnginerSeting()" /> 工程师-->
+                    <!--</div>-->
+                    <div class="item">
+                        <input class="checkBox001" type="checkbox" name="edit_addStationAction" id="edit_addStationAction" /><strong>增加</strong>基站权限
+                        <input class="checkBox001" type="checkbox" name="edit_deleteStationAction" id="edit_deleteStationAction"  /> <strong>删除</strong>基站权限
+                        <input class="checkBox001" type="checkbox" name="edit_queryStationAction" id="edit_queryStationAction"   /> <strong>查询</strong>基站权限
+                        <input class="checkBox001" type="checkbox" name="edit_updateStationAction" id="edit_updateStationAction"  /> <strong>修改</strong>基站权限
+                        <br>
+                        <input class="checkBox001" type="checkbox" name="edit_addStaffAction" id="edit_addStaffAction" /> <strong>增加</strong>员工权限
+                        <input class="checkBox001" type="checkbox" name="edit_deleteStaffAction" id="edit_deleteStaffAction"  /> <strong>删除</strong>员工权限
+                        <input class="checkBox001" type="checkbox" name="edit_queryStaffAction" id="edit_queryStaffAction"  /> <strong>查询</strong>员工权限
+                        <input class="checkBox001" type="checkbox" name="edit_updateStaffAction" id="edit_updateStaffAction"  /> <strong>修改</strong>员工权限
+                        <br>
+                        <input class="checkBox001" type="checkbox" name="edit_addKeyAction" id="edit_addKeyAction" /> <strong>增加</strong>钥匙权限
+                        <input class="checkBox001" type="checkbox" name="edit_deleteKeyAction" id="edit_deleteKeyAction"  /> <strong>删除</strong>钥匙权限
+                        <input class="checkBox001" type="checkbox" name="edit_queryKeyAction" id="edit_queryKeyAction"  /> <strong>查询</strong>钥匙权限
+                        <input class="checkBox001" type="checkbox" name="edit_updateKeyAction" id="edit_updateKeyAction"  /> <strong>修改</strong>钥匙权限
+                        <br>
+                        <input class="checkBox001" type="checkbox" name="edit_doorAuthorization" id="edit_doorAuthorization" /> <strong>工单审批权限</strong>
+
+                    </div>
+                </div>
+                <div class="txtBox">
+                    <!--<label for="edit_addStationAction">-->
+
+                </div>
+
+
+
+                <div class="btnArea">
+                    <div class="btnGroup">
+                        <a class="sgBtn ok" id="submit_editUserInfo">确定</a>
+                        <a class="sgBtn cancel" id="cancel_editStationInfo">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--弹出编辑框结束-->
+
+
         <div class="content-box"><!-- Start Content Box -->
             <div class="content-box-header">
-                <!--<h3>内容模块</h3>-->
                 <ul class="content-box-tabs">
-                    <li><a class="default-tab" href="#stationList" >基站列表</a></li> <!-- href must be unique and match the id of target div -->
+                    <li><a class="default-tab" href="#stationList" >员工列表</a></li> <!-- href must be unique and match the id of target div -->
 
                 </ul>
                 <div class="clear"></div>
             </div> <!-- End .content-box-header -->
-            <!--弹出编辑框开始-->
-            <div class="dialog">
-                <div class="model-bg" title="editPersonInfo"></div>
-                <div class="popBox" title="editPersonInfo">
-                    <div class="ttBox">
-                        <a class="clsBtn" title="editPersonInfo"></a>
-                        <span class="tt">修改个人信息</span>
-                    </div>
-                    <div class="txtBox">
-                        <div class="item">
-                            <label for="editPerson_username">用户名：</label>
-                            <input type="text" id="editPerson_username" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_userType">用户类型：</label>
-                            <input type="text" id="editPerson_userType" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_company">用户所属公司：</label>
-                            <input type="text" id="editPerson_company" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_phone">手机号码：</label>
-                            <input type="text" id="editPerson_phone" disabled="true">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_originalPassword">原始密码：</label>
-                            <input type="password" id="editPerson_originalPassword">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_newPassword1">新密码：</label>
-                            <input type="password" id="editPerson_newPassword1">
-                        </div>
-                        <div class="item">
-                            <label for="editPerson_newPassword2">确认新密码：</label>
-                            <input type="password" id="editPerson_newPassword2">
-                        </div>
-                    </div>
-                    <div class="btnArea">
-                        <div class="btnGroup">
-                            <a class="sgBtn ok" id="submit_editPerson">确定</a>
-                            <a class="sgBtn cancel" id="cancel_editPerson">取消</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dialog" title="editOneStationInfo">
-                <div class="model-bg" title="editOneStationInfo"></div>
-                <div class="popBox" title="editOneStationInfo">
-                    <div class="ttBox">
-                        <a class="clsBtn" title="editOneStationInfo"></a>
-                        <span class="tt">修改基站信息</span>
-                    </div>
-                    <div class="txtBox">
-                        <div class="item">
-                            <label for="edit_stationID">基站编号：</label>
-                            <input type="text" id="edit_stationID">
-                        </div>
-                        <div class="item">
-                            <label for="edit_address">基站地址：</label>
-                            <input type="text" id="edit_address">
-                        </div>
-                        <div class="item">
-                            <label for="edit_doorStatus">门锁状态：</label>
-                            <select id="edit_doorStatus" class="edit_select">
-                                <option value="">请选择门锁状态</option>
-                                <option value="open">开启状态</option>
-                                <option value="closed">关闭状态</option>
-                            </select>
 
-                            <!--<input type="text" id="edit_doorStatus">-->
-                        </div>
-                        <div class="item">
-                            <label for="edit_lockID">门锁ID：</label>
-                            <input type="text" id="edit_lockID">
-                        </div>
-                        <div class="item">
-                            <label for="edit_chargePerson">负责人：</label>
-                            <input type="text" id="edit_chargePerson">
-                        </div>
-                        <div class="item">
-                            <label for="edit_approvalPerson">作业审批人：</label>
-                            <input type="text" id="edit_approvalPerson">
-                        </div>
-                    </div>
-                    <div class="btnArea">
-                        <div class="btnGroup">
-                            <a class="sgBtn ok" id="submit_editStationInfo">确定</a>
-                            <a class="sgBtn cancel" id="cancel_editStationInfo">取消</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--弹出编辑框结束-->
+
             <div class="content-box-content">
-
                 <div class="tab-content default-tab" id="stationList"> 	<!-- This is the target div. id must match the href of this div's tab -->
                     <div class="content_wrap">
                         <div class="zTreeDemoBackground left">
                             <ul id="treeDemo" class="ztree"></ul>
                         </div>
                         <div class="right">
-
-                            <!--<ul class="info">-->
-                                <!--<li class="title"><h2>1、beforeClick / onClick 事件回调函数控制</h2>-->
-                                    <!--<ul class="list">-->
-                                        <!--<li>利用 click 事件回调函数 可以进行各种其他的附加操作，这里简单演示如何监控此事件</li>-->
-                                        <!--<li><p><span class="highlight_red">请尝试按下 <b>Ctrl</b> 或 <b>Cmd</b> 键进行 多节点选择 和 取消选择</span><br/>-->
-                                            <!--click log:<br/>-->
-                                            <!--<ul id="log" class="log"></ul></p>-->
-                                        <!--</li>-->
-                                    <!--</ul>-->
-                                <!--</li>-->
-
-                            <!--</ul>-->
-
                             <div class="queryCondition" id="queryUser">
                                 <div class="screen-top">
-                                    <!--<span>基站负责人<input id="chargePerson" type="text"/></span>-->
-                                    <!--<span>作业审批人<input id="approvalPerson" type="text"  /></span>-->
                                     <input class="button" id="query" type="submit" value="增加" />
-                                    <input class="button" id="reset" type="reset" value="修改" />
-                                    <!--<input class="button" id="exportxls" type="button" value="导出xls" />-->
+                                    <input class="button" id="alter" type="button" value="修改" />
                                     <input class="button" id="delete" type="button" value="删除"/>
-                                    <!--<input class="button" id="createSation" type="button" value="新建基站"/>-->
                                 </div>
                             </div>
                             <div>
@@ -2057,16 +2276,10 @@
                                         <th><input type="checkbox" id="allcheck" name="allChecked" /></th>
                                         <th>用户名</th>
                                         <th>真实名</th>
+                                        <th>用户状态</th>
                                         <th>手机号</th>
                                         <th>公司</th>
-                                        <!--<th>负责人电话</th>-->
-                                        <!--<th>负责人公司</th>-->
                                         <th>职衔</th>
-                                        <!--<th>所属省份</th>-->
-                                        <!--<th>所属市区</th>-->
-                                        <!--<th>所属区县</th>-->
-                                        <!--<th>作业审批人电话</th>-->
-                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -2076,18 +2289,10 @@
                     </div>
 
 
-
                 </div> <!-- End #stationList -->
-
-
-
-
-
-
             </div> <!-- End .content-box-content -->
 
         </div> <!-- End .content-box -->
-
         <div id="footer">
             <small> <!-- Remove this notice or replace it with whatever you want -->
                 &#169; Copyright 2016 四川九鼎数码科技有限公司 | Powered by UESTC CSIS</a> | <a href="#top">Top</a>
