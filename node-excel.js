@@ -295,72 +295,72 @@ function importDataFromCSV( importFileName, importCollectionName , response )
 				response.write( JSON.stringify(Info) );
 				response.end();
 
-				if(importCollectionName == "userInfo")
-				{
-						// var dbClient = require("./Mongo");  //数据库模块
-						// var mongoClient = require('mongodb').MongoClient;
-						// var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
-						dbClient.selectFunc( mongoClient,DB_CONN_STR,"userInfo", {} ,function(result){
-						    for(var i=0;i<result.length;i++)
-						    {
-								try{
-						        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {companyID:result[i].companyID},
-						            {$set:{companyID:result[i].companyID.toString(),
-						            	phone:''+result[i].phone}});    
+				// if(importCollectionName == "userInfo")
+				// {
+				// 		// var dbClient = require("./Mongo");  //数据库模块
+				// 		// var mongoClient = require('mongodb').MongoClient;
+				// 		// var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+				// 		dbClient.selectFunc( mongoClient,DB_CONN_STR,"userInfo", {} ,function(result){
+				// 		    for(var i=0;i<result.length;i++)
+				// 		    {
+				// 				try{
+				// 		        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {companyID:result[i].companyID},
+				// 		            {$set:{companyID:result[i].companyID.toString(),
+				// 		            	phone:''+result[i].phone}});    
 
-						        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {userType:result[i].userType},
-						            {$set:{userType:result[i].userType.toString()}});       
-
-
-						        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {password:result[i].password},
-						            {$set:{password:result[i].password.toString()}});   
+				// 		        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {userType:result[i].userType},
+				// 		            {$set:{userType:result[i].userType.toString()}});       
 
 
-						        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {companyCode:result[i].companyCode},
-						            {$set:{companyCode:result[i].companyCode.toString()}});    
+				// 		        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {password:result[i].password},
+				// 		            {$set:{password:result[i].password.toString()}});   
 
-						        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {phone:result[i].phone},
-						            {$set:{phone:''+result[i].phone}});  
-						        } catch(e){};      
-						    }
-						});
-				}else if(importCollectionName=="lockInfo"){
-						dbClient.selectFunc( mongoClient,DB_CONN_STR,importCollectionName,{},function(result){
-						    for(var i=0;i<result.length;i++)
-						    {
-						    	try{
-						    	//console.log(typeof())
-						    	//遍历元素
-						        dbClient.updateMultiFunc( 
-						        	mongoClient,
-						        	DB_CONN_STR,importCollectionName, 
-						        	{lockID:result[i].lockID},
-						            {$set:{stationID:''+result[i].stationID}
-						        }); 
-								}catch(e){};	
-						    }
-						});					
-				}else
-				{
-					dbClient.selectFunc( mongoClient,DB_CONN_STR,importCollectionName,{},function(result){
-					    for(var i=0;i<result.length;i++)
-					    {
-					    	for (var prop in result[i])  
-							{     
-						    	try{
-						    	//console.log(typeof())
-						        dbClient.updateMultiFunc( 
-						        	mongoClient,
-						        	DB_CONN_STR,importCollectionName, 
-						        	{lockID:result[i].lockID},
-						            {$set:{stationID:''+result[i].stationID}
-						        }); 
-								}catch(e){};	  
-							}  	
-					    }
-					});						
 
-				}
+				// 		        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {companyCode:result[i].companyCode},
+				// 		            {$set:{companyCode:result[i].companyCode.toString()}});    
+
+				// 		        dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"userInfo", {phone:result[i].phone},
+				// 		            {$set:{phone:''+result[i].phone}});  
+				// 		        } catch(e){};      
+				// 		    }
+				// 		});
+				// }else if(importCollectionName=="lockInfo"){
+				// 		dbClient.selectFunc( mongoClient,DB_CONN_STR,importCollectionName,{},function(result){
+				// 		    for(var i=0;i<result.length;i++)
+				// 		    {
+				// 		    	try{
+				// 		    	//console.log(typeof())
+				// 		    	//遍历元素
+				// 		        dbClient.updateMultiFunc( 
+				// 		        	mongoClient,
+				// 		        	DB_CONN_STR,importCollectionName, 
+				// 		        	{lockID:result[i].lockID},
+				// 		            {$set:{stationID:''+result[i].stationID}
+				// 		        }); 
+				// 				}catch(e){};	
+				// 		    }
+				// 		});					
+				// }else
+				// {
+				// 	dbClient.selectFunc( mongoClient,DB_CONN_STR,importCollectionName,{},function(result){
+				// 	    for(var i=0;i<result.length;i++)
+				// 	    {
+				// 	    	for (var prop in result[i])  
+				// 			{     
+				// 		    	try{
+				// 		    	//console.log(typeof())
+				// 		        dbClient.updateMultiFunc( 
+				// 		        	mongoClient,
+				// 		        	DB_CONN_STR,importCollectionName, 
+				// 		        	{lockID:result[i].lockID},
+				// 		            {$set:{stationID:''+result[i].stationID}
+				// 		        }); 
+				// 				}catch(e){};	  
+				// 			}  	
+				// 	    }
+				// 	});						
+
+				// }
 
 
 			});
