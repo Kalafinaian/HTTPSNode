@@ -1090,7 +1090,7 @@ function selectAll(response, postData)
 					}*/else{
 						var info = 	{ "error":  
 						{  
-							"msg": "没有查询记录!",  
+							"msg": "没有查询记录,如果你是从基站获取的锁具ID，建议你从前端先录入该锁具信息!",  
 							"code":"15001"  
 						}  };
 						response.write( JSON.stringify(info) );
