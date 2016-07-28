@@ -346,18 +346,18 @@ function updateLock(response, postData)
 				// 	response.end();
 				// 	return;					
 				// }
-				try{
-					postJSON.apiName = "更新密码";
-					var mmUpdateStr = {$set:postJSON};
-					//postJSON.nKey postJSON.bKey  postJSON.approveCode
-					console.log(whereStr);
-					console.log(postJSON);
-					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"taskInfo",whereStr,mmUpdateStr);
-					dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"stationInfo",whereStr,mmUpdateStr);
-				}catch(e)
-				{
-					console.log("更新锁信息失败");
-				}
+				// try{
+				// 	postJSON.apiName = "更新密码";
+				// 	var mmUpdateStr = {$set:postJSON};
+				// 	//postJSON.nKey postJSON.bKey  postJSON.approveCode
+				// 	console.log(whereStr);
+				// 	console.log(postJSON);
+				// 	dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"taskInfo",whereStr,mmUpdateStr);
+				// 	dbClient.updateMultiFunc( mongoClient,DB_CONN_STR,"stationInfo",whereStr,mmUpdateStr);
+				// }catch(e)
+				// {
+				// 	console.log("更新锁信息失败");
+				// }
 
 				dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName, whereStr, updateStr,function(result){
 					if( result.hasOwnProperty("errmsg") )
