@@ -1,0 +1,29 @@
+1、修改代码
+2、Killall node ---- 关闭所有后台程序
+3、mongod-node.start ---启动所有后台程序
+./mongod-node.start
+
+
+ ps -ef | grep node
+
+ ps -ef | grep mongod
+
+
+4、调试程序
+
+（1）调试主程序
+node index.js
+
+(2) 调试上传程序
+/usr/share/NodeJS/Node.js/node.start 主要API
+
+/usr/share/NodeJS/Node.js/upload.start 旧的上传API
+
+/usr/share/NodeJS/Node.js/uploadForAll.start 新的上传API--前台指定文件名统一
+
+/usr/share/NodeJS/Node.js/mongod.start 数据库服务开启
+
+/usr/share/NodeJS/Node.js/uploadNew.start 新的上传API--固定文件名单一
+
+
+
