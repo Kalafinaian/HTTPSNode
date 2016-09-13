@@ -981,134 +981,81 @@ function selectAll(response, postData)
 
 		}
 
-
-
 		//一些数据类型必须统一起来，尤其是整型--按照stationID查询时，需要先转换为整型
 		// if(postJSON.hasOwnProperty("stationID"))
 		// {
 		// 	postJSON.stationID = parseInt(postJSON.stationID);
 		// }
-
-
 		//判断操作者和动态令牌是否存在
-		if( judgeUserToken(postJSON,response)==false ){  return;  };
+		//if( judgeUserToken(postJSON,response)==false ){  return;  };
 		
 		console.log(postJSON);
-		//验证电子钥匙名和动态令牌
-		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-		console.log(whereStr);
+        delete postJSON.operatorName; 
+        delete postJSON.accessToken; 
+        delete postJSON.collectionName;
+        var lockNum = postJSON.lockNum;
+        delete postJSON.lockNum;
+        console.log(postJSON);
+        if( postJSON.hasOwnProperty('approveStartTime') )
+        {
+            postJSON.approveTime = {$gte:parseInt( postJSON.approveStartTime) };
+            delete postJSON.approveStartTime; 
+        }
 
-		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			//console.log(result);
-			if(result.length>0)
-			{
-				//动态令牌有效性判断
-				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+        if( postJSON.hasOwnProperty('approveEndTime') )
+        {
+            postJSON.approveTime = {$lte:parseInt( postJSON.approveEndTime) };
+            delete postJSON.approveEndTime; 
+        }
 
-				delete postJSON.operatorName; 
-				delete postJSON.accessToken; 
-				delete postJSON.collectionName;
-				var lockNum = postJSON.lockNum;
-				delete postJSON.lockNum;
-				console.log(postJSON);
-				if( postJSON.hasOwnProperty('approveStartTime') )
-				{
-					postJSON.approveTime = {$gte:parseInt( postJSON.approveStartTime) };
-					delete postJSON.approveStartTime; 
-				}
+        if( postJSON.hasOwnProperty('approveStartTime') && postJSON.hasOwnProperty('approveEndTime') )
+        {
+            postJSON.approveTime = {$lte:parseInt( postJSON.approveEndTime),
+            $gte:parseInt( postJSON.approveStartTime) };
+            delete postJSON.approveStartTime; 
+            delete postJSON.approveEndTime; 
+        }
 
-				if( postJSON.hasOwnProperty('approveEndTime') )
-				{
-					postJSON.approveTime = {$lte:parseInt( postJSON.approveEndTime) };
-					delete postJSON.approveEndTime; 
-				}
+        if( postJSON.hasOwnProperty('applyStartTime') )
+        {
+            postJSON.applyTime = {$gte:parseInt( postJSON.applyStartTime) } ;
+            delete postJSON.applyStartTime; 
+        }
 
-				if( postJSON.hasOwnProperty('approveStartTime') && postJSON.hasOwnProperty('approveEndTime') )
-				{
-					postJSON.approveTime = {$lte:parseInt( postJSON.approveEndTime),
-					$gte:parseInt( postJSON.approveStartTime) };
-					delete postJSON.approveStartTime; 
-					delete postJSON.approveEndTime; 
-				}
+        if( postJSON.hasOwnProperty('applyEndTime') )
+        {
+            postJSON.applyTime = {$lte:parseInt( postJSON.applyEndTime) };
+            delete postJSON.applyEndTime; 
+        }
 
-				if( postJSON.hasOwnProperty('applyStartTime') )
-				{
-					postJSON.applyTime = {$gte:parseInt( postJSON.applyStartTime) } ;
-					delete postJSON.applyStartTime; 
-				}
-
-				if( postJSON.hasOwnProperty('applyEndTime') )
-				{
-					postJSON.applyTime = {$lte:parseInt( postJSON.applyEndTime) };
-					delete postJSON.applyEndTime; 
-				}
-
-				if( postJSON.hasOwnProperty('applyEndTime') && postJSON.hasOwnProperty('applyStartTime') )
-				{
-					postJSON.applyTime = {$gte:parseInt( postJSON.applyStartTime) , $lte:parseInt( postJSON.applyEndTime) };
-					delete postJSON.applyEndTime; 
-					delete postJSON.applyStartTime; 
-				}
-				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
-					function(result){
-					if( result.length>0 )
-					{
-						if(result.length>100)
-						{
-							result = result.slice(0,100);
-						}
-						var json = {success:result};
-						response.write( JSON.stringify(json) );
-						response.end();
-					}/*else if(collectionName == "lockInfo")
-					{
-						//没有锁具信息，则自动附加之,首先用户需要按lockID查询
-						// if(postJSON.hasOwnProperty("lockID") == false)
-						// {
-						// 	var info = 	{ "error":  
-						// 	{  
-						// 		"msg": "没有查询记录!",  
-						// 		"code":"15001"  
-						// 	}  };
-						// 	response.write( JSON.stringify(info) );
-						// 	response.end();	
-						// 	return;						
-						// }
-						// var insertData =  {lockID:postJSON.lockID,
-						// 	"lockName" : postJSON.address+"锁具"+lockNum, "lockState" : "正常", "lockCompany" : "A公司", 
-						// 	"stationID" : postJSON.stationID, "address" : ''+postJSON.address, 
-						// 	"managementProvince" : postJSON.managementProvince,
-						// 	"managementCity" : postJSON.managementCity,"lockOriginID":"未知",
-						// 	"managementArea" : postJSON.managementArea, "LAT" : postJSON.LAT, 
-						// 	 "LON" : postJSON.LON, "HEI" : postJSON.HEI, "keyLockID" : "500000002440", 
-						// 	 "bKey" : "0123456789ABCDEFEFCDAB8967452301", "nKey" : "70509E1C1A124577", 
-						// 	 "personID" : "12345678", "approveCode" : "4201736374740106"};
-						// var json = {success:insertData};
-						// response.write( JSON.stringify(json) );
-						// response.end();
-						// dbClient.insertFunc( mongoClient, DB_CONN_STR, collectionName,  insertData,function(result){});
-					}*/else{
-						var info = 	{ "error":  
-						{  
-							"msg": "没有查询记录,如果你是从基站获取的锁具ID，建议你从前端先录入该锁具信息!",  
-							"code":"15001"  
-						}  };
-						response.write( JSON.stringify(info) );
-						response.end();
-					}
-				});	
-			}else{
-				var info = 	{ "error":  
-					{  
-						"msg": "用户名不存在或动态令牌已过期",  
-						"code":"00000"  
-					}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-				return;
-			}
-		});
-
+        if( postJSON.hasOwnProperty('applyEndTime') && postJSON.hasOwnProperty('applyStartTime') )
+        {
+            postJSON.applyTime = {$gte:parseInt( postJSON.applyStartTime) , $lte:parseInt( postJSON.applyEndTime) };
+            delete postJSON.applyEndTime; 
+            delete postJSON.applyStartTime; 
+        }
+        console.log(postJSON);
+        dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+            function(result){
+            if( result.length>0 )
+            {
+                if(result.length>100)
+                {
+                    result = result.slice(0,100);
+                }
+                var json = {success:result};
+                response.write( JSON.stringify(json) );
+                response.end();
+            }else{
+                var info = 	{ "error":  
+                {  
+                    "msg": "没有查询记录,如果你是从基站获取的锁具ID，建议你从前端先录入该锁具信息!",  
+                    "code":"15001"  
+                }  };
+                response.write( JSON.stringify(info) );
+                response.end();
+            }
+        });	
 	}catch(e)
 	{
 			var info = 	{ "error":  
