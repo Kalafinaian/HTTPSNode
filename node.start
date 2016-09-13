@@ -1,3 +1,2 @@
 nohup node /usr/share/NodeJS/Node.js/index.js &
-
-ps -u root | grep node
+nohup node /usr/share/NodeJS/Node.js/uploadFileForAll.js &
