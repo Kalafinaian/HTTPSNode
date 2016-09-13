@@ -134,78 +134,70 @@ function login(response, postData)
 							return;
 				    }
 				    delete postJSON.platform;
-					//更新数据库中的动态令牌
-					var newAccessToken = Math.random().toString(36).substr(2);
-					var newStartTime = parseInt(Date.now()/1000);
-					var newEndTime = newStartTime + 24*3600;
-					var updateStr = { $set: { "accessToken" : newAccessToken, "tokenStartTime":newStartTime.toString(), "tokenEndTime" : newEndTime.toString() }};
-					dbClient.updateFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , updateStr,  function(result){
-					 	//console.log(result);
-						//再次查询，返回结果--更新后嵌套查询，避免动态令牌已过期
-						dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  whereStr , function(result){
-							var json = {
-								success:
-								{
-									userInfo:{},
-									regionInfo:{},
-									permissions:{},
-									tokenInfo:{}
-								}
-							};
-							json.success.userInfo.username = result[0].username;
-							json.success.userInfo.realname = result[0].realname;
-							json.success.userInfo.phone = result[0].phone;
-							json.success.userInfo.companyGroup = result[0].companyGroup;
-							json.success.userInfo.company = result[0].company;
-							json.success.userInfo.userDescription = result[0].userDescription;
-							json.success.userInfo.userGroup = result[0].userGroup;
-							json.success.userInfo.userType = result[0].userType;
-							json.success.userInfo.companyCode = result[0].companyCode;
-							json.success.userInfo.personID = "12345678";
-							json.success.userInfo.companyID = result[0].companyID;
+
+                    var json = {
+                        success:
+                        {
+                            userInfo:{},
+                            regionInfo:{},
+                            permissions:{},
+                            tokenInfo:{}
+                        }
+                    };
+                    json.success.userInfo.username = result[0].username;
+                    json.success.userInfo.realname = result[0].realname;
+                    json.success.userInfo.phone = result[0].phone;
+                    json.success.userInfo.companyGroup = result[0].companyGroup;
+                    json.success.userInfo.company = result[0].company;
+                    json.success.userInfo.userDescription = result[0].userDescription;
+                    json.success.userInfo.userGroup = result[0].userGroup;
+                    json.success.userInfo.userType = result[0].userType;
+                    json.success.userInfo.companyCode = result[0].companyCode;
+                    json.success.userInfo.personID = "12345678";
+                    json.success.userInfo.companyID = result[0].companyID;
 
 
-							json.success.regionInfo.managementProvince = result[0].managementProvince;
-							json.success.regionInfo.managementCity = result[0].managementCity;
-							json.success.regionInfo.managementArea = result[0].managementArea;
-							
-							json.success.permissions.addStationAction = result[0].addStationAction;
-							json.success.permissions.deleteStationAction = result[0].deleteStationAction;
-							json.success.permissions.queryStationAction = result[0].queryStationAction;
-							json.success.permissions.updateStationAction = result[0].updateStationAction;
-							
-							json.success.permissions.addStaffAction = result[0].addStaffAction;
-							json.success.permissions.deleteStaffAction = result[0].deleteStaffAction;
-							json.success.permissions.queryStaffAction = result[0].queryStaffAction;
-							json.success.permissions.updateStaffAction = result[0].updateStaffAction;
-							
-							json.success.permissions.addKeyAction = result[0].addKeyAction;
-							json.success.permissions.deleteKeyAction = result[0].deleteKeyAction;
-							json.success.permissions.queryKeyAction = result[0].queryKeyAction;
-							json.success.permissions.updateKeyAction = result[0].updateKeyAction;
+                    json.success.regionInfo.managementProvince = result[0].managementProvince;
+                    json.success.regionInfo.managementCity = result[0].managementCity;
+                    json.success.regionInfo.managementArea = result[0].managementArea;
+                    
+                    json.success.permissions.addStationAction = result[0].addStationAction;
+                    json.success.permissions.deleteStationAction = result[0].deleteStationAction;
+                    json.success.permissions.queryStationAction = result[0].queryStationAction;
+                    json.success.permissions.updateStationAction = result[0].updateStationAction;
+                    
+                    json.success.permissions.addStaffAction = result[0].addStaffAction;
+                    json.success.permissions.deleteStaffAction = result[0].deleteStaffAction;
+                    json.success.permissions.queryStaffAction = result[0].queryStaffAction;
+                    json.success.permissions.updateStaffAction = result[0].updateStaffAction;
+                    
+                    json.success.permissions.addKeyAction = result[0].addKeyAction;
+                    json.success.permissions.deleteKeyAction = result[0].deleteKeyAction;
+                    json.success.permissions.queryKeyAction = result[0].queryKeyAction;
+                    json.success.permissions.updateKeyAction = result[0].updateKeyAction;
 
-							json.success.permissions.addLockAction = result[0].addLockAction;
-							json.success.permissions.deleteLockAction = result[0].deleteLockAction;
-							json.success.permissions.queryLockAction = result[0].queryLockAction;
-							json.success.permissions.updateLockAction = result[0].updateLockAction;
-							json.success.permissions.doorAuthorization = result[0].doorAuthorization;
+                    json.success.permissions.addLockAction = result[0].addLockAction;
+                    json.success.permissions.deleteLockAction = result[0].deleteLockAction;
+                    json.success.permissions.queryLockAction = result[0].queryLockAction;
+                    json.success.permissions.updateLockAction = result[0].updateLockAction;
+                    json.success.permissions.doorAuthorization = result[0].doorAuthorization;
 
-							json.success.permissions.personelLimit = result[0].personelLimit;
-							json.success.permissions.zoneLimit = result[0].zoneLimit;
-							json.success.permissions.authOfflineTime = result[0].authOfflineTime;
-							json.success.permissions.phoneLimit = result[0].phoneLimit;
-							json.success.permissions.phoneMEILimit = result[0].phoneMEILimit;
-							json.success.permissions.offlineRefreshTime = result[0].offlineRefreshTime;
+                    json.success.permissions.personelLimit = result[0].personelLimit;
+                    json.success.permissions.zoneLimit = result[0].zoneLimit;
+                    json.success.permissions.authOfflineTime = result[0].authOfflineTime;
+                    json.success.permissions.phoneLimit = result[0].phoneLimit;
+                    json.success.permissions.phoneMEILimit = result[0].phoneMEILimit;
+                    json.success.permissions.offlineRefreshTime = result[0].offlineRefreshTime;
 
-							json.success.tokenInfo.accessToken = result[0].accessToken;
-							json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
-							json.success.tokenInfo.tokenEndTime = result[0].tokenEndTime;
-							
+                    json.success.tokenInfo.accessToken = result[0].accessToken;
+                    json.success.tokenInfo.tokenStartTime  = result[0].tokenStartTime ;
+                    json.success.tokenInfo.tokenEndTime = result[0].tokenEndTime;
+                    
 
-							response.write( JSON.stringify(json) );
-							response.end();
-						});	
-					});
+                    response.write( JSON.stringify(json) );
+                    response.end();
+						
+					
 				}	
 		});	
 	}catch(e)

@@ -144,7 +144,7 @@ var selectData = function(db, collectionName, whereStr , callback) {
 function selectFunc( mongoClient,  DB_CONN_STR, collectionName,  whereStr,  callback)
 {
 	mongoClient.connect(DB_CONN_STR, function(err, db) {
-		  //console.log("连接成功！");
+		  console.log("连接成功！");
 		  selectData(db, collectionName,  whereStr,callback);
 	});
 }
