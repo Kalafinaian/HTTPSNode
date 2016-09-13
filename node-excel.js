@@ -61,7 +61,7 @@ function importStationFromExcel( importFileName, response )
 			// }
 
 			// var mongoClient = require('mongodb').MongoClient;
-			// var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+			// var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 			// var collectionName = "stationInfo";
 
 			// //逐条插入数据到数据库
@@ -194,7 +194,7 @@ function importKeyFromExcel( importFileName, response )
 			}
 
 			var mongoClient = require('mongodb').MongoClient;
-			var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+			var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 			var collectionName = "keyInfo";
 
 			//逐条插入数据到数据库
@@ -283,7 +283,7 @@ function importDataFromCSV( importFileName, importCollectionName , response )
 			//console.log(cmdStr+" ");
 			var dbClient = require("./Mongo");  //数据库模块
 			var mongoClient = require('mongodb').MongoClient;
-			var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+			var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 			exec(cmdStr, function callback(error, stdout, stderr) {
 				console.log(stdout);
 				var Info = 	{ "success":  
@@ -299,7 +299,7 @@ function importDataFromCSV( importFileName, importCollectionName , response )
 				// {
 				// 		// var dbClient = require("./Mongo");  //数据库模块
 				// 		// var mongoClient = require('mongodb').MongoClient;
-				// 		// var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+				// 		// var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 				// 		dbClient.selectFunc( mongoClient,DB_CONN_STR,"userInfo", {} ,function(result){
 				// 		    for(var i=0;i<result.length;i++)
 				// 		    {

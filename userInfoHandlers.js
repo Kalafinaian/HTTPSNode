@@ -92,10 +92,10 @@ function login(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 		console.log(postJSON);
-		if( !(postJSON.hasOwnProperty('username') || postJSON.hasOwnProperty('phone')) || !postJSON.hasOwnProperty('password') )
+		if( !postJSON.hasOwnProperty('username') || !postJSON.hasOwnProperty('password') )
 		{
 				var info = 	{ "error":  
 					{  
@@ -119,22 +119,6 @@ function login(response, postData)
 					response.write( JSON.stringify(info) );
 					response.end();
 				}else{
-
-					var userType = result[0].userType;
-					if( userType[2] == "3" && postJSON.hasOwnProperty('platform') && postJSON.platform == "web" )
-					{
-						   	//用户为工程师，用户不能登录前端页面
-							var minfo = { "error":  
-								{  
-									"msg": "工程师不能登陆前台页面!",  
-									"code":"01003"  
-								}  };
-							response.write( JSON.stringify(minfo) );
-							response.end();
-							return;
-				    }
-				    delete postJSON.platform;
-
                     var json = {
                         success:
                         {
@@ -224,7 +208,7 @@ function addUser(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -455,7 +439,7 @@ function deleteUser(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -544,7 +528,7 @@ function personalConfig(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -643,7 +627,7 @@ function updateUser(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -744,7 +728,7 @@ function selectUser(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -886,7 +870,7 @@ function downloadUser(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };

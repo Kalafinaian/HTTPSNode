@@ -108,7 +108,7 @@ function addKey(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "keyInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -197,7 +197,7 @@ function deleteKey(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "keyInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -293,7 +293,7 @@ function updateKey(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "keyInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -394,7 +394,7 @@ function selectKey(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "keyInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -482,7 +482,7 @@ function downloadKey(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -610,7 +610,7 @@ function queryKeyLog(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -736,7 +736,7 @@ function downloadKeyLog(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -960,7 +960,7 @@ function selectAll(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';
 		var collectionName;	
 		var objectid = require('objectid')
 		//指定数据表的名称
@@ -1082,7 +1082,7 @@ function addAll(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		//指定数据表的名称
 		if(!postJSON.hasOwnProperty("collectionName"))
 		{
@@ -1175,7 +1175,7 @@ function deleteAll(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		//指定数据表的名称
 		if(!postJSON.hasOwnProperty("collectionName"))
 		{
@@ -1298,7 +1298,7 @@ function updateAll(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		//指定数据表的名称
 		if(!postJSON.hasOwnProperty("collectionName"))
 		{
@@ -1413,7 +1413,7 @@ function selectAllSpecial(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';
 		var collectionName = "gridInfo";	
 		if(postJSON.hasOwnProperty("collectionName"))
 		{

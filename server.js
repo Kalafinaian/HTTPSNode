@@ -56,7 +56,7 @@ function start(route,handle){
 				route(handle, pathname, response, postData);
 				var postJSON = querystring.parse(postData);
 				var mongoClient = require('mongodb').MongoClient;
-				var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+				var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 				var collectionName = "operateInfo";
 				postJSON.apiName = pathname;
 				postJSON.operateTime = formatToDetailDate(Date.now());

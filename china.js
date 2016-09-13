@@ -1,7 +1,7 @@
 //# areaID, areaName, areaLevel, areaParentID
 var dbClient = require("./Mongo");  //数据库模块
 var mongoClient = require('mongodb').MongoClient;
-var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 var collectionName = "chinaInfo";
 var insertJSON = {};
 //第一步：node调用shell完成备份

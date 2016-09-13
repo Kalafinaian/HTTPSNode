@@ -1,5 +1,5 @@
-//执行脚本   mongo localhost:27017/csis  mongoShell.js
-//localhost:27017/csis
+//执行脚本   mongo 127.0.0.1:27017/csis  mongoShell.js
+//127.0.0.1:27017/csis
 //var cursor = db.getCollectionNames(); // 获取collection 名
 //print(cursor);
 //数据库名  备份目的地（备份文件名）  备份时间 

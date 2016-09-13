@@ -109,7 +109,7 @@ function taskRequest(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "taskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -416,7 +416,7 @@ function taskFetch(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "taskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -613,7 +613,7 @@ function taskAuthenticate(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "taskInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -722,7 +722,7 @@ function taskAuthFetch(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "taskInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -822,7 +822,7 @@ function taskCommit(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "taskInfo";
 
 		//判断操作者和动态令牌是否存在
@@ -896,7 +896,7 @@ function downloadTask(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "userInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -1033,7 +1033,7 @@ function taskChange(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "taskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -1110,7 +1110,7 @@ function appTaskRecord(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "appTaskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -1225,7 +1225,7 @@ function appTaskConsult(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "appTaskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -1325,7 +1325,7 @@ function taskAnalyse(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "taskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
@@ -1490,7 +1490,7 @@ function taskCalculate(response, postData)
 		response.writeHead(200, {"Content-Type": "text/plain,charset=utf-8"});
 		var postJSON = querystring.parse(postData);
 		var mongoClient = require('mongodb').MongoClient;
-		var DB_CONN_STR = 'mongodb://localhost:27017/csis';	
+		var DB_CONN_STR = 'mongodb://127.0.0.1:27017/csis';	
 		var collectionName = "appTaskInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
