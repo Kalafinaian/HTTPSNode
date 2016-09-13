@@ -754,70 +754,47 @@ function selectAreaInfo(response, postData)
 		var collectionName = "chinaInfo";
 		//判断操作者和动态令牌是否存在
 		if( judgeUserToken(postJSON,response)==false ){  return;  };
-		
 		console.log(postJSON);
-		//验证锁具名和动态令牌
-		var whereStr = {username:postJSON.operatorName,accessToken:postJSON.accessToken};
-		console.log(whereStr);
+        delete postJSON.operatorName; 
+        delete postJSON.accessToken; 
+        try{
+            if(postJSON.hasOwnProperty("areaID"))
+            {
+                postJSON.areaID = parseInt(postJSON.areaID);
+            }
+            if(postJSON.hasOwnProperty("areaParentID"))
+            {
+                postJSON.areaParentID = parseInt(postJSON.areaParentID);
+            }
+            if(postJSON.hasOwnProperty("areaLevel"))
+            {
+                postJSON.areaLevel = parseInt(postJSON.areaLevel);
+            }
+        }catch(e){
+            console.log("type error");
+        }
 
-		dbClient.selectFunc( mongoClient, DB_CONN_STR, "userInfo",  whereStr , function(result){
-			//console.log(result);
-			if(result.length>0)
-			{
-				//动态令牌有效性判断
-				if( judgeTokenTime(result[0].tokenEndTime,response)==false ){ return; };
+        console.log(postJSON);
+        dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
+            function(result){
+            if( result.length>0 )
+            {
+                var json = {success:result};
 
-				delete postJSON.operatorName; 
-				delete postJSON.accessToken; 
-				try{
-					if(postJSON.hasOwnProperty("areaID"))
-					{
-						postJSON.areaID = parseInt(postJSON.areaID);
-					}
-					if(postJSON.hasOwnProperty("areaParentID"))
-					{
-						postJSON.areaParentID = parseInt(postJSON.areaParentID);
-					}
-					if(postJSON.hasOwnProperty("areaLevel"))
-					{
-						postJSON.areaLevel = parseInt(postJSON.areaLevel);
-					}
-				}catch(e){
-					console.log("type error");
-				}
-
-				console.log(postJSON);
-				dbClient.selectFunc( mongoClient, DB_CONN_STR, collectionName,  postJSON , 
-					function(result){
-					if( result.length>0 )
-					{
-						var json = {success:result};
-
-						response.write( JSON.stringify(json) );
-						response.end();
-					}else{
-						var info = 	{ "error":  
-						{  
-							"msg": "没有查询记录!",  
-							"code":"42001"  
-						}  };
-						response.write( JSON.stringify(info) );
-						response.end();
-					}
-				
-				});	
-			}else{
-				var info = 	{ "error":  
-					{  
-						"msg": "用户名不存在或动态令牌已过期",  
-						"code":"00000"  
-					}  };
-				response.write( JSON.stringify(info) );
-				response.end();
-				return;
-			}
-		});
-
+                response.write( JSON.stringify(json) );
+                response.end();
+            }else{
+                var info = 	{ "error":  
+                {  
+                    "msg": "没有查询记录!",  
+                    "code":"42001"  
+                }  };
+                response.write( JSON.stringify(info) );
+                response.end();
+            }
+        
+        });	
+			
 	}catch(e)
 	{
 			var info = 	{ "error":  
